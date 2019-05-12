@@ -1,0 +1,86 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'com.github.dcendents.android-maven'
+group = 'com.github.xuqingquan1995'
+
+android {
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    buildToolsVersion rootProject.ext.android.buildToolsVersion
+    defaultConfig {
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner rootProject.ext.android.AndroidJUnitRunner
+        flavorDimensions 'default'
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    dataBinding {
+        enabled = true
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    sourceSets {
+        main {
+            jniLibs.srcDir 'libs'//说明so的路径为该libs路径，关联所有so文件
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    api rootProject.ext.deps.kotlin
+    api rootProject.ext.deps.kotlinx_coroutines_core
+    api rootProject.ext.deps.kotlinx_coroutines_android
+    api rootProject.ext.deps.appcompat
+    api rootProject.ext.deps.constraintlayout
+    api rootProject.ext.deps.core_ktx
+    api rootProject.ext.deps.lifecycle
+    //view
+    api rootProject.ext.deps.recyclerview
+    api rootProject.ext.deps.paging
+    api rootProject.ext.deps.glide
+    kapt rootProject.ext.deps.glide_compiler
+    api rootProject.ext.deps.material
+    //依赖注入
+    api rootProject.ext.deps.dagger
+    kapt rootProject.ext.deps.dagger_compiler
+    //retorfit
+    api (rootProject.ext.deps.retrofit){
+        exclude group: 'com.squareup.okhttp3', module: 'okhttp'
+    }
+    api rootProject.ext.deps.converter_gson
+    api rootProject.ext.deps.logging_interceptor
+    api rootProject.ext.deps.coroutines_adapter
+    api rootProject.ext.deps.okhttp
+    //format
+    api rootProject.ext.deps.gson
+    //eventbus
+    api rootProject.ext.deps.eventbus
+    api rootProject.ext.deps.agentweb
+    api rootProject.ext.deps.filechooser
+    api rootProject.ext.deps.download
+    api rootProject.ext.deps.Downloader
+
+    //debug
+    debugApi rootProject.ext.deps.leakcanary
+    debugApi rootProject.ext.deps.recovery
+    releaseCompileOnly rootProject.ext.deps.recovery
+    debugApi rootProject.ext.deps.anrwatchdog
+    releaseCompileOnly rootProject.ext.deps.anrwatchdog
+    //test
+    testImplementation rootProject.ext.deps.junit
+    androidTestImplementation rootProject.ext.deps.espresso_core
+}

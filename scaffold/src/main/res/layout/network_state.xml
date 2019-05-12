@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable name="clickListener" type="android.view.View.OnClickListener"/>
+        <variable name="loadingVisible" type="boolean"/>
+        <variable name="errorVisible" type="boolean"/>
+    </data>
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:layout_margin="5dp">
+
+        <ProgressBar
+                android:id="@+id/loading"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center_horizontal"
+                android:indeterminateBehavior="repeat"
+                app:visibleGone="@{loadingVisible}"
+                android:indeterminateDrawable="@drawable/pb_loading"/>
+
+        <TextView
+                android:id="@+id/loading_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"
+                android:textSize="12sp"
+                android:textColor="@android:color/darker_gray"
+                app:visibleGone="@{loadingVisible}"
+                android:text="@string/loading"/>
+
+        <TextView
+                android:id="@+id/loading_failure"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"
+                android:textSize="14sp"
+                android:onClick="@{clickListener}"
+                android:textColor="@android:color/holo_red_light"
+                app:visibleGone="@{errorVisible}"
+                android:text="@string/click_to_retry"/>
+
+    </LinearLayout>
+
+</layout>

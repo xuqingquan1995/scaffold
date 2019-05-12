@@ -1,0 +1,142 @@
+package top.xuqingquan.integration
+
+import android.app.Activity
+import android.app.Application
+import android.os.Bundle
+import androidx.core.util.Preconditions
+import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
+import dagger.Lazy
+import top.xuqingquan.cache.Cache
+import top.xuqingquan.cache.IntelligentCache
+import top.xuqingquan.delegate.ActivityDelegate
+import top.xuqingquan.delegate.ActivityDelegateImpl
+import top.xuqingquan.delegate.IActivity
+
+import javax.inject.Inject
+import javax.inject.Singleton
+
+/**
+ * Created by 许清泉 on 2019/4/14 15:24
+ * [Application.ActivityLifecycleCallbacks]  默认实现类
+ * 通过 [ActivityDelegate] 管理 [Activity]
+ */
+@Singleton
+class ActivityLifecycle @Inject
+constructor() : Application.ActivityLifecycleCallbacks {
+
+    @Inject
+    lateinit var mAppManager: AppManager
+    @Inject
+    lateinit var mApplication: Application
+    @Inject
+    lateinit var mExtras: Cache<String, Any>
+    @Inject
+    lateinit var mFragmentLifecycle: Lazy<FragmentManager.FragmentLifecycleCallbacks>
+    @Inject
+    lateinit var mFragmentLifecycles: Lazy<MutableList<FragmentManager.FragmentLifecycleCallbacks>>
+
+    override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
+        mAppManager.addActivity(activity)
+        //配置ActivityDelegate
+        if (activity is IActivity) {
+            var activityDelegate = fetchActivityDelegate(activity)
+            if (activityDelegate == null) {
+                val cache = getCacheFromActivity(activity as IActivity)
+                activityDelegate = ActivityDelegateImpl(activity)
+                //使用 IntelligentCache.KEY_KEEP 作为 key 的前缀, 可以使储存的数据永久存储在内存中
+                //否则存储在 LRU 算法的存储空间中, 前提是 Activity 使用的是 IntelligentCache (框架默认使用)
+                cache.put(IntelligentCache.getKeyOfKeep(ActivityDelegate.ACTIVITY_DELEGATE), activityDelegate)
+            }
+            activityDelegate.onCreate(savedInstanceState)
+        }
+
+        registerFragmentCallbacks(activity)
+    }
+
+    override fun onActivityStarted(activity: Activity) {
+        val activityDelegate = fetchActivityDelegate(activity)
+        activityDelegate?.onStart()
+    }
+
+    override fun onActivityResumed(activity: Activity) {
+        mAppManager.setCurrentActivity(activity)
+
+        val activityDelegate = fetchActivityDelegate(activity)
+        activityDelegate?.onResume()
+    }
+
+    override fun onActivityPaused(activity: Activity) {
+        val activityDelegate = fetchActivityDelegate(activity)
+        activityDelegate?.onPause()
+    }
+
+    override fun onActivityStopped(activity: Activity) {
+        if (mAppManager.getCurrentActivity() === activity) {
+            mAppManager.setCurrentActivity(null)
+        }
+
+        val activityDelegate = fetchActivityDelegate(activity)
+        activityDelegate?.onStop()
+    }
+
+    override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
+        val activityDelegate = fetchActivityDelegate(activity)
+        activityDelegate?.onSaveInstanceState(outState)
+    }
+
+    override fun onActivityDestroyed(activity: Activity) {
+        mAppManager.removeActivity(activity)
+
+        val activityDelegate = fetchActivityDelegate(activity)
+        if (activityDelegate != null) {
+            activityDelegate.onDestroy()
+            getCacheFromActivity(activity as IActivity).clear()
+        }
+    }
+
+    /**
+     * 给每个 Activity 的所有 Fragment 设置监听其生命周期, Activity 可以通过 [IActivity.useFragment]
+     * 设置是否使用监听,如果这个 Activity 返回 false 的话,这个 Activity 下面的所有 Fragment 将不能使用 [FragmentDelegate]
+     * 意味着 [BaseFragment] 也不能使用
+     *
+     * @param activity
+     */
+    private fun registerFragmentCallbacks(activity: Activity) {
+
+        if (activity is FragmentActivity) {
+            //mFragmentLifecycle 为 Fragment 生命周期实现类, 用于框架内部对每个 Fragment 的必要操作, 如给每个 Fragment 配置 FragmentDelegate
+            //注册框架内部已实现的 Fragment 生命周期逻辑
+            activity.supportFragmentManager.registerFragmentLifecycleCallbacks(mFragmentLifecycle.get(), true)
+            if (mExtras.containsKey(IntelligentCache.getKeyOfKeep(ConfigModule::class.java.name))) {
+                val modules =
+                    mExtras.get(IntelligentCache.getKeyOfKeep(ConfigModule::class.java.name)) as List<ConfigModule>?
+                modules?.forEach {
+                    it.injectFragmentLifecycle(mApplication, mFragmentLifecycles.get())
+                }
+                mExtras.remove(IntelligentCache.getKeyOfKeep(ConfigModule::class.java.name))
+            }
+
+            //注册框架外部, 开发者扩展的 Fragment 生命周期逻辑
+            for (fragmentLifecycle in mFragmentLifecycles.get()) {
+                activity.supportFragmentManager.registerFragmentLifecycleCallbacks(fragmentLifecycle, true)
+            }
+        }
+    }
+
+    private fun fetchActivityDelegate(activity: Activity): ActivityDelegate? {
+        var activityDelegate: ActivityDelegate? = null
+        if (activity is IActivity) {
+            val cache = getCacheFromActivity(activity as IActivity)
+            activityDelegate =
+                cache.get(IntelligentCache.getKeyOfKeep(ActivityDelegate.ACTIVITY_DELEGATE)) as ActivityDelegate?
+        }
+        return activityDelegate
+    }
+
+    private fun getCacheFromActivity(activity: IActivity): Cache<String, Any> {
+        val cache = activity.provideCache()
+        Preconditions.checkNotNull(cache, Cache::class.java.name + " cannot be null on Activity")
+        return cache
+    }
+}
