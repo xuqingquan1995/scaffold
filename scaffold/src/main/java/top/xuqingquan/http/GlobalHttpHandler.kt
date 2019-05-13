@@ -32,6 +32,7 @@ interface GlobalHttpHandler {
     fun onHttpRequestBefore(chain: Interceptor.Chain, request: Request): Request
 
     companion object {
+        @JvmField
         val EMPTY = object : GlobalHttpHandler {
             override fun onHttpResultResponse(httpResult: String?, chain: Interceptor.Chain, response: Response) =
                 response

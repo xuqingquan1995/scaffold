@@ -119,6 +119,9 @@ public class GlobalConfigModule {
     @Singleton
     @Provides
     GlobalHttpHandler provideGlobalHttpHandler() {
+        if (mHandler == null) {
+            mHandler = GlobalHttpHandler.EMPTY;
+        }
         return mHandler;
     }
 
@@ -262,8 +265,9 @@ public class GlobalConfigModule {
         }
 
         public Builder addInterceptor(Interceptor interceptor) {//动态添加任意个interceptor
-            if (interceptors == null)
+            if (interceptors == null) {
                 interceptors = new ArrayList<>();
+            }
             this.interceptors.add(interceptor);
             return this;
         }
