@@ -160,13 +160,13 @@ class DefaultFormatPrinter : FormatPrinter {
             }
         }
 
-        private val ARMS = arrayOf("-A-", "-R-", "-M-", "-S-")
+        private val SCAFFOLD = arrayOf("-S-", "-C-", "-A-", "-F-", "-F-", "-O-", "-L-", "-D-")
 
         private fun computeKey(): String {
-            if (last.get() ?: 0 >= 4) {
+            if (last.get() ?: 0 >= 8) {
                 last.set(0)
             }
-            val s = ARMS[last.get() ?: 0]
+            val s = SCAFFOLD[last.get() ?: 0]
             last.set(last.get()!! + 1)
             return s
         }

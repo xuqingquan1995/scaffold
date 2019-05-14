@@ -5,6 +5,7 @@ import android.os.Bundle
 import top.xuqingquan.cache.Cache
 import top.xuqingquan.di.component.AppComponent
 import top.xuqingquan.stack.DebugStackDelegate
+import top.xuqingquan.utils.FragmentOnKeyListener
 
 /**
  * Created by 许清泉 on 2019/4/14 13:27
@@ -48,5 +49,7 @@ interface IActivity {
      * Activity彻底运行起来之后的回调
      */
     fun onPostCreate(savedInstanceState: Bundle?)
+
+    fun setFragmentOnKeyListener(listener: FragmentOnKeyListener?)
 
 }

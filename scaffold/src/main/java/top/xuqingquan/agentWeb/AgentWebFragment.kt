@@ -20,6 +20,7 @@ import top.xuqingquan.base.view.fragment.SimpleFragment
 import top.xuqingquan.databinding.FragmentAgentWebBinding
 import top.xuqingquan.di.component.AppComponent
 import top.xuqingquan.di.scope.FragmentScope
+import top.xuqingquan.utils.Timber
 import javax.inject.Inject
 
 @FragmentScope
@@ -96,8 +97,11 @@ class AgentWebFragment : SimpleFragment() {
     }
 
 
-    override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
-        return mAgentWeb.handleKeyEvent(keyCode, event)
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean? {
+        if (mAgentWeb.handleKeyEvent(keyCode, event)){
+            return true
+        }
+        return super.onKeyDown(keyCode, event)
     }
 
     override fun setData(data: Any?) {

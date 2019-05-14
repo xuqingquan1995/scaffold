@@ -11,15 +11,17 @@ import androidx.annotation.LayoutRes
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import top.xuqingquan.app.AppComponentUtils
+import top.xuqingquan.base.view.activity.SimpleActivity
 import top.xuqingquan.cache.Cache
 import top.xuqingquan.cache.CacheType
 import top.xuqingquan.delegate.IFragment
+import top.xuqingquan.utils.FragmentOnKeyListener
 
 /**
  * Created by 许清泉 on 2019-04-24 23:38
  * 不使用MVVM模式的时候可以使用这个类
  */
-abstract class SimpleFragment : Fragment(), IFragment {
+abstract class SimpleFragment : Fragment(), IFragment, FragmentOnKeyListener {
 
     private var mCache: Cache<String, Any>? = null
     var mContext: Context? = null
@@ -42,13 +44,13 @@ abstract class SimpleFragment : Fragment(), IFragment {
     override fun onAttach(context: Context) {
         this.mContext = context
         super.onAttach(context)
+        if (activity is SimpleActivity && activity != null) {
+            (activity as SimpleActivity).setFragmentOnKeyListener(this)
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = initView(inflater, container)
-        view.isFocusable = true
-        view.isFocusableInTouchMode = true
-        view.setOnKeyListener { _, keyCode, event -> onKeyDown(keyCode, event) }
         initView(view)
         return view
     }
@@ -87,10 +89,10 @@ abstract class SimpleFragment : Fragment(), IFragment {
     /**
      * 给子类提供按键监听功能
      *
-     * @return true 则不会继续传递，默认false会继续传递
+     * @return null 不拦截 其余跟Activity一致
      */
-    protected open fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
-        return false
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean? {
+        return null
     }
 
     override fun setData(data: Any?) {}

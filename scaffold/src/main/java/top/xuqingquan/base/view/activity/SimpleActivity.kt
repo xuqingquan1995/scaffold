@@ -1,6 +1,7 @@
 package top.xuqingquan.base.view.activity
 
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.LayoutRes
@@ -11,6 +12,7 @@ import top.xuqingquan.cache.Cache
 import top.xuqingquan.cache.CacheType
 import top.xuqingquan.delegate.IActivity
 import top.xuqingquan.stack.DebugStackDelegate
+import top.xuqingquan.utils.FragmentOnKeyListener
 
 /**
  * Created by 许清泉 on 2019-04-24 23:32
@@ -20,6 +22,7 @@ abstract class SimpleActivity : AppCompatActivity(), IActivity {
 
     private var mCache: Cache<String, Any>? = null
     private var debugStackDelegate: DebugStackDelegate? = null
+    private var listener: FragmentOnKeyListener? = null
 
     /**
      * @return 布局id
@@ -86,5 +89,19 @@ abstract class SimpleActivity : AppCompatActivity(), IActivity {
                 imm.showSoftInput(view, InputMethodManager.SHOW_FORCED)
             }, time)
         }
+    }
+
+    override fun setFragmentOnKeyListener(listener: FragmentOnKeyListener?) {
+        this.listener = listener
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (listener != null) {
+            val onKeyDown = listener!!.onKeyDown(keyCode, event)
+            if (onKeyDown != null) {
+                return onKeyDown
+            }
+        }
+        return super.onKeyDown(keyCode, event)
     }
 }

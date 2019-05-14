@@ -15,6 +15,7 @@
                 android:layout_gravity="center_vertical">
 
             <ImageView
+                    android:background="@drawable/button_ripple"
                     android:contentDescription="@null"
                     android:id="@+id/back"
                     android:layout_centerVertical="true"
@@ -31,6 +32,7 @@
                     android:layout_toEndOf="@id/back"/>
 
             <ImageView
+                    android:background="@drawable/button_ripple"
                     android:contentDescription="@null"
                     android:id="@+id/close"
                     android:padding="10dp"
@@ -41,6 +43,7 @@
                     android:layout_toEndOf="@id/line"/>
 
             <ImageView
+                    android:background="@drawable/button_ripple"
                     android:contentDescription="@null"
                     android:id="@+id/menu"
                     android:padding="10dp"
