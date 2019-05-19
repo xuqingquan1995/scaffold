@@ -59,13 +59,10 @@ dependencies {
     api rootProject.ext.deps.dagger
     kapt rootProject.ext.deps.dagger_compiler
     //retorfit
-    api (rootProject.ext.deps.retrofit){
-//        exclude group: 'com.squareup.okhttp3', module: 'okhttp'
-    }
+    api rootProject.ext.deps.retrofit
     api rootProject.ext.deps.converter_gson
     api rootProject.ext.deps.logging_interceptor
     api rootProject.ext.deps.coroutines_adapter
-//    api rootProject.ext.deps.okhttp
     //format
     api rootProject.ext.deps.gson
     //eventbus

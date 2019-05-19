@@ -19,7 +19,7 @@ ext {
             dagger                : "2.22.1",
             retrofit              : "2.5.0",
             gson                  : "2.8.5",
-            logging_interceptor   : '4.0.0-alpha01',
+            okhttp                : '3.12.2',
             leakcanary            : "2.0-alpha-1",
             eventbus              : "3.1.1",
             lifecycle             : '2.2.0-alpha01',
@@ -46,7 +46,6 @@ ext {
             recovery              : "1.0.0",
             anrwatchdog           : "1.4.0",
             coroutines_adapter    : "0.9.2",
-            okhttp                : '4.0.0-alpha01',
             anko                  : "0.10.8",
     ]
     deps = [
@@ -66,9 +65,9 @@ ext {
             dagger_compiler           : "com.google.dagger:dagger-compiler:${depsVer.dagger}",
             //retorfit
             okhttp                    : "com.squareup.okhttp3:okhttp:${depsVer.okhttp}",
+            logging_interceptor       : "com.squareup.okhttp3:logging-interceptor:${depsVer.okhttp}",
             retrofit                  : "com.squareup.retrofit2:retrofit:${depsVer.retrofit}",
             converter_gson            : "com.squareup.retrofit2:converter-gson:${depsVer.retrofit}",
-            logging_interceptor       : "com.squareup.okhttp3:logging-interceptor:${depsVer.logging_interceptor}",
             //network
             coroutines_adapter        : "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:${depsVer.coroutines_adapter}",//retrofit的协程adapter
             progressmanager           : "me.jessyan:progressmanager:${depsVer.progressmanager}",
