@@ -48,6 +48,7 @@ dependencies {
     api rootProject.ext.deps.constraintlayout
     api rootProject.ext.deps.core_ktx
     api rootProject.ext.deps.lifecycle
+    api rootProject.ext.deps.anko
     //view
     api rootProject.ext.deps.recyclerview
     api rootProject.ext.deps.paging

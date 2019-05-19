@@ -46,7 +46,8 @@ ext {
             recovery              : "1.0.0",
             anrwatchdog           : "1.4.0",
             coroutines_adapter    : "0.9.2",
-            okhttp                : '4.0.0-alpha01'
+            okhttp                : '4.0.0-alpha01',
+            anko                  : "0.10.8",
     ]
     deps = [
             //每个app都要用到的
@@ -56,6 +57,7 @@ ext {
             appcompat                 : "androidx.appcompat:appcompat:${depsVer.appcompat}",
             core_ktx                  : "androidx.core:core-ktx:${depsVer.core_ktx}",
             constraintlayout          : "androidx.constraintlayout:constraintlayout:${depsVer.constraintlayout}",
+            anko                      : "org.jetbrains.anko:anko:${depsVer.anko}",
             junit                     : "junit:junit:${depsVer.junit}",
             test_rules                : "androidx.test:rules:${depsVer.test_runner}",
             espresso_core             : "androidx.test.espresso:espresso-core:${depsVer.espresso_core}",
