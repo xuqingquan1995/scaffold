@@ -37,10 +37,8 @@ abstract class BasePageKeyedDataSource<Key, Value> : PageKeyedDataSource<Key, Va
     fun retryAllFailed() {
         val prevRetry = retry
         retry = null
-        runBlocking {
-            launch(Dispatchers.IO){
-                prevRetry?.invoke()
-            }
+        launch {
+            prevRetry?.invoke()
         }
     }
 
@@ -54,23 +52,6 @@ abstract class BasePageKeyedDataSource<Key, Value> : PageKeyedDataSource<Key, Va
         finallyBlock: suspend CoroutineScope.() -> Unit = {}
     ): Job {
         return CoroutineScope(context).launch {
-            tryCatch(tryBlock, catchBlock, finallyBlock)
-        }
-    }
-
-    protected fun <T> launch(
-        context: CoroutineContext = Dispatchers.Default,
-        tryBlock: suspend CoroutineScope.() -> T
-    ): Job {
-        return launch(context, tryBlock, {}, {})
-    }
-
-    private suspend fun <T> tryCatch(
-        tryBlock: suspend CoroutineScope.() -> T,
-        catchBlock: suspend CoroutineScope.(Throwable) -> Unit,
-        finallyBlock: suspend CoroutineScope.() -> Unit
-    ) {
-        coroutineScope {
             try {
                 tryBlock()
             } catch (e: Throwable) {
@@ -83,5 +64,12 @@ abstract class BasePageKeyedDataSource<Key, Value> : PageKeyedDataSource<Key, Va
                 finallyBlock()
             }
         }
+    }
+
+    protected fun <T> launch(
+        context: CoroutineContext = Dispatchers.Default,
+        tryBlock: suspend CoroutineScope.() -> T
+    ): Job {
+        return launch(context, tryBlock, {}, {})
     }
 }

@@ -48,6 +48,7 @@ dependencies {
     api rootProject.ext.deps.constraintlayout
     api rootProject.ext.deps.core_ktx
     api rootProject.ext.deps.lifecycle
+    api rootProject.ext.deps.anko
     //view
     api rootProject.ext.deps.recyclerview
     api rootProject.ext.deps.paging
@@ -59,12 +60,12 @@ dependencies {
     kapt rootProject.ext.deps.dagger_compiler
     //retorfit
     api (rootProject.ext.deps.retrofit){
-        exclude group: 'com.squareup.okhttp3', module: 'okhttp'
+//        exclude group: 'com.squareup.okhttp3', module: 'okhttp'
     }
     api rootProject.ext.deps.converter_gson
     api rootProject.ext.deps.logging_interceptor
     api rootProject.ext.deps.coroutines_adapter
-    api rootProject.ext.deps.okhttp
+//    api rootProject.ext.deps.okhttp
     //format
     api rootProject.ext.deps.gson
     //eventbus

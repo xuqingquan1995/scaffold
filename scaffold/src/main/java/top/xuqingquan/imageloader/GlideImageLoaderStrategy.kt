@@ -7,9 +7,9 @@ import com.bumptech.glide.GlideBuilder
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import top.xuqingquan.utils.Timber
 
 /**
@@ -80,18 +80,14 @@ class GlideImageLoaderStrategy : BaseImageLoaderStrategy<ImageConfigImpl>, Glide
         }
 
         if (config.isClearDiskCache) {//清除本地缓存
-            runBlocking {
-                launch(Dispatchers.IO) {
-                    Glide.get(ctx!!).clearDiskCache()
-                }
+            CoroutineScope(Dispatchers.IO).launch{
+                Glide.get(ctx!!).clearDiskCache()
             }
         }
 
         if (config.isClearMemory) {//清除内存缓存
-            runBlocking {
-                launch(Dispatchers.IO) {
-                    Glide.get(ctx!!).clearMemory()
-                }
+            CoroutineScope(Dispatchers.IO).launch{
+                Glide.get(ctx!!).clearMemory()
             }
         }
     }
