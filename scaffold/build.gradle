@@ -37,6 +37,18 @@ android {
             jniLibs.srcDir 'libs'//说明so的路径为该libs路径，关联所有so文件
         }
     }
+    //在Android代码块中添加如下配置：（可优化最上图中transformClassDexBuilderForDebug的时间）
+    dexOptions {
+        preDexLibraries true
+        maxProcessCount 8
+    }
+    //如果有用到kapt添加如下配置
+    kapt {
+        useBuildCache = true
+        javacOptions {
+            option("-Xmaxerrs", 500)
+        }
+    }
 }
 
 dependencies {
