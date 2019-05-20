@@ -97,14 +97,14 @@ class DebugHierarchyViewContainer : ScrollView {
             val childFragmentRecord = child.childFragmentRecord
             if (childFragmentRecord != null && childFragmentRecord.size > 0) {
                 tempHierarchy++
-                childTvItem.setCompoundDrawablesWithIntrinsicBounds(R.drawable.fragmentation_ic_right, 0, 0, 0)
+                childTvItem.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_arrow_right, 0, 0, 0)
                 val finalChilHierarchy = tempHierarchy
                 childTvItem.setOnClickListener { v ->
                     if (v.getTag(R.id.isexpand) != null) {
                         val isExpand = v.getTag(R.id.isexpand) as Boolean
                         if (isExpand) {
                             childTvItem.setCompoundDrawablesWithIntrinsicBounds(
-                                R.drawable.fragmentation_ic_right,
+                                R.drawable.ic_arrow_right,
                                 0,
                                 0,
                                 0
@@ -138,7 +138,7 @@ class DebugHierarchyViewContainer : ScrollView {
         childTvItem: TextView
     ) {
         setView(childFragmentRecord!!, finalChilHierarchy, childTvItem)
-        childTvItem.setCompoundDrawablesWithIntrinsicBounds(R.drawable.fragmentation_ic_expandable, 0, 0, 0)
+        childTvItem.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_arrow_down, 0, 0, 0)
     }
 
     private fun removeView(hierarchy: Int) {

@@ -1,6 +1,5 @@
 package top.xuqingquan.agentWeb
 
-
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.LayoutInflater
@@ -20,7 +19,6 @@ import top.xuqingquan.base.view.fragment.SimpleFragment
 import top.xuqingquan.databinding.FragmentAgentWebBinding
 import top.xuqingquan.di.component.AppComponent
 import top.xuqingquan.di.scope.FragmentScope
-import top.xuqingquan.utils.Timber
 import javax.inject.Inject
 
 @FragmentScope
@@ -71,6 +69,7 @@ class AgentWebFragment : SimpleFragment() {
         }
         menu = binding.menu
         binding.menu.setOnClickListener {
+            mPopupMenu.dismiss()
             mPopupMenu.show()
         }
         pageNavigator(false)
@@ -89,16 +88,18 @@ class AgentWebFragment : SimpleFragment() {
     override fun onPause() {
         super.onPause()
         mAgentWeb.webLifeCycle.onPause()
+        mPopupMenu.dismiss()
     }
 
     override fun onDestroy() {
         super.onDestroy()
         mAgentWeb.webLifeCycle.onDestroy()
+        binding.unbind()
     }
 
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean? {
-        if (mAgentWeb.handleKeyEvent(keyCode, event)){
+        if (mAgentWeb.handleKeyEvent(keyCode, event)) {
             return true
         }
         return super.onKeyDown(keyCode, event)

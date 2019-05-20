@@ -1,6 +1,7 @@
 package top.xuqingquan.agentWeb
 
 import android.app.Activity
+import android.content.Context
 import android.graphics.Bitmap
 import android.webkit.WebView
 import android.widget.LinearLayout
@@ -11,6 +12,7 @@ import com.just.agentweb.download.DownloadListener
 import com.just.agentweb.download.Extra
 import dagger.Module
 import dagger.Provides
+import org.jetbrains.anko.share
 import top.xuqingquan.R
 import top.xuqingquan.di.scope.FragmentScope
 import top.xuqingquan.utils.DeviceUtils
@@ -181,21 +183,23 @@ class AgentWebModule {
 
     @FragmentScope
     @Provides
-    internal fun providePopupMenu(fragment: AgentWebFragment): PopupMenu {
-        val mPopupMenu = PopupMenu(fragment.requireContext(), fragment.menu)
+    internal fun providePopupMenu(fragment: AgentWebFragment,context:Context?): PopupMenu {
+        val mPopupMenu = PopupMenu(context, fragment.menu)
         mPopupMenu.inflate(R.menu.agentweb)
         mPopupMenu.setOnMenuItemClickListener {
+            val agentWeb = fragment.mAgentWeb
+            val creator = agentWeb.webCreator
             when (it.itemId) {
-                R.id.refresh -> fragment.mAgentWeb.urlLoader.reload()
+                R.id.refresh -> agentWeb.urlLoader.reload()
                 R.id.copy -> DeviceUtils.copyTextToBoard(
-                    fragment.requireContext(),
-                    fragment.mAgentWeb.webCreator.webView.url
+                    context!!,
+                    creator.webView.url
                 )
-                R.id.share -> DeviceUtils.showSystemShareOption(
-                    fragment.requireContext(),
-                    fragment.mAgentWeb.webCreator.webView.title,
-                    fragment.mAgentWeb.webCreator.webView.url
+                R.id.share -> context?.share(
+                    creator.webView.title,
+                    creator.webView.url
                 )
+
             }
             return@setOnMenuItemClickListener false
         }
