@@ -30,7 +30,6 @@ class AgentWebView : FrameLayout {
             mAgentWeb.urlLoader.loadUrl(value)
             field = value
         }
-        get() = mAgentWeb.webCreator.webView.url//使用get获取的链接为当前网址的链接
     var debug: Boolean = BuildConfig.DEBUG
         set(value) {
             if (BuildConfig.DEBUG && value) {
@@ -87,5 +86,7 @@ class AgentWebView : FrameLayout {
     }
 
     fun reload() = mAgentWeb.urlLoader.reload()
+
+    fun getCurrentUrl() = mAgentWeb.webCreator.webView.url
 
 }
