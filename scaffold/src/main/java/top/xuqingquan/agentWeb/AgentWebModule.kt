@@ -1,22 +1,15 @@
 package top.xuqingquan.agentWeb
 
 import android.app.Activity
-import android.content.Context
-import android.graphics.Bitmap
 import android.webkit.WebView
-import android.widget.LinearLayout
-import android.widget.PopupMenu
+import android.widget.FrameLayout
 import com.just.agentweb.*
 import com.just.agentweb.download.DefaultDownloadImpl
 import com.just.agentweb.download.DownloadListener
 import com.just.agentweb.download.Extra
 import dagger.Module
 import dagger.Provides
-import org.jetbrains.anko.share
-import top.xuqingquan.R
 import top.xuqingquan.di.scope.FragmentScope
-import top.xuqingquan.utils.DeviceUtils
-import top.xuqingquan.utils.Timber
 
 /**
  * Created by 许清泉 on 2019-04-29 22:45
@@ -26,13 +19,13 @@ class AgentWebModule {
 
     @FragmentScope
     @Provides
-    internal fun provideContext(fragment: AgentWebFragment) = fragment.mContext
+    internal fun provideContext(view: AgentWebView) = view.context
 
 
     @FragmentScope
     @Provides
     internal fun provideAgentWeb(
-        fragment: AgentWebFragment,
+        view: AgentWebView,
         settings: AbsAgentWebSettings,
         mWebViewClient: WebViewClient,
         mWebChromeClient: WebChromeClient,
@@ -41,14 +34,12 @@ class AgentWebModule {
         mMiddlewareWebChromeBase: MiddlewareWebChromeBase,
         mMiddlewareWebClientBase: MiddlewareWebClientBase
     ): AgentWeb {
-        Timber.d("url=${fragment.url}")
-        val mAgentWeb = AgentWeb.with(fragment)
+        val mAgentWeb = AgentWeb.with(view.context as Activity)
             .setAgentWebParent(
-                (fragment.view as LinearLayout),
-                -1,
-                LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.MATCH_PARENT
+                view, -1,
+                FrameLayout.LayoutParams(
+                    FrameLayout.LayoutParams.MATCH_PARENT,
+                    FrameLayout.LayoutParams.MATCH_PARENT
                 )
             )//传入AgentWeb的父控件。
             .useDefaultIndicator(-1, 2)//设置进度条颜色与高度，-1为默认值，高度为2，单位为dp。
@@ -58,17 +49,14 @@ class AgentWebModule {
             .setPermissionInterceptor(mPermissionInterceptor) //权限拦截 2.0.0 加入。
             .setSecurityType(AgentWeb.SecurityType.STRICT_CHECK) //严格模式 Android 4.2.2 以下会放弃注入对象 ，使用AgentWebView没影响。
             .setAgentWebUIController(mAgentWebUIControllerImplBase) //自定义UI  AgentWeb3.0.0 加入。
-            .setMainFrameErrorView(
-                R.layout.agentweb_error_page,
-                -1
-            ) //参数1是错误显示的布局，参数2点击刷新控件ID -1表示点击整个布局都刷新， AgentWeb 3.0.0 加入。
+            .setMainFrameErrorView(view.error_page,view.refreshId) //参数1是错误显示的布局，参数2点击刷新控件ID -1表示点击整个布局都刷新， AgentWeb 3.0.0 加入。
             .useMiddlewareWebChrome(mMiddlewareWebChromeBase) //设置WebChromeClient中间件，支持多个WebChromeClient，AgentWeb 3.0.0 加入。
             .useMiddlewareWebClient(mMiddlewareWebClientBase) //设置WebViewClient中间件，支持多个WebViewClient， AgentWeb 3.0.0 加入。
             .setOpenOtherPageWays(DefaultWebClient.OpenOtherPageWays.DISALLOW)//打开其他页面时，弹窗质询用户前往其他应用 AgentWeb 3.0.0 加入。
             .interceptUnkownUrl() //拦截找不到相关页面的Url AgentWeb 3.0.0 加入。
             .createAgentWeb()//创建AgentWeb。
             .ready()//设置 WebSettings。
-            .go(fragment.url)
+            .go(view.url)
         mAgentWeb.webCreator.webView.overScrollMode = WebView.OVER_SCROLL_NEVER
         return mAgentWeb
     }
@@ -111,20 +99,8 @@ class AgentWebModule {
 
     @FragmentScope
     @Provides
-    internal fun provideWebViewClient(fragment: AgentWebFragment): WebViewClient {
-        return object : WebViewClient() {
-            override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
-                super.onPageStarted(view, url, favicon)
-                fragment.pageNavigator(view?.canGoBack() == true)
-            }
-
-            override fun onPageFinished(view: WebView?, url: String?) {
-                super.onPageFinished(view, url)
-                if (fragment.title.isNullOrEmpty()) {
-                    fragment.tvTitle.text = view?.title
-                }
-            }
-        }
+    internal fun provideWebViewClient(): WebViewClient {
+        return object : WebViewClient() {}
     }
 
     @FragmentScope
@@ -179,31 +155,6 @@ class AgentWebModule {
                 return false
             }
         }
-    }
-
-    @FragmentScope
-    @Provides
-    internal fun providePopupMenu(fragment: AgentWebFragment,context:Context?): PopupMenu {
-        val mPopupMenu = PopupMenu(context, fragment.menu)
-        mPopupMenu.inflate(R.menu.agentweb)
-        mPopupMenu.setOnMenuItemClickListener {
-            val agentWeb = fragment.mAgentWeb
-            val creator = agentWeb.webCreator
-            when (it.itemId) {
-                R.id.refresh -> agentWeb.urlLoader.reload()
-                R.id.copy -> DeviceUtils.copyTextToBoard(
-                    context!!,
-                    creator.webView.url
-                )
-                R.id.share -> context?.share(
-                    creator.webView.title,
-                    creator.webView.url
-                )
-
-            }
-            return@setOnMenuItemClickListener false
-        }
-        return mPopupMenu
     }
 
 }

@@ -11,12 +11,12 @@ import top.xuqingquan.di.scope.FragmentScope
 @FragmentScope
 @Component(modules = [AgentWebModule::class], dependencies = [AppComponent::class])
 interface AgentWebComponent {
-    fun inject(fragment: AgentWebFragment)
+    fun inject(view: AgentWebView)
 
     @Component.Builder
     interface Builder {
         @BindsInstance
-        fun view(fragment: AgentWebFragment): Builder
+        fun view(view: AgentWebView): Builder
 
         fun appComponent(appComponent: AppComponent): Builder
         fun build(): AgentWebComponent

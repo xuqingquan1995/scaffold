@@ -1,0 +1,11 @@
+<resources>
+
+    <declare-styleable name="AgentWebView">
+        <attr name="url" format="string"/>
+        <attr name="debug" format="boolean"/>
+        <attr name="error_page" format="reference"/>
+        <attr name="refreshId" format="reference"/>
+
+    </declare-styleable>
+
+</resources>
