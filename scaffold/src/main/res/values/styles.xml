@@ -5,7 +5,8 @@
         <attr name="debug" format="boolean"/>
         <attr name="error_page" format="reference"/>
         <attr name="refreshId" format="reference"/>
-
+        <attr name="indicatorColor" format="reference"/>
+        <attr name="indicatorHeight" format="dimension"/>
     </declare-styleable>
 
 </resources>
