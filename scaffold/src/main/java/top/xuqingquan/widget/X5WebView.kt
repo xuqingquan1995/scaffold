@@ -26,11 +26,6 @@ class X5WebView : FrameLayout {
     var agentWeb: AgentWeb? = null
         private set
     //错误页面id
-    @LayoutRes
-    var error_page = -1
-    //错误页面的刷新控件id，-1为整个页面都可以刷新
-    @IdRes
-    var refreshId = -1
     @ColorInt
     var indicatorColor: Int = -1//进度条颜色，-1为默认值
     @DimenRes
@@ -171,7 +166,6 @@ class X5WebView : FrameLayout {
             .setPermissionInterceptor(permissionInterceptor) //权限拦截 2.0.0 加入。
             .setSecurityType(AgentWeb.SecurityType.STRICT_CHECK) //严格模式 Android 4.2.2 以下会放弃注入对象 ，使用AgentWebView没影响。
             .setAgentWebUIController(agentWebUIControllerImplBase) //自定义UI  AgentWeb3.0.0 加入。
-            .setMainFrameErrorView(error_page, refreshId) //参数1是错误显示的布局，参数2点击刷新控件ID -1表示点击整个布局都刷新， AgentWeb 3.0.0 加入。
             .useMiddlewareWebChrome(middlewareWebChromeBase) //设置WebChromeClient中间件，支持多个WebChromeClient，AgentWeb 3.0.0 加入。
             .useMiddlewareWebClient(middlewareWebClientBase) //设置WebViewClient中间件，支持多个WebViewClient， AgentWeb 3.0.0 加入。
             .interceptUnkownUrl() //拦截找不到相关页面的Url AgentWeb 3.0.0 加入。
