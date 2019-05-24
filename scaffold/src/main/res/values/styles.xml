@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <declare-styleable name="AgentWebView">
         <attr name="agent_url" format="string"/>
@@ -15,5 +15,9 @@
         <attr name="x5_indicatorColor" format="reference"/>
         <attr name="x5_indicatorHeight" format="dimension"/>
     </declare-styleable>
+
+    <style name="actionActivity" parent="@android:style/Theme.Translucent.NoTitleBar">
+        <item name="android:statusBarColor" tools:targetApi="lollipop">@android:color/transparent</item>
+    </style>
 
 </resources>

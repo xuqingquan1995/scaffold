@@ -35,7 +35,6 @@ ext {
             banner                : "1.4.10",
             roundedimageview      : "2.3.0",
             autosize              : "1.1.2",
-            agentweb              : "4.0.3-alpha@aar",
             Downloader            : "v4.0.3",
             multidex              : "1.0.3",
             logger                : "2.2.0",
@@ -102,9 +101,6 @@ ext {
             BottomNavigationViewEx    : "com.github.ittianyu:BottomNavigationViewEx:${depsVer.BottomNavigationViewEx}",//底部栏
             //tools
             qrcode                    : "cn.bingoogolapple:bga-qrcode-zxing:${depsVer.qrcode}",
-            agentweb                  : "com.just.agentweb:agentweb:${depsVer.agentweb}",
-            filechooser               : "com.just.agentweb:filechooser:${depsVer.agentweb}",
-            download                  : "com.just.agentweb:download:${depsVer.agentweb}",
             Downloader                : "com.github.Justson:Downloader:${depsVer.Downloader}",
             multidex                  : "com.android.support:multidex:${depsVer.multidex}",
             anrwatchdog               : "com.github.anrwatchdog:anrwatchdog:${depsVer.anrwatchdog}"

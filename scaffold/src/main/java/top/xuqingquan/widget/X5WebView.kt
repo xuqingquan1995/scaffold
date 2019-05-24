@@ -9,11 +9,11 @@ import android.webkit.WebView
 import android.widget.FrameLayout
 import androidx.annotation.ColorInt
 import androidx.annotation.DimenRes
-import com.just.agentwebX5.*
 import org.jetbrains.anko.px2dip
 import top.xuqingquan.BuildConfig
 import top.xuqingquan.R
 import top.xuqingquan.utils.Timber
+import top.xuqingquan.web.*
 
 /**
  * Created by 许清泉 on 2019-05-22 21:00

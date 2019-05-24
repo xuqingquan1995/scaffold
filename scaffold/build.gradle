@@ -82,12 +82,8 @@ dependencies {
     api rootProject.ext.deps.gson
     //eventbus
     api rootProject.ext.deps.eventbus
-    //web
-    implementation rootProject.ext.deps.agentweb
-    implementation rootProject.ext.deps.filechooser
-    implementation rootProject.ext.deps.download
+    //download
     implementation rootProject.ext.deps.Downloader
-    implementation project(path: ':AgentWebX5')
 
     //debug
     debugApi rootProject.ext.deps.leakcanary
