@@ -1,12 +1,19 @@
 <resources>
 
     <declare-styleable name="AgentWebView">
-        <attr name="url" format="string"/>
-        <attr name="debug" format="boolean"/>
-        <attr name="error_page" format="reference"/>
-        <attr name="refreshId" format="reference"/>
-        <attr name="indicatorColor" format="reference"/>
-        <attr name="indicatorHeight" format="dimension"/>
+        <attr name="agent_url" format="string"/>
+        <attr name="agent_debug" format="boolean"/>
+        <attr name="agent_error_page" format="reference"/>
+        <attr name="agent_refreshId" format="reference"/>
+        <attr name="agent_indicatorColor" format="reference"/>
+        <attr name="agent_indicatorHeight" format="dimension"/>
+    </declare-styleable>
+
+    <declare-styleable name="X5WebView">
+        <attr name="x5_url" format="string"/>
+        <attr name="x5_debug" format="boolean"/>
+        <attr name="x5_indicatorColor" format="reference"/>
+        <attr name="x5_indicatorHeight" format="dimension"/>
     </declare-styleable>
 
 </resources>

@@ -55,7 +55,7 @@ android {
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    compileOnly fileTree(include: ['*.jar'], dir: 'libs')
     api rootProject.ext.deps.kotlin
     api rootProject.ext.deps.kotlinx_coroutines_core
     api rootProject.ext.deps.kotlinx_coroutines_android
@@ -82,10 +82,12 @@ dependencies {
     api rootProject.ext.deps.gson
     //eventbus
     api rootProject.ext.deps.eventbus
-    api rootProject.ext.deps.agentweb
-    api rootProject.ext.deps.filechooser
-    api rootProject.ext.deps.download
-    api rootProject.ext.deps.Downloader
+    //web
+    implementation rootProject.ext.deps.agentweb
+    implementation rootProject.ext.deps.filechooser
+    implementation rootProject.ext.deps.download
+    implementation rootProject.ext.deps.Downloader
+    implementation project(path: ':AgentWebX5')
 
     //debug
     debugApi rootProject.ext.deps.leakcanary

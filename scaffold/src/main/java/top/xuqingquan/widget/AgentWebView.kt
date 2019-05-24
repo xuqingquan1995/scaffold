@@ -2,6 +2,7 @@ package top.xuqingquan.widget
 
 import android.app.Activity
 import android.content.Context
+import android.net.Uri
 import android.util.AttributeSet
 import android.view.KeyEvent
 import android.webkit.WebView
@@ -17,6 +18,7 @@ import com.just.agentweb.download.Extra
 import org.jetbrains.anko.px2dip
 import top.xuqingquan.BuildConfig
 import top.xuqingquan.R
+import top.xuqingquan.utils.Timber
 
 /**
  * Created by 许清泉 on 2019-05-22 21:00
@@ -44,6 +46,7 @@ class AgentWebView : FrameLayout {
                 AgentWebConfig.debug()
             }
         }
+        get() = BuildConfig.DEBUG && field
 
     var downloadListener = object : DownloadListener() {
         override fun onStart(
@@ -54,6 +57,13 @@ class AgentWebView : FrameLayout {
             contentLength: Long,
             extra: Extra?
         ): Boolean {
+            if (debug) {
+                Timber.d("onStart-url=$url")
+                Timber.d("onStart-userAgent=$userAgent")
+                Timber.d("onStart-contentDisposition=$contentDisposition")
+                Timber.d("onStart-mimetype=$mimetype")
+                Timber.d("onStart-contentLength=$contentLength")
+            }
             extra?.setBreakPointDownload(true) // 是否开启断点续传
                 ?.setConnectTimeOut(6000) // 连接最大时长
                 ?.setBlockMaxTime(10 * 60 * 1000)  // 以8KB位单位，默认60s ，如果60s内无法从网络流中读满8KB数据，则抛出异常
@@ -65,8 +75,26 @@ class AgentWebView : FrameLayout {
                 ?.setForceDownload(true) // 强制下载，不管网络网络类型
             return false
         }
-    }
 
+        override fun onProgress(url: String?, downloaded: Long, length: Long, usedTime: Long) {
+            super.onProgress(url, downloaded, length, usedTime)
+            if (debug) {
+                Timber.d("onProgress-url=$url")
+                Timber.d("onProgress-downloaded=$downloaded")
+                Timber.d("onProgress-length=$length")
+                Timber.d("onProgress-usedTime=$usedTime")
+            }
+        }
+
+        override fun onResult(throwable: Throwable?, path: Uri?, url: String?, extra: Extra?): Boolean {
+            if (debug) {
+                Timber.d("onResult-throwable=$throwable")
+                Timber.d("onResult-path=$path")
+                Timber.d("onResult-url=$url")
+            }
+            return super.onResult(throwable, path, url, extra)
+        }
+    }
 
     //设置 IAgentWebSettings。
     var absAgentWebSettings = object : AbsAgentWebSettings() {
@@ -116,14 +144,14 @@ class AgentWebView : FrameLayout {
 
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.AgentWebView)
-        typedArray.getString(R.styleable.AgentWebView_url)?.let {
+        typedArray.getString(R.styleable.AgentWebView_agent_url)?.let {
             url = it
         }
-        debug = typedArray.getBoolean(R.styleable.AgentWebView_debug, false)
-        error_page = typedArray.getResourceId(R.styleable.AgentWebView_error_page, R.layout.agentweb_error_page)
-        refreshId = typedArray.getResourceId(R.styleable.AgentWebView_refreshId, -1)
-        indicatorColor = typedArray.getColor(R.styleable.AgentWebView_indicatorColor, -1)
-        indicatorHeight = typedArray.getDimension(R.styleable.AgentWebView_indicatorHeight, -1f).toInt()
+        debug = typedArray.getBoolean(R.styleable.AgentWebView_agent_debug, false)
+        error_page = typedArray.getResourceId(R.styleable.AgentWebView_agent_error_page, R.layout.agentweb_error_page)
+        refreshId = typedArray.getResourceId(R.styleable.AgentWebView_agent_refreshId, -1)
+        indicatorColor = typedArray.getColor(R.styleable.AgentWebView_agent_indicatorColor, -1)
+        indicatorHeight = typedArray.getDimension(R.styleable.AgentWebView_agent_indicatorHeight, -1f).toInt()
         indicatorHeight = if (indicatorHeight == -1) {
             2
         } else {
@@ -134,7 +162,7 @@ class AgentWebView : FrameLayout {
 
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
-    private fun initView() {
+    private fun initAgentWeb() {
         agentWeb = AgentWeb.with(context as Activity)
             .setAgentWebParent(
                 this,
@@ -165,7 +193,7 @@ class AgentWebView : FrameLayout {
      */
     fun go(url: String = this@AgentWebView.url!!) {
         if (agentWeb == null) {
-            initView()
+            initAgentWeb()
         }
         agentWeb!!.urlLoader.loadUrl(url)
     }
