@@ -30,6 +30,7 @@ dependencies {
     compileOnly fileTree(include: ['*.jar'], dir: 'libs')
     implementation rootProject.ext.deps.appcompat
     implementation rootProject.ext.deps.material
+    implementation rootProject.ext.deps.Downloader
     //test
     testImplementation rootProject.ext.deps.junit
     androidTestImplementation rootProject.ext.deps.espresso_core

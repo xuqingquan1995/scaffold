@@ -181,7 +181,7 @@ class AgentWebView : FrameLayout {
             .useMiddlewareWebClient(middlewareWebClientBase) //设置WebViewClient中间件，支持多个WebViewClient， AgentWeb 3.0.0 加入。
             .interceptUnkownUrl() //拦截找不到相关页面的Url AgentWeb 3.0.0 加入。
             .createAgentWeb()//创建AgentWeb。
-            .ready()//设置 WebSettings。
+            .ready()//设置 IAgentWebSettings。
             .get()
         agentWeb!!.webCreator.webView.overScrollMode = WebView.OVER_SCROLL_NEVER
         agentWeb!!.agentWebSettings.webSettings.loadWithOverviewMode = true

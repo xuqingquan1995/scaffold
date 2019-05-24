@@ -56,7 +56,7 @@ class GlobalConfiguration : ConfigModule {
 ////            okhttpBuilder.sslSocketFactory() //支持 Https, 详情请百度
 //            okhttpBuilder.writeTimeout(10, TimeUnit.SECONDS)
 //            //使用一行代码监听 Retrofit／Okhttp 上传下载进度监听,以及 Glide 加载进度监听, 详细使用方法请查看 https://github.com/JessYanCoding/ProgressManager
-//            ProgressManager.getInstance().with(okhttpBuilder)
+//            IWebIndicator.getInstance().with(okhttpBuilder)
 //            //让 Retrofit 同时支持多个 BaseUrl 以及动态改变 BaseUrl, 详细使用方法请查看 https://github.com/JessYanCoding/RetrofitUrlManager
 //            RetrofitUrlManager.getInstance().with(okhttpBuilder)
 //        }

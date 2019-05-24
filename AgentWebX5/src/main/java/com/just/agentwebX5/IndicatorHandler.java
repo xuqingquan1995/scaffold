@@ -1,76 +1,88 @@
+/*
+ * Copyright (C)  Justson(https://github.com/Justson/AgentWeb)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.just.agentwebX5;
 
 
 import com.tencent.smtt.sdk.WebView;
 
 /**
- * <b>@项目名：</b> agentwebX5<br>
- * <b>@包名：</b>com.just.library<br>
- * <b>@创建者：</b> cxz --  just<br>
- * <b>@创建时间：</b> &{DATE}<br>
- * <b>@公司：</b> <br>
- * <b>@邮箱：</b> cenxiaozhong.qqcom@qq.com<br>
- * <b>@描述</b>source CODE  https://github.com/Justson/AgentWebX5<br>
+ * @author cenxiaozhong
+ * @since 1.0.0
  */
+public class IndicatorHandler implements IndicatorController {
+	private BaseIndicatorSpec mBaseIndicatorSpec;
 
-public class IndicatorHandler implements IndicatorController, ProgressLifeCyclic {
-    BaseProgressSpec baseProgressSpec;
+	@Override
+	public void progress(WebView v, int newProgress) {
 
-    @Override
-    public void progress(WebView v, int newProgress) {
+		if (newProgress == 0) {
+			reset();
+		} else if (newProgress > 0 && newProgress <= 10) {
+			showIndicator();
+		} else if (newProgress > 10 && newProgress < 95) {
+			setProgress(newProgress);
+		} else {
+			setProgress(newProgress);
+			finish();
+		}
 
-//        Log.i("Info", "newProgress:" + newProgress + "  v:" + v);
-        if (newProgress == 0) {
-            reset();
-        } else if (newProgress > 0 && newProgress <= 10) {
-            showProgressBar();
-        } else if (newProgress > 10 && newProgress < 95) {
-            setProgressBar(newProgress);
-        } else {
-            setProgressBar(newProgress);
-            finish();
-        }
+	}
 
-    }
+	@Override
+	public BaseIndicatorSpec offerIndicator() {
+		return this.mBaseIndicatorSpec;
+	}
 
-    @Override
-    public BaseProgressSpec offerIndicator() {
-        return this.baseProgressSpec;
-    }
+	public void reset() {
 
-    public void reset() {
+		if (mBaseIndicatorSpec != null) {
+			mBaseIndicatorSpec.reset();
+		}
+	}
 
-        if (baseProgressSpec != null) {
-            baseProgressSpec.reset();
-        }
-    }
+	@Override
+	public void finish() {
+		if (mBaseIndicatorSpec != null) {
+			mBaseIndicatorSpec.hide();
+		}
+	}
 
-    public void finish() {
-        if (baseProgressSpec != null) {
-            baseProgressSpec.hide();
-        }
-    }
+	@Override
+	public void setProgress(int n) {
+		if (mBaseIndicatorSpec != null) {
+			mBaseIndicatorSpec.setProgress(n);
+		}
+	}
 
-    public void setProgressBar(int n) {
-        if (baseProgressSpec != null) {
-            baseProgressSpec.setProgress(n);
-        }
-    }
+	@Override
+	public void showIndicator() {
 
-    public void showProgressBar() {
+		if (mBaseIndicatorSpec != null) {
+			mBaseIndicatorSpec.show();
+		}
+	}
 
-        if (baseProgressSpec != null) {
-            baseProgressSpec.show();
-        }
-    }
-
-    public static IndicatorHandler getInstance() {
-        return new IndicatorHandler();
-    }
+	static IndicatorHandler getInstance() {
+		return new IndicatorHandler();
+	}
 
 
-    public IndicatorHandler inJectProgressView(BaseProgressSpec baseProgressSpec) {
-        this.baseProgressSpec = baseProgressSpec;
-        return this;
-    }
+	IndicatorHandler inJectIndicator(BaseIndicatorSpec baseIndicatorSpec) {
+		this.mBaseIndicatorSpec = baseIndicatorSpec;
+		return this;
+	}
 }
