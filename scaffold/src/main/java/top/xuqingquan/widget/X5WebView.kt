@@ -9,8 +9,6 @@ import android.webkit.WebView
 import android.widget.FrameLayout
 import androidx.annotation.ColorInt
 import androidx.annotation.DimenRes
-import androidx.annotation.IdRes
-import androidx.annotation.LayoutRes
 import com.just.agentwebX5.*
 import org.jetbrains.anko.px2dip
 import top.xuqingquan.BuildConfig
@@ -169,12 +167,11 @@ class X5WebView : FrameLayout {
             .useMiddlewareWebChrome(middlewareWebChromeBase) //设置WebChromeClient中间件，支持多个WebChromeClient，AgentWeb 3.0.0 加入。
             .useMiddlewareWebClient(middlewareWebClientBase) //设置WebViewClient中间件，支持多个WebViewClient， AgentWeb 3.0.0 加入。
             .interceptUnkownUrl() //拦截找不到相关页面的Url AgentWeb 3.0.0 加入。
+            .setOpenOtherPageWays(DefaultWebClient.OpenOtherPageWays.ASK)
             .createAgentWeb()//创建AgentWeb。
             .ready()//设置 IAgentWebSettings。
             .get()
         agentWeb!!.webCreator.webView.overScrollMode = WebView.OVER_SCROLL_NEVER
-        agentWeb!!.agentWebSettings.webSettings.loadWithOverviewMode = true
-        agentWeb!!.agentWebSettings.webSettings.useWideViewPort = true
     }
 
     /**

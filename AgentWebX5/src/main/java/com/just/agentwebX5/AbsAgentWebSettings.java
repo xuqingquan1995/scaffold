@@ -47,7 +47,8 @@ public abstract class AbsAgentWebSettings implements IAgentWebSettings, WebListe
 		mWebSettings = webView.getSettings();
 		mWebSettings.setJavaScriptEnabled(true);
 		mWebSettings.setSupportZoom(true);
-		mWebSettings.setBuiltInZoomControls(false);
+		mWebSettings.setBuiltInZoomControls(true);
+		mWebSettings.setDisplayZoomControls(false);
 		mWebSettings.setSavePassword(false);
 		if (AgentWebUtils.checkNetwork(webView.getContext())) {
 			//根据cache-control获取数据。
@@ -87,8 +88,8 @@ public abstract class AbsAgentWebSettings implements IAgentWebSettings, WebListe
 		} else {
 			mWebSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NORMAL);
 		}
-		mWebSettings.setLoadWithOverviewMode(false);
-		mWebSettings.setUseWideViewPort(false);
+		mWebSettings.setLoadWithOverviewMode(true);
+		mWebSettings.setUseWideViewPort(true);
 		mWebSettings.setDomStorageEnabled(true);
 		mWebSettings.setNeedInitialFocus(true);
 		mWebSettings.setDefaultTextEncodingName("utf-8");//设置编码格式

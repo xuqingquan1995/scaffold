@@ -163,6 +163,7 @@ class AgentWebView : FrameLayout {
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
     private fun initAgentWeb() {
+        agentWeb!!.webCreator.webView.overScrollMode = WebView.OVER_SCROLL_NEVER
         agentWeb = AgentWeb.with(context as Activity)
             .setAgentWebParent(
                 this,
@@ -179,13 +180,15 @@ class AgentWebView : FrameLayout {
             .setMainFrameErrorView(error_page, refreshId) //参数1是错误显示的布局，参数2点击刷新控件ID -1表示点击整个布局都刷新， AgentWeb 3.0.0 加入。
             .useMiddlewareWebChrome(middlewareWebChromeBase) //设置WebChromeClient中间件，支持多个WebChromeClient，AgentWeb 3.0.0 加入。
             .useMiddlewareWebClient(middlewareWebClientBase) //设置WebViewClient中间件，支持多个WebViewClient， AgentWeb 3.0.0 加入。
+            .setOpenOtherPageWays(DefaultWebClient.OpenOtherPageWays.ASK)
             .interceptUnkownUrl() //拦截找不到相关页面的Url AgentWeb 3.0.0 加入。
             .createAgentWeb()//创建AgentWeb。
             .ready()//设置 IAgentWebSettings。
             .get()
-        agentWeb!!.webCreator.webView.overScrollMode = WebView.OVER_SCROLL_NEVER
         agentWeb!!.agentWebSettings.webSettings.loadWithOverviewMode = true
         agentWeb!!.agentWebSettings.webSettings.useWideViewPort = true
+        agentWeb!!.agentWebSettings.webSettings.builtInZoomControls = true
+        agentWeb!!.agentWebSettings.webSettings.displayZoomControls = false
     }
 
     /**
