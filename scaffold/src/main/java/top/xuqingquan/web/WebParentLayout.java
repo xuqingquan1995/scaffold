@@ -30,6 +30,7 @@ import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.tencent.smtt.sdk.WebView;
+import top.xuqingquan.R;
 
 /**
  * @author cenxiaozhong

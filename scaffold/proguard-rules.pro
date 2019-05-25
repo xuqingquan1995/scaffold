@@ -213,11 +213,6 @@
     <init>(java.lang.Throwable);
 }
 
-#agentWeb
--keep class com.just.agentweb.** { *; }
--dontwarn com.just.agentweb.**
-#-keepclassmembers class com.just.agentweb.sample.common.AndroidInterface{ *; }
-
 ##dagger
 -dontwarn dagger.internal.codegen.**
 -keepclassmembers,allowobfuscation class * {

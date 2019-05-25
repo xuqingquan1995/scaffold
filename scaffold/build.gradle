@@ -15,6 +15,7 @@ android {
         versionName "1.0"
         testInstrumentationRunner rootProject.ext.android.AndroidJUnitRunner
         flavorDimensions 'default'
+        proguardFiles
     }
     buildTypes {
         release {
@@ -22,6 +23,7 @@ android {
             jniDebuggable false
             minifyEnabled true
             zipAlignEnabled true
+            consumerProguardFiles = ['proguard.cfg']
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -70,6 +72,8 @@ dependencies {
     api rootProject.ext.deps.glide
     kapt rootProject.ext.deps.glide_compiler
     api rootProject.ext.deps.material
+    api rootProject.ext.deps.viewpager2
+    api rootProject.ext.deps.autosize
     //依赖注入
     api rootProject.ext.deps.dagger
     kapt rootProject.ext.deps.dagger_compiler
@@ -83,15 +87,16 @@ dependencies {
     //eventbus
     api rootProject.ext.deps.eventbus
     //download
-    implementation rootProject.ext.deps.Downloader
-
+    compileOnly rootProject.ext.deps.Downloader
     //debug
     debugApi rootProject.ext.deps.leakcanary
     debugApi rootProject.ext.deps.recovery
-    releaseCompileOnly rootProject.ext.deps.recovery
     debugApi rootProject.ext.deps.anrwatchdog
+    releaseCompileOnly rootProject.ext.deps.recovery
     releaseCompileOnly rootProject.ext.deps.anrwatchdog
     //test
     testImplementation rootProject.ext.deps.junit
-    androidTestImplementation rootProject.ext.deps.espresso_core
+    androidTestImplementation (rootProject.ext.deps.espresso_core){
+        exclude group: 'junit', module: 'junit'
+    }
 }
