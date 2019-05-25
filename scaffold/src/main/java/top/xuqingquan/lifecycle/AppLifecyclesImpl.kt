@@ -41,12 +41,6 @@ class AppLifecyclesImpl : AppLifecycles {
                 .start()
         }
         try {
-            Class.forName("me.jessyan.autosize.AutoSizeConfig")
-            AutoSizeConfig.getInstance().isCustomFragment = true
-        } catch (e: Throwable) {
-            Timber.e(e)
-        }
-        try {
             Class.forName("com.zxy.recovery.core.Recovery")
             //崩溃重启框架，debug时使用
             Recovery.getInstance()
@@ -61,11 +55,17 @@ class AppLifecyclesImpl : AppLifecycles {
             Timber.e(e)
         }
         try {
+            Class.forName("me.jessyan.autosize.AutoSizeConfig")
+            AutoSizeConfig.getInstance().isCustomFragment = true
+        } catch (e: Throwable) {
+            Timber.e(e)
+        }
+        try {
             Class.forName("com.tencent.smtt.sdk.QbSdk")
             thread {
                 Timber.d("QbSdk----Thread.currentThread()===${Thread.currentThread()}")
                 QbSdk.setDownloadWithoutWifi(true)
-                object : QbSdk.PreInitCallback {
+                val cb = object : QbSdk.PreInitCallback {
                     override fun onCoreInitFinished() {
                         Timber.d("QbSdk----onCoreInitFinished")
 
@@ -88,6 +88,8 @@ class AppLifecyclesImpl : AppLifecycles {
                         Timber.d("QbSdk----onDownloadProgress--->$p0")
                     }
                 })
+                //x5内核初始化接口
+                QbSdk.initX5Environment(application, cb)
             }
         } catch (e: Throwable) {
             Timber.e(e)

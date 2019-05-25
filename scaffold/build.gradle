@@ -73,7 +73,7 @@ dependencies {
     kapt rootProject.ext.deps.glide_compiler
     api rootProject.ext.deps.material
     api rootProject.ext.deps.viewpager2
-    api rootProject.ext.deps.autosize
+    compileOnly rootProject.ext.deps.autosize
     //依赖注入
     api rootProject.ext.deps.dagger
     kapt rootProject.ext.deps.dagger_compiler
@@ -86,7 +86,7 @@ dependencies {
     api rootProject.ext.deps.gson
     //eventbus
     api rootProject.ext.deps.eventbus
-    //download
+    //download（需要用到web下载的时候需要依赖）
     compileOnly rootProject.ext.deps.Downloader
     //debug
     debugApi rootProject.ext.deps.leakcanary
