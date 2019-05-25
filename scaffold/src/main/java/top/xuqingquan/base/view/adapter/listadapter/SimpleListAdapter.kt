@@ -74,6 +74,7 @@ abstract class SimpleListAdapter<T>(diff: DiffUtil.ItemCallback<T>) : ListAdapte
 
 
     companion object {
+        @JvmStatic
         fun releaseAllViewHolder(recyclerView: RecyclerView) {
             for (i in recyclerView.childCount - 1 downTo 0) {
                 val view = recyclerView.getChildAt(i)

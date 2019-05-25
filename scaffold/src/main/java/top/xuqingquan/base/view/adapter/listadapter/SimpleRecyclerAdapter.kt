@@ -101,6 +101,7 @@ abstract class SimpleRecyclerAdapter<T>(private val list: MutableList<T>) :
     }
 
     companion object {
+        @JvmStatic
         fun releaseAllViewHolder(recyclerView: RecyclerView) {
             for (i in recyclerView.childCount - 1 downTo 0) {
                 val view = recyclerView.getChildAt(i)

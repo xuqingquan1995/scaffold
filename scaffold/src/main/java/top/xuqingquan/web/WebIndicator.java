@@ -1,19 +1,3 @@
-/*
- * Copyright (C)  Justson(https://github.com/Justson/AgentWeb)
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package top.xuqingquan.web;
 
 import android.animation.*;
@@ -27,11 +11,8 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.FrameLayout;
 import androidx.annotation.Nullable;
+import top.xuqingquan.utils.Timber;
 
-/**
- * @author cenxiaozhong
- * @since 1.0.0
- */
 public class WebIndicator extends BaseIndicatorView implements BaseIndicatorSpec {
     /**
      * 进度条颜色
@@ -78,7 +59,6 @@ public class WebIndicator extends BaseIndicatorView implements BaseIndicatorSpec
     public static final int UN_START = 0;
     public static final int STARTED = 1;
     public static final int FINISH = 2;
-    private float mTarget = 0f;
     private float mCurrentProgress = 0F;
     /**
      * 默认的高度
@@ -124,7 +104,6 @@ public class WebIndicator extends BaseIndicatorView implements BaseIndicatorSpec
         int w = View.MeasureSpec.getSize(widthMeasureSpec);
         int hMode = View.MeasureSpec.getMode(heightMeasureSpec);
         int h = View.MeasureSpec.getSize(heightMeasureSpec);
-
         if (wMode == View.MeasureSpec.AT_MOST) {
             w = w <= getContext().getResources().getDisplayMetrics().widthPixels ? w : getContext().getResources().getDisplayMetrics().widthPixels;
         }
@@ -141,7 +120,7 @@ public class WebIndicator extends BaseIndicatorView implements BaseIndicatorSpec
 
     @Override
     protected void dispatchDraw(Canvas canvas) {
-        canvas.drawRect(0, 0, mCurrentProgress / 100 * Float.valueOf(this.getWidth()), this.getHeight(), mPaint);
+        canvas.drawRect(0, 0, mCurrentProgress / 100 * (float) this.getWidth(), this.getHeight(), mPaint);
     }
 
     @Override
@@ -163,11 +142,11 @@ public class WebIndicator extends BaseIndicatorView implements BaseIndicatorSpec
             CURRENT_MAX_UNIFORM_SPEED_DURATION = MAX_UNIFORM_SPEED_DURATION;
         } else {
             //取比值
-            float rate = this.mTargetWidth / Float.valueOf(screenWidth);
+            float rate = this.mTargetWidth / (float) screenWidth;
             CURRENT_MAX_UNIFORM_SPEED_DURATION = (int) (MAX_UNIFORM_SPEED_DURATION * rate);
             CURRENT_MAX_DECELERATE_SPEED_DURATION = (int) (MAX_DECELERATE_SPEED_DURATION * rate);
         }
-        LogUtils.i("WebProgress", "CURRENT_MAX_UNIFORM_SPEED_DURATION" + CURRENT_MAX_UNIFORM_SPEED_DURATION);
+        Timber.i("CURRENT_MAX_UNIFORM_SPEED_DURATION" + CURRENT_MAX_UNIFORM_SPEED_DURATION);
     }
 
     public void setProgress(float progress) {
@@ -193,7 +172,7 @@ public class WebIndicator extends BaseIndicatorView implements BaseIndicatorSpec
             mAnimator.cancel();
         }
         mCurrentProgress = mCurrentProgress == 0f ? 0.00000001f : mCurrentProgress;
-        LogUtils.i("WebIndicator", "mCurrentProgress:" + mCurrentProgress + " v:" + v + "  :" + (1f - mCurrentProgress));
+        Timber.i("mCurrentProgress:" + mCurrentProgress + " v:" + v + "  :" + (1f - mCurrentProgress));
         if (!isFinished) {
             ValueAnimator mAnimator = ValueAnimator.ofFloat(mCurrentProgress, v);
             float residue = 1f - mCurrentProgress / 100 - 0.05f;
@@ -229,16 +208,11 @@ public class WebIndicator extends BaseIndicatorView implements BaseIndicatorSpec
             mAnimator = mAnimatorSet;
         }
         TAG = STARTED;
-        mTarget = v;
     }
 
-    private ValueAnimator.AnimatorUpdateListener mAnimatorUpdateListener = new ValueAnimator.AnimatorUpdateListener() {
-        @Override
-        public void onAnimationUpdate(ValueAnimator animation) {
-            float t = (float) animation.getAnimatedValue();
-            WebIndicator.this.mCurrentProgress = t;
-            WebIndicator.this.invalidate();
-        }
+    private ValueAnimator.AnimatorUpdateListener mAnimatorUpdateListener = animation -> {
+        WebIndicator.this.mCurrentProgress = (float) animation.getAnimatedValue();
+        WebIndicator.this.invalidate();
     };
 
     private AnimatorListenerAdapter mAnimatorListenerAdapter = new AnimatorListenerAdapter() {

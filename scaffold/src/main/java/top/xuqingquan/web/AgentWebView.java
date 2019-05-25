@@ -1,22 +1,6 @@
-/*
- * Copyright (C)  Justson(https://github.com/Justson/AgentWeb)
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package top.xuqingquan.web;
 
-import android.annotation.TargetApi;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Build;
@@ -28,12 +12,15 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.Toast;
+import androidx.core.content.ContextCompat;
 import com.tencent.smtt.export.external.interfaces.JsPromptResult;
 import com.tencent.smtt.sdk.WebBackForwardList;
 import com.tencent.smtt.sdk.WebChromeClient;
 import com.tencent.smtt.sdk.WebView;
 import com.tencent.smtt.sdk.WebViewClient;
 import org.json.JSONObject;
+import top.xuqingquan.BuildConfig;
+import top.xuqingquan.utils.Timber;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -42,13 +29,7 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
-
-/**
- * @author cenxiaozhong
- * @since 1.0.0
- */
 public class AgentWebView extends WebView {
-    private static final String TAG = AgentWebView.class.getSimpleName();
     private Map<String, JsCallJava> mJsCallJavas;
     private Map<String, String> mInjectJavaScripts;
     private FixedOnReceivedTitle mFixedOnReceivedTitle;
@@ -80,21 +61,19 @@ public class AgentWebView extends WebView {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             super.addJavascriptInterface(interfaceObj, interfaceName);
-            Log.i(TAG, "注入");
+            Timber.i("注入");
             return;
         } else {
-            Log.i(TAG, "use mJsCallJavas:" + interfaceName);
+            Timber.i("use mJsCallJavas:" + interfaceName);
         }
 
-        LogUtils.i(TAG, "addJavascriptInterface:" + interfaceObj + "   interfaceName:" + interfaceName);
+        Timber.i("addJavascriptInterface:" + interfaceObj + "   interfaceName:" + interfaceName);
         if (mJsCallJavas == null) {
-            mJsCallJavas = new HashMap<String, JsCallJava>();
+            mJsCallJavas = new HashMap<>();
         }
         mJsCallJavas.put(interfaceName, new JsCallJava(interfaceObj, interfaceName));
         injectJavaScript();
-        if (LogUtils.isDebug()) {
-            Log.d(TAG, "injectJavaScript, addJavascriptInterface.interfaceObj = " + interfaceObj + ", interfaceName = " + interfaceName);
-        }
+        Timber.d("injectJavaScript, addJavascriptInterface.interfaceObj = " + interfaceObj + ", interfaceName = " + interfaceName);
         addJavascriptInterfaceSupport(interfaceObj, interfaceName);
     }
 
@@ -138,7 +117,7 @@ public class AgentWebView extends WebView {
         releaseConfigCallback();
         if (mIsInited) {
             resetAccessibilityEnabled();
-            LogUtils.i(TAG, "destroy web");
+            Timber.i("destroy web");
             super.destroy();
         }
     }
@@ -156,7 +135,7 @@ public class AgentWebView extends WebView {
         if (trace.contains("android.content.pm.PackageManager$NameNotFoundException")
                 || trace.contains("java.lang.RuntimeException: Cannot load WebView")
                 || trace.contains("android.webkit.WebViewFactory$MissingWebViewPackageException: Failed to load WebView provider: No WebView installed")) {
-            LogUtils.safeCheckCrash(TAG, "isWebViewPackageException", e);
+            Timber.e(e);
             return new Pair<>(true, "WebView load failed, " + messageCause);
         }
         return new Pair<>(false, messageCause);
@@ -179,13 +158,7 @@ public class AgentWebView extends WebView {
 
     @Override
     public boolean isPrivateBrowsingEnabled() {
-        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1
-                && getSettings() == null) {
-
-            return false; // getSettings().isPrivateBrowsingEnabled()
-        } else {
-            return super.isPrivateBrowsingEnabled();
-        }
+        return super.isPrivateBrowsingEnabled();
     }
 
     /**
@@ -196,7 +169,7 @@ public class AgentWebView extends WebView {
      */
     public void addInjectJavaScript(String javaScript) {
         if (mInjectJavaScripts == null) {
-            mInjectJavaScripts = new HashMap<String, String>();
+            mInjectJavaScripts = new HashMap<>();
         }
         mInjectJavaScripts.put(String.valueOf(javaScript.hashCode()), javaScript);
         injectExtraJavaScript();
@@ -265,9 +238,7 @@ public class AgentWebView extends WebView {
             super.onPageStarted(view, url, favicon);
             if (mAgentWebView.mJsCallJavas != null) {
                 mAgentWebView.injectJavaScript();
-                if (LogUtils.isDebug()) {
-                    Log.d(TAG, "injectJavaScript, onPageStarted.url = " + view.getUrl());
-                }
+                Timber.d("injectJavaScript, onPageStarted.url = " + view.getUrl());
             }
             if (mAgentWebView.mInjectJavaScripts != null) {
                 mAgentWebView.injectExtraJavaScript();
@@ -280,9 +251,7 @@ public class AgentWebView extends WebView {
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
             mAgentWebView.mFixedOnReceivedTitle.onPageFinished(view);
-            if (LogUtils.isDebug()) {
-                Log.d(TAG, "onPageFinished.url = " + view.getUrl());
-            }
+            Timber.d("onPageFinished.url = " + view.getUrl());
         }
 
 
@@ -306,9 +275,7 @@ public class AgentWebView extends WebView {
         public void onProgressChanged(WebView view, int newProgress) {
             if (this.mAgentWebView.mJsCallJavas != null) {
                 this.mAgentWebView.injectJavaScript();
-                if (LogUtils.isDebug()) {
-                    Log.d(TAG, "injectJavaScript, onProgressChanged.newProgress = " + newProgress + ", url = " + view.getUrl());
-                }
+                Timber.d("injectJavaScript, onProgressChanged.newProgress = " + newProgress + ", url = " + view.getUrl());
             }
             if (this.mAgentWebView.mInjectJavaScripts != null) {
                 this.mAgentWebView.injectExtraJavaScript();
@@ -319,7 +286,7 @@ public class AgentWebView extends WebView {
 
         @Override
         public boolean onJsPrompt(WebView view, String url, String message, String defaultValue, JsPromptResult result) {
-            Log.i(TAG, "onJsPrompt:" + url + "  message:" + message + "  d:" + defaultValue + "  ");
+            Timber.i("onJsPrompt:" + url + "  message:" + message + "  d:" + defaultValue + "  ");
             if (this.mAgentWebView.mJsCallJavas != null && JsCallJava.isSafeWebViewCallMsg(message)) {
                 JSONObject jsonObject = JsCallJava.getMsgJSONObject(message);
                 String interfacedName = JsCallJava.getInterfacedName(jsonObject);
@@ -357,9 +324,7 @@ public class AgentWebView extends WebView {
                 try {
                     list = view.copyBackForwardList();
                 } catch (NullPointerException e) {
-                    if (LogUtils.isDebug()) {
-                        e.printStackTrace();
-                    }
+                    Timber.e(e);
                 }
                 if (list != null
                         && list.getSize() > 0
@@ -370,6 +335,7 @@ public class AgentWebView extends WebView {
                 }
             }
         }
+
         public void onReceivedTitle() {
             mIsOnReceivedTitle = true;
         }
@@ -397,13 +363,9 @@ public class AgentWebView extends WebView {
                 field.setAccessible(true);
                 field.set(null, null);
             } catch (NoSuchFieldException e) {
-                if (LogUtils.isDebug()) {
-                    e.printStackTrace();
-                }
+                Timber.e(e);
             } catch (IllegalAccessException e) {
-                if (LogUtils.isDebug()) {
-                    e.printStackTrace();
-                }
+                Timber.e(e);
             }
         } else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) { // KITKAT
             try {
@@ -413,17 +375,11 @@ public class AgentWebView extends WebView {
                     sConfigCallback.set(null, null);
                 }
             } catch (NoSuchFieldException e) {
-                if (LogUtils.isDebug()) {
-                    e.printStackTrace();
-                }
+                Timber.e(e);
             } catch (ClassNotFoundException e) {
-                if (LogUtils.isDebug()) {
-                    e.printStackTrace();
-                }
+                Timber.e(e);
             } catch (IllegalAccessException e) {
-                if (LogUtils.isDebug()) {
-                    e.printStackTrace();
-                }
+                Timber.e(e);
             }
         }
     }
@@ -433,22 +389,18 @@ public class AgentWebView extends WebView {
      * WebView.setWebContentsDebuggingEnabled(true);
      * http://blog.csdn.net/t12x3456/article/details/14225235
      */
-    @TargetApi(19)
     protected void trySetWebDebuggEnabled() {
-        if (LogUtils.isDebug() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        if (BuildConfig.DEBUG && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             try {
                 Class<?> clazz = WebView.class;
                 Method method = clazz.getMethod("setWebContentsDebuggingEnabled", boolean.class);
                 method.invoke(null, true);
             } catch (Throwable e) {
-                if (LogUtils.isDebug()) {
-                    e.printStackTrace();
-                }
+                Timber.e(e);
             }
         }
     }
 
-    @TargetApi(11)
     protected boolean removeSearchBoxJavaBridge() {
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB
@@ -458,9 +410,7 @@ public class AgentWebView extends WebView {
                 return true;
             }
         } catch (Exception e) {
-            if (LogUtils.isDebug()) {
-                e.printStackTrace();
-            }
+            Timber.e(e);
         }
         return false;
     }
@@ -487,13 +437,11 @@ public class AgentWebView extends WebView {
                     if ("bad parameter".equals(e.getMessage())) {
                         mIsAccessibilityEnabledOriginal = true;
                         setAccessibilityEnabled(false);
-                        LogUtils.safeCheckCrash(TAG, "fixedAccessibilityInjectorExceptionForOnPageFinished.url = " + url, e);
+                        Timber.e(e, "fixedAccessibilityInjectorExceptionForOnPageFinished");
                     }
                 }
             } catch (Throwable e) {
-                if (LogUtils.isDebug()) {
-                    LogUtils.e(TAG, "fixedAccessibilityInjectorExceptionForOnPageFinished", e);
-                }
+                Timber.e(e, "fixedAccessibilityInjectorExceptionForOnPageFinished");
             }
         }
     }
@@ -504,16 +452,14 @@ public class AgentWebView extends WebView {
     }
 
     private void setAccessibilityEnabled(boolean enabled) {
-        AccessibilityManager am = (AccessibilityManager) getContext().getSystemService(Context.ACCESSIBILITY_SERVICE);
+        AccessibilityManager am = ContextCompat.getSystemService(getContext(), AccessibilityManager.class);
         try {
             Method setAccessibilityState = am.getClass().getDeclaredMethod("setAccessibilityState", boolean.class);
             setAccessibilityState.setAccessible(true);
             setAccessibilityState.invoke(am, enabled);
             setAccessibilityState.setAccessible(false);
         } catch (Throwable e) {
-            if (LogUtils.isDebug()) {
-                LogUtils.e(TAG, "setAccessibilityEnabled", e);
-            }
+            Timber.e(e, "setAccessibilityEnabled");
         }
     }
 

@@ -1,23 +1,6 @@
-/*
- * Copyright (C)  Justson(https://github.com/Justson/AgentWeb)
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package top.xuqingquan.web;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
@@ -34,12 +17,9 @@ import com.google.android.material.snackbar.Snackbar;
 import com.tencent.smtt.export.external.interfaces.JsPromptResult;
 import com.tencent.smtt.export.external.interfaces.JsResult;
 import com.tencent.smtt.sdk.WebView;
+import org.jetbrains.annotations.NotNull;
+import top.xuqingquan.utils.Timber;
 
-/**
- * @author cenxiaozhong
- * @date 2017/12/8
- * @since 3.0.0
- */
 public class DefaultDesignUIController extends DefaultUIController {
 
     private BottomSheetDialog mBottomSheetDialog;
@@ -68,9 +48,7 @@ public class DefaultDesignUIController extends DefaultUIController {
                     -1,
                     null);
         } catch (Throwable throwable) {
-            if (LogUtils.isDebug()){
-                throwable.printStackTrace();
-            }
+            Timber.e(throwable);
         }
     }
 
@@ -90,7 +68,7 @@ public class DefaultDesignUIController extends DefaultUIController {
     }
 
     private void showChooserInternal(WebView view, String url, final String[] ways, final Handler.Callback callback) {
-        LogUtils.i(TAG, "url:" + url + "  ways:" + ways[0]);
+        Timber.i("url:" + url + "  ways:" + ways[0]);
         RecyclerView mRecyclerView;
         if (mBottomSheetDialog == null) {
             mBottomSheetDialog = new BottomSheetDialog(mActivity);
@@ -99,14 +77,11 @@ public class DefaultDesignUIController extends DefaultUIController {
             mRecyclerView.setId(RECYCLERVIEW_ID);
             mBottomSheetDialog.setContentView(mRecyclerView);
         }
-        mRecyclerView = (RecyclerView) mBottomSheetDialog.getDelegate().findViewById(RECYCLERVIEW_ID);
+        mRecyclerView = mBottomSheetDialog.getDelegate().findViewById(RECYCLERVIEW_ID);
         mRecyclerView.setAdapter(getAdapter(ways, callback));
-        mBottomSheetDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialog) {
-                if (callback != null) {
-                    callback.handleMessage(Message.obtain(null, -1));
-                }
+        mBottomSheetDialog.setOnCancelListener(dialog -> {
+            if (callback != null) {
+                callback.handleMessage(Message.obtain(null, -1));
             }
         });
         mBottomSheetDialog.show();
@@ -115,27 +90,23 @@ public class DefaultDesignUIController extends DefaultUIController {
     private RecyclerView.Adapter getAdapter(final String[] ways, final Handler.Callback callback) {
         return new RecyclerView.Adapter<BottomSheetHolder>() {
             @Override
-            public BottomSheetHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+            public BottomSheetHolder onCreateViewHolder(@NotNull ViewGroup viewGroup, int i) {
                 return new BottomSheetHolder(mLayoutInflater.inflate(android.R.layout.simple_list_item_1, viewGroup, false));
             }
 
             @Override
-            public void onBindViewHolder(BottomSheetHolder bottomSheetHolder, final int i) {
+            public void onBindViewHolder(@NotNull BottomSheetHolder bottomSheetHolder, final int i) {
                 TypedValue outValue = new TypedValue();
                 mActivity.getTheme().resolveAttribute(android.R.attr.selectableItemBackground, outValue, true);
                 bottomSheetHolder.mTextView.setBackgroundResource(outValue.resourceId);
                 bottomSheetHolder.mTextView.setText(ways[i]);
-                bottomSheetHolder.mTextView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        if (mBottomSheetDialog != null && mBottomSheetDialog.isShowing()) {
-                            mBottomSheetDialog.dismiss();
-                        }
-                        Message mMessage = Message.obtain();
-                        mMessage.what = i;
-                        callback.handleMessage(mMessage);
+                bottomSheetHolder.mTextView.setOnClickListener(v -> {
+                    if (mBottomSheetDialog != null && mBottomSheetDialog.isShowing()) {
+                        mBottomSheetDialog.dismiss();
                     }
+                    Message mMessage = Message.obtain();
+                    mMessage.what = i;
+                    callback.handleMessage(mMessage);
                 });
             }
 
@@ -148,9 +119,10 @@ public class DefaultDesignUIController extends DefaultUIController {
 
     private static class BottomSheetHolder extends RecyclerView.ViewHolder {
         TextView mTextView;
+
         public BottomSheetHolder(View itemView) {
             super(itemView);
-            mTextView = (TextView) itemView.findViewById(android.R.id.text1);
+            mTextView = itemView.findViewById(android.R.id.text1);
         }
     }
 

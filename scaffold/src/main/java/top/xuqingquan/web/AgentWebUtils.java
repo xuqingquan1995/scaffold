@@ -1,23 +1,8 @@
-/*
- * Copyright (C)  Justson(https://github.com/Justson/AgentWeb)
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+
 
 package top.xuqingquan.web;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.ContentUris;
 import android.content.Context;
@@ -38,7 +23,6 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
@@ -58,6 +42,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import top.xuqingquan.R;
+import top.xuqingquan.utils.Timber;
 
 import java.io.Closeable;
 import java.io.File;
@@ -69,13 +54,8 @@ import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-/**
- * @author cenxiaozhong
- * @since 1.0.0
- */
 public class AgentWebUtils {
 
-    private static final String TAG = AgentWebUtils.class.getSimpleName();
     private static Handler mHandler = null;
 
     private AgentWebUtils() {
@@ -84,7 +64,7 @@ public class AgentWebUtils {
 
     public static int dp2px(Context context, float dipValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (dipValue * scale + 0.5f);
+        return (int) (dipValue * scale);
     }
 
     static final void clearWebView(WebView m) {
@@ -100,7 +80,7 @@ public class AgentWebUtils {
             m.getHandler().removeCallbacksAndMessages(null);
         }
         m.removeAllViews();
-        ViewGroup mViewGroup = null;
+        ViewGroup mViewGroup;
         if ((mViewGroup = ((ViewGroup) m.getParent())) != null) {
             mViewGroup.removeView(m);
         }
@@ -123,9 +103,9 @@ public class AgentWebUtils {
                 mFile.mkdirs();
             }
         } catch (Throwable throwable) {
-            LogUtils.i(TAG, "create dir exception");
+            Timber.i("create dir exception");
         }
-        LogUtils.i(TAG, "path:" + mFile.getAbsolutePath() + "  path:" + mFile.getPath());
+        Timber.i("path:" + mFile.getAbsolutePath() + "  path:" + mFile.getPath());
         return AgentWebConfig.AGENTWEB_FILE_PATH = mFile.getAbsolutePath();
     }
 
@@ -188,11 +168,7 @@ public class AgentWebUtils {
     public static long getAvailableStorage() {
         try {
             StatFs stat = new StatFs(Environment.getExternalStorageDirectory().toString());
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-                return stat.getAvailableBlocksLong() * stat.getBlockSizeLong();
-            } else {
-                return (long) stat.getAvailableBlocks() * (long) stat.getBlockSize();
-            }
+            return stat.getAvailableBlocksLong() * stat.getBlockSizeLong();
         } catch (RuntimeException ex) {
             return 0;
         }
@@ -200,7 +176,7 @@ public class AgentWebUtils {
 
 
     static Uri getUriFromFile(Context context, File file) {
-        Uri uri = null;
+        Uri uri;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             uri = getUriFromFileForN(context, file);
         } else {
@@ -210,8 +186,7 @@ public class AgentWebUtils {
     }
 
     static Uri getUriFromFileForN(Context context, File file) {
-        Uri fileUri = FileProvider.getUriForFile(context, context.getPackageName() + ".AgentWebFileProvider", file);
-        return fileUri;
+        return FileProvider.getUriForFile(context, context.getPackageName() + ".AgentWebFileProvider", file);
     }
 
 
@@ -271,31 +246,52 @@ public class AgentWebUtils {
 
 
     private static String getMIMEType(File f) {
-        String type = "";
+        String type;
         String fName = f.getName();
         /* 取得扩展名 */
-        String end = fName.substring(fName.lastIndexOf(".") + 1, fName.length()).toLowerCase();
+        String end = fName.substring(fName.lastIndexOf(".") + 1).toLowerCase();
         /* 依扩展名的类型决定MimeType */
-        if (end.equals("pdf")) {
-            type = "application/pdf";//
-        } else if (end.equals("m4a") || end.equals("mp3") || end.equals("mid") ||
-                end.equals("xmf") || end.equals("ogg") || end.equals("wav")) {
-            type = "audio/*";
-        } else if (end.equals("3gp") || end.equals("mp4")) {
-            type = "video/*";
-        } else if (end.equals("jpg") || end.equals("gif") || end.equals("png") ||
-                end.equals("jpeg") || end.equals("bmp")) {
-            type = "image/*";
-        } else if (end.equals("apk")) {
-            type = "application/vnd.android.package-archive";
-        } else if (end.equals("pptx") || end.equals("ppt")) {
-            type = "application/vnd.ms-powerpoint";
-        } else if (end.equals("docx") || end.equals("doc")) {
-            type = "application/vnd.ms-word";
-        } else if (end.equals("xlsx") || end.equals("xls")) {
-            type = "application/vnd.ms-excel";
-        } else {
-            type = "*/*";
+        switch (end) {
+            case "pdf":
+                type = "application/pdf";//
+                break;
+            case "m4a":
+            case "mp3":
+            case "mid":
+            case "xmf":
+            case "ogg":
+            case "wav":
+                type = "audio/*";
+                break;
+            case "3gp":
+            case "mp4":
+                type = "video/*";
+                break;
+            case "jpg":
+            case "gif":
+            case "png":
+            case "jpeg":
+            case "bmp":
+                type = "image/*";
+                break;
+            case "apk":
+                type = "application/vnd.android.package-archive";
+                break;
+            case "pptx":
+            case "ppt":
+                type = "application/vnd.ms-powerpoint";
+                break;
+            case "docx":
+            case "doc":
+                type = "application/vnd.ms-word";
+                break;
+            case "xlsx":
+            case "xls":
+                type = "application/vnd.ms-excel";
+                break;
+            default:
+                type = "*/*";
+                break;
         }
         return type;
     }
@@ -351,10 +347,10 @@ public class AgentWebUtils {
     }
 
     static boolean isOverriedMethod(Object currentObject, String methodName, String method, Class... clazzs) {
-        LogUtils.i(TAG, "  methodName:" + methodName + "   method:" + method);
+        Timber.i("  methodName:" + methodName + "   method:" + method);
         boolean tag = false;
         if (currentObject == null) {
-            return tag;
+            return false;
         }
         try {
             Class clazz = currentObject.getClass();
@@ -362,12 +358,9 @@ public class AgentWebUtils {
             String gStr = mMethod.toGenericString();
             tag = !gStr.contains(method);
         } catch (Exception igonre) {
-            if (LogUtils.isDebug()) {
-                igonre.printStackTrace();
-            }
+            Timber.e(igonre);
         }
-
-        LogUtils.i(TAG, "isOverriedMethod:" + tag);
+        Timber.i("isOverriedMethod:" + tag);
         return tag;
     }
 
@@ -382,9 +375,7 @@ public class AgentWebUtils {
             mMethod.setAccessible(true);
             return mMethod;
         } catch (Throwable ignore) {
-            if (LogUtils.isDebug()) {
-                ignore.printStackTrace();
-            }
+            Timber.e(ignore);
         }
         return null;
 
@@ -394,9 +385,7 @@ public class AgentWebUtils {
         try {
             clearCacheFolder(new File(getAgentWebFilePath(context)), 0);
         } catch (Throwable throwable) {
-            if (LogUtils.isDebug()) {
-                throwable.printStackTrace();
-            }
+            Timber.e(throwable);
         }
     }
 
@@ -413,11 +402,8 @@ public class AgentWebUtils {
             webView.clearFormData();
             clearCacheFolder(new File(AgentWebConfig.getCachePath(context)), 0);
 
-        } catch (Exception ignore) {
-            //ignore.printStackTrace();
-            if (AgentWebConfig.DEBUG) {
-                ignore.printStackTrace();
-            }
+        } catch (Exception e) {
+            Timber.e(e);
         }
     }
 
@@ -427,35 +413,33 @@ public class AgentWebUtils {
 
             clearWebViewAllCache(context, new WebView(context.getApplicationContext()));
         } catch (Exception e) {
-            e.printStackTrace();
+            Timber.e(e);
         }
     }
 
     static int clearCacheFolder(final File dir, final int numDays) {
         int deletedFiles = 0;
         if (dir != null) {
-            Log.i("Info", "dir:" + dir.getAbsolutePath());
+            Timber.i( "dir:" + dir.getAbsolutePath());
         }
         if (dir != null && dir.isDirectory()) {
             try {
                 for (File child : dir.listFiles()) {
-
                     //first delete subdirectories recursively
                     if (child.isDirectory()) {
                         deletedFiles += clearCacheFolder(child, numDays);
                     }
-
                     //then delete the files and subdirectories in this dir
                     //only empty directories can be deleted, so subdirs have been done first
                     if (child.lastModified() < new Date().getTime() - numDays * DateUtils.DAY_IN_MILLIS) {
-                        Log.i(TAG, "file name:" + child.getName());
+                        Timber.i("file name:" + child.getName());
                         if (child.delete()) {
                             deletedFiles++;
                         }
                     }
                 }
             } catch (Exception e) {
-                Log.e("Info", String.format("Failed to clean the cache, result %s", e.getMessage()));
+                Timber.e(e, "Failed to clean the cache, result %s", e.getMessage());
             }
         }
         return deletedFiles;
@@ -463,9 +447,9 @@ public class AgentWebUtils {
 
 
     static void clearCache(final Context context, final int numDays) {
-        Log.i("Info", String.format("Starting cache prune, deleting files older than %d days", numDays));
+        Timber.i("Starting cache prune, deleting files older than %d days", numDays);
         int numDeletedFiles = clearCacheFolder(context.getCacheDir(), numDays);
-        Log.i("Info", String.format("Cache pruning completed, %d files deleted", numDeletedFiles));
+        Timber.i("Cache pruning completed, %d files deleted", numDeletedFiles);
     }
 
     public static String[] uriToPath(Activity activity, Uri[] uris) {
@@ -481,9 +465,7 @@ public class AgentWebUtils {
             }
             return paths;
         } catch (Throwable throwable) {
-            if (LogUtils.isDebug()) {
-                throwable.printStackTrace();
-            }
+            Timber.e(throwable);
         }
         return null;
 
@@ -491,7 +473,7 @@ public class AgentWebUtils {
 
     private static String getRealPathBelowVersion(Context context, Uri uri) {
         String filePath = null;
-        LogUtils.i(TAG, "method -> getRealPathBelowVersion " + uri + "   path:" + uri.getPath() + "    getAuthority:" + uri.getAuthority());
+        Timber.i("method -> getRealPathBelowVersion " + uri + "   path:" + uri.getPath() + "    getAuthority:" + uri.getAuthority());
         String[] projection = {MediaStore.Images.Media.DATA};
         CursorLoader loader = new CursorLoader(context, uri, projection, null,
                 null, null);
@@ -531,12 +513,11 @@ public class AgentWebUtils {
         }
     }
 
-    @TargetApi(19)
     static String getFileAbsolutePath(Activity context, Uri fileUri) {
         if (context == null || fileUri == null) {
             return null;
         }
-        LogUtils.i(TAG, "getAuthority:" + fileUri.getAuthority() + "  getHost:" + fileUri.getHost() + "   getPath:" + fileUri.getPath() + "  getScheme:" + fileUri.getScheme() + "  query:" + fileUri.getQuery());
+        Timber.i("getAuthority:" + fileUri.getAuthority() + "  getHost:" + fileUri.getHost() + "   getPath:" + fileUri.getPath() + "  getScheme:" + fileUri.getScheme() + "  query:" + fileUri.getQuery());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && DocumentsContract.isDocumentUri(context, fileUri)) {
             if (isExternalStorageDocument(fileUri)) {
                 String docId = DocumentsContract.getDocumentId(fileUri);
@@ -565,7 +546,6 @@ public class AgentWebUtils {
                 String selection = MediaStore.Images.Media._ID + "=?";
                 String[] selectionArgs = new String[]{split[1]};
                 return getDataColumn(context, contentUri, selection, selectionArgs);
-            } else {
             }
         } // MediaStore (and general)
         else if (fileUri.getAuthority().equalsIgnoreCase(context.getPackageName() + ".AgentWebFileProvider")) {
@@ -670,7 +650,6 @@ public class AgentWebUtils {
             tag = true;
         } catch (JSONException ignore) {
 //            ignore.printStackTrace();
-            tag = false;
         }
         return tag;
     }
@@ -757,31 +736,28 @@ public class AgentWebUtils {
     //获取应用的名称
     public static String getApplicationName(Context context) {
         PackageManager packageManager = null;
-        ApplicationInfo applicationInfo = null;
+        ApplicationInfo applicationInfo;
         try {
             packageManager = context.getApplicationContext().getPackageManager();
             applicationInfo = packageManager.getApplicationInfo(context.getPackageName(), 0);
         } catch (PackageManager.NameNotFoundException e) {
             applicationInfo = null;
         }
-        String applicationName =
-                (String) packageManager.getApplicationLabel(applicationInfo);
-        return applicationName;
+        return packageManager.getApplicationLabel(applicationInfo).toString();
     }
 
     static WebParentLayout getWebParentLayoutByWebView(WebView webView) {
-        ViewGroup mViewGroup = null;
+        ViewGroup mViewGroup;
         if (!(webView.getParent() instanceof ViewGroup)) {
             throw new IllegalStateException("please check webcreator's create method was be called ?");
         }
         mViewGroup = (ViewGroup) webView.getParent();
-        AbsAgentWebUIController mAgentWebUIController;
         while (mViewGroup != null) {
 
-            LogUtils.i(TAG, "ViewGroup:" + mViewGroup);
+            Timber.i("ViewGroup:" + mViewGroup);
             if (mViewGroup.getId() == R.id.web_parent_layout_id) {
                 WebParentLayout mWebParentLayout = (WebParentLayout) mViewGroup;
-                LogUtils.i(TAG, "found WebParentLayout");
+                Timber.i("found WebParentLayout");
                 return mWebParentLayout;
             } else {
                 ViewParent mViewParent = mViewGroup.getParent();
@@ -829,14 +805,12 @@ public class AgentWebUtils {
                 builder.setJsChannelCallback(jsChannelCallback);
             }
             builder.setPermissionInterceptor(permissionInterceptor);
-            FileChooser fileChooser=builder.build();
+            FileChooser fileChooser = builder.build();
             fileChooser.openFileChooser();
         } catch (Throwable throwable) {
-            if (LogUtils.isDebug()) {
-                throwable.printStackTrace();
-            }
+            Timber.e(throwable);
             if (valueCallbacks != null) {
-                LogUtils.i(TAG, "onReceiveValue empty");
+                Timber.i("onReceiveValue empty");
                 return false;
             }
             if (valueCallback != null) {
@@ -852,9 +826,7 @@ public class AgentWebUtils {
             md.update(str.getBytes());
             return new BigInteger(1, md.digest()).toString(16);
         } catch (Exception e) {
-            if (LogUtils.isDebug()) {
-                e.printStackTrace();
-            }
+            Timber.e(e);
         }
         return "";
     }

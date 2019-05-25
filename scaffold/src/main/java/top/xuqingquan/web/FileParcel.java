@@ -2,11 +2,8 @@ package top.xuqingquan.web;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import org.jetbrains.annotations.NotNull;
 
-/**
- * @author cenxiaozhong
- * @date 2017/5/24
- */
 public class FileParcel implements Parcelable {
 
     private int mId;
@@ -74,6 +71,7 @@ public class FileParcel implements Parcelable {
         dest.writeString(mFileBase64);
     }
 
+    @NotNull
     @Override
     public String toString() {
         return "FileParcel{" +

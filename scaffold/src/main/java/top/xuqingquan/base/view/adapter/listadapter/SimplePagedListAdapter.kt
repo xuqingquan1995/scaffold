@@ -74,6 +74,7 @@ abstract class SimplePagedListAdapter<T>(diff: DiffUtil.ItemCallback<T>) :
     }
 
     companion object {
+        @JvmStatic
         fun releaseAllViewHolder(recyclerView: RecyclerView) {
             for (i in recyclerView.childCount - 1 downTo 0) {
                 val view = recyclerView.getChildAt(i)

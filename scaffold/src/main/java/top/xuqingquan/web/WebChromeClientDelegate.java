@@ -1,40 +1,18 @@
-/*
- * Copyright (C)  Justson(https://github.com/Justson/AgentWeb)
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package top.xuqingquan.web;
 
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Message;
 import android.view.View;
-import androidx.annotation.RequiresApi;
 import com.tencent.smtt.export.external.interfaces.*;
 import com.tencent.smtt.sdk.ValueCallback;
 import com.tencent.smtt.sdk.WebChromeClient;
 import com.tencent.smtt.sdk.WebStorage;
 import com.tencent.smtt.sdk.WebView;
+import top.xuqingquan.utils.Timber;
 
 import java.lang.reflect.Method;
 
-/**
- * @update WebChromeClientWrapper rename to WebChromeClientDelegate
- * @author cenxiaozhong
- * @since 1.0.0
- */
 public class WebChromeClientDelegate extends WebChromeClient {
     private WebChromeClient mDelegate;
 
@@ -55,7 +33,6 @@ public class WebChromeClientDelegate extends WebChromeClient {
         super.onProgressChanged(view, newProgress);
         if (this.mDelegate != null) {
             this.mDelegate.onProgressChanged(view, newProgress);
-            return;
         }
     }
 
@@ -278,7 +255,6 @@ public class WebChromeClientDelegate extends WebChromeClient {
     }
 
     @Override
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback,
                                      FileChooserParams fileChooserParams) {
         if (this.mDelegate != null) {
@@ -290,6 +266,7 @@ public class WebChromeClientDelegate extends WebChromeClient {
 
     /**
      * Android  >= 4.1
+     *
      * @param uploadFile
      * @param acceptType
      * @param capture
@@ -300,6 +277,7 @@ public class WebChromeClientDelegate extends WebChromeClient {
 
     /**
      * Android < 3.0
+     *
      * @param valueCallback
      */
     public void openFileChooser(ValueCallback<Uri> valueCallback) {
@@ -308,6 +286,7 @@ public class WebChromeClientDelegate extends WebChromeClient {
 
     /**
      * Android  >= 3.0
+     *
      * @param valueCallback
      * @param acceptType
      */
@@ -324,10 +303,8 @@ public class WebChromeClientDelegate extends WebChromeClient {
             Class<?> clazz = o.getClass();
             Method mMethod = clazz.getMethod(mothed, clazzs);
             mMethod.invoke(o, os);
-        } catch (Exception ignore) {
-            if (LogUtils.isDebug()) {
-                ignore.printStackTrace();
-            }
+        } catch (Exception e) {
+            Timber.e(e);
         }
     }
 }

@@ -18,19 +18,19 @@ abstract class BaseItemKeyedDataSource<Key, Value> : ItemKeyedDataSource<Key, Va
     /**
      * 用于更新全过程的网络状态
      */
-    protected val networkState = MutableLiveData<NetworkStatus>()
+    val networkState = MutableLiveData<NetworkStatus>()
     /**
      * 用于更新刚开始的网络状态
      */
-    protected val initialLoad = MutableLiveData<NetworkStatus>()
+    val initialLoad = MutableLiveData<NetworkStatus>()
     /**
      * 如果为空的话就用这个发射空数据提示
      */
-    protected val empty = MutableLiveData<String>()
+    val empty = MutableLiveData<String>()
     /**
      * 重试的方法
      */
-    private var retry: (() -> Any)? = null
+    var retry: (() -> Any)? = null
 
     /**
      * error监听

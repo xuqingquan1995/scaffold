@@ -1,22 +1,5 @@
-/*
- * Copyright (C)  Justson(https://github.com/Justson/AgentWeb)
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package top.xuqingquan.web;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -25,39 +8,30 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Handler;
-import android.os.Message;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
-import androidx.annotation.RequiresApi;
-import com.alipay.sdk.app.H5PayCallback;
 import com.alipay.sdk.app.PayTask;
-import com.alipay.sdk.util.H5PayResultModel;
 import com.tencent.smtt.export.external.interfaces.HttpAuthHandler;
 import com.tencent.smtt.export.external.interfaces.WebResourceError;
 import com.tencent.smtt.export.external.interfaces.WebResourceRequest;
 import com.tencent.smtt.export.external.interfaces.WebResourceResponse;
 import com.tencent.smtt.sdk.WebView;
+import top.xuqingquan.utils.Timber;
 
 import java.lang.ref.WeakReference;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.net.URISyntaxException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/**
- * @author cenxiaozhong
- * @since 3.0.0
- */
 public class DefaultWebClient extends MiddlewareWebClientBase {
     /**
      * Activity's WeakReference
      */
-    private WeakReference<Activity> mWeakReference = null;
+    private WeakReference<Activity> mWeakReference;
     /**
      * 缩放
      */
@@ -69,7 +43,7 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
     /**
      * mWebClientHelper
      */
-    private boolean webClientHelper = true;
+    private boolean webClientHelper;
     /**
      * intent ' s scheme
      */
@@ -95,10 +69,6 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
      */
     private static final boolean HAS_ALIPAY_LIB;
     /**
-     * WebViewClient's tag 用于打印
-     */
-    private static final String TAG = DefaultWebClient.class.getSimpleName();
-    /**
      * 直接打开其他页面
      */
     public static final int DERECT_OPEN_OTHER_PAGE = 1001;
@@ -113,15 +83,15 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
     /**
      * 默认为咨询用户
      */
-    private int mUrlHandleWays = ASK_USER_OPEN_OTHER_PAGE;
+    private int mUrlHandleWays;
     /**
      * 是否拦截找不到相应页面的Url，默认拦截
      */
-    private boolean mIsInterceptUnkownUrl = true;
+    private boolean mIsInterceptUnkownUrl;
     /**
      * AbsAgentWebUIController
      */
-    private WeakReference<AbsAgentWebUIController> mAgentWebUIController = null;
+    private WeakReference<AbsAgentWebUIController> mAgentWebUIController;
     /**
      * WebView
      */
@@ -159,7 +129,7 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
             tag = false;
         }
         HAS_ALIPAY_LIB = tag;
-        LogUtils.i(TAG, "HAS_ALIPAY_LIB:" + HAS_ALIPAY_LIB);
+        Timber.i("HAS_ALIPAY_LIB:" + HAS_ALIPAY_LIB);
     }
 
 
@@ -167,9 +137,9 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
         super(builder.mClient);
         this.mWebView = builder.mWebView;
         this.mWebViewClient = builder.mClient;
-        mWeakReference = new WeakReference<Activity>(builder.mActivity);
+        mWeakReference = new WeakReference<>(builder.mActivity);
         this.webClientHelper = builder.mWebClientHelper;
-        mAgentWebUIController = new WeakReference<AbsAgentWebUIController>(AgentWebUtils.getAgentWebUIControllerByWebView(builder.mWebView));
+        mAgentWebUIController = new WeakReference<>(AgentWebUtils.getAgentWebUIControllerByWebView(builder.mWebView));
         mIsInterceptUnkownUrl = builder.mIsInterceptUnkownScheme;
         if (builder.mUrlHandleWays <= 0) {
             mUrlHandleWays = ASK_USER_OPEN_OTHER_PAGE;
@@ -178,7 +148,6 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
         String url = request.getUrl().toString();
@@ -194,25 +163,25 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
         // intent
         if (url.startsWith(INTENT_SCHEME)) {
             handleIntentUrl(url);
-            LogUtils.i(TAG, "intent url ");
+            Timber.i("intent url ");
             return true;
         }
         // 微信支付
         if (url.startsWith(WEBCHAT_PAY_SCHEME)) {
-            LogUtils.i(TAG, "lookup wechat to pay ~~");
+            Timber.i("lookup wechat to pay ~~");
             startActivity(url);
             return true;
         }
         if (url.startsWith(ALIPAYS_SCHEME) && lookup(url)) {
-            LogUtils.i(TAG, "alipays url lookup alipay ~~ ");
+            Timber.i("alipays url lookup alipay ~~ ");
             return true;
         }
         if (queryActiviesNumber(url) > 0 && deepLink(url)) {
-            LogUtils.i(TAG, "intercept url:" + url);
+            Timber.i("intercept url:" + url);
             return true;
         }
         if (mIsInterceptUnkownUrl) {
-            LogUtils.i(TAG, "intercept UnkownUrl :" + request.getUrl());
+            Timber.i("intercept UnkownUrl :" + request.getUrl());
             return true;
         }
         return super.shouldOverrideUrlLoading(view, request);
@@ -245,7 +214,7 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
                     return false;
                 }
                 ActivityInfo activityInfo = resolveInfo.activityInfo;
-                LogUtils.e(TAG, "resolve package:" + resolveInfo.activityInfo.packageName + " app package:" + mActivity.getPackageName());
+                Timber.e("resolve package:" + resolveInfo.activityInfo.packageName + " app package:" + mActivity.getPackageName());
                 if (activityInfo != null
                         && !TextUtils.isEmpty(activityInfo.packageName)
                         && activityInfo.packageName.equals(mActivity.getPackageName())) {
@@ -297,12 +266,12 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
         }
         //打开url 相对应的页面
         if (queryActiviesNumber(url) > 0 && deepLink(url)) {
-            LogUtils.i(TAG, "intercept OtherAppScheme");
+            Timber.i("intercept OtherAppScheme");
             return true;
         }
         // 手机里面没有页面能匹配到该链接 ，拦截下来。
         if (mIsInterceptUnkownUrl) {
-            LogUtils.i(TAG, "intercept InterceptUnkownScheme : " + url);
+            Timber.i("intercept InterceptUnkownScheme : " + url);
             return true;
         }
         return super.shouldOverrideUrlLoading(view, url);
@@ -318,17 +287,14 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
             PackageManager mPackageManager = mWeakReference.get().getPackageManager();
             List<ResolveInfo> mResolveInfos = mPackageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
             return mResolveInfos == null ? 0 : mResolveInfos.size();
-        } catch (URISyntaxException ignore) {
-            if (LogUtils.isDebug()) {
-                ignore.printStackTrace();
-            }
+        } catch (URISyntaxException e) {
+            Timber.e(e);
             return 0;
         }
     }
 
     private void handleIntentUrl(String intentUrl) {
         try {
-            Intent intent = null;
             if (TextUtils.isEmpty(intentUrl) || !intentUrl.startsWith(INTENT_SCHEME)) {
                 return;
             }
@@ -336,9 +302,7 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
                 return;
             }
         } catch (Throwable e) {
-            if (LogUtils.isDebug()) {
-                e.printStackTrace();
-            }
+            Timber.e(e);
         }
     }
 
@@ -346,18 +310,15 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
     private ResolveInfo lookupResolveInfo(String url) {
         try {
             Intent intent;
-            Activity mActivity = null;
+            Activity mActivity;
             if ((mActivity = mWeakReference.get()) == null) {
                 return null;
             }
             PackageManager packageManager = mActivity.getPackageManager();
             intent = Intent.parseUri(url, Intent.URI_INTENT_SCHEME);
-            ResolveInfo info = packageManager.resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY);
-            return info;
-        } catch (Throwable ignore) {
-            if (LogUtils.isDebug()) {
-                ignore.printStackTrace();
-            }
+            return packageManager.resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY);
+        } catch (Throwable t) {
+            Timber.e(t);
         }
         return null;
     }
@@ -365,7 +326,7 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
     private boolean lookup(String url) {
         try {
             Intent intent;
-            Activity mActivity = null;
+            Activity mActivity;
             if ((mActivity = mWeakReference.get()) == null) {
                 return true;
             }
@@ -377,17 +338,15 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
                 mActivity.startActivity(intent);
                 return true;
             }
-        } catch (Throwable ignore) {
-            if (LogUtils.isDebug()) {
-                ignore.printStackTrace();
-            }
+        } catch (Throwable t) {
+            Timber.e(t);
         }
         return false;
     }
 
     private boolean isAlipay(final WebView view, String url) {
         try {
-            Activity mActivity = null;
+            Activity mActivity;
             if ((mActivity = mWeakReference.get()) == null) {
                 return false;
             }
@@ -405,12 +364,12 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
                 }
             });
             if (isIntercepted) {
-                LogUtils.i(TAG, "alipay-isIntercepted:true  url:" + url);
+                Timber.i("alipay-isIntercepted:true  url:" + url);
             }
             return isIntercepted;
-        } catch (Throwable ignore) {
+        } catch (Throwable t) {
             if (AgentWebConfig.DEBUG) {
-                ignore.printStackTrace();
+                t.printStackTrace();
             }
         }
         return false;
@@ -423,16 +382,16 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
                 || url.startsWith(WebView.SCHEME_MAILTO)
                 || url.startsWith(WebView.SCHEME_GEO)) {
             try {
-                Activity mActivity = null;
+                Activity mActivity;
                 if ((mActivity = mWeakReference.get()) == null) {
                     return false;
                 }
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setData(Uri.parse(url));
                 mActivity.startActivity(intent);
-            } catch (ActivityNotFoundException ignored) {
+            } catch (ActivityNotFoundException e) {
                 if (AgentWebConfig.DEBUG) {
-                    ignored.printStackTrace();
+                    e.printStackTrace();
                 }
             }
             return true;
@@ -460,13 +419,10 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
      */
     @Override
     public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-        LogUtils.i(TAG, "onReceivedError：" + description + "  CODE:" + errorCode);
+        Timber.i("onReceivedError：" + description + "  CODE:" + errorCode);
         onMainFrameError(view, errorCode, description, failingUrl);
     }
 
-
-    @TargetApi(Build.VERSION_CODES.M)
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
         if (request.isForMainFrame()) {
@@ -474,7 +430,7 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
                     error.getErrorCode(), error.getDescription().toString(),
                     request.getUrl().toString());
         }
-        LogUtils.i(TAG, "onReceivedError:" + error.getDescription() + " code:" + error.getErrorCode());
+        Timber.i("onReceivedError:" + error.getDescription() + " code:" + error.getErrorCode());
     }
 
     private void onMainFrameError(WebView view, int errorCode, String description, String failingUrl) {
@@ -485,10 +441,8 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
             if (mMethod != null || (this.onMainFrameErrorMethod = mMethod = AgentWebUtils.isExistMethod(mWebViewClient, "onMainFrameError", AbsAgentWebUIController.class, WebView.class, int.class, String.class, String.class)) != null) {
                 try {
                     mMethod.invoke(this.mWebViewClient, mAgentWebUIController.get(), view, errorCode, description, failingUrl);
-                } catch (Throwable ignore) {
-                    if (LogUtils.isDebug()) {
-                        ignore.printStackTrace();
-                    }
+                } catch (Throwable t) {
+                    Timber.e(t);
                 }
                 return;
             }
@@ -518,12 +472,10 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
         super.onPageFinished(view, url);
     }
 
-
     @Override
     public boolean shouldOverrideKeyEvent(WebView view, KeyEvent event) {
         return super.shouldOverrideKeyEvent(view, event);
     }
-
 
     private void startActivity(String url) {
         try {
@@ -536,9 +488,7 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
             mWeakReference.get().startActivity(intent);
 
         } catch (Exception e) {
-            if (LogUtils.isDebug()) {
-                e.printStackTrace();
-            }
+            Timber.e(e);
         }
     }
 
@@ -549,7 +499,7 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
 
     @Override
     public void onScaleChanged(WebView view, float oldScale, float newScale) {
-        LogUtils.i(TAG, "onScaleChanged:" + oldScale + "   n:" + newScale);
+        Timber.i("onScaleChanged:" + oldScale + "   n:" + newScale);
         if (newScale - oldScale > CONSTANTS_ABNORMAL_BIG) {
             view.setInitialScale((int) (oldScale / newScale * 100));
         }
@@ -559,18 +509,11 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
         if (this.mCallback != null) {
             return this.mCallback;
         }
-        return this.mCallback = new Handler.Callback() {
-            @Override
-            public boolean handleMessage(Message msg) {
-                switch (msg.what) {
-                    case 1:
-                        lookup(url);
-                        break;
-                    default:
-                        return true;
-                }
-                return true;
+        return this.mCallback = msg -> {
+            if (msg.what == 1) {
+                lookup(url);
             }
+            return true;
         };
     }
 

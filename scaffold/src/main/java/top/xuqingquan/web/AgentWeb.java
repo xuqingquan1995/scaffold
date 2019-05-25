@@ -1,19 +1,3 @@
-/*
- * Copyright (C)  Justson(https://github.com/Justson/AgentWeb)
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package top.xuqingquan.web;
 
 import android.app.Activity;
@@ -27,20 +11,12 @@ import androidx.fragment.app.Fragment;
 import com.tencent.smtt.sdk.WebChromeClient;
 import com.tencent.smtt.sdk.WebView;
 import com.tencent.smtt.sdk.WebViewClient;
+import top.xuqingquan.utils.Timber;
 
 import java.lang.ref.WeakReference;
 import java.util.Map;
 
-/**
- * @author cenxiaozhong
- * @update 4.0.0
- * @since 1.0.0
- */
 public final class AgentWeb {
-    /**
-     * AgentWeb 's TAG
-     */
-    private static final String TAG = AgentWeb.class.getSimpleName();
     /**
      * Activity
      */
@@ -60,7 +36,7 @@ public final class AgentWeb {
     /**
      * AgentWeb
      */
-    private AgentWeb mAgentWeb = null;
+    private AgentWeb mAgentWeb;
     /**
      * IndicatorController 控制Indicator
      */
@@ -86,10 +62,6 @@ public final class AgentWeb {
      */
     private ArrayMap<String, Object> mJavaObjects = new ArrayMap<>();
     /**
-     * flag
-     */
-    private int TAG_TARGET = 0;
-    /**
      * WebListenerManager
      */
     private WebListenerManager mWebListenerManager;
@@ -108,7 +80,7 @@ public final class AgentWeb {
     /**
      * flag security 's mode
      */
-    private SecurityType mSecurityType = SecurityType.DEFAULT_CHECK;
+    private SecurityType mSecurityType;
     /**
      * Activity
      */
@@ -128,7 +100,7 @@ public final class AgentWeb {
     /**
      * URL Loader ， 提供了 WebView#loadUrl(url) reload() stopLoading（） postUrl()等方法
      */
-    private IUrlLoader mIUrlLoader = null;
+    private IUrlLoader mIUrlLoader;
     /**
      * WebView 生命周期 ， 跟随生命周期释放CPU
      */
@@ -140,7 +112,7 @@ public final class AgentWeb {
     /**
      * WebViewClient 辅助控制开关
      */
-    private boolean mWebClientHelper = true;
+    private boolean mWebClientHelper;
     /**
      * PermissionInterceptor 权限拦截
      */
@@ -148,7 +120,7 @@ public final class AgentWeb {
     /**
      * 是否拦截未知的Url， @link{DefaultWebClient}
      */
-    private boolean mIsInterceptUnkownUrl = false;
+    private boolean mIsInterceptUnkownUrl;
     private int mUrlHandleWays = -1;
     /**
      * MiddlewareWebClientBase WebViewClient 中间件
@@ -169,7 +141,6 @@ public final class AgentWeb {
 
 
     private AgentWeb(AgentBuilder agentBuilder) {
-        TAG_TARGET = agentBuilder.mTag;
         this.mActivity = agentBuilder.mActivity;
         this.mViewGroup = agentBuilder.mViewGroup;
         this.mIEventHandler = agentBuilder.mIEventHandler;
@@ -183,7 +154,7 @@ public final class AgentWeb {
 
         if (agentBuilder.mJavaObject != null && !agentBuilder.mJavaObject.isEmpty()) {
             this.mJavaObjects.putAll((Map<? extends String, ?>) agentBuilder.mJavaObject);
-            LogUtils.i(TAG, "mJavaObject size:" + this.mJavaObjects.size());
+            Timber.i("mJavaObject size:" + this.mJavaObjects.size());
 
         }
         this.mPermissionInterceptor = agentBuilder.mPermissionInterceptor == null ? null : new PermissionInterceptorWrapper(agentBuilder.mPermissionInterceptor);
@@ -238,7 +209,7 @@ public final class AgentWeb {
     }
 
 
-    public static AgentBuilder with(@NonNull Activity activity) {
+    public static AgentBuilder with(Activity activity) {
         if (activity == null) {
             throw new NullPointerException("activity can not be null .");
         }
@@ -246,7 +217,7 @@ public final class AgentWeb {
     }
 
     public static AgentBuilder with(@NonNull Fragment fragment) {
-        Activity mActivity = null;
+        Activity mActivity;
         if ((mActivity = fragment.getActivity()) == null) {
             throw new NullPointerException("activity can not be null .");
         }
@@ -350,7 +321,7 @@ public final class AgentWeb {
 
     private AgentWeb go(String url) {
         this.getUrlLoader().loadUrl(url);
-        IndicatorController mIndicatorController = null;
+        IndicatorController mIndicatorController;
         if (!TextUtils.isEmpty(url) && (mIndicatorController = getIndicatorController()) != null && mIndicatorController.offerIndicator() != null) {
             getIndicatorController().offerIndicator().show();
         }
@@ -378,7 +349,7 @@ public final class AgentWeb {
 
     private WebViewClient getWebViewClient() {
 
-        LogUtils.i(TAG, "getDelegate:" + this.mMiddleWrareWebClientBaseHeader);
+        Timber.i("getDelegate:" + this.mMiddleWrareWebClientBaseHeader);
         DefaultWebClient mDefaultWebClient = DefaultWebClient
                 .createBuilder()
                 .setActivity(this.mActivity)
@@ -401,7 +372,7 @@ public final class AgentWeb {
                 tail = tmp = tmp.next();
                 count++;
             }
-            LogUtils.i(TAG, "MiddlewareWebClientBase middleware count:" + count);
+            Timber.i("MiddlewareWebClientBase middleware count:" + count);
             tail.setDelegate(mDefaultWebClient);
             return header;
         } else {
@@ -425,7 +396,7 @@ public final class AgentWeb {
         if (mJsInterfaceHolder == null) {
             mJsInterfaceHolder = JsInterfaceHolderImpl.getJsInterfaceHolder(mWebCreator.getWebView(), this.mSecurityType);
         }
-        LogUtils.i(TAG, "mJavaObjects:" + mJavaObjects.size());
+        Timber.i("mJavaObjects:" + mJavaObjects.size());
         if (mJavaObjects != null && !mJavaObjects.isEmpty()) {
             mJsInterfaceHolder.addJavaObjects(mJavaObjects);
         }
@@ -449,7 +420,7 @@ public final class AgentWeb {
                         null, this.mIVideo = getIVideo(),
                         this.mPermissionInterceptor, mWebCreator.getWebView());
 
-        LogUtils.i(TAG, "WebChromeClient:" + this.mWebChromeClient);
+        Timber.i("WebChromeClient:" + this.mWebChromeClient);
         MiddlewareWebChromeBase header = this.mMiddlewareWebChromeBaseHeader;
         if (this.mWebChromeClient != null) {
             this.mWebChromeClient.enq(header);
@@ -463,7 +434,7 @@ public final class AgentWeb {
                 tail = tmp = tmp.next();
                 count++;
             }
-            LogUtils.i(TAG, "MiddlewareWebClientBase middleware count:" + count);
+            Timber.i("MiddlewareWebClientBase middleware count:" + count);
             tail.setDelegate(mDefaultChromeClient);
             return this.mTargetChromeClient = header;
         } else {
@@ -472,12 +443,11 @@ public final class AgentWeb {
     }
 
     public enum SecurityType {
-        DEFAULT_CHECK, STRICT_CHECK;
+        DEFAULT_CHECK, STRICT_CHECK
     }
 
     public static final class AgentBuilder {
         private Activity mActivity;
-        private Fragment mFragment;
         private ViewGroup mViewGroup;
         private boolean mIsNeedDefaultProgress;
         private int mIndex = -1;
@@ -510,11 +480,10 @@ public final class AgentWeb {
         private View mErrorView;
         private int mErrorLayout;
         private int mReloadId;
-        private int mTag = -1;
+        private int mTag;
 
         public AgentBuilder(@NonNull Activity activity, @NonNull Fragment fragment) {
             mActivity = activity;
-            mFragment = fragment;
             mTag = AgentWeb.FRAGMENT_TAG;
         }
 
@@ -567,7 +536,7 @@ public final class AgentWeb {
     }
 
     public static class IndicatorBuilder {
-        private AgentBuilder mAgentBuilder = null;
+        private AgentBuilder mAgentBuilder;
 
         public IndicatorBuilder(AgentBuilder agentBuilder) {
             this.mAgentBuilder = agentBuilder;
@@ -591,7 +560,7 @@ public final class AgentWeb {
             return new CommonBuilder(mAgentBuilder);
         }
 
-        public CommonBuilder setCustomIndicator(@NonNull BaseIndicatorView v) {
+        public CommonBuilder setCustomIndicator(BaseIndicatorView v) {
             if (v != null) {
                 this.mAgentBuilder.mEnableIndicator = true;
                 this.mAgentBuilder.mBaseIndicatorView = v;
@@ -637,7 +606,7 @@ public final class AgentWeb {
             return this;
         }
 
-        public CommonBuilder useMiddlewareWebClient(@NonNull MiddlewareWebClientBase middleWrareWebClientBase) {
+        public CommonBuilder useMiddlewareWebClient(MiddlewareWebClientBase middleWrareWebClientBase) {
             if (middleWrareWebClientBase == null) {
                 return this;
             }
@@ -650,7 +619,7 @@ public final class AgentWeb {
             return this;
         }
 
-        public CommonBuilder useMiddlewareWebChrome(@NonNull MiddlewareWebChromeBase middlewareWebChromeBase) {
+        public CommonBuilder useMiddlewareWebChrome(MiddlewareWebChromeBase middlewareWebChromeBase) {
             if (middlewareWebChromeBase == null) {
                 return this;
             }

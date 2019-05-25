@@ -13,6 +13,7 @@ import top.xuqingquan.databinding.NetworkStateBinding;
 
 /**
  * Created by 许清泉 on 2019-04-27 16:23
+ * 带有网络状态刷新
  */
 public abstract class BaseListAdapter<T> extends SimpleListAdapter<T> {
 

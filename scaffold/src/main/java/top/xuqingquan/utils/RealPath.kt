@@ -1,13 +1,11 @@
 package top.xuqingquan.utils
 
-import android.provider.MediaStore
-import android.provider.DocumentsContract
 import android.content.ContentUris
 import android.content.Context
 import android.net.Uri
-import android.os.Build
 import android.os.Environment
-import androidx.annotation.RequiresApi
+import android.provider.DocumentsContract
+import android.provider.MediaStore
 
 
 /**
@@ -15,9 +13,7 @@ import androidx.annotation.RequiresApi
  */
 object RealPath {
 
-    @RequiresApi(Build.VERSION_CODES.KITKAT)
     fun getPath(context: Context, uri: Uri): String? {
-
         if (DocumentsContract.isDocumentUri(context, uri)) {
             if (isExternalStorageDocument(uri)) {
                 val docId = DocumentsContract.getDocumentId(uri)

@@ -1,19 +1,3 @@
-/*
- * Copyright (C)  Justson(https://github.com/Justson/AgentWeb)
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package top.xuqingquan.web;
 
 import android.app.Activity;
@@ -27,18 +11,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.tencent.smtt.sdk.WebView;
 import top.xuqingquan.R;
+import top.xuqingquan.utils.Timber;
 
-/**
- * @author cenxiaozhong
- * @since 1.0.0
- */
 public class DefaultWebCreator implements WebCreator {
     private Activity mActivity;
     private ViewGroup mViewGroup;
     private boolean mIsNeedDefaultProgress;
     private int mIndex;
     private BaseIndicatorView mProgressView;
-    private ViewGroup.LayoutParams mLayoutParams = null;
+    private ViewGroup.LayoutParams mLayoutParams;
     private int mColor = -1;
     /**
      * 单位dp
@@ -47,22 +28,22 @@ public class DefaultWebCreator implements WebCreator {
     private boolean mIsCreated = false;
     private IWebLayout mIWebLayout;
     private BaseIndicatorSpec mBaseIndicatorSpec;
-    private WebView mWebView = null;
+    private WebView mWebView;
     private FrameLayout mFrameLayout = null;
     private View mTargetProgress;
-    private static final String TAG = DefaultWebCreator.class.getSimpleName();
 
-	/**
-	 * 使用默认的进度条
-	 * @param activity
-	 * @param viewGroup
-	 * @param lp
-	 * @param index
-	 * @param color
-	 * @param mHeight
-	 * @param webView
-	 * @param webLayout
-	 */
+    /**
+     * 使用默认的进度条
+     *
+     * @param activity
+     * @param viewGroup
+     * @param lp
+     * @param index
+     * @param color
+     * @param mHeight
+     * @param webView
+     * @param webLayout
+     */
     protected DefaultWebCreator(@NonNull Activity activity,
                                 @Nullable ViewGroup viewGroup,
                                 ViewGroup.LayoutParams lp,
@@ -82,15 +63,16 @@ public class DefaultWebCreator implements WebCreator {
         this.mIWebLayout = webLayout;
     }
 
-	/**
-	 * 关闭进度条
-	 * @param activity
-	 * @param viewGroup
-	 * @param lp
-	 * @param index
-	 * @param webView
-	 * @param webLayout
-	 */
+    /**
+     * 关闭进度条
+     *
+     * @param activity
+     * @param viewGroup
+     * @param lp
+     * @param index
+     * @param webView
+     * @param webLayout
+     */
     protected DefaultWebCreator(@NonNull Activity activity, @Nullable ViewGroup viewGroup, ViewGroup.LayoutParams lp, int index, @Nullable WebView webView, IWebLayout webLayout) {
         this.mActivity = activity;
         this.mViewGroup = viewGroup;
@@ -103,6 +85,7 @@ public class DefaultWebCreator implements WebCreator {
 
     /**
      * 自定义Indicator
+     *
      * @param activity
      * @param viewGroup
      * @param lp
@@ -175,11 +158,11 @@ public class DefaultWebCreator implements WebCreator {
         WebParentLayout mFrameLayout = new WebParentLayout(mActivity);
         mFrameLayout.setId(R.id.web_parent_layout_id);
         mFrameLayout.setBackgroundColor(Color.WHITE);
-        View target = mIWebLayout == null ? (this.mWebView = (WebView) createWebView()) : webLayout();
+        View target = mIWebLayout == null ? (this.mWebView = createWebView()) : webLayout();
         FrameLayout.LayoutParams mLayoutParams = new FrameLayout.LayoutParams(-1, -1);
         mFrameLayout.addView(target, mLayoutParams);
         mFrameLayout.bindWebView(this.mWebView);
-        LogUtils.i(TAG, "  instanceof  AgentWebView:" + (this.mWebView instanceof AgentWebView));
+        Timber.i("  instanceof  AgentWebView:" + (this.mWebView instanceof AgentWebView));
         if (this.mWebView instanceof AgentWebView) {
             AgentWebConfig.WEBVIEW_TYPE = AgentWebConfig.WEBVIEW_AGENTWEB_SAFE_TYPE;
         }
@@ -187,7 +170,7 @@ public class DefaultWebCreator implements WebCreator {
         mViewStub.setId(R.id.mainframe_error_viewsub_id);
         mFrameLayout.addView(mViewStub, new FrameLayout.LayoutParams(-1, -1));
         if (mIsNeedDefaultProgress) {
-            FrameLayout.LayoutParams lp = null;
+            FrameLayout.LayoutParams lp;
             WebIndicator mWebIndicator = new WebIndicator(mActivity);
             if (mHeight > 0) {
                 lp = new FrameLayout.LayoutParams(-2, AgentWebUtils.dp2px(mActivity, mHeight));
@@ -200,7 +183,7 @@ public class DefaultWebCreator implements WebCreator {
             lp.gravity = Gravity.TOP;
             mFrameLayout.addView((View) (this.mBaseIndicatorSpec = mWebIndicator), lp);
             mWebIndicator.setVisibility(View.GONE);
-        } else if (!mIsNeedDefaultProgress && mProgressView != null) {
+        } else if (mProgressView != null) {
             mFrameLayout.addView((View) (this.mBaseIndicatorSpec = mProgressView), mProgressView.offerLayoutParams());
             mProgressView.setVisibility(View.GONE);
         }
@@ -209,11 +192,11 @@ public class DefaultWebCreator implements WebCreator {
 
 
     private View webLayout() {
-        WebView mWebView = null;
+        WebView mWebView;
         if ((mWebView = mIWebLayout.getWebView()) == null) {
             mWebView = createWebView();
             mIWebLayout.getLayout().addView(mWebView, -1, -1);
-            LogUtils.i(TAG, "add webview");
+            Timber.i("add webview");
         } else {
             AgentWebConfig.WEBVIEW_TYPE = AgentWebConfig.WEBVIEW_CUSTOM_TYPE;
         }
@@ -222,7 +205,7 @@ public class DefaultWebCreator implements WebCreator {
     }
 
     private WebView createWebView() {
-        WebView mWebView = null;
+        WebView mWebView;
         if (this.mWebView != null) {
             mWebView = this.mWebView;
             AgentWebConfig.WEBVIEW_TYPE = AgentWebConfig.WEBVIEW_CUSTOM_TYPE;

@@ -5,7 +5,6 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.drawable.BitmapDrawable
-import android.util.Log
 import android.view.View
 
 /**
@@ -280,7 +279,7 @@ object FastBlur {
         canvas.drawBitmap(bitmap, 0f, 0f, paint)
         overlay = doBlur(overlay, radius.toInt(), true)
         view.background = BitmapDrawable(context.resources, overlay)
-        Log.w("test", "cost " + (System.currentTimeMillis() - startMs) + "ms")
+        Timber.w("cost " + (System.currentTimeMillis() - startMs) + "ms")
     }
 
     /**
@@ -308,7 +307,7 @@ object FastBlur {
         paint.flags = Paint.FILTER_BITMAP_FLAG
         canvas.drawBitmap(bitmap, 0f, 0f, paint)
         overlay = doBlur(overlay, radius.toInt(), true)
-        Log.w("test", "cost " + (System.currentTimeMillis() - startMs) + "ms")
+        Timber.w("cost " + (System.currentTimeMillis() - startMs) + "ms")
         return overlay
     }
 

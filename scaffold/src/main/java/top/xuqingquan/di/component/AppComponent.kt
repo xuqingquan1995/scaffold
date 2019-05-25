@@ -90,7 +90,7 @@ interface AppComponent {
     /**
      * 返回分页的Config
      */
-    fun pageSize(): PagedList.Config
+    fun pageConfig(): PagedList.Config
 
     @Named("showStack")
     fun showStack():Boolean

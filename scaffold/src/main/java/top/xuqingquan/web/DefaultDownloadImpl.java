@@ -1,19 +1,3 @@
-/*
- * Copyright (C)  Justson(https://github.com/Justson/AgentWeb)
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package top.xuqingquan.web;
 
 import android.annotation.SuppressLint;
@@ -31,6 +15,7 @@ import com.download.library.DownloadTask;
 import com.download.library.Runtime;
 import com.tencent.smtt.sdk.WebView;
 import top.xuqingquan.R;
+import top.xuqingquan.utils.Timber;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
@@ -39,10 +24,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
-/**
- * @author cenxiaozhong
- * @date 2017/5/13
- */
 public class DefaultDownloadImpl implements com.tencent.smtt.sdk.DownloadListener {
     /**
      * Application Context
@@ -82,24 +63,19 @@ public class DefaultDownloadImpl implements com.tencent.smtt.sdk.DownloadListene
     }
 
     private void bind(Extra extra) {
-        this.mActivityWeakReference = new WeakReference<Activity>(extra.mActivity);
+        this.mActivityWeakReference = new WeakReference<>(extra.mActivity);
         this.mContext = extra.mActivity.getApplicationContext();
         if (extra.getDownloadListener() != null && !TextUtils.isEmpty(extra.getUrl())) {
             this.mDownloadListeners.put(extra.getUrl(), extra.getDownloadListener());
         }
         this.mPermissionListener = extra.mPermissionInterceptor;
-        this.mAgentWebUIController = new WeakReference<AbsAgentWebUIController>(AgentWebUtils.getAgentWebUIControllerByWebView(extra.mWebView));
+        this.mAgentWebUIController = new WeakReference<>(AgentWebUtils.getAgentWebUIControllerByWebView(extra.mWebView));
     }
 
 
     @Override
     public void onDownloadStart(final String url, final String userAgent, final String contentDisposition, final String mimetype, final long contentLength) {
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                onDownloadStartInternal(url, userAgent, contentDisposition, mimetype, contentLength, null);
-            }
-        });
+        mHandler.post(() -> onDownloadStartInternal(url, userAgent, contentDisposition, mimetype, contentLength, null));
     }
 
     private void onDownloadStartInternal(String url, String userAgent, String contentDisposition, String mimetype, long contentLength, Extra extra) {
@@ -128,7 +104,7 @@ public class DefaultDownloadImpl implements com.tencent.smtt.sdk.DownloadListene
             this.mDownloadListeners.put(mCloneExtra.getUrl(), mCloneExtra.getDownloadListener());
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            List<String> mList = null;
+            List<String> mList;
             if ((mList = checkNeedPermission()).isEmpty()) {
                 preDownload(url);
             } else {
@@ -142,24 +118,21 @@ public class DefaultDownloadImpl implements com.tencent.smtt.sdk.DownloadListene
     }
 
     private ActionActivity.PermissionListener getPermissionListener(final String url) {
-        return new ActionActivity.PermissionListener() {
-            @Override
-            public void onRequestPermissionsResult(@NonNull String[] permissions, @NonNull int[] grantResults, Bundle extras) {
-                if (checkNeedPermission().isEmpty()) {
-                    preDownload(url);
-                } else {
-                    if (null != mAgentWebUIController.get()) {
-                        mAgentWebUIController
-                                .get()
-                                .onPermissionsDeny(
-                                        checkNeedPermission().
-                                                toArray(new String[]{}),
-                                        AgentWebPermissions.ACTION_STORAGE, "Download");
-                    }
-                    LogUtils.e(TAG, "储存权限获取失败~");
+        return (permissions, grantResults, extras) -> {
+            if (checkNeedPermission().isEmpty()) {
+                preDownload(url);
+            } else {
+                if (null != mAgentWebUIController.get()) {
+                    mAgentWebUIController
+                            .get()
+                            .onPermissionsDeny(
+                                    checkNeedPermission().
+                                            toArray(new String[]{}),
+                                    AgentWebPermissions.ACTION_STORAGE, "Download");
                 }
-
+                Timber.i("储存权限获取失败~");
             }
+
         };
     }
 
@@ -173,6 +146,9 @@ public class DefaultDownloadImpl implements com.tencent.smtt.sdk.DownloadListene
 
     private void preDownload(String url) {
         Extra extraService = mExtraServiceImpls.get(url);
+        if (extraService == null) {
+            return;
+        }
         DownloadTask downloadTask = extraService.getDownloadTask();
         DownloadListener downloadListener = mDownloadListeners.get(extraService.getUrl());
         // true 表示用户取消了该下载事件。
@@ -189,7 +165,7 @@ public class DefaultDownloadImpl implements com.tencent.smtt.sdk.DownloadListene
         File file = Runtime.getInstance().uniqueFile(extraService.getDownloadTask(), new File(AgentWebUtils.getAgentWebFilePath(mContext)));
         // File 创建文件失败
         if (null == file) {
-            LogUtils.e(TAG, "新建文件失败");
+            Timber.i("新建文件失败");
             return;
         }
         if (file.exists() && file.length() >= downloadTask.getContentLength() && downloadTask.getContentLength() > 0) {
@@ -208,9 +184,7 @@ public class DefaultDownloadImpl implements com.tencent.smtt.sdk.DownloadListene
                 }
                 return;
             } catch (Throwable throwable) {
-                if (LogUtils.isDebug()) {
-                    throwable.printStackTrace();
-                }
+                Timber.e(throwable);
             }
             return;
         }
@@ -227,6 +201,9 @@ public class DefaultDownloadImpl implements com.tencent.smtt.sdk.DownloadListene
 
     private void forceDownload(final String url) {
         Extra extraService = mExtraServiceImpls.get(url);
+        if (extraService == null) {
+            return;
+        }
         extraService.setForceDownload(true);
         performDownload(url);
     }
@@ -237,6 +214,9 @@ public class DefaultDownloadImpl implements com.tencent.smtt.sdk.DownloadListene
             return;
         }
         Extra extraService = mExtraServiceImpls.get(url);
+        if (extraService == null) {
+            return;
+        }
         AbsAgentWebUIController mAgentWebUIController;
         if (null != (mAgentWebUIController = this.mAgentWebUIController.get())) {
             mAgentWebUIController.onForceDownloadAlert(extraService.getUrl(), createCallback(extraService.getUrl()));
@@ -244,12 +224,9 @@ public class DefaultDownloadImpl implements com.tencent.smtt.sdk.DownloadListene
     }
 
     private Handler.Callback createCallback(final String url) {
-        return new Handler.Callback() {
-            @Override
-            public boolean handleMessage(Message msg) {
-                forceDownload(url);
-                return true;
-            }
+        return msg -> {
+            forceDownload(url);
+            return true;
         };
     }
 
@@ -266,6 +243,9 @@ public class DefaultDownloadImpl implements com.tencent.smtt.sdk.DownloadListene
                 return;
             }
             Extra extraService = mExtraServiceImpls.get(url);
+            if (extraService == null) {
+                return;
+            }
             DownloadTask downloadTask = extraService.getDownloadTask();
             if (null != mAgentWebUIController.get()) {
                 mAgentWebUIController.get()
@@ -274,10 +254,8 @@ public class DefaultDownloadImpl implements com.tencent.smtt.sdk.DownloadListene
             downloadTask.addHeader("Cookie", AgentWebConfig.getCookiesByUrl(url));
             downloadTask.setDownloadListenerAdapter(new WeakDownloadListener(mDownloadAdapter));
             DownloadImpl.getInstance().enqueue(downloadTask);
-        } catch (Throwable ignore) {
-            if (LogUtils.isDebug()) {
-                ignore.printStackTrace();
-            }
+        } catch (Throwable t) {
+            Timber.e(t);
         }
     }
 
@@ -288,7 +266,7 @@ public class DefaultDownloadImpl implements com.tencent.smtt.sdk.DownloadListene
 
         @Override
         public void onProgress(String url, long downloaded, long length, long useTime) {
-            LogUtils.e(TAG, " downloaded:" + downloaded + " length:" + length + " url:" + url);
+            Timber.e(" downloaded:" + downloaded + " length:" + length + " url:" + url);
             DownloadListener downloadingListener = DefaultDownloadImpl.this.mDownloadListeners.get(url);
             if (null != downloadingListener) {
                 downloadingListener.onProgress(url, downloaded, length, useTime);

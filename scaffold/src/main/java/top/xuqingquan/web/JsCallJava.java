@@ -1,33 +1,18 @@
-/*
- * Copyright (C)  Justson(https://github.com/Justson/AgentWeb)
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package top.xuqingquan.web;
 
 import android.text.TextUtils;
-import android.util.Log;
 import com.tencent.smtt.sdk.WebView;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import top.xuqingquan.BuildConfig;
+import top.xuqingquan.utils.Timber;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.Locale;
 
 public class JsCallJava {
-    private final static String TAG = "JsCallJava";
     private final static String RETURN_RESULT_FORMAT = "{\"CODE\": %d, \"result\": %s}";
     private static final String MSG_PROMPT_HEADER = "AgentWeb:";
     private static final String KEY_OBJ = "obj";
@@ -47,7 +32,7 @@ public class JsCallJava {
             }
             mInterfaceObj = interfaceObj;
             mInterfacedName = interfaceName;
-            mMethodsMap = new HashMap<String, Method>();
+            mMethodsMap = new HashMap<>();
             // getMethods会获得所有继承与非继承的方法
             Method[] methods = mInterfaceObj.getClass().getMethods();
             // 拼接的js脚本可参照备份文件：./library/doc/injected.js
@@ -55,7 +40,7 @@ public class JsCallJava {
             sb.append(mInterfacedName);
             sb.append(" init begin\");var a={queue:[],callback:function(){var d=Array.prototype.slice.call(arguments,0);var c=d.shift();var e=d.shift();this.queue[c].apply(this,d);if(!e){delete this.queue[c]}}};");
             for (Method method : methods) {
-                Log.i("Info","method:"+method);
+                Timber.i("method:" + method);
                 String sign;
                 if ((sign = genJavaMethodSign(method)) == null) {
                     continue;
@@ -79,44 +64,38 @@ public class JsCallJava {
             mPreloadInterfaceJs = sb.toString();
             sb.setLength(0);
         } catch (Exception e) {
-            if (LogUtils.isDebug()) {
-                Log.e(TAG, "init js result:" + e.getMessage());
-            }
+            Timber.e("init js result:" + e.getMessage());
         }
     }
 
     private String genJavaMethodSign(Method method) {
-        String sign = method.getName();
+        StringBuilder sign = new StringBuilder(method.getName());
         Class[] argsTypes = method.getParameterTypes();
         for (String ignoreMethod : IGNORE_UNSAFE_METHODS) {
-            if (ignoreMethod.equals(sign)) {
-                if (LogUtils.isDebug()) {
-                    Log.w(TAG, "method(" + sign + ") is unsafe, will be pass");
-                }
+            if (ignoreMethod.equals(sign.toString())) {
+                Timber.w("method(" + sign + ") is unsafe, will be pass");
                 return null;
             }
         }
-        int len = argsTypes.length;
-        for (int k = 0; k < len; k++) {
-            Class cls = argsTypes[k];
+        for (Class cls : argsTypes) {
             if (cls == String.class) {
-                sign += "_S";
+                sign.append("_S");
             } else if (cls == int.class ||
                     cls == long.class ||
                     cls == float.class ||
                     cls == double.class) {
-                sign += "_N";
+                sign.append("_N");
             } else if (cls == boolean.class) {
-                sign += "_B";
+                sign.append("_B");
             } else if (cls == JSONObject.class) {
-                sign += "_O";
+                sign.append("_O");
             } else if (cls == JsCallback.class) {
-                sign += "_F";
+                sign.append("_F");
             } else {
-                sign += "_P";
+                sign.append("_P");
             }
         }
-        return sign;
+        return sign.toString();
     }
 
     public String getPreloadInterfaceJs() {
@@ -125,7 +104,7 @@ public class JsCallJava {
 
     public String call(WebView webView, JSONObject jsonObject) {
         long time = 0;
-        if (LogUtils.isDebug()) {
+        if (BuildConfig.DEBUG) {
             time = android.os.SystemClock.uptimeMillis();
         }
         if (jsonObject != null) {
@@ -133,7 +112,7 @@ public class JsCallJava {
                 String methodName = jsonObject.getString(KEY_METHOD);
                 JSONArray argsTypes = jsonObject.getJSONArray(KEY_TYPES);
                 JSONArray argsVals = jsonObject.getJSONArray(KEY_ARGS);
-                String sign = methodName;
+                StringBuilder sign = new StringBuilder(methodName);
                 int len = argsTypes.length();
                 Object[] values = new Object[len];
                 int numIndex = 0;
@@ -142,26 +121,26 @@ public class JsCallJava {
                 for (int k = 0; k < len; k++) {
                     currType = argsTypes.optString(k);
                     if ("string".equals(currType)) {
-                        sign += "_S";
+                        sign.append("_S");
                         values[k] = argsVals.isNull(k) ? null : argsVals.getString(k);
                     } else if ("number".equals(currType)) {
-                        sign += "_N";
+                        sign.append("_N");
                         numIndex = numIndex * 10 + k + 1;
                     } else if ("boolean".equals(currType)) {
-                        sign += "_B";
+                        sign.append("_B");
                         values[k] = argsVals.getBoolean(k);
                     } else if ("object".equals(currType)) {
-                        sign += "_O";
+                        sign.append("_O");
                         values[k] = argsVals.isNull(k) ? null : argsVals.getJSONObject(k);
                     } else if ("function".equals(currType)) {
-                        sign += "_F";
+                        sign.append("_F");
                         values[k] = new JsCallback(webView, mInterfacedName, argsVals.getInt(k));
                     } else {
-                        sign += "_P";
+                        sign.append("_P");
                     }
                 }
 
-                Method currMethod = mMethodsMap.get(sign);
+                Method currMethod = mMethodsMap.get(sign.toString());
 
                 // 方法匹配失败
                 if (currMethod == null) {
@@ -189,7 +168,7 @@ public class JsCallJava {
 
                 return getReturn(jsonObject, 200, currMethod.invoke(mInterfaceObj, values), time);
             } catch (Exception e) {
-                LogUtils.safeCheckCrash(TAG, "call", e);
+                Timber.e(e, "call");
                 //优先返回详细的错误信息
                 if (e.getCause() != null) {
                     return getReturn(jsonObject, 500, "method execute result:" + e.getCause().getMessage(), time);
@@ -215,22 +194,18 @@ public class JsCallJava {
             // 在返回给网页（onJsPrompt方法中jsPromptResult.confirm）的时候强制返回的是String类型，所以在此将result的值加双引号兼容一下；
             // insertRes = "\"".concat(String.valueOf(result)).concat("\"");
         }
-        String resStr = String.format(RETURN_RESULT_FORMAT, stateCode, insertRes);
-        if (LogUtils.isDebug()) {
-            Log.d(TAG, "call time: " + (android.os.SystemClock.uptimeMillis() - time) + ", request: " + reqJson + ", result:" + resStr);
-        }
+        String resStr = String.format(Locale.getDefault(), RETURN_RESULT_FORMAT, stateCode, insertRes);
+        Timber.d("call time: " + (android.os.SystemClock.uptimeMillis() - time) + ", request: " + reqJson + ", result:" + resStr);
         return resStr;
     }
 
     private static String promptMsgFormat(String object, String method, String types, String args) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("{");
-        sb.append(KEY_OBJ).append(":").append(object).append(",");
-        sb.append(KEY_METHOD).append(":").append(method).append(",");
-        sb.append(KEY_TYPES).append(":").append(types).append(",");
-        sb.append(KEY_ARGS).append(":").append(args);
-        sb.append("}");
-        return sb.toString();
+        return "{" +
+                KEY_OBJ + ":" + object + "," +
+                KEY_METHOD + ":" + method + "," +
+                KEY_TYPES + ":" + types + "," +
+                KEY_ARGS + ":" + args +
+                "}";
     }
 
     /**
