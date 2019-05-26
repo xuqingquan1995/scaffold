@@ -13,6 +13,7 @@ import android.provider.MediaStore
  */
 object RealPath {
 
+    @JvmStatic
     fun getPath(context: Context, uri: Uri): String? {
         if (DocumentsContract.isDocumentUri(context, uri)) {
             if (isExternalStorageDocument(uri)) {

@@ -17,7 +17,7 @@ import top.xuqingquan.web.*
 
 /**
  * Created by 许清泉 on 2019-05-22 21:00
- * 调用 [X5WebView.go]方法之前可以设置各种自定义的参数
+ * 调用 [X5WebView.loadUrl]方法之前可以设置各种自定义的参数
  */
 class X5WebView : FrameLayout {
 
@@ -169,7 +169,6 @@ class X5WebView : FrameLayout {
             .interceptUnkownUrl() //拦截找不到相关页面的Url AgentWeb 3.0.0 加入。
             .setOpenOtherPageWays(DefaultWebClient.OpenOtherPageWays.ASK)
             .createAgentWeb()//创建AgentWeb。
-            .ready()//设置 IAgentWebSettings。
             .get()
         agentWeb!!.webCreator.webView.overScrollMode = WebView.OVER_SCROLL_NEVER
     }
@@ -177,7 +176,7 @@ class X5WebView : FrameLayout {
     /**
      * 在调用该方法前可以自定义其他参数
      */
-    fun go(url: String = this@X5WebView.url!!) {
+    fun loadUrl(url: String = this@X5WebView.url!!) {
         if (agentWeb == null) {
             initAgentWeb()
         }

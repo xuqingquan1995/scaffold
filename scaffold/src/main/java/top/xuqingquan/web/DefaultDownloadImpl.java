@@ -188,7 +188,7 @@ public class DefaultDownloadImpl implements com.tencent.smtt.sdk.DownloadListene
             }
             return;
         }
-        downloadTask.setFile(file, downloadTask.getContext().getPackageName() + ".AgentWebFileProvider");
+        downloadTask.setFile(file, downloadTask.getContext().getPackageName() + ".ScaffoldFileProvider");
         // 移动数据
         if (!downloadTask.isForceDownload() &&
                 AgentWebUtils.checkNetworkType(mContext) > 1) {

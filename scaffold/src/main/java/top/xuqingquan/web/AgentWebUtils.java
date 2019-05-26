@@ -1,21 +1,17 @@
-
-
 package top.xuqingquan.web;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
-import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.os.*;
-import android.provider.DocumentsContract;
+import android.os.Build;
+import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
 import android.provider.MediaStore;
 import android.telephony.TelephonyManager;
 import android.text.SpannableString;
@@ -33,7 +29,6 @@ import androidx.core.app.AppOpsManagerCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.core.os.EnvironmentCompat;
-import androidx.loader.content.CursorLoader;
 import com.google.android.material.snackbar.Snackbar;
 import com.tencent.smtt.sdk.ValueCallback;
 import com.tencent.smtt.sdk.WebChromeClient;
@@ -42,6 +37,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import top.xuqingquan.R;
+import top.xuqingquan.utils.RealPath;
 import top.xuqingquan.utils.Timber;
 
 import java.io.Closeable;
@@ -49,8 +45,6 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;
-import java.math.BigInteger;
-import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -67,7 +61,7 @@ public class AgentWebUtils {
         return (int) (dipValue * scale);
     }
 
-    static final void clearWebView(WebView m) {
+    static void clearWebView(WebView m) {
         if (m == null) {
             return;
         }
@@ -89,7 +83,6 @@ public class AgentWebUtils {
         m.setTag(null);
         m.clearHistory();
         m.destroy();
-        m = null;
     }
 
     public static String getAgentWebFilePath(Context context) {
@@ -132,7 +125,7 @@ public class AgentWebUtils {
         //连接管理对象
         ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         //获取NetworkInfo对象
-        @SuppressLint("MissingPermission") NetworkInfo networkInfo = manager.getActiveNetworkInfo();
+        NetworkInfo networkInfo = manager.getActiveNetworkInfo();
         if (networkInfo == null) {
             return netType;
         }
@@ -165,16 +158,6 @@ public class AgentWebUtils {
         }
     }
 
-    public static long getAvailableStorage() {
-        try {
-            StatFs stat = new StatFs(Environment.getExternalStorageDirectory().toString());
-            return stat.getAvailableBlocksLong() * stat.getBlockSizeLong();
-        } catch (RuntimeException ex) {
-            return 0;
-        }
-    }
-
-
     static Uri getUriFromFile(Context context, File file) {
         Uri uri;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -186,7 +169,7 @@ public class AgentWebUtils {
     }
 
     static Uri getUriFromFileForN(Context context, File file) {
-        return FileProvider.getUriForFile(context, context.getPackageName() + ".AgentWebFileProvider", file);
+        return FileProvider.getUriForFile(context, context.getPackageName() + ".ScaffoldFileProvider", file);
     }
 
 
@@ -206,44 +189,16 @@ public class AgentWebUtils {
         }
     }
 
-
-    static void setIntentData(Context context,
-                              Intent intent,
-                              File file,
-                              boolean writeAble) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            intent.setData(getUriFromFile(context, file));
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            if (writeAble) {
-                intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-            }
-        } else {
-            intent.setData(Uri.fromFile(file));
-        }
-    }
-
     static String getDiskExternalCacheDir(Context context) {
         File mFile = context.getExternalCacheDir();
+        if (mFile == null) {
+            return null;
+        }
         if (Environment.MEDIA_MOUNTED.equals(EnvironmentCompat.getStorageState(mFile))) {
             return mFile.getAbsolutePath();
         }
         return null;
     }
-
-    static void grantPermissions(Context context, Intent intent, Uri uri, boolean writeAble) {
-        int flag = Intent.FLAG_GRANT_READ_URI_PERMISSION;
-        if (writeAble) {
-            flag |= Intent.FLAG_GRANT_WRITE_URI_PERMISSION;
-        }
-        intent.addFlags(flag);
-        List<ResolveInfo> resInfoList = context.getPackageManager()
-                .queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
-        for (ResolveInfo resolveInfo : resInfoList) {
-            String packageName = resolveInfo.activityInfo.packageName;
-            context.grantUriPermission(packageName, uri, flag);
-        }
-    }
-
 
     private static String getMIMEType(File f) {
         String type;
@@ -296,9 +251,6 @@ public class AgentWebUtils {
         return type;
     }
 
-
-    private static WeakReference<Snackbar> snackbarWeakReference;
-
     static void show(View parent,
                      CharSequence text,
                      int duration,
@@ -310,7 +262,7 @@ public class AgentWebUtils {
         SpannableString spannableString = new SpannableString(text);
         ForegroundColorSpan colorSpan = new ForegroundColorSpan(textColor);
         spannableString.setSpan(colorSpan, 0, spannableString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        snackbarWeakReference = new WeakReference<>(Snackbar.make(parent, spannableString, duration));
+        WeakReference<Snackbar> snackbarWeakReference = new WeakReference<>(Snackbar.make(parent, spannableString, duration));
         Snackbar snackbar = snackbarWeakReference.get();
         View view = snackbar.getView();
         view.setBackgroundColor(bgColor);
@@ -321,51 +273,16 @@ public class AgentWebUtils {
         snackbar.show();
     }
 
-    static void dismiss() {
-        if (snackbarWeakReference != null && snackbarWeakReference.get() != null) {
-            snackbarWeakReference.get().dismiss();
-            snackbarWeakReference = null;
-        }
-    }
-
-    public static boolean checkWifi(Context context) {
-        ConnectivityManager connectivity = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (connectivity == null) {
-            return false;
-        }
-        @SuppressLint("MissingPermission") NetworkInfo info = connectivity.getActiveNetworkInfo();
-        return info != null && info.isConnected() && info.getType() == ConnectivityManager.TYPE_WIFI;
-    }
-
     public static boolean checkNetwork(Context context) {
         ConnectivityManager connectivity = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connectivity == null) {
             return false;
         }
-        @SuppressLint("MissingPermission") NetworkInfo info = connectivity.getActiveNetworkInfo();
+        NetworkInfo info = connectivity.getActiveNetworkInfo();
         return info != null && info.isConnected();
     }
 
-    static boolean isOverriedMethod(Object currentObject, String methodName, String method, Class... clazzs) {
-        Timber.i("  methodName:" + methodName + "   method:" + method);
-        boolean tag = false;
-        if (currentObject == null) {
-            return false;
-        }
-        try {
-            Class clazz = currentObject.getClass();
-            Method mMethod = clazz.getMethod(methodName, clazzs);
-            String gStr = mMethod.toGenericString();
-            tag = !gStr.contains(method);
-        } catch (Exception igonre) {
-            Timber.e(igonre);
-        }
-        Timber.i("isOverriedMethod:" + tag);
-        return tag;
-    }
-
     static Method isExistMethod(Object o, String methodName, Class... clazzs) {
-
         if (null == o) {
             return null;
         }
@@ -381,16 +298,7 @@ public class AgentWebUtils {
 
     }
 
-    static void clearAgentWebCache(Context context) {
-        try {
-            clearCacheFolder(new File(getAgentWebFilePath(context)), 0);
-        } catch (Throwable throwable) {
-            Timber.e(throwable);
-        }
-    }
-
     static void clearWebViewAllCache(Context context, WebView webView) {
-
         try {
 
             AgentWebConfig.removeAllCookies(null);
@@ -408,7 +316,6 @@ public class AgentWebUtils {
     }
 
     static void clearWebViewAllCache(Context context) {
-
         try {
 
             clearWebViewAllCache(context, new WebView(context.getApplicationContext()));
@@ -420,7 +327,7 @@ public class AgentWebUtils {
     static int clearCacheFolder(final File dir, final int numDays) {
         int deletedFiles = 0;
         if (dir != null) {
-            Timber.i( "dir:" + dir.getAbsolutePath());
+            Timber.i("dir:" + dir.getAbsolutePath());
         }
         if (dir != null && dir.isDirectory()) {
             try {
@@ -445,13 +352,6 @@ public class AgentWebUtils {
         return deletedFiles;
     }
 
-
-    static void clearCache(final Context context, final int numDays) {
-        Timber.i("Starting cache prune, deleting files older than %d days", numDays);
-        int numDeletedFiles = clearCacheFolder(context.getCacheDir(), numDays);
-        Timber.i("Cache pruning completed, %d files deleted", numDeletedFiles);
-    }
-
     public static String[] uriToPath(Activity activity, Uri[] uris) {
         if (activity == null || uris == null || uris.length == 0) {
             return null;
@@ -460,7 +360,7 @@ public class AgentWebUtils {
             String[] paths = new String[uris.length];
             int i = 0;
             for (Uri mUri : uris) {
-                paths[i++] = Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN_MR2 ? getFileAbsolutePath(activity, mUri) : getRealPathBelowVersion(activity, mUri);
+                paths[i++] = RealPath.getPath(activity.getApplicationContext(), mUri);
 
             }
             return paths;
@@ -471,24 +371,6 @@ public class AgentWebUtils {
 
     }
 
-    private static String getRealPathBelowVersion(Context context, Uri uri) {
-        String filePath = null;
-        Timber.i("method -> getRealPathBelowVersion " + uri + "   path:" + uri.getPath() + "    getAuthority:" + uri.getAuthority());
-        String[] projection = {MediaStore.Images.Media.DATA};
-        CursorLoader loader = new CursorLoader(context, uri, projection, null,
-                null, null);
-        Cursor cursor = loader.loadInBackground();
-        if (cursor != null) {
-            cursor.moveToFirst();
-            filePath = cursor.getString(cursor.getColumnIndex(projection[0]));
-            cursor.close();
-        }
-        if (filePath == null) {
-            filePath = uri.getPath();
-        }
-        return filePath;
-    }
-
     static File createImageFile(Context context) {
         File mFile = null;
         try {
@@ -497,7 +379,7 @@ public class AgentWebUtils {
             String imageName = String.format("aw_%s.jpg", timeStamp);
             mFile = createFileByName(context, imageName, true);
         } catch (Throwable e) {
-            e.printStackTrace();
+            Timber.e(e);
         }
         return mFile;
     }
@@ -511,114 +393,6 @@ public class AgentWebUtils {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    static String getFileAbsolutePath(Activity context, Uri fileUri) {
-        if (context == null || fileUri == null) {
-            return null;
-        }
-        Timber.i("getAuthority:" + fileUri.getAuthority() + "  getHost:" + fileUri.getHost() + "   getPath:" + fileUri.getPath() + "  getScheme:" + fileUri.getScheme() + "  query:" + fileUri.getQuery());
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && DocumentsContract.isDocumentUri(context, fileUri)) {
-            if (isExternalStorageDocument(fileUri)) {
-                String docId = DocumentsContract.getDocumentId(fileUri);
-                String[] split = docId.split(":");
-                String type = split[0];
-                if ("primary".equalsIgnoreCase(type)) {
-                    return Environment.getExternalStorageDirectory() + "/" + split[1];
-                }
-            } else if (isDownloadsDocument(fileUri)) {
-                String id = DocumentsContract.getDocumentId(fileUri);
-                Uri contentUri = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
-                return getDataColumn(context, contentUri, null, null);
-            } else if (isMediaDocument(fileUri)) {
-                String docId = DocumentsContract.getDocumentId(fileUri);
-                String[] split = docId.split(":");
-                String type = split[0];
-
-                Uri contentUri = null;
-                if ("image".equals(type)) {
-                    contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
-                } else if ("video".equals(type)) {
-                    contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
-                } else if ("audio".equals(type)) {
-                    contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
-                }
-                String selection = MediaStore.Images.Media._ID + "=?";
-                String[] selectionArgs = new String[]{split[1]};
-                return getDataColumn(context, contentUri, selection, selectionArgs);
-            }
-        } // MediaStore (and general)
-        else if (fileUri.getAuthority().equalsIgnoreCase(context.getPackageName() + ".AgentWebFileProvider")) {
-            String path = fileUri.getPath();
-            int index = path.lastIndexOf("/");
-            return getAgentWebFilePath(context) + File.separator + path.substring(index + 1, path.length());
-        } else if ("content".equalsIgnoreCase(fileUri.getScheme())) {
-            // Return the remote address
-            if (isGooglePhotosUri(fileUri)) {
-                return fileUri.getLastPathSegment();
-            }
-            return getDataColumn(context, fileUri, null, null);
-        }
-        // File
-        else if ("file".equalsIgnoreCase(fileUri.getScheme())) {
-            return fileUri.getPath();
-        }
-        return null;
-    }
-
-    static String getDataColumn(Context context, Uri uri, String selection, String[] selectionArgs) {
-        Cursor cursor = null;
-        String[] projection = {MediaStore.Images.Media.DATA};
-        try {
-            cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs, null);
-            if (cursor != null && cursor.moveToFirst()) {
-                int index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-                return cursor.getString(index);
-            }
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
-        return null;
-    }
-
-    /**
-     * @param uri The Uri to check.
-     * @return Whether the Uri authority is ExternalStorageProvider.
-     */
-    static boolean isExternalStorageDocument(Uri uri) {
-        return "com.android.externalstorage.documents".equals(uri.getAuthority());
-    }
-
-    /**
-     * @param uri The Uri to check.
-     * @return Whether the Uri authority is DownloadsProvider.
-     */
-    static boolean isDownloadsDocument(Uri uri) {
-        return "com.android.providers.downloads.documents".equals(uri.getAuthority());
-    }
-
-    /**
-     * @param uri The Uri to check.
-     * @return Whether the Uri authority is MediaProvider.
-     */
-    static boolean isMediaDocument(Uri uri) {
-        return "com.android.providers.media.documents".equals(uri.getAuthority());
-    }
-
-    /**
-     * @param uri The Uri to check.
-     * @return Whether the Uri authority is Google Photos.
-     */
-    static boolean isGooglePhotosUri(Uri uri) {
-        return "com.google.android.apps.photos.content".equals(uri.getAuthority());
-    }
-
-    static Intent getInstallApkIntentCompat(Context context, File file) {
-        Intent mIntent = new Intent().setAction(Intent.ACTION_VIEW);
-        setIntentDataAndType(context, mIntent, "application/vnd.android.package-archive", file, false);
-        return mIntent;
     }
 
     public static Intent getCommonFileIntentCompat(Context context, File file) {
@@ -648,8 +422,8 @@ public class AgentWebUtils {
                 new JSONObject(target);
             }
             tag = true;
-        } catch (JSONException ignore) {
-//            ignore.printStackTrace();
+        } catch (JSONException e) {
+            Timber.e(e);
         }
         return tag;
     }
@@ -660,10 +434,6 @@ public class AgentWebUtils {
 
     static boolean isEmptyCollection(Collection collection) {
         return collection == null || collection.isEmpty();
-    }
-
-    static boolean isEmptyMap(Map map) {
-        return map == null || map.isEmpty();
     }
 
     private static Toast mToast = null;
@@ -818,16 +588,5 @@ public class AgentWebUtils {
             }
         }
         return true;
-    }
-
-    public static String md5(String str) {
-        try {
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            md.update(str.getBytes());
-            return new BigInteger(1, md.digest()).toString(16);
-        } catch (Exception e) {
-            Timber.e(e);
-        }
-        return "";
     }
 }

@@ -156,11 +156,6 @@ public class AgentWebView extends WebView {
         }
     }
 
-    @Override
-    public boolean isPrivateBrowsingEnabled() {
-        return super.isPrivateBrowsingEnabled();
-    }
-
     /**
      * 添加并注入JavaScript脚本（和“addJavascriptInterface”注入对象的注入时机一致，100%能注入成功）；
      * 注意：为了做到能100%注入，需要在注入的js中自行判断对象是否已经存在（如：if (typeof(window.Android) = 'undefined')）；

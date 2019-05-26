@@ -56,7 +56,8 @@ public abstract class AbsAgentWebSettings implements IAgentWebSettings, WebListe
             mWebSettings.setMixedContentMode(android.webkit.WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
             webView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            webView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+            //加上这一句可能导致Android4.4手机出现加载网页白屏
+//            webView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
         }
         mWebSettings.setTextZoom(100);
         mWebSettings.setDatabaseEnabled(true);

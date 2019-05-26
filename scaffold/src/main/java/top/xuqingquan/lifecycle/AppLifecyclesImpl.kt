@@ -2,6 +2,7 @@ package top.xuqingquan.lifecycle
 
 import android.app.Application
 import android.content.Context
+import androidx.multidex.MultiDex
 import com.github.anrwatchdog.ANRWatchDog
 import com.tencent.smtt.sdk.QbSdk
 import com.tencent.smtt.sdk.TbsListener
@@ -19,6 +20,11 @@ import kotlin.concurrent.thread
 class AppLifecyclesImpl : AppLifecycles {
 
     override fun attachBaseContext(base: Context?) {
+        try {
+            Class.forName("androidx.multidex.MultiDex")
+            MultiDex.install(base)
+        }catch (e:Exception){
+        }
     }
 
     override fun onCreate(application: Application) {
@@ -52,13 +58,11 @@ class AppLifecyclesImpl : AppLifecycles {
                 .silent(false, Recovery.SilentMode.RECOVER_ACTIVITY_STACK)
                 .init(application)
         } catch (e: Throwable) {
-            Timber.e(e)
         }
         try {
             Class.forName("me.jessyan.autosize.AutoSizeConfig")
             AutoSizeConfig.getInstance().isCustomFragment = true
         } catch (e: Throwable) {
-            Timber.e(e)
         }
         try {
             Class.forName("com.tencent.smtt.sdk.QbSdk")
@@ -92,7 +96,6 @@ class AppLifecyclesImpl : AppLifecycles {
                 QbSdk.initX5Environment(application, cb)
             }
         } catch (e: Throwable) {
-            Timber.e(e)
         }
     }
 

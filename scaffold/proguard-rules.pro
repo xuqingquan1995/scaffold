@@ -227,3 +227,6 @@
 
 #recovery
 -keep class com.zxy.recovery.** {*;}
+
+#x5
+-keep class com.tencent.smtt.** {*;}

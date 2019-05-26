@@ -113,7 +113,7 @@ public class FileChooser {
 
     public void openFileChooser() {
         if (!AgentWebUtils.isUIThread()) {
-            AgentWebUtils.runInUiThread(() -> openFileChooser());
+            AgentWebUtils.runInUiThread(this::openFileChooser);
             return;
         }
 
@@ -322,8 +322,8 @@ public class FileChooser {
         if (REQUEST_CODE != requestCode) {
             return;
         }
-        //用户已经取消
         if (resultCode == Activity.RESULT_CANCELED || data == null) {
+            Timber.i("用户已经取消");
             cancel();
             return;
         }
@@ -331,23 +331,23 @@ public class FileChooser {
             cancel();
             return;
         }
-        //通过Js获取文件
         if (mJsChannel) {
+            Timber.i("通过Js获取文件");
             convertFileAndCallback(mCameraState ? new Uri[]{data.getParcelableExtra(KEY_URI)} : processData(data));
             return;
         }
-        //5.0以上系统通过input标签获取文件
         if (mIsAboveLollipop) {
+            Timber.i("5.0以上系统通过input标签获取文件");
             aboveLollipopCheckFilesAndCallback(mCameraState ? new Uri[]{data.getParcelableExtra(KEY_URI)} : processData(data), mCameraState);
             return;
         }
-        //4.4以下系统通过input标签获取文件
         if (mUriValueCallback == null) {
+            Timber.i("4.4以下系统通过input标签获取文件");
             cancel();
             return;
         }
         if (mCameraState) {
-            mUriValueCallback.onReceiveValue((Uri) data.getParcelableExtra(KEY_URI));
+            mUriValueCallback.onReceiveValue(data.getParcelableExtra(KEY_URI));
         } else {
             belowLollipopUriCallback(data);
         }

@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application>
         <!--如果有接入腾讯X5时候需要用这个做播放视频-->
@@ -31,8 +32,8 @@
                 android:exported="false"
                 android:windowSoftInputMode="stateHidden|stateAlwaysHidden"/>
         <provider
-                android:name=".web.AgentWebFileProvider"
-                android:authorities="${applicationId}.AgentWebFileProvider"
+                android:name="androidx.core.content.FileProvider"
+                android:authorities="${applicationId}.ScaffoldFileProvider"
                 android:exported="false"
                 android:grantUriPermissions="true">
             <meta-data

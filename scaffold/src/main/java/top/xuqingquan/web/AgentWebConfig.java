@@ -3,7 +3,6 @@ package top.xuqingquan.web;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.text.TextUtils;
 import androidx.annotation.Nullable;
 import com.tencent.smtt.sdk.CookieManager;
 import com.tencent.smtt.sdk.CookieSyncManager;
@@ -15,8 +14,8 @@ import java.io.File;
 
 public class AgentWebConfig {
 
-    static final String FILE_CACHE_PATH = "agentweb-cache";
-    static final String AGENTWEB_CACHE_PATCH = File.separator + "agentweb-cache";
+    static final String FILE_CACHE_PATH = "scaffold-cache";
+    static final String AGENTWEB_CACHE_PATCH = File.separator + "scaffold-cache";
     /**
      * 缓存路径
      */
@@ -65,76 +64,12 @@ public class AgentWebConfig {
     }
 
     /**
-     * 删除所有已经过期的 Cookies
-     */
-    public static void removeExpiredCookies() {
-        CookieManager mCookieManager;
-        if ((mCookieManager = CookieManager.getInstance()) != null) { //同步清除
-            mCookieManager.removeExpiredCookie();
-            toSyncCookies();
-        }
-    }
-
-    /**
-     * 删除所有 Cookies
-     */
-    public static void removeAllCookies() {
-        removeAllCookies(null);
-    }
-
-    // 解决兼容 Android 4.4 java.lang.NoSuchMethodError: android.webkit.CookieManager.removeSessionCookies
-    public static void removeSessionCookies() {
-        removeSessionCookies(null);
-    }
-
-    /**
-     * 同步cookie
-     *
-     * @param url
-     * @param cookies
-     */
-    public static void syncCookie(String url, String cookies) {
-        CookieManager mCookieManager = CookieManager.getInstance();
-        if (mCookieManager != null) {
-            mCookieManager.setCookie(url, cookies);
-            toSyncCookies();
-        }
-    }
-
-    public static void removeSessionCookies(ValueCallback<Boolean> callback) {
-        if (callback == null) {
-            callback = getDefaultIgnoreCallback();
-        }
-        if (CookieManager.getInstance() == null) {
-            callback.onReceiveValue(Boolean.FALSE);
-            return;
-        }
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            CookieManager.getInstance().removeSessionCookie();
-            toSyncCookies();
-            callback.onReceiveValue(Boolean.TRUE);
-            return;
-        }
-        CookieManager.getInstance().removeSessionCookies(callback);
-        toSyncCookies();
-    }
-
-    /**
      * @param context
      * @return WebView 的缓存路径
      */
     public static String getCachePath(Context context) {
         return context.getCacheDir().getAbsolutePath() + AGENTWEB_CACHE_PATCH;
     }
-
-    /**
-     * @param context
-     * @return AgentWeb 缓存路径
-     */
-    public static String getExternalCachePath(Context context) {
-        return AgentWebUtils.getAgentWebFilePath(context);
-    }
-
 
     //Android  4.4  NoSuchMethodError: android.webkit.CookieManager.removeAllCookies
     public static void removeAllCookies(@Nullable ValueCallback<Boolean> callback) {
@@ -150,25 +85,6 @@ public class AgentWebConfig {
         CookieManager.getInstance().removeAllCookies(callback);
         toSyncCookies();
     }
-
-    /**
-     * 清空缓存
-     *
-     * @param context
-     */
-    public static synchronized void clearDiskCache(Context context) {
-        try {
-            AgentWebUtils.clearCacheFolder(new File(getCachePath(context)), 0);
-            String path = getExternalCachePath(context);
-            if (!TextUtils.isEmpty(path)) {
-                File mFile = new File(path);
-                AgentWebUtils.clearCacheFolder(mFile, 0);
-            }
-        } catch (Throwable throwable) {
-            Timber.e(throwable);
-        }
-    }
-
 
     static synchronized void initCookiesManager(Context context) {
         if (!IS_INITIALIZED) {
@@ -189,10 +105,6 @@ public class AgentWebConfig {
             return;
         }
         AsyncTask.THREAD_POOL_EXECUTOR.execute(() -> CookieManager.getInstance().flush());
-    }
-
-    static String getDatabasesCachePath(Context context) {
-        return context.getApplicationContext().getDir("database", Context.MODE_PRIVATE).getPath();
     }
 
     private static ValueCallback<Boolean> getDefaultIgnoreCallback() {

@@ -1,1 +1,1 @@
-include ':scaffold'
+include ':scaffold', ':sample'

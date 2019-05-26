@@ -15,7 +15,6 @@ android {
         versionName "1.0"
         testInstrumentationRunner rootProject.ext.android.AndroidJUnitRunner
         flavorDimensions 'default'
-        proguardFiles
     }
     buildTypes {
         release {
@@ -23,7 +22,6 @@ android {
             jniDebuggable false
             minifyEnabled true
             zipAlignEnabled true
-            consumerProguardFiles = ['proguard.cfg']
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -66,6 +64,7 @@ dependencies {
     api rootProject.ext.deps.core_ktx
     api rootProject.ext.deps.lifecycle
     api rootProject.ext.deps.anko
+    compileOnly rootProject.ext.deps.multidex
     //view
     api rootProject.ext.deps.recyclerview
     api rootProject.ext.deps.paging

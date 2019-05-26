@@ -187,16 +187,6 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
         return super.shouldOverrideUrlLoading(view, request);
     }
 
-    @Override
-    public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
-        return super.shouldInterceptRequest(view, url);
-    }
-
-    @Override
-    public void onReceivedHttpAuthRequest(WebView view, HttpAuthHandler handler, String host, String realm) {
-        super.onReceivedHttpAuthRequest(view, handler, host, realm);
-    }
-
     private boolean deepLink(String url) {
         switch (mUrlHandleWays) {
             // 直接打开其他App
@@ -231,11 +221,6 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
             default:
                 return false;
         }
-    }
-
-    @Override
-    public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
-        return super.shouldInterceptRequest(view, request);
     }
 
     @Override
@@ -470,11 +455,6 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
             mErrorUrlsSet.clear();
         }
         super.onPageFinished(view, url);
-    }
-
-    @Override
-    public boolean shouldOverrideKeyEvent(WebView view, KeyEvent event) {
-        return super.shouldOverrideKeyEvent(view, event);
     }
 
     private void startActivity(String url) {
