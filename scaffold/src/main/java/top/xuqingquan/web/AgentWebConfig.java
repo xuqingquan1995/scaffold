@@ -15,7 +15,7 @@ import java.io.File;
 public class AgentWebConfig {
 
     static final String FILE_CACHE_PATH = "scaffold-cache";
-    static final String AGENTWEB_CACHE_PATCH = File.separator + "scaffold-cache";
+    private static final String AGENTWEB_CACHE_PATCH = File.separator + "scaffold-cache";
     /**
      * 缓存路径
      */
@@ -31,28 +31,28 @@ public class AgentWebConfig {
     /**
      * 默认 WebView  类型 。
      */
-    public static final int WEBVIEW_DEFAULT_TYPE = 1;
+    static final int WEBVIEW_DEFAULT_TYPE = 1;
     /**
      * 使用 AgentWebView
      */
-    public static final int WEBVIEW_AGENTWEB_SAFE_TYPE = 2;
+    static final int WEBVIEW_AGENTWEB_SAFE_TYPE = 2;
     /**
      * 自定义 WebView
      */
-    public static final int WEBVIEW_CUSTOM_TYPE = 3;
+    static final int WEBVIEW_CUSTOM_TYPE = 3;
     static int WEBVIEW_TYPE = WEBVIEW_DEFAULT_TYPE;
     private static volatile boolean IS_INITIALIZED = false;
     /**
      * AgentWeb 的版本
      */
-    public static final String AGENTWEB_VERSION = " agentweb/4.0.2 ";
+    static final String AGENTWEB_VERSION = " agentweb/4.0.2 ";
     /**
      * 通过JS获取的文件大小， 这里限制最大为5MB ，太大会抛出 OutOfMemoryError
      */
-    public static int MAX_FILE_LENGTH = 1024 * 1024 * 5;
+    static int MAX_FILE_LENGTH = 1024 * 1024 * 5;
 
     //获取Cookie
-    public static String getCookiesByUrl(String url) {
+    static String getCookiesByUrl(String url) {
         return CookieManager.getInstance() == null ? null : CookieManager.getInstance().getCookie(url);
     }
 
@@ -67,12 +67,12 @@ public class AgentWebConfig {
      * @param context
      * @return WebView 的缓存路径
      */
-    public static String getCachePath(Context context) {
+    static String getCachePath(Context context) {
         return context.getCacheDir().getAbsolutePath() + AGENTWEB_CACHE_PATCH;
     }
 
     //Android  4.4  NoSuchMethodError: android.webkit.CookieManager.removeAllCookies
-    public static void removeAllCookies(@Nullable ValueCallback<Boolean> callback) {
+    static void removeAllCookies(@Nullable ValueCallback<Boolean> callback) {
         if (callback == null) {
             callback = getDefaultIgnoreCallback();
         }

@@ -19,9 +19,9 @@ import java.util.regex.Pattern;
  * Created by 许清泉 on 2019/4/14 21:06
  * 处理字符串的工具类
  */
-public class CharacterHandler {
+public class CharacterUtils {
 
-    private CharacterHandler() {
+    private CharacterUtils() {
         throw new IllegalStateException("you can't instantiate me!");
     }
 
@@ -33,12 +33,10 @@ public class CharacterHandler {
         @Override
         public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart,
                                    int dend) {
-
             Matcher emojiMatcher = emoji.matcher(source);
             if (emojiMatcher.find()) {
                 return "";
             }
-
             return null;
         }
     };
@@ -49,12 +47,10 @@ public class CharacterHandler {
      * @return String 每个Byte之间空格分隔，如: [61 6C 6B]
      */
     public static String str2HexStr(String str) {
-
         char[] chars = "0123456789ABCDEF".toCharArray();
-        StringBuilder sb = new StringBuilder("");
+        StringBuilder sb = new StringBuilder();
         byte[] bs = str.getBytes();
         int bit;
-
         for (int i = 0; i < bs.length; i++) {
             bit = (bs[i] & 0x0f0) >> 4;
             sb.append(chars[bit]);
@@ -116,4 +112,28 @@ public class CharacterHandler {
         }
         return message;
     }
+
+    /**
+     * 判断字符串是否为json字符串
+     * @param target
+     * @return
+     */
+    public static boolean isJson(String target) {
+        if (TextUtils.isEmpty(target)) {
+            return false;
+        }
+        boolean tag = false;
+        try {
+            if (target.startsWith("[")) {
+                new JSONArray(target);
+            } else {
+                new JSONObject(target);
+            }
+            tag = true;
+        } catch (JSONException e) {
+            Timber.e(e);
+        }
+        return tag;
+    }
+
 }

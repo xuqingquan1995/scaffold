@@ -29,7 +29,7 @@ class IntelligentCache<V>(size: Int) : Cache<String, V> {
      * @return 相加后的 {@code maxSize}
      */
     @Synchronized
-    override fun getMaxSize() = mMap.size + mCache.getMaxSize()
+    override fun getMaxSize() = mMap.size + mCache.maxSize
 
     /**
      * 如果在 {@code key} 中使用 {@link #KEY_KEEP} 作为其前缀, 则操作 {@link #mMap}, 否则操作 {@link #mCache}

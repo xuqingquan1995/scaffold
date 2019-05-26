@@ -4,6 +4,8 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ApplicationInfo
+import android.content.pm.PackageManager
 import android.text.TextUtils
 import androidx.core.content.ContextCompat
 
@@ -40,6 +42,21 @@ object DeviceUtils {
         intent.putExtra(Intent.EXTRA_SUBJECT, title)
         intent.putExtra(Intent.EXTRA_TEXT, "$title $url")
         context.applicationContext.startActivity(Intent.createChooser(intent, "选择分享"))
+    }
+
+    //获取应用的名称
+    @JvmStatic
+    fun getApplicationName(context: Context): String {
+        var packageManager: PackageManager? = null
+        var applicationInfo: ApplicationInfo?
+        try {
+            packageManager = context.applicationContext.packageManager
+            applicationInfo = packageManager!!.getApplicationInfo(context.packageName, 0)
+        } catch (e: PackageManager.NameNotFoundException) {
+            applicationInfo = null
+        }
+
+        return packageManager!!.getApplicationLabel(applicationInfo).toString()
     }
 
 }

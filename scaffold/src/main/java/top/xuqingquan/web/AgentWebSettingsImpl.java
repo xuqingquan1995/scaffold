@@ -3,6 +3,7 @@ package top.xuqingquan.web;
 import android.app.Activity;
 import com.tencent.smtt.sdk.DownloadListener;
 import com.tencent.smtt.sdk.WebView;
+
 public class AgentWebSettingsImpl extends AbsAgentWebSettings {
     private AgentWeb mAgentWeb;
 

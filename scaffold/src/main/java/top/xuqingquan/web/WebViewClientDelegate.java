@@ -98,36 +98,6 @@ public class WebViewClientDelegate extends WebViewClient {
     }
 
     @Override
-    @Deprecated
-    public void onReceivedError(WebView view, int errorCode,
-                                String description, String failingUrl) {
-//        if (mDelegate != null) {
-//            mDelegate.onReceivedError(view, errorCode, description, failingUrl);
-//            return;
-//        }
-        super.onReceivedError(view, errorCode, description, failingUrl);
-    }
-
-    @Override
-    public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
-//        if (mDelegate != null) {
-//            mDelegate.onReceivedError(view, request, error);
-//            return;
-//        }
-        super.onReceivedError(view, request, error);
-    }
-
-    @Override
-    public void onReceivedHttpError(
-            WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
-//        if (mDelegate != null) {
-//            mDelegate.onReceivedHttpError(view, request, errorResponse);
-//            return;
-//        }
-        super.onReceivedHttpError(view, request, errorResponse);
-    }
-
-    @Override
     public void onFormResubmission(WebView view, Message dontResend,
                                    Message resend) {
         if (mDelegate != null) {

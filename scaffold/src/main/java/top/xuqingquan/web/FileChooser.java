@@ -13,6 +13,8 @@ import com.tencent.smtt.sdk.WebView;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import top.xuqingquan.R;
+import top.xuqingquan.utils.FileUtils;
+import top.xuqingquan.utils.PermissionUtils;
 import top.xuqingquan.utils.Timber;
 
 import java.io.ByteArrayOutputStream;
@@ -41,7 +43,7 @@ public class FileChooser {
     /**
      * Activity Request Code
      */
-    public static final int REQUEST_CODE = 0x254;
+    private static final int REQUEST_CODE = 0x254;
     /**
      * 当前系统是否高于 Android 5.0 ；
      */
@@ -89,9 +91,7 @@ public class FileChooser {
     /**
      * 修复某些特定手机拍照后，立刻获取照片为空的情况
      */
-    public static int MAX_WAIT_PHOTO_MS = 8 * 1000;
-
-    private Handler.Callback mJsChannelHandler$Callback;
+    private static int MAX_WAIT_PHOTO_MS = 8 * 1000;
 
     public FileChooser(Builder builder) {
 
@@ -108,7 +108,6 @@ public class FileChooser {
         this.mPermissionInterceptor = builder.mPermissionInterceptor;
         this.mAcceptType = builder.mAcceptType;
         this.mAgentWebUIController = new WeakReference<>(AgentWebUtils.getAgentWebUIControllerByWebView(this.mWebView));
-        this.mJsChannelHandler$Callback = builder.mJsChannelCallback;
     }
 
     public void openFileChooser() {
@@ -121,7 +120,7 @@ public class FileChooser {
     }
 
     private void fileChooser() {
-        if (AgentWebUtils.getDeniedPermissions(mActivity, AgentWebPermissions.STORAGE).isEmpty()) {
+        if (PermissionUtils.getDeniedPermissions(mActivity, AgentWebPermissions.STORAGE).isEmpty()) {
             touchOffFileChooserAction();
         } else {
             Action mAction = Action.createPermissionsAction(AgentWebPermissions.STORAGE);
@@ -255,10 +254,10 @@ public class FileChooser {
 
     private List<String> checkNeedPermission() {
         List<String> deniedPermissions = new ArrayList<>();
-        if (!AgentWebUtils.hasPermission(mActivity, AgentWebPermissions.CAMERA)) {
+        if (!PermissionUtils.hasPermission(mActivity, AgentWebPermissions.CAMERA)) {
             deniedPermissions.add(AgentWebPermissions.CAMERA[0]);
         }
-        if (!AgentWebUtils.hasPermission(mActivity, AgentWebPermissions.STORAGE)) {
+        if (!PermissionUtils.hasPermission(mActivity, AgentWebPermissions.STORAGE)) {
             deniedPermissions.addAll(Arrays.asList(AgentWebPermissions.STORAGE));
         }
         return deniedPermissions;
@@ -275,7 +274,7 @@ public class FileChooser {
 
         @Override
         public void onRequestPermissionsResult(@NonNull String[] permissions, @NonNull int[] grantResults, Bundle extras) {
-            boolean tag = AgentWebUtils.hasPermission(mActivity, Arrays.asList(permissions));
+            boolean tag = PermissionUtils.hasPermission(mActivity, Arrays.asList(permissions));
             permissionResult(tag, extras.getInt(KEY_FROM_INTENTION));
         }
     };
@@ -361,8 +360,6 @@ public class FileChooser {
             else
                 belowLollipopUriCallback(data);
         }*/
-
-
     }
 
     private void cancel() {
@@ -418,7 +415,7 @@ public class FileChooser {
 
     private void convertFileAndCallback(final Uri[] uris) {
         String[] paths;
-        if (uris == null || uris.length == 0 || (paths = AgentWebUtils.uriToPath(mActivity, uris)) == null || paths.length == 0) {
+        if (uris == null || uris.length == 0 || (paths = FileUtils.uriToPath(mActivity, uris)) == null || paths.length == 0) {
             mJsChannelCallback.call(null);
             return;
         }
@@ -466,7 +463,7 @@ public class FileChooser {
             mUriValueCallbacks.onReceiveValue(null);
             return;
         }
-        String[] paths = AgentWebUtils.uriToPath(mActivity, datas);
+        String[] paths = FileUtils.uriToPath(mActivity, datas);
         if (paths == null || paths.length == 0) {
             mUriValueCallbacks.onReceiveValue(null);
             return;
@@ -580,7 +577,7 @@ public class FileChooser {
         private CountDownLatch mCountDownLatch;
         private int id;
 
-        public EncodeFileRunnable(String filePath, Queue<FileParcel> queue, CountDownLatch countDownLatch, int id) {
+        EncodeFileRunnable(String filePath, Queue<FileParcel> queue, CountDownLatch countDownLatch, int id) {
             this.filePath = filePath;
             this.mQueue = queue;
             this.mCountDownLatch = countDownLatch;
@@ -615,8 +612,8 @@ public class FileChooser {
                 Timber.i("throwwable");
                 e.printStackTrace();
             } finally {
-                AgentWebUtils.closeIO(is);
-                AgentWebUtils.closeIO(os);
+                FileUtils.closeIO(is);
+                FileUtils.closeIO(os);
                 mCountDownLatch.countDown();
             }
 
@@ -624,7 +621,7 @@ public class FileChooser {
         }
     }
 
-    static String convertFileParcelObjectsToJson(Collection<FileParcel> collection) {
+    private static String convertFileParcelObjectsToJson(Collection<FileParcel> collection) {
         if (collection == null || collection.size() == 0) {
             return null;
         }
@@ -646,7 +643,6 @@ public class FileChooser {
     }
 
     static class CovertFileThread extends Thread {
-
         private WeakReference<JsChannelCallback> mJsChannelCallback;
         private String[] paths;
 
@@ -658,8 +654,6 @@ public class FileChooser {
 
         @Override
         public void run() {
-
-
             try {
                 Queue<FileParcel> mQueue = convertFile(paths);
                 String result = convertFileParcelObjectsToJson(mQueue);
@@ -758,11 +752,9 @@ public class FileChooser {
             return this;
         }
 
-
         public FileChooser build() {
             return new FileChooser(this);
         }
     }
-
 
 }

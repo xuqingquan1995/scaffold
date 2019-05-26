@@ -3,7 +3,7 @@ package top.xuqingquan.http.log
 import android.text.TextUtils
 import okhttp3.MediaType
 import okhttp3.Request
-import top.xuqingquan.utils.CharacterHandler
+import top.xuqingquan.utils.CharacterUtils
 import top.xuqingquan.utils.Timber
 
 /**
@@ -66,8 +66,8 @@ class DefaultFormatPrinter : FormatPrinter {
     ) {
         var bodyString = bodyString
         bodyString = if (HttpParseUtils.isJson(contentType))
-            CharacterHandler.jsonFormat(bodyString)
-        else if (HttpParseUtils.isXml(contentType)) CharacterHandler.xmlFormat(bodyString) else bodyString
+            CharacterUtils.jsonFormat(bodyString)
+        else if (HttpParseUtils.isXml(contentType)) CharacterUtils.xmlFormat(bodyString) else bodyString
 
         val responseBody = LINE_SEPARATOR + BODY_TAG + LINE_SEPARATOR + bodyString
         val tag = getTag(false)
@@ -108,7 +108,7 @@ class DefaultFormatPrinter : FormatPrinter {
     companion object {
         private const val TAG = "DefaultFormatPrinter"
         private val LINE_SEPARATOR = System.getProperty("line.separator") ?: "/"
-        private val DOUBLE_SEPARATOR = LINE_SEPARATOR!! + LINE_SEPARATOR
+        private val DOUBLE_SEPARATOR = LINE_SEPARATOR + LINE_SEPARATOR
         private val OMITTED_RESPONSE = arrayOf(LINE_SEPARATOR, "Omitted response body")
         private val OMITTED_REQUEST = arrayOf(LINE_SEPARATOR, "Omitted request body")
         private const val N = "\n"

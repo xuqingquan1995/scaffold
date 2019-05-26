@@ -12,7 +12,7 @@ public class EventHandlerImpl implements IEventHandler {
 	private WebView mWebView;
 	private EventInterceptor mEventInterceptor;
 
-	public static final EventHandlerImpl getInstantce(WebView view, EventInterceptor eventInterceptor) {
+	public static EventHandlerImpl getInstantce(WebView view, EventInterceptor eventInterceptor) {
 		return new EventHandlerImpl(view, eventInterceptor);
 	}
 

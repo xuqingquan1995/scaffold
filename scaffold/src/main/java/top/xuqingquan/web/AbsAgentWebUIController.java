@@ -51,12 +51,6 @@ public abstract class AbsAgentWebUIController {
         }
     }
 
-    protected void toShowDialog(Dialog dialog) {
-        if (dialog != null && !dialog.isShowing()) {
-            dialog.show();
-        }
-    }
-
     protected abstract void bindSupportWebParent(WebParentLayout webParentLayout, Activity activity);
 
     /**

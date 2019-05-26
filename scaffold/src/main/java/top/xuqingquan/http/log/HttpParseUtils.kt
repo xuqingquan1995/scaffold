@@ -6,7 +6,7 @@ import okhttp3.Response
 import okhttp3.ResponseBody
 import okio.Buffer
 import top.xuqingquan.utils.UrlEncoderUtils
-import top.xuqingquan.utils.CharacterHandler
+import top.xuqingquan.utils.CharacterUtils
 import top.xuqingquan.utils.ZipHelper
 import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets
@@ -30,7 +30,7 @@ object HttpParseUtils {
             val responseBody = response.newBuilder().build().body()
             val source = responseBody!!.source()
             source.request(Long.MAX_VALUE) // Buffer the entire body.
-            val buffer = source.buffer()
+            val buffer = source.buffer
             //获取content的压缩类型
             val encoding = response
                 .headers()
@@ -93,7 +93,7 @@ object HttpParseUtils {
             }
             var json = requestbuffer.readString(charset!!)
             json = UrlEncoderUtils.decode(json, convertCharset(charset))
-            return CharacterHandler.jsonFormat(json)
+            return CharacterUtils.jsonFormat(json)
         } catch (e: Throwable) {
             e.printStackTrace()
             return "{\"error\": \"" + e.message + "\"}"

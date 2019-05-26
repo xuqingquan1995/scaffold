@@ -11,6 +11,7 @@ import com.tencent.smtt.export.external.interfaces.*;
 import com.tencent.smtt.sdk.ValueCallback;
 import com.tencent.smtt.sdk.WebStorage;
 import com.tencent.smtt.sdk.WebView;
+import top.xuqingquan.utils.PermissionUtils;
 import top.xuqingquan.utils.Timber;
 
 import java.lang.ref.WeakReference;
@@ -137,7 +138,7 @@ public class DefaultChromeClient extends MiddlewareWebChromeBase {
             return;
         }
         List<String> deniedPermissions;
-        if ((deniedPermissions = AgentWebUtils.getDeniedPermissions(mActivity, AgentWebPermissions.LOCATION)).isEmpty()) {
+        if ((deniedPermissions = PermissionUtils.getDeniedPermissions(mActivity, AgentWebPermissions.LOCATION)).isEmpty()) {
             Timber.i("onGeolocationPermissionsShowPromptInternal:" + true);
             callback.invoke(origin, true, false);
         } else {
@@ -154,7 +155,7 @@ public class DefaultChromeClient extends MiddlewareWebChromeBase {
         @Override
         public void onRequestPermissionsResult(@NonNull String[] permissions, @NonNull int[] grantResults, Bundle extras) {
             if (extras.getInt(ActionActivity.KEY_FROM_INTENTION) == FROM_CODE_INTENTION_LOCATION) {
-                boolean hasPermission = AgentWebUtils.hasPermission(mActivityWeakReference.get(), permissions);
+                boolean hasPermission = PermissionUtils.hasPermission(mActivityWeakReference.get(), permissions);
                 if (mCallback != null) {
                     if (hasPermission) {
                         mCallback.invoke(mOrigin, true, false);
@@ -243,21 +244,6 @@ public class DefaultChromeClient extends MiddlewareWebChromeBase {
         Timber.i("openFileChooser>=4.1");
         createAndOpenCommonFileChooser(uploadFile, acceptType);
     }
-
-    //  Android < 3.0
-    @Override
-    public void openFileChooser(ValueCallback<Uri> valueCallback) {
-        Timber.i("openFileChooser<3.0");
-        createAndOpenCommonFileChooser(valueCallback, "*/*");
-    }
-
-    //  Android  >= 3.0
-    @Override
-    public void openFileChooser(ValueCallback valueCallback, String acceptType) {
-        Timber.i("openFileChooser>3.0");
-        createAndOpenCommonFileChooser(valueCallback, acceptType);
-    }
-
 
     private void createAndOpenCommonFileChooser(ValueCallback valueCallback, String mimeType) {
         Activity mActivity = this.mActivityWeakReference.get();

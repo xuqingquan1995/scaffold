@@ -7,6 +7,7 @@ import com.tencent.smtt.sdk.DownloadListener;
 import com.tencent.smtt.sdk.WebChromeClient;
 import com.tencent.smtt.sdk.WebViewClient;
 import com.tencent.smtt.sdk.*;
+import top.xuqingquan.utils.NetUtils;
 import top.xuqingquan.utils.Timber;
 
 public abstract class AbsAgentWebSettings implements IAgentWebSettings, WebListenerManager {
@@ -44,7 +45,7 @@ public abstract class AbsAgentWebSettings implements IAgentWebSettings, WebListe
         mWebSettings.setBuiltInZoomControls(true);
         mWebSettings.setDisplayZoomControls(false);
         mWebSettings.setSavePassword(false);
-        if (AgentWebUtils.checkNetwork(webView.getContext())) {
+        if (NetUtils.networkIsConnect(webView.getContext())) {
             //根据cache-control获取数据。
             mWebSettings.setCacheMode(WebSettings.LOAD_DEFAULT);
         } else {

@@ -3,6 +3,7 @@ package top.xuqingquan.web;
 import com.tencent.smtt.sdk.WebView;
 
 public class IndicatorHandler implements IndicatorController {
+
     private BaseIndicatorSpec mBaseIndicatorSpec;
 
     @Override

@@ -12,7 +12,7 @@ public class Extra implements Cloneable, Serializable {
     transient PermissionInterceptor mPermissionInterceptor;
     transient WebView mWebView;
     boolean mIsCloneObject = false;
-    DownloadListener mDownloadListener;
+    private DownloadListener mDownloadListener;
     private DownloadTask mDownloadTask;
 
     Extra() {
@@ -53,7 +53,7 @@ public class Extra implements Cloneable, Serializable {
         return mDownloadTask.getContentLength();
     }
 
-    protected Extra setContentLength(long contentLength) {
+    Extra setContentLength(long contentLength) {
         mDownloadTask.setContentLength(contentLength);
         return this;
     }

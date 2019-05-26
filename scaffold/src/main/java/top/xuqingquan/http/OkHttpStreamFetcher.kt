@@ -38,8 +38,7 @@ class OkHttpStreamFetcher(private val client: Call.Factory, private val url: Gli
     override fun getDataSource() = DataSource.REMOTE
 
     override fun cancel() {
-        val local = call
-        local?.apply { cancel() }
+        call.cancel()
     }
 
     override fun loadData(priority: Priority, callback: DataFetcher.DataCallback<in InputStream>) {

@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -17,7 +18,6 @@ import com.google.android.material.snackbar.Snackbar;
 import com.tencent.smtt.export.external.interfaces.JsPromptResult;
 import com.tencent.smtt.export.external.interfaces.JsResult;
 import com.tencent.smtt.sdk.WebView;
-import org.jetbrains.annotations.NotNull;
 import top.xuqingquan.utils.Timber;
 
 public class DefaultDesignUIController extends DefaultUIController {
@@ -78,6 +78,9 @@ public class DefaultDesignUIController extends DefaultUIController {
             mBottomSheetDialog.setContentView(mRecyclerView);
         }
         mRecyclerView = mBottomSheetDialog.getDelegate().findViewById(RECYCLERVIEW_ID);
+        if (mRecyclerView == null) {
+            return;
+        }
         mRecyclerView.setAdapter(getAdapter(ways, callback));
         mBottomSheetDialog.setOnCancelListener(dialog -> {
             if (callback != null) {
@@ -89,13 +92,14 @@ public class DefaultDesignUIController extends DefaultUIController {
 
     private RecyclerView.Adapter getAdapter(final String[] ways, final Handler.Callback callback) {
         return new RecyclerView.Adapter<BottomSheetHolder>() {
+            @NonNull
             @Override
-            public BottomSheetHolder onCreateViewHolder(@NotNull ViewGroup viewGroup, int i) {
+            public BottomSheetHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
                 return new BottomSheetHolder(mLayoutInflater.inflate(android.R.layout.simple_list_item_1, viewGroup, false));
             }
 
             @Override
-            public void onBindViewHolder(@NotNull BottomSheetHolder bottomSheetHolder, final int i) {
+            public void onBindViewHolder(@NonNull BottomSheetHolder bottomSheetHolder, final int i) {
                 TypedValue outValue = new TypedValue();
                 mActivity.getTheme().resolveAttribute(android.R.attr.selectableItemBackground, outValue, true);
                 bottomSheetHolder.mTextView.setBackgroundResource(outValue.resourceId);

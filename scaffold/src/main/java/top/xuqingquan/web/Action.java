@@ -9,9 +9,9 @@ import java.util.List;
 
 public class Action implements Parcelable {
 
-    public transient static final int ACTION_PERMISSION = 1;
-    public transient static final int ACTION_FILE = 2;
-    public transient static final int ACTION_CAMERA = 3;
+    transient static final int ACTION_PERMISSION = 1;
+    transient static final int ACTION_FILE = 2;
+    transient static final int ACTION_CAMERA = 3;
     private List<String> mPermissions = new ArrayList<>();
     private int mAction;
     private int mFromIntention;
@@ -69,18 +69,18 @@ public class Action implements Parcelable {
         }
     };
 
-    public int getFromIntention() {
+    int getFromIntention() {
         return mFromIntention;
     }
 
-    public static Action createPermissionsAction(String[] permissions) {
+    static Action createPermissionsAction(String[] permissions) {
         Action mAction = new Action();
         mAction.setAction(Action.ACTION_PERMISSION);
         mAction.setPermissions(permissions);
         return mAction;
     }
 
-    public Action setFromIntention(int fromIntention) {
+    Action setFromIntention(int fromIntention) {
         this.mFromIntention = fromIntention;
         return this;
     }

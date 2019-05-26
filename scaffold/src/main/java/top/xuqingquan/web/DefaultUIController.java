@@ -2,7 +2,6 @@ package top.xuqingquan.web;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.os.Handler;
 import android.os.Message;
@@ -13,12 +12,13 @@ import com.tencent.smtt.export.external.interfaces.JsPromptResult;
 import com.tencent.smtt.export.external.interfaces.JsResult;
 import com.tencent.smtt.sdk.WebView;
 import top.xuqingquan.R;
+import top.xuqingquan.utils.DeviceUtils;
 import top.xuqingquan.utils.Timber;
 
 public class DefaultUIController extends AbsAgentWebUIController {
 
     private AlertDialog mAlertDialog;
-    protected AlertDialog mConfirmDialog;
+    private AlertDialog mConfirmDialog;
     private JsPromptResult mJsPromptResult = null;
     private JsResult mJsResult = null;
     private AlertDialog mPromptDialog = null;
@@ -40,7 +40,7 @@ public class DefaultUIController extends AbsAgentWebUIController {
             mAskOpenOtherAppDialog = new AlertDialog
                     .Builder(mActivity)
                     .setMessage(mResources.getString(R.string.agentweb_leave_app_and_go_other_page,
-                            AgentWebUtils.getApplicationName(mActivity)))//
+                            DeviceUtils.getApplicationName(mActivity)))//
                     .setTitle(mResources.getString(R.string.agentweb_tips))
                     .setNegativeButton(android.R.string.cancel, (dialog, which) -> {
                         if (callback != null) {

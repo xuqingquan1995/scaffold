@@ -1,13 +1,14 @@
 package top.xuqingquan.web;
 
 import android.Manifest;
-public class AgentWebPermissions {
-	public static final String[] CAMERA;
-	public static final String[] LOCATION;
-	public static final String[] STORAGE;
-	public static final String ACTION_CAMERA = "Camera";
-	public static final String ACTION_LOCATION = "Location";
-	public static final String ACTION_STORAGE = "Storage";
+
+class AgentWebPermissions {
+	static final String[] CAMERA;
+	static final String[] LOCATION;
+	static final String[] STORAGE;
+	static final String ACTION_CAMERA = "Camera";
+	static final String ACTION_LOCATION = "Location";
+	static final String ACTION_STORAGE = "Storage";
 	static {
 		CAMERA = new String[]{
 				Manifest.permission.CAMERA};

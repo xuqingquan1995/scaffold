@@ -1,7 +1,9 @@
 package top.xuqingquan.web;
 
 public class JsInterfaceObjectException extends RuntimeException {
-    JsInterfaceObjectException(String msg){
+
+    JsInterfaceObjectException(String msg) {
         super(msg);
     }
+
 }

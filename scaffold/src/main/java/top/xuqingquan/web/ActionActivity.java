@@ -116,7 +116,7 @@ public final class ActionActivity extends Activity {
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void permission(Action action) {
         List<String> permissions = action.getPermissions();
-        if (AgentWebUtils.isEmptyCollection(permissions)) {
+        if (permissions == null || permissions.isEmpty()) {
             mPermissionListener = null;
             mRationaleListener = null;
             finish();
@@ -157,13 +157,13 @@ public final class ActionActivity extends Activity {
             // 指定开启系统相机的Action
             mUri = intent.getParcelableExtra(MediaStore.EXTRA_OUTPUT);
             this.startActivityForResult(intent, REQUEST_CODE);
-        } catch (Throwable ignore) {
+        } catch (Throwable e) {
             Timber.e("找不到系统相机");
             if (mChooserListener != null) {
                 mChooserListener.onChoiceResult(REQUEST_CODE, Activity.RESULT_CANCELED, null);
             }
             mChooserListener = null;
-            Timber.e(ignore);
+            Timber.e(e);
         }
     }
 

@@ -3,6 +3,7 @@ package top.xuqingquan.web;
 import android.os.Build;
 import com.tencent.smtt.sdk.ValueCallback;
 import com.tencent.smtt.sdk.WebView;
+import top.xuqingquan.utils.CharacterUtils;
 
 public abstract class BaseJsAccessEntrace implements JsAccessEntrace {
     private WebView mWebView;
@@ -54,7 +55,7 @@ public abstract class BaseJsAccessEntrace implements JsAccessEntrace {
         StringBuilder mStringBuilder = new StringBuilder();
         for (int i = 0; i < params.length; i++) {
             String param = params[i];
-            if (!AgentWebUtils.isJson(param)) {
+            if (!CharacterUtils.isJson(param)) {
                 mStringBuilder.append("\"").append(param).append("\"");
             } else {
                 mStringBuilder.append(param);

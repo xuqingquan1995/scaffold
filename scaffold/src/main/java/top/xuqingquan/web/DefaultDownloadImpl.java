@@ -15,6 +15,8 @@ import com.download.library.DownloadTask;
 import com.download.library.Runtime;
 import com.tencent.smtt.sdk.WebView;
 import top.xuqingquan.R;
+import top.xuqingquan.utils.NetUtils;
+import top.xuqingquan.utils.PermissionUtils;
 import top.xuqingquan.utils.Timber;
 
 import java.io.File;
@@ -138,7 +140,7 @@ public class DefaultDownloadImpl implements com.tencent.smtt.sdk.DownloadListene
 
     private List<String> checkNeedPermission() {
         List<String> deniedPermissions = new ArrayList<>();
-        if (!AgentWebUtils.hasPermission(mActivityWeakReference.get(), AgentWebPermissions.STORAGE)) {
+        if (!PermissionUtils.hasPermission(mActivityWeakReference.get(), AgentWebPermissions.STORAGE)) {
             deniedPermissions.addAll(Arrays.asList(AgentWebPermissions.STORAGE));
         }
         return deniedPermissions;
@@ -191,7 +193,7 @@ public class DefaultDownloadImpl implements com.tencent.smtt.sdk.DownloadListene
         downloadTask.setFile(file, downloadTask.getContext().getPackageName() + ".ScaffoldFileProvider");
         // 移动数据
         if (!downloadTask.isForceDownload() &&
-                AgentWebUtils.checkNetworkType(mContext) > 1) {
+                NetUtils.checkNetworkType(mContext) > 1) {
 
             showDialog(url);
             return;

@@ -263,7 +263,6 @@ public class WebChromeClientDelegate extends WebChromeClient {
         return super.onShowFileChooser(webView, filePathCallback, fileChooserParams);
     }
 
-
     /**
      * Android  >= 4.1
      *
@@ -274,26 +273,6 @@ public class WebChromeClientDelegate extends WebChromeClient {
     public void openFileChooser(ValueCallback<Uri> uploadFile, String acceptType, String capture) {
         commonRefect(this.mDelegate, "openFileChooser", new Object[]{uploadFile, acceptType, capture}, ValueCallback.class, String.class, String.class);
     }
-
-    /**
-     * Android < 3.0
-     *
-     * @param valueCallback
-     */
-    public void openFileChooser(ValueCallback<Uri> valueCallback) {
-        commonRefect(this.mDelegate, "openFileChooser", new Object[]{valueCallback}, ValueCallback.class);
-    }
-
-    /**
-     * Android  >= 3.0
-     *
-     * @param valueCallback
-     * @param acceptType
-     */
-    public void openFileChooser(ValueCallback valueCallback, String acceptType) {
-        commonRefect(this.mDelegate, "openFileChooser", new Object[]{valueCallback, acceptType}, ValueCallback.class, String.class);
-    }
-
 
     private void commonRefect(WebChromeClient o, String mothed, Object[] os, Class... clazzs) {
         try {

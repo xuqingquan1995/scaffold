@@ -192,7 +192,7 @@ class X5WebView : FrameLayout {
     }
 
     fun onDestroy() {
-        agentWeb?.webLifeCycle?.onDestroy()
+        agentWeb?.destroy()
     }
 
     override fun onDetachedFromWindow() {

@@ -10,10 +10,8 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Handler;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.View;
 import com.alipay.sdk.app.PayTask;
-import com.tencent.smtt.export.external.interfaces.HttpAuthHandler;
 import com.tencent.smtt.export.external.interfaces.WebResourceError;
 import com.tencent.smtt.export.external.interfaces.WebResourceRequest;
 import com.tencent.smtt.export.external.interfaces.WebResourceResponse;
@@ -47,23 +45,23 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
     /**
      * intent ' s scheme
      */
-    public static final String INTENT_SCHEME = "intent://";
+    private static final String INTENT_SCHEME = "intent://";
     /**
      * Wechat pay scheme ，用于唤醒微信支付
      */
-    public static final String WEBCHAT_PAY_SCHEME = "weixin://wap/pay?";
+    private static final String WEBCHAT_PAY_SCHEME = "weixin://wap/pay?";
     /**
      * 支付宝
      */
-    public static final String ALIPAYS_SCHEME = "alipays://";
+    private static final String ALIPAYS_SCHEME = "alipays://";
     /**
      * http scheme
      */
-    public static final String HTTP_SCHEME = "http://";
+    private static final String HTTP_SCHEME = "http://";
     /**
      * https scheme
      */
-    public static final String HTTPS_SCHEME = "https://";
+    private static final String HTTPS_SCHEME = "https://";
     /**
      * true 表示当前应用内依赖了 alipay library , false  反之
      */
@@ -71,15 +69,15 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
     /**
      * 直接打开其他页面
      */
-    public static final int DERECT_OPEN_OTHER_PAGE = 1001;
+    private static final int DERECT_OPEN_OTHER_PAGE = 1001;
     /**
      * 弹窗咨询用户是否前往其他页面
      */
-    public static final int ASK_USER_OPEN_OTHER_PAGE = DERECT_OPEN_OTHER_PAGE >> 2;
+    private static final int ASK_USER_OPEN_OTHER_PAGE = DERECT_OPEN_OTHER_PAGE >> 2;
     /**
      * 不允许打开其他页面
      */
-    public static final int DISALLOW_OPEN_OTHER_APP = DERECT_OPEN_OTHER_PAGE >> 4;
+    private static final int DISALLOW_OPEN_OTHER_APP = DERECT_OPEN_OTHER_PAGE >> 4;
     /**
      * 默认为咨询用户
      */
@@ -111,7 +109,7 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
     /**
      * SMS scheme
      */
-    public static final String SCHEME_SMS = "sms:";
+    private static final String SCHEME_SMS = "sms:";
     /**
      * 缓存当前出现错误的页面
      */
@@ -132,8 +130,7 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
         Timber.i("HAS_ALIPAY_LIB:" + HAS_ALIPAY_LIB);
     }
 
-
-    DefaultWebClient(Builder builder) {
+    private DefaultWebClient(Builder builder) {
         super(builder.mClient);
         this.mWebView = builder.mWebView;
         this.mWebViewClient = builder.mClient;
@@ -283,9 +280,7 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
             if (TextUtils.isEmpty(intentUrl) || !intentUrl.startsWith(INTENT_SCHEME)) {
                 return;
             }
-            if (lookup(intentUrl)) {
-                return;
-            }
+            lookup(intentUrl);
         } catch (Throwable e) {
             Timber.e(e);
         }
@@ -497,7 +492,6 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
         };
     }
 
-
     public static Builder createBuilder() {
         return new Builder();
     }
@@ -551,7 +545,7 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
         }
     }
 
-    public static enum OpenOtherPageWays {
+    public enum OpenOtherPageWays {
         /**
          * 直接打开跳转页
          */

@@ -198,7 +198,9 @@ public final class AgentWeb {
         return mJsAccessEntrace;
     }
 
-
+    /**
+     * @return 清理缓存
+     */
     public AgentWeb clearWebCache() {
         if (this.getWebCreator().getWebView() != null) {
             AgentWebUtils.clearWebViewAllCache(mActivity, this.getWebCreator().getWebView());
@@ -449,7 +451,6 @@ public final class AgentWeb {
     public static final class AgentBuilder {
         private Activity mActivity;
         private ViewGroup mViewGroup;
-        private boolean mIsNeedDefaultProgress;
         private int mIndex = -1;
         private BaseIndicatorView mBaseIndicatorView;
         private IndicatorController mIndicatorController = null;
@@ -491,7 +492,6 @@ public final class AgentWeb {
             mActivity = activity;
             mTag = AgentWeb.ACTIVITY_TAG;
         }
-
 
         public IndicatorBuilder setAgentWebParent(@NonNull ViewGroup v, @NonNull ViewGroup.LayoutParams lp) {
             this.mViewGroup = v;
@@ -564,10 +564,8 @@ public final class AgentWeb {
             if (v != null) {
                 this.mAgentBuilder.mEnableIndicator = true;
                 this.mAgentBuilder.mBaseIndicatorView = v;
-                this.mAgentBuilder.mIsNeedDefaultProgress = false;
             } else {
                 this.mAgentBuilder.mEnableIndicator = true;
-                this.mAgentBuilder.mIsNeedDefaultProgress = true;
             }
             return new CommonBuilder(mAgentBuilder);
         }

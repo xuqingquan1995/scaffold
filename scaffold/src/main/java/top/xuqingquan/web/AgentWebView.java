@@ -305,15 +305,15 @@ public class AgentWebView extends WebView {
         private WebChromeClient mWebChromeClient;
         private boolean mIsOnReceivedTitle;
 
-        public void setWebChromeClient(WebChromeClient webChromeClient) {
+        void setWebChromeClient(WebChromeClient webChromeClient) {
             mWebChromeClient = webChromeClient;
         }
 
-        public void onPageStarted() {
+        void onPageStarted() {
             mIsOnReceivedTitle = false;
         }
 
-        public void onPageFinished(WebView view) {
+        void onPageFinished(WebView view) {
             if (!mIsOnReceivedTitle && mWebChromeClient != null) {
                 WebBackForwardList list = null;
                 try {
@@ -331,7 +331,7 @@ public class AgentWebView extends WebView {
             }
         }
 
-        public void onReceivedTitle() {
+        void onReceivedTitle() {
             mIsOnReceivedTitle = true;
         }
     }
