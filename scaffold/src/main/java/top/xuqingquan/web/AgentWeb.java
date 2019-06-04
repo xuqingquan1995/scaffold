@@ -309,7 +309,8 @@ public final class AgentWeb {
     }
 
     private void doCompat() {
-        mJavaObjects.put("agentWeb", mAgentWebJsInterfaceCompat = new AgentWebJsInterfaceCompat(this, mActivity));
+        mAgentWebJsInterfaceCompat = new AgentWebJsInterfaceCompat(this, mActivity);
+        mJavaObjects.put("agentWeb", mAgentWebJsInterfaceCompat);
     }
 
     private WebCreator configWebCreator(BaseIndicatorView progressView, int index, ViewGroup.LayoutParams lp, int indicatorColor, int height_dp, WebView webView, IWebLayout webLayout) {
@@ -325,7 +326,8 @@ public final class AgentWeb {
     private AgentWeb go(String url) {
         this.getUrlLoader().loadUrl(url);
         IndicatorController mIndicatorController;
-        if (!TextUtils.isEmpty(url) && (mIndicatorController = getIndicatorController()) != null && mIndicatorController.offerIndicator() != null) {
+        if (!TextUtils.isEmpty(url) && (mIndicatorController = getIndicatorController()) != null) {
+            mIndicatorController.offerIndicator();
             getIndicatorController().offerIndicator().show();
         }
         return this;
@@ -439,9 +441,11 @@ public final class AgentWeb {
             }
             Timber.i("MiddlewareWebClientBase middleware count:" + count);
             tail.setDelegate(mDefaultChromeClient);
-            return this.mTargetChromeClient = header;
+            this.mTargetChromeClient = header;
+            return this.mTargetChromeClient;
         } else {
-            return this.mTargetChromeClient = mDefaultChromeClient;
+            this.mTargetChromeClient = mDefaultChromeClient;
+            return this.mTargetChromeClient;
         }
     }
 

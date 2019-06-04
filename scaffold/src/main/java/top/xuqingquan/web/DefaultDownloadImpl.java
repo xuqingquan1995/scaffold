@@ -91,7 +91,7 @@ public class DefaultDownloadImpl implements com.tencent.smtt.sdk.DownloadListene
             return;
         }
         if (null != this.mPermissionListener) {
-            if (this.mPermissionListener.intercept(url, AgentWebPermissions.INSTANCE.getSTORAGE(), "download")) {
+            if (this.mPermissionListener.intercept(url, AgentWebPermissions.getSTORAGE(), "download")) {
                 return;
             }
         }
@@ -136,7 +136,7 @@ public class DefaultDownloadImpl implements com.tencent.smtt.sdk.DownloadListene
                             .onPermissionsDeny(
                                     checkNeedPermission().
                                             toArray(new String[]{}),
-                                    AgentWebPermissions.INSTANCE.getACTION_STORAGE(), "Download");
+                                    AgentWebPermissions.getACTION_STORAGE(), "Download");
                 }
                 Timber.i("储存权限获取失败~");
             }
@@ -146,8 +146,8 @@ public class DefaultDownloadImpl implements com.tencent.smtt.sdk.DownloadListene
 
     private List<String> checkNeedPermission() {
         List<String> deniedPermissions = new ArrayList<>();
-        if (!PermissionUtils.hasPermission(mActivityWeakReference.get(), AgentWebPermissions.INSTANCE.getSTORAGE())) {
-            deniedPermissions.addAll(Arrays.asList(AgentWebPermissions.INSTANCE.getSTORAGE()));
+        if (!PermissionUtils.hasPermission(mActivityWeakReference.get(), AgentWebPermissions.getSTORAGE())) {
+            deniedPermissions.addAll(Arrays.asList(AgentWebPermissions.getSTORAGE()));
         }
         return deniedPermissions;
     }
