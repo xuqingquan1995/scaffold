@@ -13,12 +13,11 @@ import com.tencent.smtt.sdk.WebView;
 import com.tencent.smtt.sdk.WebViewClient;
 import top.xuqingquan.utils.Timber;
 import top.xuqingquan.web.agent.*;
-import top.xuqingquan.web.x5.*;
-import top.xuqingquan.web.x5.AgentWebConfig;
 import top.xuqingquan.web.x5.EventHandlerImpl;
 import top.xuqingquan.web.x5.IVideo;
 import top.xuqingquan.web.x5.IndicatorController;
 import top.xuqingquan.web.x5.WebCreator;
+import top.xuqingquan.web.x5.*;
 
 import java.lang.ref.WeakReference;
 import java.util.Map;
@@ -75,7 +74,7 @@ public final class AgentWeb {
     /**
      * 安全 Controller
      */
-    private WebSecurityController<WebSecurityCheckLogic> mWebSecurityController = null;
+    private WebSecurityController<WebSecurityCheckLogic> mWebSecurityController;
     /**
      * WebSecurityCheckLogic
      */
@@ -84,10 +83,6 @@ public final class AgentWeb {
      * WebChromeClient
      */
     private WebChromeClient mTargetChromeClient;
-    /**
-     * flag security 's mode
-     */
-    private SecurityType mSecurityType;
     /**
      * Activity
      */
@@ -165,7 +160,6 @@ public final class AgentWeb {
 
         }
         this.mPermissionInterceptor = agentBuilder.mPermissionInterceptor == null ? null : new PermissionInterceptorWrapper(agentBuilder.mPermissionInterceptor);
-        this.mSecurityType = agentBuilder.mSecurityType;
         this.mIUrlLoader = new UrlLoaderImpl(mWebCreator.create().getWebView(), agentBuilder.mHttpHeaders);
         if (this.mWebCreator.getWebParentLayout() instanceof WebParentLayout) {
             WebParentLayout mWebParentLayout = (WebParentLayout) this.mWebCreator.getWebParentLayout();
@@ -174,7 +168,7 @@ public final class AgentWeb {
             mWebParentLayout.setErrorView(agentBuilder.mErrorView);
         }
         this.mWebLifeCycle = new DefaultWebLifeCycleImpl(mWebCreator.getWebView());
-        mWebSecurityController = new WebSecurityControllerImpl(mWebCreator.getWebView(), this.mAgentWeb.mJavaObjects, this.mSecurityType);
+        mWebSecurityController = new WebSecurityControllerImpl(mWebCreator.getWebView());
         this.mWebClientHelper = agentBuilder.mWebClientHelper;
         this.mIsInterceptUnkownUrl = agentBuilder.mIsInterceptUnkownUrl;
         if (agentBuilder.mOpenOtherPage != null) {
@@ -390,7 +384,7 @@ public final class AgentWeb {
     }
 
     private AgentWeb ready() {
-        AgentWebConfig.initCookiesManager(mActivity.getApplicationContext());
+        X5WebConfig.initCookiesManager(mActivity.getApplicationContext());
         IAgentWebSettings mAgentWebSettings = this.mAgentWebSettings;
         if (mAgentWebSettings == null) {
             this.mAgentWebSettings = mAgentWebSettings = AgentWebSettingsImpl.getInstance();
@@ -403,7 +397,7 @@ public final class AgentWeb {
         }
         mAgentWebSettings.toSetting(mWebCreator.getWebView());
         if (mJsInterfaceHolder == null) {
-            mJsInterfaceHolder = JsInterfaceHolderImpl.getJsInterfaceHolder(mWebCreator.getWebView(), this.mSecurityType);
+            mJsInterfaceHolder = JsInterfaceHolderImpl.getJsInterfaceHolder(mWebCreator.getWebView());
         }
         Timber.i("mJavaObjects:" + mJavaObjects.size());
         if (mJavaObjects != null && !mJavaObjects.isEmpty()) {
@@ -469,7 +463,6 @@ public final class AgentWeb {
         private IEventHandler mIEventHandler;
         private int mHeight = -1;
         private ArrayMap<String, Object> mJavaObject;
-        private SecurityType mSecurityType = SecurityType.DEFAULT_CHECK;
         private WebView mWebView;
         private boolean mWebClientHelper = true;
         private IWebLayout mWebLayout = null;
@@ -656,11 +649,6 @@ public final class AgentWeb {
 
         public CommonBuilder addJavascriptInterface(@NonNull String name, @NonNull Object o) {
             this.mAgentBuilder.addJavaObject(name, o);
-            return this;
-        }
-
-        public CommonBuilder setSecurityType(@NonNull SecurityType type) {
-            this.mAgentBuilder.mSecurityType = type;
             return this;
         }
 

@@ -5,7 +5,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.*;
+import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,8 +21,8 @@ import top.xuqingquan.utils.NetUtils;
 import top.xuqingquan.utils.PermissionUtils;
 import top.xuqingquan.utils.Timber;
 import top.xuqingquan.web.agent.*;
-import top.xuqingquan.web.x5.AgentWebConfig;
 import top.xuqingquan.web.x5.DownloadListener;
+import top.xuqingquan.web.x5.X5WebConfig;
 import top.xuqingquan.web.x5.X5WebUtils;
 
 import java.io.File;
@@ -257,7 +259,7 @@ public class DefaultDownloadImpl implements com.tencent.smtt.sdk.DownloadListene
                 mAgentWebUIController.get()
                         .onShowMessage(mActivityWeakReference.get().getString(R.string.agentweb_coming_soon_download) + ":" + downloadTask.getFile().getName(), TAG.concat("|performDownload"));
             }
-            downloadTask.addHeader("Cookie", AgentWebConfig.getCookiesByUrl(url));
+            downloadTask.addHeader("Cookie", X5WebConfig.getCookiesByUrl(url));
             downloadTask.setDownloadListenerAdapter(new WeakDownloadListener(mDownloadAdapter));
             DownloadImpl.getInstance().enqueue(downloadTask);
         } catch (Throwable t) {

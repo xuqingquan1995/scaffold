@@ -15,7 +15,7 @@ import top.xuqingquan.R
 import top.xuqingquan.utils.Timber
 import top.xuqingquan.web.*
 import top.xuqingquan.web.agent.*
-import top.xuqingquan.web.x5.AgentWebConfig
+import top.xuqingquan.web.x5.X5WebConfig
 import top.xuqingquan.web.x5.DownloadListener
 import top.xuqingquan.web.x5.*
 
@@ -37,7 +37,7 @@ class X5WebView : FrameLayout {
         set(value) {
             field = value
             if (BuildConfig.DEBUG && field) {
-                AgentWebConfig.debug()
+                X5WebConfig.debug()
             }
         }
         get() = BuildConfig.DEBUG && field
@@ -147,7 +147,6 @@ class X5WebView : FrameLayout {
             .setWebViewClient(webViewClient)//WebViewClient ， 与 WebView 使用一致 ，但是请勿获取WebView调用setWebViewClient(xx)方法了,会覆盖AgentWeb DefaultWebClient,同时相应的中间件也会失效。
             .setWebChromeClient(webChromeClient) //WebChromeClient
             .setPermissionInterceptor(permissionInterceptor) //权限拦截 2.0.0 加入。
-            .setSecurityType(SecurityType.STRICT_CHECK) //严格模式 Android 4.2.2 以下会放弃注入对象 ，使用AgentWebView没影响。
             .setAgentWebUIController(agentWebUIControllerImplBase) //自定义UI  AgentWeb3.0.0 加入。
             .useMiddlewareWebChrome(middlewareWebChromeBase) //设置WebChromeClient中间件，支持多个WebChromeClient，AgentWeb 3.0.0 加入。
             .useMiddlewareWebClient(middlewareWebClientBase) //设置WebViewClient中间件，支持多个WebViewClient， AgentWeb 3.0.0 加入。

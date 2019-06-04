@@ -16,6 +16,8 @@ import top.xuqingquan.utils.FileUtils;
 import top.xuqingquan.utils.Timber;
 import top.xuqingquan.web.AbsAgentWebUIController;
 import top.xuqingquan.web.WebParentLayout;
+import top.xuqingquan.web.agent.AgentWebConfig;
+import top.xuqingquan.web.agent.AgentWebUtils;
 import top.xuqingquan.web.agent.PermissionInterceptor;
 
 import java.io.File;
@@ -48,7 +50,7 @@ public class X5WebUtils {
 
     public static void clearWebViewAllCache(Context context, WebView webView) {
         try {
-            AgentWebConfig.removeAllCookies(null);
+            X5WebConfig.removeAllCookies(null);
             webView.getSettings().setCacheMode(android.webkit.WebSettings.LOAD_NO_CACHE);
             context.deleteDatabase("webviewCache.db");
             context.deleteDatabase("webview.db");

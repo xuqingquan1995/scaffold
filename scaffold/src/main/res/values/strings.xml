@@ -22,6 +22,4 @@
     <string name="agentweb_leave">离开</string>
     <string name="agentweb_max_file_length_limit">选择的文件不能大于%sMB</string>
     <string name="agentweb_default_page_error">出错啦! 点击空白处刷新 ~</string>
-    <string name="connot_find_camera">找不到系统相机</string>
-    <string name="connot_find_file_choser">找不到文件选择器</string>
 </resources>

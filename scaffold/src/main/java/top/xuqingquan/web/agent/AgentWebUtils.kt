@@ -41,11 +41,11 @@ object AgentWebUtils {
 
     @JvmStatic
     fun getAgentWebFilePath(context: Context): String {
-        if (!TextUtils.isEmpty(top.xuqingquan.web.x5.AgentWebConfig.AGENTWEB_FILE_PATH)) {
-            return top.xuqingquan.web.x5.AgentWebConfig.AGENTWEB_FILE_PATH
+        if (!TextUtils.isEmpty(AgentWebConfig.AGENTWEB_FILE_PATH)) {
+            return AgentWebConfig.AGENTWEB_FILE_PATH!!
         }
         val dir = getDiskExternalCacheDir(context)
-        val mFile = File(dir, top.xuqingquan.web.x5.AgentWebConfig.FILE_CACHE_PATH)
+        val mFile = File(dir, AgentWebConfig.FILE_CACHE_PATH)
         try {
             if (!mFile.exists()) {
                 mFile.mkdirs()

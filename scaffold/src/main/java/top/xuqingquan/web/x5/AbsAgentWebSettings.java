@@ -10,6 +10,7 @@ import com.tencent.smtt.sdk.*;
 import top.xuqingquan.utils.NetUtils;
 import top.xuqingquan.utils.Timber;
 import top.xuqingquan.web.AgentWeb;
+import top.xuqingquan.web.agent.AgentWebConfig;
 
 public abstract class AbsAgentWebSettings implements IAgentWebSettings, WebListenerManager {
     private WebSettings mWebSettings;

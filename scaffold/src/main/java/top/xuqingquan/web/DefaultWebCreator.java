@@ -12,10 +12,10 @@ import androidx.annotation.Nullable;
 import com.tencent.smtt.sdk.WebView;
 import top.xuqingquan.R;
 import top.xuqingquan.utils.Timber;
+import top.xuqingquan.web.agent.AgentWebConfig;
 import top.xuqingquan.web.agent.AgentWebUtils;
 import top.xuqingquan.web.agent.BaseIndicatorSpec;
 import top.xuqingquan.web.agent.BaseIndicatorView;
-import top.xuqingquan.web.x5.AgentWebConfig;
 import top.xuqingquan.web.x5.IWebLayout;
 import top.xuqingquan.web.x5.WebCreator;
 

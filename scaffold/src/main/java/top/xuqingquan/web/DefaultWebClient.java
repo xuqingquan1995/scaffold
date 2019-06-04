@@ -17,9 +17,9 @@ import com.tencent.smtt.export.external.interfaces.WebResourceRequest;
 import com.tencent.smtt.export.external.interfaces.WebResourceResponse;
 import com.tencent.smtt.sdk.WebView;
 import top.xuqingquan.utils.Timber;
+import top.xuqingquan.web.agent.AgentWebConfig;
 import top.xuqingquan.web.agent.AgentWebUtils;
 import top.xuqingquan.web.agent.PermissionInterceptor;
-import top.xuqingquan.web.x5.AgentWebConfig;
 import top.xuqingquan.web.x5.X5WebUtils;
 
 import java.lang.ref.WeakReference;

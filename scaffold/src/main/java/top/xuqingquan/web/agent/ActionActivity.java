@@ -92,7 +92,7 @@ public final class ActionActivity extends Activity {
             }
             this.startActivityForResult(mIntent, REQUEST_CODE);
         } catch (Throwable throwable) {
-            Timber.i(getString(R.string.connot_find_file_choser));
+            Timber.i("找不到文件选择器");
             chooserActionCallback(-1, null);
             Timber.e(throwable);
         }
@@ -158,7 +158,7 @@ public final class ActionActivity extends Activity {
             mUri = intent.getParcelableExtra(MediaStore.EXTRA_OUTPUT);
             this.startActivityForResult(intent, REQUEST_CODE);
         } catch (Throwable e) {
-            Timber.e(getString(R.string.connot_find_camera));
+            Timber.e("找不到系统相机");
             if (mChooserListener != null) {
                 mChooserListener.onChoiceResult(REQUEST_CODE, Activity.RESULT_CANCELED, null);
             }
