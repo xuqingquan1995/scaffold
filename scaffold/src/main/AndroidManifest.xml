@@ -25,7 +25,7 @@
         </activity>
         <!--AgentWebX5申请权限用到这个类-->
         <activity
-                android:name=".web.ActionActivity"
+                android:name=".web.agent.ActionActivity"
                 android:configChanges="keyboardHidden|orientation|screenSize"
                 android:launchMode="standard"
                 android:theme="@style/actionActivity"

@@ -4,6 +4,8 @@ import android.os.Handler;
 import android.os.Looper;
 import com.tencent.smtt.sdk.WebView;
 import top.xuqingquan.utils.Timber;
+import top.xuqingquan.web.agent.HttpHeaders;
+import top.xuqingquan.web.agent.IUrlLoader;
 
 import java.util.Map;
 

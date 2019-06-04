@@ -1,6 +1,7 @@
 package top.xuqingquan.web;
 
 import com.tencent.smtt.sdk.WebView;
+import top.xuqingquan.web.agent.WebLifeCycle;
 
 public class DefaultWebLifeCycleImpl implements WebLifeCycle {
     private WebView mWebView;

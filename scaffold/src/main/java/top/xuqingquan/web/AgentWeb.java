@@ -12,6 +12,7 @@ import com.tencent.smtt.sdk.WebChromeClient;
 import com.tencent.smtt.sdk.WebView;
 import com.tencent.smtt.sdk.WebViewClient;
 import top.xuqingquan.utils.Timber;
+import top.xuqingquan.web.agent.*;
 
 import java.lang.ref.WeakReference;
 import java.util.Map;
@@ -442,10 +443,6 @@ public final class AgentWeb {
         } else {
             return this.mTargetChromeClient = mDefaultChromeClient;
         }
-    }
-
-    public enum SecurityType {
-        DEFAULT_CHECK, STRICT_CHECK
     }
 
     public static final class AgentBuilder {

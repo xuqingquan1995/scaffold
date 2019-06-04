@@ -14,6 +14,7 @@ import top.xuqingquan.BuildConfig
 import top.xuqingquan.R
 import top.xuqingquan.utils.Timber
 import top.xuqingquan.web.*
+import top.xuqingquan.web.agent.*
 
 /**
  * Created by 许清泉 on 2019-05-22 21:00
@@ -40,12 +41,12 @@ class X5WebView : FrameLayout {
 
     var downloadListener = object : DownloadListener() {
         override fun onStart(
-            url: String?,
-            userAgent: String?,
-            contentDisposition: String?,
-            mimetype: String?,
+            url: String,
+            userAgent: String,
+            contentDisposition: String,
+            mimetype: String,
             contentLength: Long,
-            extra: Extra?
+            extra: Extra
         ): Boolean {
             if (debug) {
                 Timber.d("onStart-url=$url")
@@ -54,19 +55,19 @@ class X5WebView : FrameLayout {
                 Timber.d("onStart-mimetype=$mimetype")
                 Timber.d("onStart-contentLength=$contentLength")
             }
-            extra?.setBreakPointDownload(true) // 是否开启断点续传
-                ?.setConnectTimeOut(6000) // 连接最大时长
-                ?.setBlockMaxTime(10 * 60 * 1000)  // 以8KB位单位，默认60s ，如果60s内无法从网络流中读满8KB数据，则抛出异常
-                ?.setDownloadTimeOut(java.lang.Long.MAX_VALUE) // 下载最大时长
-                ?.setParallelDownload(false)  // 串行下载更节省资源哦
-                ?.setEnableIndicator(true)  // false 关闭进度通知
+            extra.setBreakPointDownload(true) // 是否开启断点续传
+                .setConnectTimeOut(6000) // 连接最大时长
+                .setBlockMaxTime(10 * 60 * 1000)  // 以8KB位单位，默认60s ，如果60s内无法从网络流中读满8KB数据，则抛出异常
+                .setDownloadTimeOut(java.lang.Long.MAX_VALUE) // 下载最大时长
+                .setParallelDownload(false)  // 串行下载更节省资源哦
+                .setEnableIndicator(true)  // false 关闭进度通知
                 // ?.addHeader("Cookie", "xx") // 自定义请求头
-                ?.setAutoOpen(true) // 下载完成自动打开
-                ?.setForceDownload(true) // 强制下载，不管网络网络类型
+                .setAutoOpen(true) // 下载完成自动打开
+                .setForceDownload(true) // 强制下载，不管网络网络类型
             return false
         }
 
-        override fun onProgress(url: String?, downloaded: Long, length: Long, usedTime: Long) {
+        override fun onProgress(url: String, downloaded: Long, length: Long, usedTime: Long) {
             super.onProgress(url, downloaded, length, usedTime)
             if (debug) {
                 Timber.d("onProgress-url=$url")
@@ -76,7 +77,7 @@ class X5WebView : FrameLayout {
             }
         }
 
-        override fun onResult(throwable: Throwable?, path: Uri?, url: String?, extra: Extra?): Boolean {
+        override fun onResult(throwable: Throwable, path: Uri, url: String, extra: Extra): Boolean {
             if (debug) {
                 Timber.d("onResult-throwable=$throwable")
                 Timber.d("onResult-path=$path")
@@ -115,12 +116,14 @@ class X5WebView : FrameLayout {
 
     var webChromeClient = object : WebChromeClient() {}
 
-    var permissionInterceptor = PermissionInterceptor { _, _, _ ->
-        /**
-         * PermissionInterceptor 能达到 url1 允许授权， url2 拒绝授权的效果。
-         * @return true 该Url对应页面请求权限进行拦截 ，false 表示不拦截。
-         */
-        false
+    var permissionInterceptor = object : PermissionInterceptor {
+        override fun intercept(url: String, permissions: Array<String>, action: String): Boolean {
+            /**
+             * PermissionInterceptor 能达到 url1 允许授权， url2 拒绝授权的效果。
+             * @return true 该Url对应页面请求权限进行拦截 ，false 表示不拦截。
+             */
+            return false
+        }
     }
 
     var agentWebUIControllerImplBase = AgentWebUIControllerImplBase()
@@ -162,7 +165,7 @@ class X5WebView : FrameLayout {
             .setWebViewClient(webViewClient)//WebViewClient ， 与 WebView 使用一致 ，但是请勿获取WebView调用setWebViewClient(xx)方法了,会覆盖AgentWeb DefaultWebClient,同时相应的中间件也会失效。
             .setWebChromeClient(webChromeClient) //WebChromeClient
             .setPermissionInterceptor(permissionInterceptor) //权限拦截 2.0.0 加入。
-            .setSecurityType(AgentWeb.SecurityType.STRICT_CHECK) //严格模式 Android 4.2.2 以下会放弃注入对象 ，使用AgentWebView没影响。
+            .setSecurityType(SecurityType.STRICT_CHECK) //严格模式 Android 4.2.2 以下会放弃注入对象 ，使用AgentWebView没影响。
             .setAgentWebUIController(agentWebUIControllerImplBase) //自定义UI  AgentWeb3.0.0 加入。
             .useMiddlewareWebChrome(middlewareWebChromeBase) //设置WebChromeClient中间件，支持多个WebChromeClient，AgentWeb 3.0.0 加入。
             .useMiddlewareWebClient(middlewareWebClientBase) //设置WebViewClient中间件，支持多个WebViewClient， AgentWeb 3.0.0 加入。

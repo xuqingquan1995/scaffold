@@ -35,12 +35,12 @@ public class AgentWebConfig {
     /**
      * 使用 AgentWebView
      */
-    static final int WEBVIEW_AGENTWEB_SAFE_TYPE = 2;
+    public static final int WEBVIEW_AGENTWEB_SAFE_TYPE = 2;
     /**
      * 自定义 WebView
      */
     static final int WEBVIEW_CUSTOM_TYPE = 3;
-    static int WEBVIEW_TYPE = WEBVIEW_DEFAULT_TYPE;
+    public static int WEBVIEW_TYPE = WEBVIEW_DEFAULT_TYPE;
     private static volatile boolean IS_INITIALIZED = false;
     /**
      * AgentWeb 的版本

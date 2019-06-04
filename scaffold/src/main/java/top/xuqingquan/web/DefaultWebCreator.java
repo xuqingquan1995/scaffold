@@ -12,6 +12,8 @@ import androidx.annotation.Nullable;
 import com.tencent.smtt.sdk.WebView;
 import top.xuqingquan.R;
 import top.xuqingquan.utils.Timber;
+import top.xuqingquan.web.agent.BaseIndicatorSpec;
+import top.xuqingquan.web.agent.BaseIndicatorView;
 
 public class DefaultWebCreator implements WebCreator {
     private Activity mActivity;

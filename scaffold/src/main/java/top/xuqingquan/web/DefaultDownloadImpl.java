@@ -18,6 +18,10 @@ import top.xuqingquan.R;
 import top.xuqingquan.utils.NetUtils;
 import top.xuqingquan.utils.PermissionUtils;
 import top.xuqingquan.utils.Timber;
+import top.xuqingquan.web.agent.Action;
+import top.xuqingquan.web.agent.ActionActivity;
+import top.xuqingquan.web.agent.AgentWebPermissions;
+import top.xuqingquan.web.agent.PermissionInterceptor;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
@@ -85,7 +89,7 @@ public class DefaultDownloadImpl implements com.tencent.smtt.sdk.DownloadListene
             return;
         }
         if (null != this.mPermissionListener) {
-            if (this.mPermissionListener.intercept(url, AgentWebPermissions.STORAGE, "download")) {
+            if (this.mPermissionListener.intercept(url, AgentWebPermissions.INSTANCE.getSTORAGE(), "download")) {
                 return;
             }
         }
@@ -130,7 +134,7 @@ public class DefaultDownloadImpl implements com.tencent.smtt.sdk.DownloadListene
                             .onPermissionsDeny(
                                     checkNeedPermission().
                                             toArray(new String[]{}),
-                                    AgentWebPermissions.ACTION_STORAGE, "Download");
+                                    AgentWebPermissions.INSTANCE.getACTION_STORAGE(), "Download");
                 }
                 Timber.i("储存权限获取失败~");
             }
@@ -140,8 +144,8 @@ public class DefaultDownloadImpl implements com.tencent.smtt.sdk.DownloadListene
 
     private List<String> checkNeedPermission() {
         List<String> deniedPermissions = new ArrayList<>();
-        if (!PermissionUtils.hasPermission(mActivityWeakReference.get(), AgentWebPermissions.STORAGE)) {
-            deniedPermissions.addAll(Arrays.asList(AgentWebPermissions.STORAGE));
+        if (!PermissionUtils.hasPermission(mActivityWeakReference.get(), AgentWebPermissions.INSTANCE.getSTORAGE())) {
+            deniedPermissions.addAll(Arrays.asList(AgentWebPermissions.INSTANCE.getSTORAGE()));
         }
         return deniedPermissions;
     }

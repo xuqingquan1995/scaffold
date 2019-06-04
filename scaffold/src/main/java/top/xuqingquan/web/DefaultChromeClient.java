@@ -13,6 +13,10 @@ import com.tencent.smtt.sdk.WebStorage;
 import com.tencent.smtt.sdk.WebView;
 import top.xuqingquan.utils.PermissionUtils;
 import top.xuqingquan.utils.Timber;
+import top.xuqingquan.web.agent.Action;
+import top.xuqingquan.web.agent.ActionActivity;
+import top.xuqingquan.web.agent.AgentWebPermissions;
+import top.xuqingquan.web.agent.PermissionInterceptor;
 
 import java.lang.ref.WeakReference;
 import java.util.Arrays;
@@ -127,7 +131,7 @@ public class DefaultChromeClient extends MiddlewareWebChromeBase {
 
     private void onGeolocationPermissionsShowPromptInternal(String origin, GeolocationPermissionsCallback callback) {
         if (mPermissionInterceptor != null) {
-            if (mPermissionInterceptor.intercept(this.mWebView.getUrl(), AgentWebPermissions.LOCATION, "location")) {
+            if (mPermissionInterceptor.intercept(this.mWebView.getUrl(), AgentWebPermissions.INSTANCE.getLOCATION(), "location")) {
                 callback.invoke(origin, false, false);
                 return;
             }
@@ -138,7 +142,7 @@ public class DefaultChromeClient extends MiddlewareWebChromeBase {
             return;
         }
         List<String> deniedPermissions;
-        if ((deniedPermissions = PermissionUtils.getDeniedPermissions(mActivity, AgentWebPermissions.LOCATION)).isEmpty()) {
+        if ((deniedPermissions = PermissionUtils.getDeniedPermissions(mActivity, AgentWebPermissions.getLOCATION())).isEmpty()) {
             Timber.i("onGeolocationPermissionsShowPromptInternal:" + true);
             callback.invoke(origin, true, false);
         } else {
@@ -169,8 +173,8 @@ public class DefaultChromeClient extends MiddlewareWebChromeBase {
                     mAgentWebUIController
                             .get()
                             .onPermissionsDeny(
-                                    AgentWebPermissions.LOCATION,
-                                    AgentWebPermissions.ACTION_LOCATION,
+                                    AgentWebPermissions.getLOCATION(),
+                                    AgentWebPermissions.getACTION_LOCATION(),
                                     "Location");
                 }
             }

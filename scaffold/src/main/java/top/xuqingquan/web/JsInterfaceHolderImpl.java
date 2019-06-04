@@ -2,6 +2,10 @@ package top.xuqingquan.web;
 
 import com.tencent.smtt.sdk.WebView;
 import top.xuqingquan.utils.Timber;
+import top.xuqingquan.web.agent.JsBaseInterfaceHolder;
+import top.xuqingquan.web.agent.JsInterfaceHolder;
+import top.xuqingquan.web.agent.JsInterfaceObjectException;
+import top.xuqingquan.web.agent.SecurityType;
 
 import java.util.Map;
 import java.util.Set;
@@ -10,11 +14,11 @@ public class JsInterfaceHolderImpl extends JsBaseInterfaceHolder {
 
     private WebView mWebView;
 
-    static JsInterfaceHolderImpl getJsInterfaceHolder(WebView webView, AgentWeb.SecurityType securityType) {
+    static JsInterfaceHolderImpl getJsInterfaceHolder(WebView webView, SecurityType securityType) {
         return new JsInterfaceHolderImpl(webView, securityType);
     }
 
-    JsInterfaceHolderImpl(WebView webView, AgentWeb.SecurityType securityType) {
+    JsInterfaceHolderImpl(WebView webView, SecurityType securityType) {
         super(securityType);
         this.mWebView = webView;
     }

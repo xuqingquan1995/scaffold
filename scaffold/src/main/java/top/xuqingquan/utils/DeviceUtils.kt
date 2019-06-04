@@ -46,17 +46,14 @@ object DeviceUtils {
 
     //获取应用的名称
     @JvmStatic
-    fun getApplicationName(context: Context): String {
-        var packageManager: PackageManager? = null
-        var applicationInfo: ApplicationInfo?
-        try {
-            packageManager = context.applicationContext.packageManager
-            applicationInfo = packageManager!!.getApplicationInfo(context.packageName, 0)
+    fun getApplicationName(context: Context): String? {
+        return try {
+            val packageManager = context.applicationContext.packageManager
+            val applicationInfo = packageManager!!.getApplicationInfo(context.packageName, 0)
+            packageManager.getApplicationLabel(applicationInfo).toString()
         } catch (e: PackageManager.NameNotFoundException) {
-            applicationInfo = null
+            ""
         }
-
-        return packageManager!!.getApplicationLabel(applicationInfo).toString()
     }
 
 }

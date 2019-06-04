@@ -1,4 +1,4 @@
-package top.xuqingquan.web;
+package top.xuqingquan.web.agent;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -9,7 +9,9 @@ import android.provider.MediaStore;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import top.xuqingquan.R;
 import top.xuqingquan.utils.Timber;
+import top.xuqingquan.web.AgentWebUtils;
 
 import java.io.File;
 import java.util.List;
@@ -29,7 +31,6 @@ public final class ActionActivity extends Activity {
     public static void start(Activity activity, Action action) {
         Intent mIntent = new Intent(activity, ActionActivity.class);
         mIntent.putExtra(KEY_ACTION, action);
-//        mIntent.setExtrasClassLoader(Action.class.getClassLoader());
         activity.startActivity(mIntent);
 
     }
@@ -68,11 +69,11 @@ public final class ActionActivity extends Activity {
         } else if (mAction.getAction() == Action.ACTION_CAMERA) {
             realOpenCamera();
         } else {
-            fetchFile(mAction);
+            fetchFile();
         }
     }
 
-    private void fetchFile(Action action) {
+    private void fetchFile() {
         if (mChooserListener == null) {
             finish();
         }
@@ -92,7 +93,7 @@ public final class ActionActivity extends Activity {
             }
             this.startActivityForResult(mIntent, REQUEST_CODE);
         } catch (Throwable throwable) {
-            Timber.i("找不到文件选择器");
+            Timber.i(getString(R.string.connot_find_file_choser));
             chooserActionCallback(-1, null);
             Timber.e(throwable);
         }
@@ -158,7 +159,7 @@ public final class ActionActivity extends Activity {
             mUri = intent.getParcelableExtra(MediaStore.EXTRA_OUTPUT);
             this.startActivityForResult(intent, REQUEST_CODE);
         } catch (Throwable e) {
-            Timber.e("找不到系统相机");
+            Timber.e(getString(R.string.connot_find_camera));
             if (mChooserListener != null) {
                 mChooserListener.onChoiceResult(REQUEST_CODE, Activity.RESULT_CANCELED, null);
             }

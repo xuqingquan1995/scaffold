@@ -16,6 +16,7 @@ import top.xuqingquan.R;
 import top.xuqingquan.utils.FileUtils;
 import top.xuqingquan.utils.PermissionUtils;
 import top.xuqingquan.utils.Timber;
+import top.xuqingquan.web.agent.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -24,8 +25,6 @@ import java.io.InputStream;
 import java.lang.ref.WeakReference;
 import java.util.*;
 import java.util.concurrent.*;
-
-import static top.xuqingquan.web.ActionActivity.*;
 
 public class FileChooser {
     /**
@@ -94,7 +93,6 @@ public class FileChooser {
     private static int MAX_WAIT_PHOTO_MS = 8 * 1000;
 
     public FileChooser(Builder builder) {
-
         this.mActivity = builder.mActivity;
         this.mUriValueCallback = builder.mUriValueCallback;
         this.mUriValueCallbacks = builder.mUriValueCallbacks;
@@ -120,10 +118,10 @@ public class FileChooser {
     }
 
     private void fileChooser() {
-        if (PermissionUtils.getDeniedPermissions(mActivity, AgentWebPermissions.STORAGE).isEmpty()) {
+        if (PermissionUtils.getDeniedPermissions(mActivity, AgentWebPermissions.getSTORAGE()).isEmpty()) {
             touchOffFileChooserAction();
         } else {
-            Action mAction = Action.createPermissionsAction(AgentWebPermissions.STORAGE);
+            Action mAction = Action.createPermissionsAction(AgentWebPermissions.getSTORAGE());
             mAction.setFromIntention(FROM_INTENTION_CODE >> 2);
             ActionActivity.setPermissionListener(mPermissionListener);
             ActionActivity.start(mActivity, mAction);
@@ -134,8 +132,8 @@ public class FileChooser {
         Action mAction = new Action();
         mAction.setAction(Action.ACTION_FILE);
         ActionActivity.setChooserListener(getChooserListener());
-        mActivity.startActivity(new Intent(mActivity, ActionActivity.class).putExtra(KEY_ACTION, mAction)
-                .putExtra(KEY_FILE_CHOOSER_INTENT, getFileChooserIntent()));
+        mActivity.startActivity(new Intent(mActivity, ActionActivity.class).putExtra(ActionActivity.KEY_ACTION, mAction)
+                .putExtra(ActionActivity.KEY_FILE_CHOOSER_INTENT, getFileChooserIntent()));
     }
 
     private Intent getFileChooserIntent() {
@@ -234,7 +232,7 @@ public class FileChooser {
             return;
         }
         if (mPermissionInterceptor != null) {
-            if (mPermissionInterceptor.intercept(FileChooser.this.mWebView.getUrl(), AgentWebPermissions.CAMERA, "camera")) {
+            if (mPermissionInterceptor.intercept(FileChooser.this.mWebView.getUrl(), AgentWebPermissions.getCAMERA(), "camera")) {
                 cancel();
                 return;
             }
@@ -246,7 +244,7 @@ public class FileChooser {
             mAction.setPermissions(deniedPermissions.toArray(new String[]{}));
             mAction.setFromIntention(FROM_INTENTION_CODE >> 3);
             ActionActivity.setPermissionListener(this.mPermissionListener);
-            start(mActivity, mAction);
+            ActionActivity.start(mActivity, mAction);
         } else {
             openCameraAction();
         }
@@ -254,11 +252,11 @@ public class FileChooser {
 
     private List<String> checkNeedPermission() {
         List<String> deniedPermissions = new ArrayList<>();
-        if (!PermissionUtils.hasPermission(mActivity, AgentWebPermissions.CAMERA)) {
-            deniedPermissions.add(AgentWebPermissions.CAMERA[0]);
+        if (!PermissionUtils.hasPermission(mActivity, AgentWebPermissions.getCAMERA())) {
+            deniedPermissions.add(AgentWebPermissions.getCAMERA()[0]);
         }
-        if (!PermissionUtils.hasPermission(mActivity, AgentWebPermissions.STORAGE)) {
-            deniedPermissions.addAll(Arrays.asList(AgentWebPermissions.STORAGE));
+        if (!PermissionUtils.hasPermission(mActivity, AgentWebPermissions.getSTORAGE())) {
+            deniedPermissions.addAll(Arrays.asList(AgentWebPermissions.getSTORAGE()));
         }
         return deniedPermissions;
     }
@@ -275,7 +273,7 @@ public class FileChooser {
         @Override
         public void onRequestPermissionsResult(@NonNull String[] permissions, @NonNull int[] grantResults, Bundle extras) {
             boolean tag = PermissionUtils.hasPermission(mActivity, Arrays.asList(permissions));
-            permissionResult(tag, extras.getInt(KEY_FROM_INTENTION));
+            permissionResult(tag, extras.getInt(ActionActivity.KEY_FROM_INTENTION));
         }
     };
 
@@ -290,8 +288,8 @@ public class FileChooser {
                     mAgentWebUIController
                             .get()
                             .onPermissionsDeny(
-                                    AgentWebPermissions.STORAGE,
-                                    AgentWebPermissions.ACTION_STORAGE,
+                                    AgentWebPermissions.getSTORAGE(),
+                                    AgentWebPermissions.getACTION_STORAGE(),
                                     "Open file chooser");
                 }
                 Timber.i("permission denied");
@@ -305,8 +303,8 @@ public class FileChooser {
                     mAgentWebUIController
                             .get()
                             .onPermissionsDeny(
-                                    AgentWebPermissions.CAMERA,
-                                    AgentWebPermissions.ACTION_CAMERA,
+                                    AgentWebPermissions.getCAMERA(),
+                                    AgentWebPermissions.getACTION_CAMERA(),
                                     "Take photo");
                 }
                 Timber.i("permission denied");
@@ -332,12 +330,12 @@ public class FileChooser {
         }
         if (mJsChannel) {
             Timber.i("通过Js获取文件");
-            convertFileAndCallback(mCameraState ? new Uri[]{data.getParcelableExtra(KEY_URI)} : processData(data));
+            convertFileAndCallback(mCameraState ? new Uri[]{data.getParcelableExtra(ActionActivity.KEY_URI)} : processData(data));
             return;
         }
         if (mIsAboveLollipop) {
             Timber.i("5.0以上系统通过input标签获取文件");
-            aboveLollipopCheckFilesAndCallback(mCameraState ? new Uri[]{data.getParcelableExtra(KEY_URI)} : processData(data), mCameraState);
+            aboveLollipopCheckFilesAndCallback(mCameraState ? new Uri[]{data.getParcelableExtra(ActionActivity.KEY_URI)} : processData(data), mCameraState);
             return;
         }
         if (mUriValueCallback == null) {
@@ -346,7 +344,7 @@ public class FileChooser {
             return;
         }
         if (mCameraState) {
-            mUriValueCallback.onReceiveValue(data.getParcelableExtra(KEY_URI));
+            mUriValueCallback.onReceiveValue(data.getParcelableExtra(ActionActivity.KEY_URI));
         } else {
             belowLollipopUriCallback(data);
         }

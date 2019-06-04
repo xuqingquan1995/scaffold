@@ -1,16 +1,17 @@
-package top.xuqingquan.web;
+package top.xuqingquan.web.agent;
 
 import android.os.Build;
 import android.webkit.JavascriptInterface;
+import top.xuqingquan.web.AgentWebConfig;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
 public abstract class JsBaseInterfaceHolder implements JsInterfaceHolder {
 
-    private AgentWeb.SecurityType mSecurityType;
+    private SecurityType mSecurityType;
 
-    protected JsBaseInterfaceHolder(AgentWeb.SecurityType securityType) {
+    protected JsBaseInterfaceHolder(SecurityType securityType) {
         this.mSecurityType = securityType;
     }
 
@@ -38,7 +39,7 @@ public abstract class JsBaseInterfaceHolder implements JsInterfaceHolder {
     }
 
     protected boolean checkSecurity() {
-        return mSecurityType != AgentWeb.SecurityType.STRICT_CHECK || (AgentWebConfig.WEBVIEW_TYPE == AgentWebConfig.WEBVIEW_AGENTWEB_SAFE_TYPE || Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN_MR1);
+        return mSecurityType != SecurityType.STRICT_CHECK || (AgentWebConfig.WEBVIEW_TYPE == AgentWebConfig.WEBVIEW_AGENTWEB_SAFE_TYPE || Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN_MR1);
     }
 
 }

@@ -11,6 +11,7 @@ import android.widget.FrameLayout;
 import androidx.core.util.Pair;
 import com.tencent.smtt.export.external.interfaces.IX5WebChromeClient;
 import com.tencent.smtt.sdk.WebView;
+import top.xuqingquan.web.agent.EventInterceptor;
 
 import java.util.HashSet;
 import java.util.Set;

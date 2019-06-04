@@ -1,4 +1,4 @@
-package top.xuqingquan.web;
+package top.xuqingquan.web.agent;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -9,9 +9,9 @@ import java.util.List;
 
 public class Action implements Parcelable {
 
-    transient static final int ACTION_PERMISSION = 1;
-    transient static final int ACTION_FILE = 2;
-    transient static final int ACTION_CAMERA = 3;
+    public transient static final int ACTION_PERMISSION = 1;
+    public transient static final int ACTION_FILE = 2;
+    public transient static final int ACTION_CAMERA = 3;
     private List<String> mPermissions = new ArrayList<>();
     private int mAction;
     private int mFromIntention;
@@ -39,7 +39,7 @@ public class Action implements Parcelable {
         this.mAction = action;
     }
 
-    protected Action(Parcel in) {
+    private Action(Parcel in) {
         mPermissions = in.createStringArrayList();
         mAction = in.readInt();
         mFromIntention = in.readInt();
@@ -73,14 +73,14 @@ public class Action implements Parcelable {
         return mFromIntention;
     }
 
-    static Action createPermissionsAction(String[] permissions) {
+    public static Action createPermissionsAction(String[] permissions) {
         Action mAction = new Action();
         mAction.setAction(Action.ACTION_PERMISSION);
         mAction.setPermissions(permissions);
         return mAction;
     }
 
-    Action setFromIntention(int fromIntention) {
+    public Action setFromIntention(int fromIntention) {
         this.mFromIntention = fromIntention;
         return this;
     }

@@ -26,6 +26,7 @@ import com.tencent.smtt.sdk.WebView;
 import top.xuqingquan.R;
 import top.xuqingquan.utils.FileUtils;
 import top.xuqingquan.utils.Timber;
+import top.xuqingquan.web.agent.PermissionInterceptor;
 
 import java.io.File;
 import java.io.IOException;
@@ -196,7 +197,7 @@ public class AgentWebUtils {
         }
     }
 
-    static File createImageFile(Context context) {
+    public static File createImageFile(Context context) {
         File mFile = null;
         try {
             String timeStamp =
@@ -215,7 +216,7 @@ public class AgentWebUtils {
         return mIntent;
     }
 
-    static Intent getIntentCaptureCompat(Context context, File file) {
+    public static Intent getIntentCaptureCompat(Context context, File file) {
         Intent mIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         Uri mUri = FileUtils.getUriFromFile(context, file);
         mIntent.addCategory(Intent.CATEGORY_DEFAULT);
