@@ -19,6 +19,7 @@ import com.tencent.smtt.export.external.interfaces.JsPromptResult;
 import com.tencent.smtt.export.external.interfaces.JsResult;
 import com.tencent.smtt.sdk.WebView;
 import top.xuqingquan.utils.Timber;
+import top.xuqingquan.web.agent.AgentWebUtils;
 
 public class DefaultDesignUIController extends DefaultUIController {
 

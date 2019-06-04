@@ -2,6 +2,7 @@ package top.xuqingquan.web;
 
 import com.tencent.smtt.sdk.WebView;
 import top.xuqingquan.web.agent.BaseIndicatorSpec;
+import top.xuqingquan.web.x5.IndicatorController;
 
 public class IndicatorHandler implements IndicatorController {
 

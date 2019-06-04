@@ -2,6 +2,7 @@ package top.xuqingquan.web;
 
 import com.tencent.smtt.sdk.WebView;
 import top.xuqingquan.web.agent.WebLifeCycle;
+import top.xuqingquan.web.x5.X5WebUtils;
 
 public class DefaultWebLifeCycleImpl implements WebLifeCycle {
     private WebView mWebView;
@@ -31,6 +32,6 @@ public class DefaultWebLifeCycleImpl implements WebLifeCycle {
         if (this.mWebView != null) {
             this.mWebView.resumeTimers();
         }
-        AgentWebUtils.clearWebView(this.mWebView);
+        X5WebUtils.clearWebView(this.mWebView);
     }
 }

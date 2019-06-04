@@ -5,6 +5,7 @@ import androidx.collection.ArrayMap;
 import com.tencent.smtt.sdk.WebView;
 import top.xuqingquan.utils.Timber;
 import top.xuqingquan.web.agent.SecurityType;
+import top.xuqingquan.web.x5.AgentWebConfig;
 
 
 public class WebSecurityLogicImpl implements WebSecurityCheckLogic {

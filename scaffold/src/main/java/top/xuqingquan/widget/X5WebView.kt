@@ -15,6 +15,9 @@ import top.xuqingquan.R
 import top.xuqingquan.utils.Timber
 import top.xuqingquan.web.*
 import top.xuqingquan.web.agent.*
+import top.xuqingquan.web.x5.AgentWebConfig
+import top.xuqingquan.web.x5.DownloadListener
+import top.xuqingquan.web.x5.*
 
 /**
  * Created by 许清泉 on 2019-05-22 21:00
@@ -88,28 +91,7 @@ class X5WebView : FrameLayout {
     }
 
     //设置 IAgentWebSettings。
-    var absAgentWebSettings = object : AbsAgentWebSettings() {
-        var agentWeb: AgentWeb? = null
-        override fun bindAgentWebSupport(aw: AgentWeb?) {
-            agentWeb = aw
-        }
-
-        override fun setDownloader(
-            webView: com.tencent.smtt.sdk.WebView?,
-            downloadListener: com.tencent.smtt.sdk.DownloadListener?
-        ): WebListenerManager {
-            return super.setDownloader(
-                webView,
-                DefaultDownloadImpl
-                    .create(
-                        context as Activity,
-                        webView!!,
-                        this@X5WebView.downloadListener,
-                        agentWeb?.permissionInterceptor
-                    )
-            )
-        }
-    }
+    var absAgentWebSettings = AgentWebSettingsImpl()
 
 
     var webViewClient = object : WebViewClient() {}

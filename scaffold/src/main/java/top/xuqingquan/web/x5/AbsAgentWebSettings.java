@@ -1,4 +1,4 @@
-package top.xuqingquan.web;
+package top.xuqingquan.web.x5;
 
 import android.annotation.SuppressLint;
 import android.os.Build;
@@ -9,6 +9,7 @@ import com.tencent.smtt.sdk.WebViewClient;
 import com.tencent.smtt.sdk.*;
 import top.xuqingquan.utils.NetUtils;
 import top.xuqingquan.utils.Timber;
+import top.xuqingquan.web.AgentWeb;
 
 public abstract class AbsAgentWebSettings implements IAgentWebSettings, WebListenerManager {
     private WebSettings mWebSettings;
@@ -24,7 +25,7 @@ public abstract class AbsAgentWebSettings implements IAgentWebSettings, WebListe
     public AbsAgentWebSettings() {
     }
 
-    final void bindAgentWeb(AgentWeb agentWeb) {
+    public final void bindAgentWeb(AgentWeb agentWeb) {
         this.mAgentWeb = agentWeb;
         this.bindAgentWebSupport(agentWeb);
     }

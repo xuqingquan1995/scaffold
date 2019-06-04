@@ -12,6 +12,7 @@ import android.view.animation.LinearInterpolator;
 import android.widget.FrameLayout;
 import androidx.annotation.Nullable;
 import top.xuqingquan.utils.Timber;
+import top.xuqingquan.web.agent.AgentWebUtils;
 import top.xuqingquan.web.agent.BaseIndicatorSpec;
 import top.xuqingquan.web.agent.BaseIndicatorView;
 

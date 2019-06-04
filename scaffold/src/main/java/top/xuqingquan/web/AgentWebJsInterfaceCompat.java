@@ -3,6 +3,7 @@ package top.xuqingquan.web;
 import android.app.Activity;
 import android.webkit.JavascriptInterface;
 import top.xuqingquan.utils.Timber;
+import top.xuqingquan.web.x5.X5WebUtils;
 
 import java.lang.ref.WeakReference;
 
@@ -25,7 +26,7 @@ public class AgentWebJsInterfaceCompat {
     public void uploadFile(String acceptType) {
         Timber.i(acceptType + "  " + mActivityWeakReference.get() + "  " + mReference.get());
         if (mActivityWeakReference.get() != null && mReference.get() != null) {
-            AgentWebUtils.showFileChooserCompat(mActivityWeakReference.get(),
+            X5WebUtils.showFileChooserCompat(mActivityWeakReference.get(),
                     mReference.get().getWebCreator().getWebView(),
                     null,
                     null,

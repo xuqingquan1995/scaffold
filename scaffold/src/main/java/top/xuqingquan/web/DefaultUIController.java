@@ -14,6 +14,7 @@ import com.tencent.smtt.sdk.WebView;
 import top.xuqingquan.R;
 import top.xuqingquan.utils.DeviceUtils;
 import top.xuqingquan.utils.Timber;
+import top.xuqingquan.web.agent.AgentWebUtils;
 
 public class DefaultUIController extends AbsAgentWebUIController {
 
@@ -240,7 +241,7 @@ public class DefaultUIController extends AbsAgentWebUIController {
 
     @Override
     public void onPermissionsDeny(String[] permissions, String permissionType, String action) {
-//		AgentWebUtils.toastShowShort(mActivity.getApplicationContext(), "权限被冻结");
+//		X5WebUtils.toastShowShort(mActivity.getApplicationContext(), "权限被冻结");
     }
 
     private void toCancelJsresult(JsResult result) {

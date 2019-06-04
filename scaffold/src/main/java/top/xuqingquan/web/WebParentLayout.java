@@ -16,6 +16,7 @@ import androidx.annotation.Nullable;
 import com.tencent.smtt.sdk.WebView;
 import top.xuqingquan.R;
 import top.xuqingquan.utils.Timber;
+import top.xuqingquan.web.agent.Provider;
 
 public class WebParentLayout extends FrameLayout implements Provider<AbsAgentWebUIController> {
     private AbsAgentWebUIController mAgentWebUIController = null;

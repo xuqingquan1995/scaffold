@@ -17,6 +17,9 @@ import top.xuqingquan.web.agent.Action;
 import top.xuqingquan.web.agent.ActionActivity;
 import top.xuqingquan.web.agent.AgentWebPermissions;
 import top.xuqingquan.web.agent.PermissionInterceptor;
+import top.xuqingquan.web.x5.IVideo;
+import top.xuqingquan.web.x5.IndicatorController;
+import top.xuqingquan.web.x5.X5WebUtils;
 
 import java.lang.ref.WeakReference;
 import java.util.Arrays;
@@ -85,7 +88,7 @@ public class DefaultChromeClient extends MiddlewareWebChromeBase {
         this.mIVideo = iVideo;
         this.mPermissionInterceptor = permissionInterceptor;
         this.mWebView = webView;
-        mAgentWebUIController = new WeakReference<>(AgentWebUtils.getAgentWebUIControllerByWebView(webView));
+        mAgentWebUIController = new WeakReference<>(X5WebUtils.getAgentWebUIControllerByWebView(webView));
     }
 
 
@@ -224,7 +227,7 @@ public class DefaultChromeClient extends MiddlewareWebChromeBase {
         if (mActivity == null || mActivity.isFinishing()) {
             return false;
         }
-        return AgentWebUtils.showFileChooserCompat(mActivity,
+        return X5WebUtils.showFileChooserCompat(mActivity,
                 mWebView,
                 valueCallbacks,
                 fileChooserParams,
@@ -255,7 +258,7 @@ public class DefaultChromeClient extends MiddlewareWebChromeBase {
             valueCallback.onReceiveValue(new Object());
             return;
         }
-        AgentWebUtils.showFileChooserCompat(mActivity,
+        X5WebUtils.showFileChooserCompat(mActivity,
                 mWebView,
                 null,
                 null,

@@ -2,7 +2,7 @@ package top.xuqingquan.web.agent;
 
 import android.os.Build;
 import android.webkit.JavascriptInterface;
-import top.xuqingquan.web.AgentWebConfig;
+import top.xuqingquan.web.x5.AgentWebConfig;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;

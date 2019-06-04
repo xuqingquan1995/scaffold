@@ -13,6 +13,12 @@ import com.tencent.smtt.sdk.WebView;
 import com.tencent.smtt.sdk.WebViewClient;
 import top.xuqingquan.utils.Timber;
 import top.xuqingquan.web.agent.*;
+import top.xuqingquan.web.x5.*;
+import top.xuqingquan.web.x5.AgentWebConfig;
+import top.xuqingquan.web.x5.EventHandlerImpl;
+import top.xuqingquan.web.x5.IVideo;
+import top.xuqingquan.web.x5.IndicatorController;
+import top.xuqingquan.web.x5.WebCreator;
 
 import java.lang.ref.WeakReference;
 import java.util.Map;
@@ -204,9 +210,9 @@ public final class AgentWeb {
      */
     public AgentWeb clearWebCache() {
         if (this.getWebCreator().getWebView() != null) {
-            AgentWebUtils.clearWebViewAllCache(mActivity, this.getWebCreator().getWebView());
+            X5WebUtils.clearWebViewAllCache(mActivity, this.getWebCreator().getWebView());
         } else {
-            AgentWebUtils.clearWebViewAllCache(mActivity);
+            X5WebUtils.clearWebViewAllCache(mActivity);
         }
         return this;
     }

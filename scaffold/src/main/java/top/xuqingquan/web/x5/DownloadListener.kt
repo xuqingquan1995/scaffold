@@ -1,9 +1,11 @@
-package top.xuqingquan.web
+package top.xuqingquan.web.x5
 
 import android.net.Uri
 import androidx.annotation.MainThread
+import top.xuqingquan.web.Extra
+import top.xuqingquan.web.agent.DownloadListener
 
-open class DownloadListener {
+open class DownloadListener :DownloadListener() {
 
     @MainThread
     open fun onStart(
@@ -16,8 +18,6 @@ open class DownloadListener {
     ): Boolean {
         return false
     }
-
-    open fun onProgress(url: String, downloaded: Long, length: Long, usedTime: Long) {}
 
     @MainThread
     open fun onResult(throwable: Throwable, path: Uri, url: String, extra: Extra): Boolean {

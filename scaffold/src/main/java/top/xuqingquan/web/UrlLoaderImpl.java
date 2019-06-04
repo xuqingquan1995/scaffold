@@ -2,8 +2,10 @@ package top.xuqingquan.web;
 
 import android.os.Handler;
 import android.os.Looper;
+import androidx.core.util.Preconditions;
 import com.tencent.smtt.sdk.WebView;
 import top.xuqingquan.utils.Timber;
+import top.xuqingquan.web.agent.AgentWebUtils;
 import top.xuqingquan.web.agent.HttpHeaders;
 import top.xuqingquan.web.agent.IUrlLoader;
 
@@ -16,9 +18,7 @@ public class UrlLoaderImpl implements IUrlLoader {
 
     UrlLoaderImpl(WebView webView, HttpHeaders httpHeaders) {
         this.mWebView = webView;
-        if (this.mWebView == null) {
-            new NullPointerException("webview cannot be null .");
-        }
+        Preconditions.checkNotNull(mWebView, "webview cannot be null .");
         this.mHttpHeaders = httpHeaders;
         if (this.mHttpHeaders == null) {
             this.mHttpHeaders = HttpHeaders.create();

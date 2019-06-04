@@ -5,6 +5,7 @@ import androidx.annotation.DrawableRes;
 import com.download.library.DownloadTask;
 import com.tencent.smtt.sdk.WebView;
 import top.xuqingquan.web.agent.PermissionInterceptor;
+import top.xuqingquan.web.x5.DownloadListener;
 
 import java.io.Serializable;
 

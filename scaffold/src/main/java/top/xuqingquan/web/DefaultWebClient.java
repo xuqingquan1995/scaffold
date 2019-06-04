@@ -17,7 +17,10 @@ import com.tencent.smtt.export.external.interfaces.WebResourceRequest;
 import com.tencent.smtt.export.external.interfaces.WebResourceResponse;
 import com.tencent.smtt.sdk.WebView;
 import top.xuqingquan.utils.Timber;
+import top.xuqingquan.web.agent.AgentWebUtils;
 import top.xuqingquan.web.agent.PermissionInterceptor;
+import top.xuqingquan.web.x5.AgentWebConfig;
+import top.xuqingquan.web.x5.X5WebUtils;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;
@@ -137,7 +140,7 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
         this.mWebViewClient = builder.mClient;
         mWeakReference = new WeakReference<>(builder.mActivity);
         this.webClientHelper = builder.mWebClientHelper;
-        mAgentWebUIController = new WeakReference<>(AgentWebUtils.getAgentWebUIControllerByWebView(builder.mWebView));
+        mAgentWebUIController = new WeakReference<>(X5WebUtils.getAgentWebUIControllerByWebView(builder.mWebView));
         mIsInterceptUnkownUrl = builder.mIsInterceptUnkownScheme;
         if (builder.mUrlHandleWays <= 0) {
             mUrlHandleWays = ASK_USER_OPEN_OTHER_PAGE;

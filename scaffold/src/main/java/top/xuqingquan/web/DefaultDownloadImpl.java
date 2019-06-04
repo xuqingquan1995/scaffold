@@ -18,10 +18,10 @@ import top.xuqingquan.R;
 import top.xuqingquan.utils.NetUtils;
 import top.xuqingquan.utils.PermissionUtils;
 import top.xuqingquan.utils.Timber;
-import top.xuqingquan.web.agent.Action;
-import top.xuqingquan.web.agent.ActionActivity;
-import top.xuqingquan.web.agent.AgentWebPermissions;
-import top.xuqingquan.web.agent.PermissionInterceptor;
+import top.xuqingquan.web.agent.*;
+import top.xuqingquan.web.x5.AgentWebConfig;
+import top.xuqingquan.web.x5.DownloadListener;
+import top.xuqingquan.web.x5.X5WebUtils;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
@@ -75,7 +75,7 @@ public class DefaultDownloadImpl implements com.tencent.smtt.sdk.DownloadListene
             this.mDownloadListeners.put(extra.getUrl(), extra.getDownloadListener());
         }
         this.mPermissionListener = extra.mPermissionInterceptor;
-        this.mAgentWebUIController = new WeakReference<>(AgentWebUtils.getAgentWebUIControllerByWebView(extra.mWebView));
+        this.mAgentWebUIController = new WeakReference<>(X5WebUtils.getAgentWebUIControllerByWebView(extra.mWebView));
     }
 
 
