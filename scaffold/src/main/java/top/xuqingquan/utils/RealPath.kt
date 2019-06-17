@@ -25,7 +25,8 @@ object RealPath {
                 }
             } else if (isDownloadsDocument(uri)) {
                 val id = DocumentsContract.getDocumentId(uri)
-                val contentUri = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"),
+                val contentUri = ContentUris.withAppendedId(
+                    Uri.parse("content://downloads/public_downloads"),
                     java.lang.Long.valueOf(id)
                 )
                 return getDataColumn(context, contentUri, null, null)
@@ -39,14 +40,18 @@ object RealPath {
                     "video" -> contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
                     "audio" -> contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
                 }
-                val selection = "_id=?"
+                val selection = "${MediaStore.Images.Media._ID}=?"
                 val selectionArgs = arrayOf(split[1])
                 return getDataColumn(context, contentUri!!, selection, selectionArgs)
             }
+        } else if (uri.authority == "${context.packageName}.ScaffoldFileProvider") {
+            return "${context.getExternalFilesDir("")}/${uri.path}"
         } else if ("content".equals(uri.scheme, ignoreCase = true)) {
             return if (isGooglePhotosUri(uri)) {
                 uri.lastPathSegment
-            } else getDataColumn(context, uri, null, null)
+            } else {
+                getDataColumn(context, uri, null, null)
+            }
         } else if ("file".equals(uri.scheme, ignoreCase = true)) {
             return uri.path
         }
@@ -54,7 +59,7 @@ object RealPath {
     }
 
     private fun getDataColumn(context: Context, uri: Uri, selection: String?, selectionArgs: Array<String>?): String? {
-        val column = "_data"
+        val column = MediaStore.Images.Media.DATA
         val projection = arrayOf(column)
         val cursor = context.contentResolver.query(uri, projection, selection, selectionArgs, null)
         if (cursor != null && cursor.moveToFirst()) {
@@ -66,7 +71,8 @@ object RealPath {
         return null
     }
 
-    private fun isExternalStorageDocument(uri: Uri): Boolean = ("com.android.externalstorage.documents" == uri.authority)
+    private fun isExternalStorageDocument(uri: Uri): Boolean =
+        ("com.android.externalstorage.documents" == uri.authority)
 
     private fun isDownloadsDocument(uri: Uri): Boolean = ("com.android.providers.downloads.documents" == uri.authority)
 

@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
+import android.os.StatFs
 import android.text.format.DateUtils
 import androidx.core.content.FileProvider
 import java.io.Closeable
@@ -82,14 +83,10 @@ object FileUtils {
     @JvmStatic
     fun getUriFromFile(context: Context, file: File): Uri {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            getUriFromFileForN(context, file)
+            FileProvider.getUriForFile(context, context.packageName + ".ScaffoldFileProvider", file)
         } else {
             Uri.fromFile(file)
         }
-    }
-
-    private fun getUriFromFileForN(context: Context, file: File): Uri {
-        return FileProvider.getUriForFile(context, context.packageName + ".ScaffoldFileProvider", file)
     }
 
     /**
@@ -157,6 +154,18 @@ object FileUtils {
             closeable?.close()
         } catch (e: Exception) {
             e.printStackTrace()
+        }
+
+    }
+
+
+    @JvmStatic
+    fun getAvailableStorage(): Long {
+        return try {
+            val stat = StatFs(Environment.getExternalStorageDirectory().toString())
+            stat.availableBlocksLong * stat.blockSizeLong
+        } catch (ex: RuntimeException) {
+            0
         }
 
     }

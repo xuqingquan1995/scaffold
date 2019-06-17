@@ -2,7 +2,6 @@ package top.xuqingquan.widget
 
 import android.app.Activity
 import android.content.Context
-import android.net.Uri
 import android.util.AttributeSet
 import android.view.KeyEvent
 import android.webkit.WebView
@@ -12,12 +11,7 @@ import androidx.annotation.DimenRes
 import org.jetbrains.anko.px2dip
 import top.xuqingquan.BuildConfig
 import top.xuqingquan.R
-import top.xuqingquan.utils.Timber
 import top.xuqingquan.web.*
-import top.xuqingquan.web.agent.*
-import top.xuqingquan.web.x5.X5WebConfig
-import top.xuqingquan.web.x5.DownloadListener
-import top.xuqingquan.web.x5.*
 
 /**
  * Created by 许清泉 on 2019-05-22 21:00
@@ -37,58 +31,58 @@ class X5WebView : FrameLayout {
         set(value) {
             field = value
             if (BuildConfig.DEBUG && field) {
-                X5WebConfig.debug()
+                AgentWebConfig.debug()
             }
         }
         get() = BuildConfig.DEBUG && field
 
-    var downloadListener = object : DownloadListener() {
-        override fun onStart(
-            url: String,
-            userAgent: String,
-            contentDisposition: String,
-            mimetype: String,
-            contentLength: Long,
-            extra: Extra
-        ): Boolean {
-            if (debug) {
-                Timber.d("onStart-url=$url")
-                Timber.d("onStart-userAgent=$userAgent")
-                Timber.d("onStart-contentDisposition=$contentDisposition")
-                Timber.d("onStart-mimetype=$mimetype")
-                Timber.d("onStart-contentLength=$contentLength")
-            }
-            extra.setBreakPointDownload(true) // 是否开启断点续传
-                .setConnectTimeOut(6000) // 连接最大时长
-                .setBlockMaxTime(10 * 60 * 1000)  // 以8KB位单位，默认60s ，如果60s内无法从网络流中读满8KB数据，则抛出异常
-                .setDownloadTimeOut(java.lang.Long.MAX_VALUE) // 下载最大时长
-                .setParallelDownload(false)  // 串行下载更节省资源哦
-                .setEnableIndicator(true)  // false 关闭进度通知
-                // ?.addHeader("Cookie", "xx") // 自定义请求头
-                .setAutoOpen(true) // 下载完成自动打开
-                .setForceDownload(true) // 强制下载，不管网络网络类型
-            return false
-        }
-
-        override fun onProgress(url: String, downloaded: Long, length: Long, usedTime: Long) {
-            super.onProgress(url, downloaded, length, usedTime)
-            if (debug) {
-                Timber.d("onProgress-url=$url")
-                Timber.d("onProgress-downloaded=$downloaded")
-                Timber.d("onProgress-length=$length")
-                Timber.d("onProgress-usedTime=$usedTime")
-            }
-        }
-
-        override fun onResult(throwable: Throwable, path: Uri, url: String, extra: Extra): Boolean {
-            if (debug) {
-                Timber.d("onResult-throwable=$throwable")
-                Timber.d("onResult-path=$path")
-                Timber.d("onResult-url=$url")
-            }
-            return super.onResult(throwable, path, url, extra)
-        }
-    }
+//    var downloadListener = object : DownloadListener() {
+//        override fun onStart(
+//            url: String,
+//            userAgent: String,
+//            contentDisposition: String,
+//            mimetype: String,
+//            contentLength: Long,
+//            extra: Extra
+//        ): Boolean {
+//            if (debug) {
+//                Timber.d("onStart-url=$url")
+//                Timber.d("onStart-userAgent=$userAgent")
+//                Timber.d("onStart-contentDisposition=$contentDisposition")
+//                Timber.d("onStart-mimetype=$mimetype")
+//                Timber.d("onStart-contentLength=$contentLength")
+//            }
+//            extra.setBreakPointDownload(true) // 是否开启断点续传
+//                .setConnectTimeOut(6000) // 连接最大时长
+//                .setBlockMaxTime(10 * 60 * 1000)  // 以8KB位单位，默认60s ，如果60s内无法从网络流中读满8KB数据，则抛出异常
+//                .setDownloadTimeOut(java.lang.Long.MAX_VALUE) // 下载最大时长
+//                .setParallelDownload(false)  // 串行下载更节省资源哦
+//                .setEnableIndicator(true)  // false 关闭进度通知
+//                // ?.addHeader("Cookie", "xx") // 自定义请求头
+//                .setAutoOpen(true) // 下载完成自动打开
+//                .setForceDownload(true) // 强制下载，不管网络网络类型
+//            return false
+//        }
+//
+//        override fun onProgress(url: String, downloaded: Long, length: Long, usedTime: Long) {
+//            super.onProgress(url, downloaded, length, usedTime)
+//            if (debug) {
+//                Timber.d("onProgress-url=$url")
+//                Timber.d("onProgress-downloaded=$downloaded")
+//                Timber.d("onProgress-length=$length")
+//                Timber.d("onProgress-usedTime=$usedTime")
+//            }
+//        }
+//
+//        override fun onResult(throwable: Throwable, path: Uri, url: String, extra: Extra): Boolean {
+//            if (debug) {
+//                Timber.d("onResult-throwable=$throwable")
+//                Timber.d("onResult-path=$path")
+//                Timber.d("onResult-url=$url")
+//            }
+//            return super.onResult(throwable, path, url, extra)
+//        }
+//    }
 
     //设置 IAgentWebSettings。
     var absAgentWebSettings = AgentWebSettingsImpl()
