@@ -10,6 +10,8 @@ import android.webkit.DownloadListener;
 import android.webkit.WebViewClient;
 import top.xuqingquan.utils.NetUtils;
 import top.xuqingquan.utils.Timber;
+import top.xuqingquan.web.agent.AgentWebConfig;
+import top.xuqingquan.web.system.IAgentWebSettings;
 
 public abstract class AbsAgentWebSettings implements IAgentWebSettings, WebListenerManager {
     private WebSettings mWebSettings;

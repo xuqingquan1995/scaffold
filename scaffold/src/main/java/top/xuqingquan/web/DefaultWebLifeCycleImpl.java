@@ -1,6 +1,8 @@
 package top.xuqingquan.web;
 
 import android.webkit.WebView;
+import top.xuqingquan.web.agent.AgentWebUtils;
+import top.xuqingquan.web.agent.WebLifeCycle;
 
 public class DefaultWebLifeCycleImpl implements WebLifeCycle {
     private WebView mWebView;

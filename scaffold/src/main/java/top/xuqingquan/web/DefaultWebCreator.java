@@ -6,12 +6,13 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
-import android.webkit.WebView;
 import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import com.tencent.smtt.sdk.WebView;
 import top.xuqingquan.R;
 import top.xuqingquan.utils.Timber;
+import top.xuqingquan.web.agent.*;
 
 public class DefaultWebCreator implements WebCreator {
     private Activity mActivity;
@@ -26,11 +27,12 @@ public class DefaultWebCreator implements WebCreator {
      */
     private int mHeight;
     private boolean mIsCreated = false;
-    private IWebLayout mIWebLayout;
+    private top.xuqingquan.web.system.IWebLayout mIWebLayout;
+    private top.xuqingquan.web.x5.IWebLayout mX5IWebLayout;
     private BaseIndicatorSpec mBaseIndicatorSpec;
-    private WebView mWebView;
+    private android.webkit.WebView mWebView;
+    private com.tencent.smtt.sdk.WebView mX5WebView;
     private FrameLayout mFrameLayout = null;
-    private View mTargetProgress;
 
     /**
      * 使用默认的进度条
@@ -50,8 +52,8 @@ public class DefaultWebCreator implements WebCreator {
                                 int index,
                                 int color,
                                 int mHeight,
-                                WebView webView,
-                                IWebLayout webLayout) {
+                                android.webkit.WebView webView,
+                                top.xuqingquan.web.system.IWebLayout webLayout) {
         this.mActivity = activity;
         this.mViewGroup = viewGroup;
         this.mIsNeedDefaultProgress = true;
@@ -61,6 +63,25 @@ public class DefaultWebCreator implements WebCreator {
         this.mHeight = mHeight;
         this.mWebView = webView;
         this.mIWebLayout = webLayout;
+    }
+
+    protected DefaultWebCreator(@NonNull Activity activity,
+                                @Nullable ViewGroup viewGroup,
+                                ViewGroup.LayoutParams lp,
+                                int index,
+                                int color,
+                                int mHeight,
+                                com.tencent.smtt.sdk.WebView webView,
+                                top.xuqingquan.web.x5.IWebLayout webLayout) {
+        this.mActivity = activity;
+        this.mViewGroup = viewGroup;
+        this.mIsNeedDefaultProgress = true;
+        this.mIndex = index;
+        this.mColor = color;
+        this.mLayoutParams = lp;
+        this.mHeight = mHeight;
+        this.mX5WebView = webView;
+        this.mX5IWebLayout = webLayout;
     }
 
     /**
@@ -73,7 +94,7 @@ public class DefaultWebCreator implements WebCreator {
      * @param webView
      * @param webLayout
      */
-    protected DefaultWebCreator(@NonNull Activity activity, @Nullable ViewGroup viewGroup, ViewGroup.LayoutParams lp, int index, @Nullable WebView webView, IWebLayout webLayout) {
+    protected DefaultWebCreator(@NonNull Activity activity, @Nullable ViewGroup viewGroup, ViewGroup.LayoutParams lp, int index, @Nullable android.webkit.WebView webView, top.xuqingquan.web.system.IWebLayout webLayout) {
         this.mActivity = activity;
         this.mViewGroup = viewGroup;
         this.mIsNeedDefaultProgress = false;
@@ -81,6 +102,16 @@ public class DefaultWebCreator implements WebCreator {
         this.mLayoutParams = lp;
         this.mWebView = webView;
         this.mIWebLayout = webLayout;
+    }
+
+    protected DefaultWebCreator(@NonNull Activity activity, @Nullable ViewGroup viewGroup, ViewGroup.LayoutParams lp, int index, @Nullable com.tencent.smtt.sdk.WebView webView, top.xuqingquan.web.x5.IWebLayout webLayout) {
+        this.mActivity = activity;
+        this.mViewGroup = viewGroup;
+        this.mIsNeedDefaultProgress = false;
+        this.mIndex = index;
+        this.mLayoutParams = lp;
+        this.mX5WebView = webView;
+        this.mX5IWebLayout = webLayout;
     }
 
     /**
@@ -94,7 +125,7 @@ public class DefaultWebCreator implements WebCreator {
      * @param webView
      * @param webLayout
      */
-    protected DefaultWebCreator(@NonNull Activity activity, @Nullable ViewGroup viewGroup, ViewGroup.LayoutParams lp, int index, BaseIndicatorView progressView, WebView webView, IWebLayout webLayout) {
+    protected DefaultWebCreator(@NonNull Activity activity, @Nullable ViewGroup viewGroup, ViewGroup.LayoutParams lp, int index, BaseIndicatorView progressView, android.webkit.WebView webView, top.xuqingquan.web.system.IWebLayout webLayout) {
         this.mActivity = activity;
         this.mViewGroup = viewGroup;
         this.mIsNeedDefaultProgress = false;
@@ -105,9 +136,24 @@ public class DefaultWebCreator implements WebCreator {
         this.mIWebLayout = webLayout;
     }
 
+    protected DefaultWebCreator(@NonNull Activity activity, @Nullable ViewGroup viewGroup, ViewGroup.LayoutParams lp, int index, BaseIndicatorView progressView, com.tencent.smtt.sdk.WebView webView, top.xuqingquan.web.x5.IWebLayout webLayout) {
+        this.mActivity = activity;
+        this.mViewGroup = viewGroup;
+        this.mIsNeedDefaultProgress = false;
+        this.mIndex = index;
+        this.mLayoutParams = lp;
+        this.mProgressView = progressView;
+        this.mX5WebView = webView;
+        this.mX5IWebLayout = webLayout;
+    }
 
-    public void setWebView(WebView webView) {
+
+    public void setWebView(android.webkit.WebView webView) {
         mWebView = webView;
+    }
+
+    public void setWebView(com.tencent.smtt.sdk.WebView webView) {
+        mX5WebView = webView;
     }
 
     @Override
@@ -132,8 +178,13 @@ public class DefaultWebCreator implements WebCreator {
     }
 
     @Override
-    public WebView getWebView() {
+    public android.webkit.WebView getWebView() {
         return mWebView;
+    }
+
+    @Override
+    public WebView getX5WebView() {
+        return mX5WebView;
     }
 
     @Override
@@ -146,14 +197,25 @@ public class DefaultWebCreator implements WebCreator {
         WebParentLayout mFrameLayout = new WebParentLayout(mActivity);
         mFrameLayout.setId(R.id.web_parent_layout_id);
         mFrameLayout.setBackgroundColor(Color.WHITE);
-        this.mWebView = createWebView();
-        View target = mIWebLayout == null ? this.mWebView : webLayout();
         FrameLayout.LayoutParams mLayoutParams = new FrameLayout.LayoutParams(-1, -1);
-        mFrameLayout.addView(target, mLayoutParams);
-        mFrameLayout.bindWebView(this.mWebView);
-        Timber.i("  instanceof  AgentWebView:" + (this.mWebView instanceof AgentWebView));
-        if (this.mWebView instanceof AgentWebView) {
-            AgentWebConfig.WEBVIEW_TYPE = AgentWebConfig.WEBVIEW_AGENTWEB_SAFE_TYPE;
+        if (AgentWebConfig.hasX5()) {
+            this.mX5WebView = createX5WebView();
+            View target = mX5IWebLayout == null ? this.mX5WebView : webLayout();
+            mFrameLayout.addView(target, mLayoutParams);
+            mFrameLayout.bindWebView(this.mX5WebView);
+            Timber.i("  instanceof  AgentWebView:" + (this.mX5WebView instanceof top.xuqingquan.web.x5.AgentWebView));
+            if (this.mX5WebView instanceof top.xuqingquan.web.x5.AgentWebView) {
+                AgentWebConfig.WEBVIEW_TYPE = AgentWebConfig.WEBVIEW_AGENTWEB_SAFE_TYPE;
+            }
+        } else {
+            this.mWebView = createWebView();
+            View target = mIWebLayout == null ? this.mWebView : webLayout();
+            mFrameLayout.addView(target, mLayoutParams);
+            mFrameLayout.bindWebView(this.mWebView);
+            Timber.i("  instanceof  AgentWebView:" + (this.mWebView instanceof top.xuqingquan.web.system.AgentWebView));
+            if (this.mWebView instanceof top.xuqingquan.web.system.AgentWebView) {
+                AgentWebConfig.WEBVIEW_TYPE = AgentWebConfig.WEBVIEW_AGENTWEB_SAFE_TYPE;
+            }
         }
         ViewStub mViewStub = new ViewStub(mActivity);
         mViewStub.setId(R.id.mainframe_error_viewsub_id);
@@ -180,9 +242,8 @@ public class DefaultWebCreator implements WebCreator {
         return mFrameLayout;
     }
 
-
     private View webLayout() {
-        WebView mWebView = mIWebLayout.getWebView();
+        android.webkit.WebView mWebView = mIWebLayout.getWebView();
         if (mWebView == null) {
             mWebView = createWebView();
             mIWebLayout.getLayout().addView(mWebView, -1, -1);
@@ -194,16 +255,44 @@ public class DefaultWebCreator implements WebCreator {
         return mIWebLayout.getLayout();
     }
 
-    private WebView createWebView() {
-        WebView mWebView;
+    private View x5WebLayout() {
+        com.tencent.smtt.sdk.WebView mWebView = mX5IWebLayout.getWebView();
+        if (mWebView == null) {
+            mWebView = createX5WebView();
+            mX5IWebLayout.getLayout().addView(mWebView, -1, -1);
+            Timber.i("add webview");
+        } else {
+            AgentWebConfig.WEBVIEW_TYPE = AgentWebConfig.WEBVIEW_CUSTOM_TYPE;
+        }
+        this.mX5WebView = mWebView;
+        return mX5IWebLayout.getLayout();
+    }
+
+    private android.webkit.WebView createWebView() {
+        android.webkit.WebView mWebView;
         if (this.mWebView != null) {
             mWebView = this.mWebView;
             AgentWebConfig.WEBVIEW_TYPE = AgentWebConfig.WEBVIEW_CUSTOM_TYPE;
         } else if (AgentWebConfig.IS_KITKAT_OR_BELOW_KITKAT) {
-            mWebView = new AgentWebView(mActivity);
+            mWebView = new top.xuqingquan.web.system.AgentWebView(mActivity);
             AgentWebConfig.WEBVIEW_TYPE = AgentWebConfig.WEBVIEW_AGENTWEB_SAFE_TYPE;
         } else {
-            mWebView = new WebView(mActivity);
+            mWebView = new android.webkit.WebView(mActivity);
+            AgentWebConfig.WEBVIEW_TYPE = AgentWebConfig.WEBVIEW_DEFAULT_TYPE;
+        }
+        return mWebView;
+    }
+
+    private com.tencent.smtt.sdk.WebView createX5WebView() {
+        com.tencent.smtt.sdk.WebView mWebView;
+        if (this.mX5WebView != null) {
+            mWebView = this.mX5WebView;
+            AgentWebConfig.WEBVIEW_TYPE = AgentWebConfig.WEBVIEW_CUSTOM_TYPE;
+        } else if (AgentWebConfig.IS_KITKAT_OR_BELOW_KITKAT) {
+            mWebView = new top.xuqingquan.web.x5.AgentWebView(mActivity);
+            AgentWebConfig.WEBVIEW_TYPE = AgentWebConfig.WEBVIEW_AGENTWEB_SAFE_TYPE;
+        } else {
+            mWebView = new com.tencent.smtt.sdk.WebView(mActivity);
             AgentWebConfig.WEBVIEW_TYPE = AgentWebConfig.WEBVIEW_DEFAULT_TYPE;
         }
         return mWebView;

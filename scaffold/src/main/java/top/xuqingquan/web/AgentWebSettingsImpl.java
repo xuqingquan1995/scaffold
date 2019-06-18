@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.webkit.DownloadListener;
 import android.webkit.WebView;
 import top.xuqingquan.utils.Timber;
+import top.xuqingquan.web.agent.PermissionInterceptor;
 
 public class AgentWebSettingsImpl extends AbsAgentWebSettings {
     private AgentWeb mAgentWeb;

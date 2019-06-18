@@ -11,7 +11,14 @@ import androidx.annotation.DimenRes
 import org.jetbrains.anko.px2dip
 import top.xuqingquan.BuildConfig
 import top.xuqingquan.R
-import top.xuqingquan.web.*
+import top.xuqingquan.web.AgentWeb
+import top.xuqingquan.web.AgentWebSettingsImpl
+import top.xuqingquan.web.AgentWebUIControllerImplBase
+import top.xuqingquan.web.DefaultWebClient
+import top.xuqingquan.web.agent.AgentWebConfig
+import top.xuqingquan.web.agent.PermissionInterceptor
+import top.xuqingquan.web.system.MiddlewareWebChromeBase
+import top.xuqingquan.web.system.MiddlewareWebClientBase
 
 /**
  * Created by 许清泉 on 2019-05-22 21:00
@@ -88,9 +95,9 @@ class X5WebView : FrameLayout {
     var absAgentWebSettings = AgentWebSettingsImpl()
 
 
-    var webViewClient = object : WebViewClient() {}
+    var webViewClient = object : MiddlewareWebClientBase() {}
 
-    var webChromeClient = object : WebChromeClient() {}
+    var webChromeClient = object : MiddlewareWebChromeBase() {}
 
     var permissionInterceptor = object : PermissionInterceptor {
         override fun intercept(url: String, permissions: Array<String>, action: String): Boolean {

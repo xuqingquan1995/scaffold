@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.webkit.JsPromptResult;
 import android.webkit.JsResult;
 import android.webkit.WebView;
+import top.xuqingquan.web.agent.WebParentLayout;
 
 public class AgentWebUIControllerImplBase extends AbsAgentWebUIController {
 
@@ -18,7 +19,17 @@ public class AgentWebUIControllerImplBase extends AbsAgentWebUIController {
     }
 
     @Override
+    public void onJsAlert(com.tencent.smtt.sdk.WebView view, String url, String message) {
+        getDelegate().onJsAlert(view, url, message);
+    }
+
+    @Override
     public void onOpenPagePrompt(WebView view, String url, Handler.Callback callback) {
+        getDelegate().onOpenPagePrompt(view, url, callback);
+    }
+
+    @Override
+    public void onOpenPagePrompt(com.tencent.smtt.sdk.WebView view, String url, Handler.Callback callback) {
         getDelegate().onOpenPagePrompt(view, url, callback);
     }
 
@@ -28,7 +39,17 @@ public class AgentWebUIControllerImplBase extends AbsAgentWebUIController {
     }
 
     @Override
+    public void onJsConfirm(com.tencent.smtt.sdk.WebView view, String url, String message, com.tencent.smtt.export.external.interfaces.JsResult jsResult) {
+        getDelegate().onJsConfirm(view, url, message, jsResult);
+    }
+
+    @Override
     public void onSelectItemsPrompt(WebView view, String url, String[] ways, Handler.Callback callback) {
+        getDelegate().onSelectItemsPrompt(view, url, ways, callback);
+    }
+
+    @Override
+    public void onSelectItemsPrompt(com.tencent.smtt.sdk.WebView view, String url, String[] ways, Handler.Callback callback) {
         getDelegate().onSelectItemsPrompt(view, url, ways, callback);
     }
 
@@ -43,7 +64,17 @@ public class AgentWebUIControllerImplBase extends AbsAgentWebUIController {
     }
 
     @Override
+    public void onJsPrompt(com.tencent.smtt.sdk.WebView view, String url, String message, String defaultValue, com.tencent.smtt.export.external.interfaces.JsPromptResult jsPromptResult) {
+        getDelegate().onJsPrompt(view, url, message, defaultValue, jsPromptResult);
+    }
+
+    @Override
     public void onMainFrameError(WebView view, int errorCode, String description, String failingUrl) {
+        getDelegate().onMainFrameError(view, errorCode, description, failingUrl);
+    }
+
+    @Override
+    public void onMainFrameError(com.tencent.smtt.sdk.WebView view, int errorCode, String description, String failingUrl) {
         getDelegate().onMainFrameError(view, errorCode, description, failingUrl);
     }
 

@@ -5,6 +5,7 @@ import android.os.Build;
 import android.webkit.JavascriptInterface;
 import androidx.annotation.RequiresApi;
 import top.xuqingquan.utils.Timber;
+import top.xuqingquan.web.agent.AgentWebUtils;
 
 import java.lang.ref.WeakReference;
 

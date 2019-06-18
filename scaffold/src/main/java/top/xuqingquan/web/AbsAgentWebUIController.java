@@ -3,16 +3,15 @@ package top.xuqingquan.web;
 import android.app.Activity;
 import android.app.Dialog;
 import android.os.Handler;
-import android.webkit.JsPromptResult;
-import android.webkit.JsResult;
-import android.webkit.WebView;
+import top.xuqingquan.web.agent.DefaultDesignUIController;
+import top.xuqingquan.web.agent.DefaultUIController;
+import top.xuqingquan.web.agent.WebParentLayout;
 
 public abstract class AbsAgentWebUIController {
 
     private static boolean HAS_DESIGN_LIB;
     private volatile boolean mIsBindWebParent = false;
     private AbsAgentWebUIController mAgentWebUIControllerDelegate;
-    protected String TAG = this.getClass().getSimpleName();
 
     static {
         try {
@@ -36,7 +35,7 @@ public abstract class AbsAgentWebUIController {
         return mAgentWebUIController;
     }
 
-    final synchronized void bindWebParent(WebParentLayout webParentLayout, Activity activity) {
+    public final synchronized void bindWebParent(WebParentLayout webParentLayout, Activity activity) {
         if (!mIsBindWebParent) {
             mIsBindWebParent = true;
             bindSupportWebParent(webParentLayout, activity);
@@ -64,7 +63,9 @@ public abstract class AbsAgentWebUIController {
      * @param url
      * @param message
      */
-    public abstract void onJsAlert(WebView view, String url, String message);
+    public abstract void onJsAlert(android.webkit.WebView view, String url, String message);
+
+    public abstract void onJsAlert(com.tencent.smtt.sdk.WebView view, String url, String message);
 
     /**
      * 咨询用户是否前往其他页面
@@ -73,7 +74,9 @@ public abstract class AbsAgentWebUIController {
      * @param url
      * @param callback
      */
-    public abstract void onOpenPagePrompt(WebView view, String url, Handler.Callback callback);
+    public abstract void onOpenPagePrompt(android.webkit.WebView view, String url, Handler.Callback callback);
+
+    public abstract void onOpenPagePrompt(com.tencent.smtt.sdk.WebView view, String url, Handler.Callback callback);
 
     /**
      * WebChromeClient#onJsConfirm
@@ -83,9 +86,13 @@ public abstract class AbsAgentWebUIController {
      * @param message
      * @param jsResult
      */
-    public abstract void onJsConfirm(WebView view, String url, String message, JsResult jsResult);
+    public abstract void onJsConfirm(android.webkit.WebView view, String url, String message, android.webkit.JsResult jsResult);
 
-    public abstract void onSelectItemsPrompt(WebView view, String url, String[] ways, Handler.Callback callback);
+    public abstract void onJsConfirm(com.tencent.smtt.sdk.WebView view, String url, String message, com.tencent.smtt.export.external.interfaces.JsResult jsResult);
+
+    public abstract void onSelectItemsPrompt(android.webkit.WebView view, String url, String[] ways, Handler.Callback callback);
+
+    public abstract void onSelectItemsPrompt(com.tencent.smtt.sdk.WebView view, String url, String[] ways, Handler.Callback callback);
 
     /**
      * 强制下载弹窗
@@ -104,7 +111,9 @@ public abstract class AbsAgentWebUIController {
      * @param defaultValue
      * @param jsPromptResult
      */
-    public abstract void onJsPrompt(WebView view, String url, String message, String defaultValue, JsPromptResult jsPromptResult);
+    public abstract void onJsPrompt(android.webkit.WebView view, String url, String message, String defaultValue, android.webkit.JsPromptResult jsPromptResult);
+
+    public abstract void onJsPrompt(com.tencent.smtt.sdk.WebView view, String url, String message, String defaultValue, com.tencent.smtt.export.external.interfaces.JsPromptResult jsPromptResult);
 
     /**
      * 显示错误页
@@ -114,7 +123,9 @@ public abstract class AbsAgentWebUIController {
      * @param description
      * @param failingUrl
      */
-    public abstract void onMainFrameError(WebView view, int errorCode, String description, String failingUrl);
+    public abstract void onMainFrameError(android.webkit.WebView view, int errorCode, String description, String failingUrl);
+
+    public abstract void onMainFrameError(com.tencent.smtt.sdk.WebView view, int errorCode, String description, String failingUrl);
 
     /**
      * 隐藏错误页

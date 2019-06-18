@@ -12,6 +12,11 @@ import androidx.annotation.*;
 import androidx.collection.ArrayMap;
 import androidx.fragment.app.Fragment;
 import top.xuqingquan.utils.Timber;
+import top.xuqingquan.web.agent.*;
+import top.xuqingquan.web.system.IAgentWebSettings;
+import top.xuqingquan.web.system.IWebLayout;
+import top.xuqingquan.web.system.MiddlewareWebChromeBase;
+import top.xuqingquan.web.system.MiddlewareWebClientBase;
 
 import java.lang.ref.WeakReference;
 import java.util.Map;
@@ -40,11 +45,11 @@ public final class AgentWeb {
     /**
      * WebChromeClient
      */
-    private top.xuqingquan.web.WebChromeClient mWebChromeClient;
+    private MiddlewareWebChromeBase mWebChromeClient;
     /**
      * WebViewClient
      */
-    private top.xuqingquan.web.WebViewClient mWebViewClient;
+    private MiddlewareWebClientBase mWebViewClient;
     /**
      * is show indicator
      */
@@ -61,10 +66,6 @@ public final class AgentWeb {
      * WebListenerManager
      */
     private WebListenerManager mWebListenerManager;
-    /**
-     * flag security 's mode
-     */
-    private SecurityType mSecurityType;
     /**
      * Activity
      */
@@ -144,7 +145,6 @@ public final class AgentWeb {
         } else {
             this.mPermissionInterceptor = new PermissionInterceptorWrapper(agentBuilder.mPermissionInterceptor);
         }
-        this.mSecurityType = agentBuilder.mSecurityType;
         this.mIUrlLoader = new UrlLoaderImpl(mWebCreator.create().getWebView(), agentBuilder.mHttpHeaders);
         if (this.mWebCreator.getWebParentLayout() instanceof WebParentLayout) {
             WebParentLayout mWebParentLayout = (WebParentLayout) this.mWebCreator.getWebParentLayout();
@@ -431,8 +431,8 @@ public final class AgentWeb {
         /*默认进度条是显示的*/
         private boolean mEnableIndicator = true;
         private ViewGroup.LayoutParams mLayoutParams = null;
-        private top.xuqingquan.web.WebViewClient mWebViewClient;
-        private top.xuqingquan.web.WebChromeClient mWebChromeClient;
+        private MiddlewareWebClientBase mWebViewClient;
+        private MiddlewareWebChromeBase mWebChromeClient;
         private int mIndicatorColor = -1;
         private IAgentWebSettings mAgentWebSettings;
         private WebCreator mWebCreator;
@@ -440,7 +440,6 @@ public final class AgentWeb {
         private IEventHandler mIEventHandler;
         private int mHeight = -1;
         private ArrayMap<String, Object> mJavaObject;
-        private SecurityType mSecurityType = SecurityType.DEFAULT_CHECK;
         private WebView mWebView;
         private boolean mWebClientHelper = true;
         private IWebLayout mWebLayout = null;
@@ -569,12 +568,12 @@ public final class AgentWeb {
             return this;
         }
 
-        public CommonBuilder setWebChromeClient(@Nullable top.xuqingquan.web.WebChromeClient webChromeClient) {
+        public CommonBuilder setWebChromeClient(@Nullable MiddlewareWebChromeBase webChromeClient) {
             this.mAgentBuilder.mWebChromeClient = webChromeClient;
             return this;
         }
 
-        public CommonBuilder setWebViewClient(@Nullable top.xuqingquan.web.WebViewClient webChromeClient) {
+        public CommonBuilder setWebViewClient(@Nullable MiddlewareWebClientBase webChromeClient) {
             this.mAgentBuilder.mWebViewClient = webChromeClient;
             return this;
         }
@@ -628,11 +627,6 @@ public final class AgentWeb {
 
         public CommonBuilder addJavascriptInterface(@NonNull String name, @NonNull Object o) {
             this.mAgentBuilder.addJavaObject(name, o);
-            return this;
-        }
-
-        public CommonBuilder setSecurityType(@NonNull SecurityType type) {
-            this.mAgentBuilder.mSecurityType = type;
             return this;
         }
 

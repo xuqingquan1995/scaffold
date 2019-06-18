@@ -1,13 +1,13 @@
 package top.xuqingquan.web;
 
-import android.webkit.WebView;
+import top.xuqingquan.web.agent.BaseIndicatorSpec;
+import top.xuqingquan.web.agent.IndicatorController;
 
 public class IndicatorHandler implements IndicatorController {
 	private BaseIndicatorSpec mBaseIndicatorSpec;
 
 	@Override
-	public void progress(WebView v, int newProgress) {
-
+	public void progress(android.webkit.WebView v, int newProgress) {
 		if (newProgress == 0) {
 			reset();
 		} else if (newProgress > 0 && newProgress <= 10) {
@@ -18,7 +18,20 @@ public class IndicatorHandler implements IndicatorController {
 			setProgress(newProgress);
 			finish();
 		}
+	}
 
+	@Override
+	public void progress(com.tencent.smtt.sdk.WebView v, int newProgress) {
+		if (newProgress == 0) {
+			reset();
+		} else if (newProgress > 0 && newProgress <= 10) {
+			showIndicator();
+		} else if (newProgress > 10 && newProgress < 95) {
+			setProgress(newProgress);
+		} else {
+			setProgress(newProgress);
+			finish();
+		}
 	}
 
 	@Override
