@@ -69,16 +69,6 @@ class AppLifecyclesImpl : AppLifecycles {
             thread {
                 Timber.d("QbSdk----Thread.currentThread()===${Thread.currentThread()}")
                 QbSdk.setDownloadWithoutWifi(true)
-                val cb = object : QbSdk.PreInitCallback {
-                    override fun onCoreInitFinished() {
-                        Timber.d("QbSdk----onCoreInitFinished")
-
-                    }
-
-                    override fun onViewInitFinished(p0: Boolean) {
-                        Timber.d("QbSdk----onViewInitFinished--->$p0")
-                    }
-                }
                 QbSdk.setTbsListener(object : TbsListener {
                     override fun onInstallFinish(p0: Int) {
                         Timber.d("QbSdk----onInstallFinish--->$p0")
@@ -92,6 +82,16 @@ class AppLifecyclesImpl : AppLifecycles {
                         Timber.d("QbSdk----onDownloadProgress--->$p0")
                     }
                 })
+                val cb = object : QbSdk.PreInitCallback {
+                    override fun onCoreInitFinished() {
+                        Timber.d("QbSdk----onCoreInitFinished")
+
+                    }
+
+                    override fun onViewInitFinished(p0: Boolean) {
+                        Timber.d("QbSdk----onViewInitFinished--->$p0")
+                    }
+                }
                 //x5内核初始化接口
                 QbSdk.initX5Environment(application, cb)
             }

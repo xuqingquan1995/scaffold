@@ -9,7 +9,7 @@ import androidx.annotation.*;
 import androidx.collection.ArrayMap;
 import androidx.fragment.app.Fragment;
 import top.xuqingquan.utils.Timber;
-import top.xuqingquan.web.agent.*;
+import top.xuqingquan.web.publics.*;
 
 import java.lang.ref.WeakReference;
 import java.util.Map;
@@ -141,12 +141,16 @@ public final class AgentWeb {
             this.mX5AgentWebSettings = agentBuilder.mX5AgentWebSettings;
             this.mX5MiddleWrareWebClientBaseHeader = agentBuilder.mX5MiddlewareWebClientBaseHeader;
             this.mX5MiddlewareWebChromeBaseHeader = agentBuilder.mX5ChromeMiddleWareHeader;
+            this.mIUrlLoader = new UrlLoaderImpl(mWebCreator.create().getX5WebView(), agentBuilder.mHttpHeaders);
+            this.mWebLifeCycle = new DefaultWebLifeCycleImpl(mWebCreator.getX5WebView());
         } else {
             this.mWebChromeClient = agentBuilder.mWebChromeClient;
             this.mWebViewClient = agentBuilder.mWebViewClient;
             this.mAgentWebSettings = agentBuilder.mAgentWebSettings;
             this.mMiddleWrareWebClientBaseHeader = agentBuilder.mMiddlewareWebClientBaseHeader;
             this.mMiddlewareWebChromeBaseHeader = agentBuilder.mChromeMiddleWareHeader;
+            this.mIUrlLoader = new UrlLoaderImpl(mWebCreator.create().getWebView(), agentBuilder.mHttpHeaders);
+            this.mWebLifeCycle = new DefaultWebLifeCycleImpl(mWebCreator.getWebView());
         }
         if (agentBuilder.mJavaObject != null && !agentBuilder.mJavaObject.isEmpty()) {
             this.mJavaObjects.putAll((Map<? extends String, ?>) agentBuilder.mJavaObject);
@@ -157,14 +161,12 @@ public final class AgentWeb {
         } else {
             this.mPermissionInterceptor = new PermissionInterceptorWrapper(agentBuilder.mPermissionInterceptor);
         }
-        this.mIUrlLoader = new UrlLoaderImpl(mWebCreator.create().getWebView(), agentBuilder.mHttpHeaders);
         if (this.mWebCreator.getWebParentLayout() instanceof WebParentLayout) {
             WebParentLayout mWebParentLayout = (WebParentLayout) this.mWebCreator.getWebParentLayout();
             mWebParentLayout.bindController(agentBuilder.mAgentWebUIController == null ? AgentWebUIControllerImplBase.build() : agentBuilder.mAgentWebUIController);
             mWebParentLayout.setErrorLayoutRes(agentBuilder.mErrorLayout, agentBuilder.mReloadId);
             mWebParentLayout.setErrorView(agentBuilder.mErrorView);
         }
-        this.mWebLifeCycle = new DefaultWebLifeCycleImpl(mWebCreator.getWebView());
         this.mWebClientHelper = agentBuilder.mWebClientHelper;
         this.mIsInterceptUnkownUrl = agentBuilder.mIsInterceptUnkownUrl;
         if (agentBuilder.mOpenOtherPage != null) {

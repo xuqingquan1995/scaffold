@@ -17,10 +17,10 @@ import android.webkit.*;
 import androidx.annotation.RequiresApi;
 import com.alipay.sdk.app.PayTask;
 import top.xuqingquan.utils.Timber;
-import top.xuqingquan.web.agent.AbsAgentWebUIController;
-import top.xuqingquan.web.agent.AgentWebConfig;
-import top.xuqingquan.web.agent.AgentWebUtils;
-import top.xuqingquan.web.agent.PermissionInterceptor;
+import top.xuqingquan.web.publics.AbsAgentWebUIController;
+import top.xuqingquan.web.publics.AgentWebConfig;
+import top.xuqingquan.web.publics.AgentWebUtils;
+import top.xuqingquan.web.publics.PermissionInterceptor;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;

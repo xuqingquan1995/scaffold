@@ -8,11 +8,13 @@ import android.webkit.WebView
 import android.widget.FrameLayout
 import androidx.annotation.ColorInt
 import androidx.annotation.DimenRes
+import androidx.annotation.IdRes
+import androidx.annotation.LayoutRes
 import org.jetbrains.anko.px2dip
 import top.xuqingquan.BuildConfig
 import top.xuqingquan.R
 import top.xuqingquan.web.AgentWeb
-import top.xuqingquan.web.agent.AgentWebConfig
+import top.xuqingquan.web.publics.AgentWebConfig
 
 /**
  * Created by 许清泉 on 2019-05-22 21:00
@@ -27,6 +29,10 @@ class X5WebView : FrameLayout {
     var indicatorColor: Int = -1//进度条颜色，-1为默认值
     @DimenRes
     var indicatorHeight: Int = 0 //进度条高度，高度为2，单位为dp
+    @LayoutRes
+    var error_layout: Int = -1
+    @IdRes
+    var refresh_error: Int = -1
     var url: String? = "https://m.baidu.com"
     var debug: Boolean = false
         set(value) {
@@ -47,6 +53,10 @@ class X5WebView : FrameLayout {
         debug = typedArray.getBoolean(R.styleable.X5WebView_x5_debug, false)
         indicatorColor = typedArray.getColor(R.styleable.X5WebView_x5_indicatorColor, -1)
         indicatorHeight = typedArray.getDimension(R.styleable.X5WebView_x5_indicatorHeight, -1f).toInt()
+        error_layout = typedArray.getResourceId(R.styleable.X5WebView_x5_error_layout, -1)
+        if (error_layout != -1) {
+            refresh_error = typedArray.getResourceId(R.styleable.X5WebView_x5_refresh_error, -1)
+        }
         indicatorHeight = if (indicatorHeight == -1) {
             2
         } else {
@@ -70,10 +80,15 @@ class X5WebView : FrameLayout {
                     LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
                 )//传入AgentWeb的父控件。
                 .useDefaultIndicator(indicatorColor, indicatorHeight)
+                .setMainFrameErrorView(error_layout, refresh_error)//当使用X5时候这一句失效
                 .interceptUnkownUrl() //拦截找不到相关页面的Url AgentWeb 3.0.0 加入。
                 .createAgentWeb()//创建AgentWeb。
                 .get()
-            agentWeb!!.webCreator.webView.overScrollMode = WebView.OVER_SCROLL_NEVER
+            if (AgentWebConfig.hasX5()) {
+                agentWeb!!.webCreator.x5WebView.overScrollMode = WebView.OVER_SCROLL_NEVER
+            } else {
+                agentWeb!!.webCreator.webView.overScrollMode = WebView.OVER_SCROLL_NEVER
+            }
         } else {
             agentWeb = aw
         }
@@ -99,6 +114,7 @@ class X5WebView : FrameLayout {
 
     fun onDestroy() {
         agentWeb?.destroy()
+        AgentWebConfig.x5 = null//每次退出时都清空X5状态
     }
 
     override fun onDetachedFromWindow() {

@@ -14,6 +14,8 @@
         <attr name="x5_debug" format="boolean"/>
         <attr name="x5_indicatorColor" format="reference"/>
         <attr name="x5_indicatorHeight" format="dimension"/>
+        <attr name="x5_error_layout" format="reference"/>
+        <attr name="x5_refresh_error" format="reference"/>
     </declare-styleable>
 
     <style name="actionActivity" parent="@android:style/Theme.Translucent.NoTitleBar">

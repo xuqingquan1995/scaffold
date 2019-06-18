@@ -20,10 +20,10 @@ import com.tencent.smtt.export.external.interfaces.WebResourceResponse;
 import com.tencent.smtt.sdk.WebView;
 import com.tencent.smtt.sdk.WebViewClient;
 import top.xuqingquan.utils.Timber;
-import top.xuqingquan.web.agent.AbsAgentWebUIController;
-import top.xuqingquan.web.agent.AgentWebConfig;
-import top.xuqingquan.web.agent.AgentWebUtils;
-import top.xuqingquan.web.agent.PermissionInterceptor;
+import top.xuqingquan.web.publics.AbsAgentWebUIController;
+import top.xuqingquan.web.publics.AgentWebConfig;
+import top.xuqingquan.web.publics.AgentWebUtils;
+import top.xuqingquan.web.publics.PermissionInterceptor;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;
@@ -390,17 +390,17 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
     @Override
     public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
         Timber.i("onReceivedError：" + description + "  CODE:" + errorCode);
-        onMainFrameError(view, errorCode, description, failingUrl);
+//        onMainFrameError(view, errorCode, description, failingUrl);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
-        if (request.isForMainFrame()) {
-            onMainFrameError(view,
-                    error.getErrorCode(), error.getDescription().toString(),
-                    request.getUrl().toString());
-        }
+//        if (request.isForMainFrame()) {
+//            onMainFrameError(view,
+//                    error.getErrorCode(), error.getDescription().toString(),
+//                    request.getUrl().toString());
+//        }
         Timber.i("onReceivedError:" + error.getDescription() + " code:" + error.getErrorCode());
     }
 

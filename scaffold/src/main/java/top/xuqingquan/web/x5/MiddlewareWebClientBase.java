@@ -10,11 +10,11 @@ public class MiddlewareWebClientBase extends WebViewClientDelegate {
         this.mMiddleWrareWebClientBase = client;
     }
 
-    protected MiddlewareWebClientBase(WebViewClient client) {
+    MiddlewareWebClientBase(WebViewClient client) {
         super(client);
     }
 
-    protected MiddlewareWebClientBase() {
+    MiddlewareWebClientBase() {
         super(null);
     }
 
