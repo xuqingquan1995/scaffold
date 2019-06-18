@@ -18,7 +18,7 @@ public class MiddlewareWebClientBase extends WebViewClientDelegate {
         super(null);
     }
 
-    final MiddlewareWebClientBase next() {
+    public final MiddlewareWebClientBase next() {
         return this.mMiddleWrareWebClientBase;
     }
 
@@ -28,7 +28,7 @@ public class MiddlewareWebClientBase extends WebViewClientDelegate {
 
     }
 
-    final MiddlewareWebClientBase enq(MiddlewareWebClientBase middleWrareWebClientBase) {
+    public final MiddlewareWebClientBase enq(MiddlewareWebClientBase middleWrareWebClientBase) {
         setDelegate(middleWrareWebClientBase);
         this.mMiddleWrareWebClientBase = middleWrareWebClientBase;
         return middleWrareWebClientBase;

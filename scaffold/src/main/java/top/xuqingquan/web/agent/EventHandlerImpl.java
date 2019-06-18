@@ -1,9 +1,7 @@
-package top.xuqingquan.web;
+package top.xuqingquan.web.agent;
 
 import android.view.KeyEvent;
 import android.webkit.WebView;
-import top.xuqingquan.web.agent.EventInterceptor;
-import top.xuqingquan.web.agent.IEventHandler;
 
 /**
  * IEventHandler 对事件的处理，主要是针对

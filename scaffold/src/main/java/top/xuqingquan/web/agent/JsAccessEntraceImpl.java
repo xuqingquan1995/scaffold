@@ -1,8 +1,7 @@
-package top.xuqingquan.web;
+package top.xuqingquan.web.agent;
 
 import android.os.Handler;
 import android.os.Looper;
-import top.xuqingquan.web.agent.BaseJsAccessEntrace;
 
 public class JsAccessEntraceImpl extends BaseJsAccessEntrace {
 

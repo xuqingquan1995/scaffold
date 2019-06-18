@@ -1,7 +1,4 @@
-package top.xuqingquan.web;
-
-import top.xuqingquan.web.agent.BaseIndicatorSpec;
-import top.xuqingquan.web.agent.IndicatorController;
+package top.xuqingquan.web.agent;
 
 public class IndicatorHandler implements IndicatorController {
 	private BaseIndicatorSpec mBaseIndicatorSpec;
@@ -67,12 +64,12 @@ public class IndicatorHandler implements IndicatorController {
 		}
 	}
 
-	static IndicatorHandler getInstance() {
+	public static IndicatorHandler getInstance() {
 		return new IndicatorHandler();
 	}
 
 
-	IndicatorHandler inJectIndicator(BaseIndicatorSpec baseIndicatorSpec) {
+	public IndicatorHandler inJectIndicator(BaseIndicatorSpec baseIndicatorSpec) {
 		this.mBaseIndicatorSpec = baseIndicatorSpec;
 		return this;
 	}

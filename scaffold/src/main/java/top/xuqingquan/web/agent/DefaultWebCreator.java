@@ -1,4 +1,4 @@
-package top.xuqingquan.web;
+package top.xuqingquan.web.agent;
 
 import android.app.Activity;
 import android.graphics.Color;
@@ -9,10 +9,8 @@ import android.view.ViewStub;
 import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import com.tencent.smtt.sdk.WebView;
 import top.xuqingquan.R;
 import top.xuqingquan.utils.Timber;
-import top.xuqingquan.web.agent.*;
 
 public class DefaultWebCreator implements WebCreator {
     private Activity mActivity;
@@ -46,7 +44,7 @@ public class DefaultWebCreator implements WebCreator {
      * @param webView
      * @param webLayout
      */
-    protected DefaultWebCreator(@NonNull Activity activity,
+    public DefaultWebCreator(@NonNull Activity activity,
                                 @Nullable ViewGroup viewGroup,
                                 ViewGroup.LayoutParams lp,
                                 int index,
@@ -65,7 +63,7 @@ public class DefaultWebCreator implements WebCreator {
         this.mIWebLayout = webLayout;
     }
 
-    protected DefaultWebCreator(@NonNull Activity activity,
+    public DefaultWebCreator(@NonNull Activity activity,
                                 @Nullable ViewGroup viewGroup,
                                 ViewGroup.LayoutParams lp,
                                 int index,
@@ -94,7 +92,7 @@ public class DefaultWebCreator implements WebCreator {
      * @param webView
      * @param webLayout
      */
-    protected DefaultWebCreator(@NonNull Activity activity, @Nullable ViewGroup viewGroup, ViewGroup.LayoutParams lp, int index, @Nullable android.webkit.WebView webView, top.xuqingquan.web.system.IWebLayout webLayout) {
+    public DefaultWebCreator(@NonNull Activity activity, @Nullable ViewGroup viewGroup, ViewGroup.LayoutParams lp, int index, @Nullable android.webkit.WebView webView, top.xuqingquan.web.system.IWebLayout webLayout) {
         this.mActivity = activity;
         this.mViewGroup = viewGroup;
         this.mIsNeedDefaultProgress = false;
@@ -104,7 +102,7 @@ public class DefaultWebCreator implements WebCreator {
         this.mIWebLayout = webLayout;
     }
 
-    protected DefaultWebCreator(@NonNull Activity activity, @Nullable ViewGroup viewGroup, ViewGroup.LayoutParams lp, int index, @Nullable com.tencent.smtt.sdk.WebView webView, top.xuqingquan.web.x5.IWebLayout webLayout) {
+    public DefaultWebCreator(@NonNull Activity activity, @Nullable ViewGroup viewGroup, ViewGroup.LayoutParams lp, int index, @Nullable com.tencent.smtt.sdk.WebView webView, top.xuqingquan.web.x5.IWebLayout webLayout) {
         this.mActivity = activity;
         this.mViewGroup = viewGroup;
         this.mIsNeedDefaultProgress = false;
@@ -125,7 +123,7 @@ public class DefaultWebCreator implements WebCreator {
      * @param webView
      * @param webLayout
      */
-    protected DefaultWebCreator(@NonNull Activity activity, @Nullable ViewGroup viewGroup, ViewGroup.LayoutParams lp, int index, BaseIndicatorView progressView, android.webkit.WebView webView, top.xuqingquan.web.system.IWebLayout webLayout) {
+    public DefaultWebCreator(@NonNull Activity activity, @Nullable ViewGroup viewGroup, ViewGroup.LayoutParams lp, int index, BaseIndicatorView progressView, android.webkit.WebView webView, top.xuqingquan.web.system.IWebLayout webLayout) {
         this.mActivity = activity;
         this.mViewGroup = viewGroup;
         this.mIsNeedDefaultProgress = false;
@@ -136,7 +134,7 @@ public class DefaultWebCreator implements WebCreator {
         this.mIWebLayout = webLayout;
     }
 
-    protected DefaultWebCreator(@NonNull Activity activity, @Nullable ViewGroup viewGroup, ViewGroup.LayoutParams lp, int index, BaseIndicatorView progressView, com.tencent.smtt.sdk.WebView webView, top.xuqingquan.web.x5.IWebLayout webLayout) {
+    public DefaultWebCreator(@NonNull Activity activity, @Nullable ViewGroup viewGroup, ViewGroup.LayoutParams lp, int index, BaseIndicatorView progressView, com.tencent.smtt.sdk.WebView webView, top.xuqingquan.web.x5.IWebLayout webLayout) {
         this.mActivity = activity;
         this.mViewGroup = viewGroup;
         this.mIsNeedDefaultProgress = false;
@@ -183,7 +181,7 @@ public class DefaultWebCreator implements WebCreator {
     }
 
     @Override
-    public WebView getX5WebView() {
+    public com.tencent.smtt.sdk.WebView getX5WebView() {
         return mX5WebView;
     }
 

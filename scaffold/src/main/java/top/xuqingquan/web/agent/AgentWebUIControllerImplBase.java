@@ -1,11 +1,10 @@
-package top.xuqingquan.web;
+package top.xuqingquan.web.agent;
 
 import android.app.Activity;
 import android.os.Handler;
 import android.webkit.JsPromptResult;
 import android.webkit.JsResult;
 import android.webkit.WebView;
-import top.xuqingquan.web.agent.WebParentLayout;
 
 public class AgentWebUIControllerImplBase extends AbsAgentWebUIController {
 
@@ -105,7 +104,7 @@ public class AgentWebUIControllerImplBase extends AbsAgentWebUIController {
     }
 
     @Override
-    protected void bindSupportWebParent(WebParentLayout webParentLayout, Activity activity) {
+    public void bindSupportWebParent(WebParentLayout webParentLayout, Activity activity) {
         getDelegate().bindSupportWebParent(webParentLayout, activity);
     }
 

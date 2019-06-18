@@ -1,8 +1,6 @@
-package top.xuqingquan.web;
+package top.xuqingquan.web.agent;
 
 import android.webkit.JavascriptInterface;
-import top.xuqingquan.web.agent.AgentWebConfig;
-import top.xuqingquan.web.agent.JsInterfaceHolder;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;

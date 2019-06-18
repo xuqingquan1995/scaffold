@@ -1,4 +1,4 @@
-package top.xuqingquan.web;
+package top.xuqingquan.web.x5;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -12,14 +12,18 @@ import android.os.Handler;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
-import android.webkit.WebViewClient;
-import android.webkit.*;
 import androidx.annotation.RequiresApi;
 import com.alipay.sdk.app.PayTask;
+import com.tencent.smtt.export.external.interfaces.WebResourceError;
+import com.tencent.smtt.export.external.interfaces.WebResourceRequest;
+import com.tencent.smtt.export.external.interfaces.WebResourceResponse;
+import com.tencent.smtt.sdk.WebView;
+import com.tencent.smtt.sdk.WebViewClient;
 import top.xuqingquan.utils.Timber;
+import top.xuqingquan.web.agent.AbsAgentWebUIController;
+import top.xuqingquan.web.agent.AgentWebConfig;
 import top.xuqingquan.web.agent.AgentWebUtils;
 import top.xuqingquan.web.agent.PermissionInterceptor;
-import top.xuqingquan.web.system.MiddlewareWebClientBase;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;
@@ -68,18 +72,6 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
      * true 表示当前应用内依赖了 alipay library , false  反之
      */
     private static final boolean HAS_ALIPAY_LIB;
-    /**
-     * 直接打开其他页面
-     */
-    private static final int DERECT_OPEN_OTHER_PAGE = 1001;
-    /**
-     * 弹窗咨询用户是否前往其他页面
-     */
-    private static final int ASK_USER_OPEN_OTHER_PAGE = DERECT_OPEN_OTHER_PAGE >> 2;
-    /**
-     * 不允许打开其他页面
-     */
-    private static final int DISALLOW_OPEN_OTHER_APP = DERECT_OPEN_OTHER_PAGE >> 4;
     /**
      * 默认为咨询用户
      */
@@ -138,13 +130,13 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
         this.mAgentWebUIController = new WeakReference<>(AgentWebUtils.getAgentWebUIControllerByWebView(builder.mWebView));
         this.mIsInterceptUnkownUrl = builder.mIsInterceptUnkownScheme;
         if (builder.mUrlHandleWays <= 0) {
-            mUrlHandleWays = ASK_USER_OPEN_OTHER_PAGE;
+            mUrlHandleWays = AgentWebConfig.ASK_USER_OPEN_OTHER_PAGE;
         } else {
             mUrlHandleWays = builder.mUrlHandleWays;
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
         String url = request.getUrl().toString();
@@ -187,11 +179,11 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
     private boolean deepLink(String url) {
         switch (mUrlHandleWays) {
             // 直接打开其他App
-            case DERECT_OPEN_OTHER_PAGE:
+            case AgentWebConfig.DERECT_OPEN_OTHER_PAGE:
                 lookup(url);
                 return true;
             // 咨询用户是否打开其他App
-            case ASK_USER_OPEN_OTHER_PAGE:
+            case AgentWebConfig.ASK_USER_OPEN_OTHER_PAGE:
                 Activity mActivity = null;
                 if ((mActivity = mWeakReference.get()) == null) {
                     return false;
@@ -218,6 +210,7 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
         return super.shouldInterceptRequest(view, request);
@@ -548,26 +541,6 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
 
         public DefaultWebClient build() {
             return new DefaultWebClient(this);
-        }
-    }
-
-    public enum OpenOtherPageWays {
-        /**
-         * 直接打开跳转页
-         */
-        DERECT(DefaultWebClient.DERECT_OPEN_OTHER_PAGE),
-        /**
-         * 咨询用户是否打开
-         */
-        ASK(DefaultWebClient.ASK_USER_OPEN_OTHER_PAGE),
-        /**
-         * 禁止打开其他页面
-         */
-        DISALLOW(DefaultWebClient.DISALLOW_OPEN_OTHER_APP);
-        int code;
-
-        OpenOtherPageWays(int code) {
-            this.code = code;
         }
     }
 }

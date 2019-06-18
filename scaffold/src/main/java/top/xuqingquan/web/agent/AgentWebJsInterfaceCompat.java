@@ -1,11 +1,11 @@
-package top.xuqingquan.web;
+package top.xuqingquan.web.agent;
 
 import android.app.Activity;
 import android.os.Build;
 import android.webkit.JavascriptInterface;
 import androidx.annotation.RequiresApi;
 import top.xuqingquan.utils.Timber;
-import top.xuqingquan.web.agent.AgentWebUtils;
+import top.xuqingquan.web.AgentWeb;
 
 import java.lang.ref.WeakReference;
 
@@ -14,7 +14,7 @@ public class AgentWebJsInterfaceCompat {
     private WeakReference<AgentWeb> mReference;
     private WeakReference<Activity> mActivityWeakReference;
 
-    AgentWebJsInterfaceCompat(AgentWeb agentWeb, Activity activity) {
+    public AgentWebJsInterfaceCompat(AgentWeb agentWeb, Activity activity) {
         mReference = new WeakReference<>(agentWeb);
         mActivityWeakReference = new WeakReference<>(activity);
     }

@@ -1,4 +1,6 @@
-package top.xuqingquan.web;
+package top.xuqingquan.web.agent;
+
+import top.xuqingquan.web.AgentWeb;
 
 public class HookManager {
 

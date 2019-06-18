@@ -1,4 +1,4 @@
-package top.xuqingquan.web;
+package top.xuqingquan.web.x5;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
@@ -6,14 +6,16 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.webkit.WebChromeClient;
-import android.webkit.*;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import com.tencent.smtt.export.external.interfaces.*;
+import com.tencent.smtt.sdk.ValueCallback;
+import com.tencent.smtt.sdk.WebChromeClient;
+import com.tencent.smtt.sdk.WebStorage;
+import com.tencent.smtt.sdk.WebView;
 import top.xuqingquan.utils.Timber;
 import top.xuqingquan.web.agent.*;
-import top.xuqingquan.web.system.MiddlewareWebChromeBase;
 
 import java.lang.ref.WeakReference;
 import java.util.Arrays;
@@ -49,7 +51,7 @@ public class DefaultChromeClient extends MiddlewareWebChromeBase {
     /**
      * Web 端触发的定位 Callback 回调成功，或者失败
      */
-    private GeolocationPermissions.Callback mCallback = null;
+    private GeolocationPermissionsCallback mCallback = null;
     /**
      * 标志位
      */
@@ -67,7 +69,7 @@ public class DefaultChromeClient extends MiddlewareWebChromeBase {
      */
     private IndicatorController mIndicatorController;
 
-    DefaultChromeClient(Activity activity,
+    public DefaultChromeClient(Activity activity,
                         IndicatorController indicatorController,
                         WebChromeClient chromeClient,
                         @Nullable IVideo iVideo,
@@ -120,11 +122,11 @@ public class DefaultChromeClient extends MiddlewareWebChromeBase {
 
     //location
     @Override
-    public void onGeolocationPermissionsShowPrompt(String origin, GeolocationPermissions.Callback callback) {
+    public void onGeolocationPermissionsShowPrompt(String origin, GeolocationPermissionsCallback callback) {
         onGeolocationPermissionsShowPromptInternal(origin, callback);
     }
 
-    private void onGeolocationPermissionsShowPromptInternal(String origin, GeolocationPermissions.Callback callback) {
+    private void onGeolocationPermissionsShowPromptInternal(String origin, GeolocationPermissionsCallback callback) {
         if (mPermissionInterceptor != null) {
             if (mPermissionInterceptor.intercept(this.mWebView.getUrl(), AgentWebPermissions.LOCATION, "location")) {
                 callback.invoke(origin, false, false);
@@ -209,13 +211,13 @@ public class DefaultChromeClient extends MiddlewareWebChromeBase {
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
-    public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, WebChromeClient.FileChooserParams fileChooserParams) {
+    public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, FileChooserParams fileChooserParams) {
         Timber.i("openFileChooser>=5.0");
         return openFileChooserAboveL(filePathCallback, fileChooserParams);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    private boolean openFileChooserAboveL(ValueCallback<Uri[]> valueCallbacks, WebChromeClient.FileChooserParams fileChooserParams) {
+    private boolean openFileChooserAboveL(ValueCallback<Uri[]> valueCallbacks, FileChooserParams fileChooserParams) {
         Timber.i("fileChooserParams:" + Arrays.toString(fileChooserParams.getAcceptTypes()) + "  getTitle:" + fileChooserParams.getTitle() + " accept:" + Arrays.toString(fileChooserParams.getAcceptTypes()) + " length:" + fileChooserParams.getAcceptTypes().length + "  :" + fileChooserParams.isCaptureEnabled() + "  " + fileChooserParams.getFilenameHint() + "  intent:" + fileChooserParams.createIntent().toString() + "   mode:" + fileChooserParams.getMode());
         Activity mActivity = this.mActivityWeakReference.get();
         if (mActivity == null || mActivity.isFinishing()) {
@@ -239,7 +241,7 @@ public class DefaultChromeClient extends MiddlewareWebChromeBase {
     }
 
     @Override
-    public void onShowCustomView(View view, WebChromeClient.CustomViewCallback callback) {
+    public void onShowCustomView(View view, IX5WebChromeClient.CustomViewCallback callback) {
         if (mIVideo != null) {
             mIVideo.onShowCustomView(view, callback);
         }

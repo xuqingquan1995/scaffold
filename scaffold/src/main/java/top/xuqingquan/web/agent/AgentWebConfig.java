@@ -9,6 +9,18 @@ import top.xuqingquan.utils.Timber;
 import java.io.File;
 
 public class AgentWebConfig {
+    /**
+     * 直接打开其他页面
+     */
+    public static final int DERECT_OPEN_OTHER_PAGE = 1001;
+    /**
+     * 弹窗咨询用户是否前往其他页面
+     */
+    public static final int ASK_USER_OPEN_OTHER_PAGE = DERECT_OPEN_OTHER_PAGE >> 2;
+    /**
+     * 不允许打开其他页面
+     */
+    public static final int DISALLOW_OPEN_OTHER_APP = DERECT_OPEN_OTHER_PAGE >> 4;
 
     public static final String FILE_CACHE_PATH = "agentweb-cache";
     private static final String AGENTWEB_CACHE_PATCH = File.separator + "agentweb-cache";

@@ -1,4 +1,4 @@
-package top.xuqingquan.web;
+package top.xuqingquan.web.system;
 
 import android.annotation.SuppressLint;
 import android.os.Build;
@@ -10,8 +10,8 @@ import android.webkit.DownloadListener;
 import android.webkit.WebViewClient;
 import top.xuqingquan.utils.NetUtils;
 import top.xuqingquan.utils.Timber;
+import top.xuqingquan.web.AgentWeb;
 import top.xuqingquan.web.agent.AgentWebConfig;
-import top.xuqingquan.web.system.IAgentWebSettings;
 
 public abstract class AbsAgentWebSettings implements IAgentWebSettings, WebListenerManager {
     private WebSettings mWebSettings;
@@ -26,7 +26,7 @@ public abstract class AbsAgentWebSettings implements IAgentWebSettings, WebListe
     public AbsAgentWebSettings() {
     }
 
-    final void bindAgentWeb(AgentWeb agentWeb) {
+    public final void bindAgentWeb(AgentWeb agentWeb) {
         this.bindAgentWebSupport(agentWeb);
     }
 
@@ -43,7 +43,8 @@ public abstract class AbsAgentWebSettings implements IAgentWebSettings, WebListe
         mWebSettings = webView.getSettings();
         mWebSettings.setJavaScriptEnabled(true);
         mWebSettings.setSupportZoom(true);
-        mWebSettings.setBuiltInZoomControls(false);
+        mWebSettings.setBuiltInZoomControls(true);
+        mWebSettings.setDisplayZoomControls(false);
         mWebSettings.setSavePassword(false);
         if (NetUtils.networkIsConnect(webView.getContext())) {
             //根据cache-control获取数据。

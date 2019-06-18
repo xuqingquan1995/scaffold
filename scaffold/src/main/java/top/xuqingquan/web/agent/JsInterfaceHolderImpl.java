@@ -2,7 +2,6 @@ package top.xuqingquan.web.agent;
 
 import android.annotation.SuppressLint;
 import top.xuqingquan.utils.Timber;
-import top.xuqingquan.web.JsBaseInterfaceHolder;
 
 import java.util.Map;
 import java.util.Set;
@@ -16,7 +15,7 @@ public class JsInterfaceHolderImpl extends JsBaseInterfaceHolder {
         return new JsInterfaceHolderImpl(webView);
     }
 
-    static JsInterfaceHolderImpl getJsInterfaceHolder(com.tencent.smtt.sdk.WebView webView) {
+    public static JsInterfaceHolderImpl getJsInterfaceHolder(com.tencent.smtt.sdk.WebView webView) {
         return new JsInterfaceHolderImpl(webView);
     }
 

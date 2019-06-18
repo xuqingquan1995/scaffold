@@ -144,7 +144,7 @@ public class DefaultDesignUIController extends DefaultUIController {
     }
 
     @Override
-    protected void bindSupportWebParent(WebParentLayout webParentLayout, Activity activity) {
+    public void bindSupportWebParent(WebParentLayout webParentLayout, Activity activity) {
         super.bindSupportWebParent(webParentLayout, activity);
         this.mActivity = activity;
         this.mWebParentLayout = webParentLayout;

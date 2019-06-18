@@ -19,14 +19,14 @@ public class MiddlewareWebChromeBase extends WebChromeClientDelegate {
         super.setDelegate(delegate);
     }
 
-    final MiddlewareWebChromeBase enq(MiddlewareWebChromeBase middlewareWebChromeBase) {
+    public final MiddlewareWebChromeBase enq(MiddlewareWebChromeBase middlewareWebChromeBase) {
         setDelegate(middlewareWebChromeBase);
         this.mMiddlewareWebChromeBase = middlewareWebChromeBase;
         return this.mMiddlewareWebChromeBase;
     }
 
 
-    final MiddlewareWebChromeBase next() {
+    public final MiddlewareWebChromeBase next() {
         return this.mMiddlewareWebChromeBase;
     }
 

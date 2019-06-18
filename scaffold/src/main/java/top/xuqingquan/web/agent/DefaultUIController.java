@@ -10,7 +10,6 @@ import android.widget.EditText;
 import androidx.appcompat.app.AlertDialog;
 import top.xuqingquan.R;
 import top.xuqingquan.utils.Timber;
-import top.xuqingquan.web.AbsAgentWebUIController;
 
 public class DefaultUIController extends AbsAgentWebUIController {
 
@@ -367,7 +366,7 @@ public class DefaultUIController extends AbsAgentWebUIController {
     }
 
     @Override
-    protected void bindSupportWebParent(WebParentLayout webParentLayout, Activity activity) {
+    public void bindSupportWebParent(WebParentLayout webParentLayout, Activity activity) {
         this.mActivity = activity;
         this.mWebParentLayout = webParentLayout;
         mResources = this.mActivity.getResources();

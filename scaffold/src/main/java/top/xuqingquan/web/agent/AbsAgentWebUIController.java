@@ -1,11 +1,8 @@
-package top.xuqingquan.web;
+package top.xuqingquan.web.agent;
 
 import android.app.Activity;
 import android.app.Dialog;
 import android.os.Handler;
-import top.xuqingquan.web.agent.DefaultDesignUIController;
-import top.xuqingquan.web.agent.DefaultUIController;
-import top.xuqingquan.web.agent.WebParentLayout;
 
 public abstract class AbsAgentWebUIController {
 
@@ -54,7 +51,7 @@ public abstract class AbsAgentWebUIController {
         }
     }
 
-    protected abstract void bindSupportWebParent(WebParentLayout webParentLayout, Activity activity);
+    public abstract void bindSupportWebParent(WebParentLayout webParentLayout, Activity activity);
 
     /**
      * WebChromeClient#onJsAlert

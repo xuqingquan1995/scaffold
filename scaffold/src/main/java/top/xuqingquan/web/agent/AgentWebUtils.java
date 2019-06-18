@@ -29,7 +29,6 @@ import com.google.android.material.snackbar.Snackbar;
 import top.xuqingquan.R;
 import top.xuqingquan.utils.FileUtils;
 import top.xuqingquan.utils.Timber;
-import top.xuqingquan.web.AbsAgentWebUIController;
 
 import java.io.File;
 import java.io.IOException;
@@ -79,7 +78,7 @@ public class AgentWebUtils {
         m.destroy();
     }
 
-    static void clearWebView(com.tencent.smtt.sdk.WebView m) {
+    public static void clearWebView(com.tencent.smtt.sdk.WebView m) {
         if (m == null) {
             return;
         }
@@ -437,7 +436,7 @@ public class AgentWebUtils {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    static boolean showFileChooserCompat(Activity activity,
+    public static boolean showFileChooserCompat(Activity activity,
                                          com.tencent.smtt.sdk.WebView webView,
                                          com.tencent.smtt.sdk.ValueCallback valueCallbacks,
                                          com.tencent.smtt.sdk.WebChromeClient.FileChooserParams fileChooserParams,
