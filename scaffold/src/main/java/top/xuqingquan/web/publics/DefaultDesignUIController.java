@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.snackbar.Snackbar;
 import top.xuqingquan.utils.Timber;
+import top.xuqingquan.web.nokernel.WebConfig;
 
 public class DefaultDesignUIController extends DefaultUIController {
 
@@ -158,7 +159,7 @@ public class DefaultDesignUIController extends DefaultUIController {
         if (!TextUtils.isEmpty(from) && from.contains("performDownload")) {
             return;
         }
-        if (AgentWebConfig.hasX5()) {
+        if (WebConfig.hasX5()) {
             onJsAlertInternal(mWebParentLayout.getX5WebView(), message);
         } else {
             onJsAlertInternal(mWebParentLayout.getWebView(), message);

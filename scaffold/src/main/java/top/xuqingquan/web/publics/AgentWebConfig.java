@@ -4,18 +4,18 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Build;
 import androidx.annotation.Nullable;
-import com.tencent.smtt.sdk.QbSdk;
 import top.xuqingquan.utils.Timber;
+
 import top.xuqingquan.web.nokernel.WebConfig;
 
-import java.io.File;
+import static top.xuqingquan.web.nokernel.WebConfig.*;
 
-public class AgentWebConfig extends WebConfig {
+public class AgentWebConfig {
 
     public static void debug() {
         DEBUG = true;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            if (hasX5()) {
+            if (WebConfig.hasX5()) {
                 com.tencent.smtt.sdk.WebView.setWebContentsDebuggingEnabled(true);
             } else {
                 android.webkit.WebView.setWebContentsDebuggingEnabled(true);

@@ -10,7 +10,7 @@ public abstract class JsBaseInterfaceHolder implements JsInterfaceHolder {
 
 	@Override
 	public boolean checkObject(Object v) {
-		if (AgentWebConfig.WEBVIEW_TYPE == AgentWebConfig.WEBVIEW_AGENTWEB_SAFE_TYPE) {
+		if (WebConfig.WEBVIEW_TYPE == WebConfig.WEBVIEW_AGENTWEB_SAFE_TYPE) {
 			return true;
 		}
 		boolean tag = false;

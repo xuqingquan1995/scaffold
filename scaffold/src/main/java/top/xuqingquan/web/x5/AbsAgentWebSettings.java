@@ -7,19 +7,20 @@ import com.tencent.smtt.sdk.*;
 import top.xuqingquan.utils.NetUtils;
 import top.xuqingquan.utils.Timber;
 import top.xuqingquan.web.AgentWeb;
-import top.xuqingquan.web.publics.AgentWebConfig;
+import top.xuqingquan.web.nokernel.WebConfig;
+import top.xuqingquan.web.nokernel.WebUtils;
 
 public abstract class AbsAgentWebSettings implements IAgentWebSettings, WebListenerManager {
     private WebSettings mWebSettings;
     private static final String USERAGENT_UC = " UCBrowser/11.6.4.950 ";
     private static final String USERAGENT_QQ_BROWSER = " MQQBrowser/8.0 ";
-    private static final String USERAGENT_AGENTWEB = AgentWebConfig.AGENTWEB_VERSION;
+    private static final String USERAGENT_AGENTWEB = WebConfig.AGENTWEB_VERSION;
 
     public static AbsAgentWebSettings getInstance() {
         return new AgentWebSettingsImpl();
     }
 
-    public AbsAgentWebSettings() {
+    AbsAgentWebSettings() {
     }
 
     public final void bindAgentWeb(AgentWeb agentWeb) {
@@ -37,6 +38,7 @@ public abstract class AbsAgentWebSettings implements IAgentWebSettings, WebListe
     @SuppressLint("SetJavaScriptEnabled")
     private void settings(WebView webView) {
         mWebSettings = webView.getSettings();
+        //noinspection deprecation
         mWebSettings.setJavaScriptEnabled(true);
         mWebSettings.setSupportZoom(true);
         mWebSettings.setBuiltInZoomControls(true);
@@ -53,10 +55,10 @@ public abstract class AbsAgentWebSettings implements IAgentWebSettings, WebListe
             //适配5.0不允许http和https混合使用情况
             mWebSettings.setMixedContentMode(android.webkit.WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
             webView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        }/* else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             //加上这一句可能导致Android4.4手机出现加载网页白屏
             // webView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
-        }
+        }*/
         mWebSettings.setTextZoom(100);
         mWebSettings.setDatabaseEnabled(true);
         mWebSettings.setAppCacheEnabled(true);
@@ -84,10 +86,11 @@ public abstract class AbsAgentWebSettings implements IAgentWebSettings, WebListe
         mWebSettings.setDefaultFontSize(16);
         mWebSettings.setMinimumFontSize(12);//设置 WebView 支持的最小字体大小，默认为 8
         mWebSettings.setGeolocationEnabled(true);
-        String dir = AgentWebConfig.getCachePath(webView.getContext());
-        Timber.i("dir:" + dir + "   appcache:" + AgentWebConfig.getCachePath(webView.getContext()));
+        String dir = WebUtils.getCachePath(webView.getContext());
+        Timber.i("dir:" + dir + "   appcache:" + WebUtils.getCachePath(webView.getContext()));
         //设置数据库路径  api19 已经废弃,这里只针对 webkit 起作用
         mWebSettings.setGeolocationDatabasePath(dir);
+        //noinspection deprecation
         mWebSettings.setDatabasePath(dir);
         mWebSettings.setAppCachePath(dir);
         //缓存文件最大值

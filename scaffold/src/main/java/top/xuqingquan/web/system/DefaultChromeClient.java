@@ -12,10 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import top.xuqingquan.utils.Timber;
-import top.xuqingquan.web.nokernel.Action;
-import top.xuqingquan.web.nokernel.ActionActivity;
-import top.xuqingquan.web.nokernel.AgentWebPermissions;
-import top.xuqingquan.web.nokernel.PermissionInterceptor;
+import top.xuqingquan.web.nokernel.*;
 import top.xuqingquan.web.publics.*;
 
 import java.lang.ref.WeakReference;
@@ -140,7 +137,7 @@ public class DefaultChromeClient extends MiddlewareWebChromeBase {
             return;
         }
         List<String> deniedPermissions;
-        if ((deniedPermissions = AgentWebUtils.getDeniedPermissions(mActivity, AgentWebPermissions.LOCATION)).isEmpty()) {
+        if ((deniedPermissions = WebUtils.getDeniedPermissions(mActivity, AgentWebPermissions.LOCATION)).isEmpty()) {
             Timber.i("onGeolocationPermissionsShowPromptInternal:" + true);
             callback.invoke(origin, true, false);
         } else {
@@ -157,7 +154,7 @@ public class DefaultChromeClient extends MiddlewareWebChromeBase {
         @Override
         public void onRequestPermissionsResult(@NonNull String[] permissions, @NonNull int[] grantResults, Bundle extras) {
             if (extras.getInt(KEY_FROM_INTENTION) == FROM_CODE_INTENTION_LOCATION) {
-                boolean hasPermission = AgentWebUtils.hasPermission(mActivityWeakReference.get(), permissions);
+                boolean hasPermission = WebUtils.hasPermission(mActivityWeakReference.get(), permissions);
                 if (mCallback != null) {
                     if (hasPermission) {
                         mCallback.invoke(mOrigin, true, false);
@@ -200,12 +197,16 @@ public class DefaultChromeClient extends MiddlewareWebChromeBase {
     }
 
 
+    @SuppressWarnings("deprecation")
     @Override
+    @Deprecated
     public void onExceededDatabaseQuota(String url, String databaseIdentifier, long quota, long estimatedDatabaseSize, long totalQuota, WebStorage.QuotaUpdater quotaUpdater) {
         quotaUpdater.updateQuota(totalQuota * 2);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
+    @Deprecated
     public void onReachedMaxAppCacheSize(long requiredStorage, long quota, WebStorage.QuotaUpdater quotaUpdater) {
         quotaUpdater.updateQuota(requiredStorage * 2);
     }

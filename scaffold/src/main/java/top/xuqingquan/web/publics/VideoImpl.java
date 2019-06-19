@@ -11,6 +11,7 @@ import android.widget.FrameLayout;
 import androidx.core.util.Pair;
 import com.tencent.smtt.export.external.interfaces.IX5WebChromeClient;
 import top.xuqingquan.web.nokernel.EventInterceptor;
+import top.xuqingquan.web.nokernel.WebConfig;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -139,7 +140,7 @@ public class VideoImpl implements IVideo, EventInterceptor {
             mMoiveParentView.setVisibility(View.GONE);
         }
         this.mMoiveView = null;
-        if (AgentWebConfig.hasX5()) {
+        if (WebConfig.hasX5()) {
             if (this.mx5Callback != null) {
                 mx5Callback.onCustomViewHidden();
             }

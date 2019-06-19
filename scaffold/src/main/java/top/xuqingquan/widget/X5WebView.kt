@@ -15,6 +15,7 @@ import top.xuqingquan.BuildConfig
 import top.xuqingquan.R
 import top.xuqingquan.web.AgentWeb
 import top.xuqingquan.web.publics.AgentWebConfig
+import top.xuqingquan.web.nokernel.WebConfig
 
 /**
  * Created by 许清泉 on 2019-05-22 21:00
@@ -84,7 +85,7 @@ class X5WebView : FrameLayout {
                 .interceptUnkownUrl() //拦截找不到相关页面的Url AgentWeb 3.0.0 加入。
                 .createAgentWeb()//创建AgentWeb。
                 .get()
-            if (AgentWebConfig.hasX5()) {
+            if (WebConfig.hasX5()) {
                 agentWeb!!.webCreator.x5WebView.overScrollMode = WebView.OVER_SCROLL_NEVER
             } else {
                 agentWeb!!.webCreator.webView.overScrollMode = WebView.OVER_SCROLL_NEVER
@@ -114,7 +115,7 @@ class X5WebView : FrameLayout {
 
     fun onDestroy() {
         agentWeb?.destroy()
-        AgentWebConfig.x5 = null//每次退出时都清空X5状态
+        WebConfig.x5 = null//每次退出时都清空X5状态
     }
 
     override fun onDetachedFromWindow() {
@@ -132,7 +133,7 @@ class X5WebView : FrameLayout {
     fun reload() = agentWeb?.urlLoader?.reload()
 
     fun getCurrentUrl(): String? {
-        return if (AgentWebConfig.hasX5()) {
+        return if (WebConfig.hasX5()) {
             agentWeb?.webCreator?.x5WebView?.url
         } else {
             agentWeb?.webCreator?.webView?.url

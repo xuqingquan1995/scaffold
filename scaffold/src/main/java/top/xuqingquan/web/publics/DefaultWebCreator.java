@@ -11,8 +11,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import top.xuqingquan.R;
 import top.xuqingquan.utils.Timber;
+import top.xuqingquan.utils.ViewUtils;
 import top.xuqingquan.web.nokernel.BaseIndicatorSpec;
 import top.xuqingquan.web.nokernel.BaseIndicatorView;
+import top.xuqingquan.web.nokernel.WebConfig;
 import top.xuqingquan.web.nokernel.WebIndicator;
 
 public class DefaultWebCreator implements WebCreator {
@@ -199,14 +201,14 @@ public class DefaultWebCreator implements WebCreator {
         mFrameLayout.setId(R.id.web_parent_layout_id);
         mFrameLayout.setBackgroundColor(Color.WHITE);
         FrameLayout.LayoutParams mLayoutParams = new FrameLayout.LayoutParams(-1, -1);
-        if (AgentWebConfig.hasX5()) {
+        if (WebConfig.hasX5()) {
             this.mX5WebView = createX5WebView();
             View target = mX5IWebLayout == null ? this.mX5WebView : webLayout();
             mFrameLayout.addView(target, mLayoutParams);
             mFrameLayout.bindWebView(this.mX5WebView);
             Timber.i("  instanceof  AgentWebView:" + (this.mX5WebView instanceof top.xuqingquan.web.x5.AgentWebView));
             if (this.mX5WebView instanceof top.xuqingquan.web.x5.AgentWebView) {
-                AgentWebConfig.WEBVIEW_TYPE = AgentWebConfig.WEBVIEW_AGENTWEB_SAFE_TYPE;
+                WebConfig.WEBVIEW_TYPE = WebConfig.WEBVIEW_AGENTWEB_SAFE_TYPE;
             }
         } else {
             this.mWebView = createWebView();
@@ -215,7 +217,7 @@ public class DefaultWebCreator implements WebCreator {
             mFrameLayout.bindWebView(this.mWebView);
             Timber.i("  instanceof  AgentWebView:" + (this.mWebView instanceof top.xuqingquan.web.system.AgentWebView));
             if (this.mWebView instanceof top.xuqingquan.web.system.AgentWebView) {
-                AgentWebConfig.WEBVIEW_TYPE = AgentWebConfig.WEBVIEW_AGENTWEB_SAFE_TYPE;
+                WebConfig.WEBVIEW_TYPE = WebConfig.WEBVIEW_AGENTWEB_SAFE_TYPE;
             }
         }
         ViewStub mViewStub = new ViewStub(mActivity);
@@ -225,7 +227,7 @@ public class DefaultWebCreator implements WebCreator {
             FrameLayout.LayoutParams lp;
             WebIndicator mWebIndicator = new WebIndicator(mActivity);
             if (mHeight > 0) {
-                lp = new FrameLayout.LayoutParams(-2, AgentWebUtils.dp2px(mActivity, mHeight));
+                lp = new FrameLayout.LayoutParams(-2, ViewUtils.dp2px(mActivity, mHeight));
             } else {
                 lp = mWebIndicator.offerLayoutParams();
             }
@@ -250,7 +252,7 @@ public class DefaultWebCreator implements WebCreator {
             mIWebLayout.getLayout().addView(mWebView, -1, -1);
             Timber.i("add webview");
         } else {
-            AgentWebConfig.WEBVIEW_TYPE = AgentWebConfig.WEBVIEW_CUSTOM_TYPE;
+            WebConfig.WEBVIEW_TYPE = WebConfig.WEBVIEW_CUSTOM_TYPE;
         }
         this.mWebView = mWebView;
         return mIWebLayout.getLayout();
@@ -263,7 +265,7 @@ public class DefaultWebCreator implements WebCreator {
             mX5IWebLayout.getLayout().addView(mWebView, -1, -1);
             Timber.i("add webview");
         } else {
-            AgentWebConfig.WEBVIEW_TYPE = AgentWebConfig.WEBVIEW_CUSTOM_TYPE;
+            WebConfig.WEBVIEW_TYPE = WebConfig.WEBVIEW_CUSTOM_TYPE;
         }
         this.mX5WebView = mWebView;
         return mX5IWebLayout.getLayout();
@@ -273,13 +275,13 @@ public class DefaultWebCreator implements WebCreator {
         android.webkit.WebView mWebView;
         if (this.mWebView != null) {
             mWebView = this.mWebView;
-            AgentWebConfig.WEBVIEW_TYPE = AgentWebConfig.WEBVIEW_CUSTOM_TYPE;
-        } else if (AgentWebConfig.IS_KITKAT_OR_BELOW_KITKAT) {
+            WebConfig.WEBVIEW_TYPE = WebConfig.WEBVIEW_CUSTOM_TYPE;
+        } else if (WebConfig.IS_KITKAT_OR_BELOW_KITKAT) {
             mWebView = new top.xuqingquan.web.system.AgentWebView(mActivity);
-            AgentWebConfig.WEBVIEW_TYPE = AgentWebConfig.WEBVIEW_AGENTWEB_SAFE_TYPE;
+            WebConfig.WEBVIEW_TYPE = WebConfig.WEBVIEW_AGENTWEB_SAFE_TYPE;
         } else {
             mWebView = new android.webkit.WebView(mActivity);
-            AgentWebConfig.WEBVIEW_TYPE = AgentWebConfig.WEBVIEW_DEFAULT_TYPE;
+            WebConfig.WEBVIEW_TYPE = WebConfig.WEBVIEW_DEFAULT_TYPE;
         }
         return mWebView;
     }
@@ -288,13 +290,13 @@ public class DefaultWebCreator implements WebCreator {
         com.tencent.smtt.sdk.WebView mWebView;
         if (this.mX5WebView != null) {
             mWebView = this.mX5WebView;
-            AgentWebConfig.WEBVIEW_TYPE = AgentWebConfig.WEBVIEW_CUSTOM_TYPE;
-        } else if (AgentWebConfig.IS_KITKAT_OR_BELOW_KITKAT) {
+            WebConfig.WEBVIEW_TYPE = WebConfig.WEBVIEW_CUSTOM_TYPE;
+        } else if (WebConfig.IS_KITKAT_OR_BELOW_KITKAT) {
             mWebView = new top.xuqingquan.web.x5.AgentWebView(mActivity);
-            AgentWebConfig.WEBVIEW_TYPE = AgentWebConfig.WEBVIEW_AGENTWEB_SAFE_TYPE;
+            WebConfig.WEBVIEW_TYPE = WebConfig.WEBVIEW_AGENTWEB_SAFE_TYPE;
         } else {
             mWebView = new com.tencent.smtt.sdk.WebView(mActivity);
-            AgentWebConfig.WEBVIEW_TYPE = AgentWebConfig.WEBVIEW_DEFAULT_TYPE;
+            WebConfig.WEBVIEW_TYPE = WebConfig.WEBVIEW_DEFAULT_TYPE;
         }
         return mWebView;
     }

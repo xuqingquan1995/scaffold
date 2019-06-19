@@ -1,6 +1,5 @@
 package top.xuqingquan.web.nokernel;
 
-import android.content.Context;
 import android.os.Build;
 import com.tencent.smtt.sdk.QbSdk;
 import top.xuqingquan.utils.Timber;
@@ -10,7 +9,8 @@ import java.io.File;
 /**
  * Created by 许清泉 on 2019-06-19 20:00
  */
-public abstract class WebConfig {
+public class WebConfig {
+    private WebConfig(){}
     /**
      * 直接打开其他页面
      */
@@ -22,9 +22,9 @@ public abstract class WebConfig {
     /**
      * 不允许打开其他页面
      */
-    public static final int DISALLOW_OPEN_OTHER_APP = DERECT_OPEN_OTHER_PAGE >> 4;
+    static final int DISALLOW_OPEN_OTHER_APP = DERECT_OPEN_OTHER_PAGE >> 4;
     public static final String FILE_CACHE_PATH = "agentweb-cache";
-    protected static final String AGENTWEB_CACHE_PATCH = File.separator + "agentweb-cache";
+    static final String AGENTWEB_CACHE_PATCH = File.separator + "agentweb-cache";
     /**
      * 缓存路径
      */
@@ -50,7 +50,7 @@ public abstract class WebConfig {
      */
     public static final int WEBVIEW_CUSTOM_TYPE = 3;
     public static int WEBVIEW_TYPE = WEBVIEW_DEFAULT_TYPE;
-    protected static volatile boolean IS_INITIALIZED = false;
+    public static volatile boolean IS_INITIALIZED = false;
     /**
      * AgentWeb 的版本
      */
@@ -75,13 +75,4 @@ public abstract class WebConfig {
         }
         return x5;
     }
-
-    /**
-     * @param context
-     * @return WebView 的缓存路径
-     */
-    public static String getCachePath(Context context) {
-        return context.getCacheDir().getAbsolutePath() + AGENTWEB_CACHE_PATCH;
-    }
-
 }

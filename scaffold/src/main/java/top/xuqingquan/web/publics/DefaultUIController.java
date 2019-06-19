@@ -9,7 +9,9 @@ import android.text.TextUtils;
 import android.widget.EditText;
 import androidx.appcompat.app.AlertDialog;
 import top.xuqingquan.R;
+import top.xuqingquan.utils.DeviceUtils;
 import top.xuqingquan.utils.Timber;
+import top.xuqingquan.web.nokernel.WebUtils;
 
 public class DefaultUIController extends AbsAgentWebUIController {
 
@@ -29,12 +31,12 @@ public class DefaultUIController extends AbsAgentWebUIController {
 
     @Override
     public void onJsAlert(android.webkit.WebView view, String url, String message) {
-        AgentWebUtils.toastShowShort(view.getContext().getApplicationContext(), message);
+        WebUtils.toastShowShort(view.getContext().getApplicationContext(), message);
     }
 
     @Override
     public void onJsAlert(com.tencent.smtt.sdk.WebView view, String url, String message) {
-        AgentWebUtils.toastShowShort(view.getContext().getApplicationContext(), message);
+        WebUtils.toastShowShort(view.getContext().getApplicationContext(), message);
     }
 
     @Override
@@ -44,7 +46,7 @@ public class DefaultUIController extends AbsAgentWebUIController {
             mAskOpenOtherAppDialog = new AlertDialog
                     .Builder(mActivity)
                     .setMessage(mResources.getString(R.string.agentweb_leave_app_and_go_other_page,
-                            AgentWebUtils.getApplicationName(mActivity)))//
+                            DeviceUtils.getApplicationName(mActivity)))//
                     .setTitle(mResources.getString(R.string.agentweb_tips))
                     .setNegativeButton(android.R.string.cancel, (dialog, which) -> {
                         if (callback != null) {
@@ -68,7 +70,7 @@ public class DefaultUIController extends AbsAgentWebUIController {
             mAskOpenOtherAppDialog = new AlertDialog
                     .Builder(mActivity)
                     .setMessage(mResources.getString(R.string.agentweb_leave_app_and_go_other_page,
-                            AgentWebUtils.getApplicationName(mActivity)))//
+                            DeviceUtils.getApplicationName(mActivity)))//
                     .setTitle(mResources.getString(R.string.agentweb_tips))
                     .setNegativeButton(android.R.string.cancel, (dialog, which) -> {
                         if (callback != null) {
@@ -345,7 +347,7 @@ public class DefaultUIController extends AbsAgentWebUIController {
         if (!TextUtils.isEmpty(from) && from.contains("performDownload")) {
             return;
         }
-        AgentWebUtils.toastShowShort(mActivity.getApplicationContext(), message);
+        WebUtils.toastShowShort(mActivity.getApplicationContext(), message);
     }
 
     @Override

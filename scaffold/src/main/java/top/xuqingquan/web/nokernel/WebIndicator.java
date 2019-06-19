@@ -12,6 +12,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.FrameLayout;
 import top.xuqingquan.utils.Timber;
+import top.xuqingquan.utils.ViewUtils;
 import top.xuqingquan.web.publics.AgentWebUtils;
 
 public class WebIndicator extends BaseIndicatorView implements BaseIndicatorSpec {
@@ -87,7 +88,7 @@ public class WebIndicator extends BaseIndicatorView implements BaseIndicatorSpec
         mPaint.setDither(true);
         mPaint.setStrokeCap(Paint.Cap.SQUARE);
         mTargetWidth = context.getResources().getDisplayMetrics().widthPixels;
-        WEB_INDICATOR_DEFAULT_HEIGHT = AgentWebUtils.dp2px(context, 3);
+        WEB_INDICATOR_DEFAULT_HEIGHT = ViewUtils.dp2px(context, 3);
     }
 
     public void setColor(int color) {

@@ -2,6 +2,7 @@ package top.xuqingquan.web.publics;
 
 import android.os.Build;
 import top.xuqingquan.utils.CharacterUtils;
+import top.xuqingquan.web.nokernel.WebConfig;
 
 public abstract class BaseJsAccessEntrace implements JsAccessEntrace {
 
@@ -40,7 +41,7 @@ public abstract class BaseJsAccessEntrace implements JsAccessEntrace {
     }
 
     private void loadJs(String js) {
-        if (AgentWebConfig.hasX5()) {
+        if (WebConfig.hasX5()) {
             mx5WebView.loadUrl(js);
         } else {
             mWebView.loadUrl(js);

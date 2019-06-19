@@ -5,6 +5,7 @@ import top.xuqingquan.utils.Timber;
 import top.xuqingquan.web.nokernel.JsBaseInterfaceHolder;
 import top.xuqingquan.web.nokernel.JsInterfaceHolder;
 import top.xuqingquan.web.nokernel.JsInterfaceObjectException;
+import top.xuqingquan.web.nokernel.WebConfig;
 
 import java.util.Map;
 import java.util.Set;
@@ -59,7 +60,7 @@ public class JsInterfaceHolderImpl extends JsBaseInterfaceHolder {
     @SuppressLint("JavascriptInterface")
     private JsInterfaceHolder addJavaObjectDirect(String k, Object v) {
         Timber.i("k:" + k + "  v:" + v);
-        if (AgentWebConfig.hasX5()) {
+        if (WebConfig.hasX5()) {
             this.mx5WebView.addJavascriptInterface(v, k);
         } else {
             this.mWebView.addJavascriptInterface(v, k);

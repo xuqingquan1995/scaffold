@@ -1,5 +1,6 @@
 package top.xuqingquan.web.publics;
 
+import top.xuqingquan.web.nokernel.WebConfig;
 import top.xuqingquan.web.nokernel.WebLifeCycle;
 
 public class DefaultWebLifeCycleImpl implements WebLifeCycle {
@@ -16,7 +17,7 @@ public class DefaultWebLifeCycleImpl implements WebLifeCycle {
 
     @Override
     public void onResume() {
-        if (AgentWebConfig.hasX5()) {
+        if (WebConfig.hasX5()) {
             if (this.mX5WebView != null) {
                 this.mX5WebView.onResume();
                 this.mX5WebView.resumeTimers();
@@ -31,7 +32,7 @@ public class DefaultWebLifeCycleImpl implements WebLifeCycle {
 
     @Override
     public void onPause() {
-        if (AgentWebConfig.hasX5()) {
+        if (WebConfig.hasX5()) {
             if (this.mX5WebView != null) {
                 this.mX5WebView.onPause();
                 this.mX5WebView.pauseTimers();
@@ -46,7 +47,7 @@ public class DefaultWebLifeCycleImpl implements WebLifeCycle {
 
     @Override
     public void onDestroy() {
-        if (AgentWebConfig.hasX5()) {
+        if (WebConfig.hasX5()) {
             if (this.mX5WebView != null) {
                 this.mX5WebView.resumeTimers();
             }

@@ -127,7 +127,7 @@ public final class AgentWeb {
         this.mIEventHandler = agentBuilder.mIEventHandler;
         this.mEnableIndicator = agentBuilder.mEnableIndicator;
         if (agentBuilder.mWebCreator == null) {
-            if (AgentWebConfig.hasX5()) {
+            if (WebConfig.hasX5()) {
                 mWebCreator = configWebCreator(agentBuilder.mBaseIndicatorView, agentBuilder.mIndex, agentBuilder.mLayoutParams, agentBuilder.mIndicatorColor, agentBuilder.mHeight, agentBuilder.mX5WebView, agentBuilder.mX5WebLayout);
             } else {
                 mWebCreator = configWebCreator(agentBuilder.mBaseIndicatorView, agentBuilder.mIndex, agentBuilder.mLayoutParams, agentBuilder.mIndicatorColor, agentBuilder.mHeight, agentBuilder.mWebView, agentBuilder.mWebLayout);
@@ -136,7 +136,7 @@ public final class AgentWeb {
             mWebCreator = agentBuilder.mWebCreator;
         }
         mIndicatorController = agentBuilder.mIndicatorController;
-        if (AgentWebConfig.hasX5()) {
+        if (WebConfig.hasX5()) {
             this.mX5WebChromeClient = agentBuilder.mX5WebChromeClient;
             this.mX5WebViewClient = agentBuilder.mX5WebViewClient;
             this.mX5AgentWebSettings = agentBuilder.mX5AgentWebSettings;
@@ -191,7 +191,7 @@ public final class AgentWeb {
     public JsAccessEntrace getJsAccessEntrace() {
         JsAccessEntrace mJsAccessEntrace = this.mJsAccessEntrace;
         if (mJsAccessEntrace == null) {
-            if (AgentWebConfig.hasX5()){
+            if (WebConfig.hasX5()){
                 this.mJsAccessEntrace = JsAccessEntraceImpl.getInstance(mWebCreator.getX5WebView());
             }else {
                 this.mJsAccessEntrace = JsAccessEntraceImpl.getInstance(mWebCreator.getWebView());
@@ -203,7 +203,7 @@ public final class AgentWeb {
 
 
     public AgentWeb clearWebCache() {
-        if (AgentWebConfig.hasX5()){
+        if (WebConfig.hasX5()){
             if (this.getWebCreator().getX5WebView() != null) {
                 AgentWebUtils.clearWebViewAllCache(mActivity, this.getWebCreator().getX5WebView());
             } else {
@@ -234,7 +234,7 @@ public final class AgentWeb {
 
     public boolean handleKeyEvent(int keyCode, KeyEvent keyEvent) {
         if (mIEventHandler == null) {
-            if (AgentWebConfig.hasX5()) {
+            if (WebConfig.hasX5()) {
                 mIEventHandler = EventHandlerImpl.getInstantce(mWebCreator.getX5WebView(), getInterceptor());
             } else {
                 mIEventHandler = EventHandlerImpl.getInstantce(mWebCreator.getWebView(), getInterceptor());
@@ -244,7 +244,7 @@ public final class AgentWeb {
     }
 
     public boolean back() {
-        if (AgentWebConfig.hasX5()) {
+        if (WebConfig.hasX5()) {
             mIEventHandler = EventHandlerImpl.getInstantce(mWebCreator.getX5WebView(), getInterceptor());
         } else {
             mIEventHandler = EventHandlerImpl.getInstantce(mWebCreator.getWebView(), getInterceptor());
@@ -259,7 +259,7 @@ public final class AgentWeb {
 
     public IEventHandler getIEventHandler() {
         if (this.mIEventHandler == null) {
-            if (AgentWebConfig.hasX5()) {
+            if (WebConfig.hasX5()) {
                 mIEventHandler = EventHandlerImpl.getInstantce(mWebCreator.getX5WebView(), getInterceptor());
             } else {
                 mIEventHandler = EventHandlerImpl.getInstantce(mWebCreator.getWebView(), getInterceptor());
@@ -367,7 +367,7 @@ public final class AgentWeb {
 
     private IVideo getIVideo() {
         if (mIVideo == null) {
-            if (AgentWebConfig.hasX5()) {
+            if (WebConfig.hasX5()) {
                 mIVideo = new VideoImpl(mActivity, mWebCreator.getX5WebView());
             } else {
                 mIVideo = new VideoImpl(mActivity, mWebCreator.getWebView());
@@ -444,7 +444,7 @@ public final class AgentWeb {
 
     private AgentWeb ready() {
         AgentWebConfig.initCookiesManager(mActivity.getApplicationContext());
-        if (AgentWebConfig.hasX5()) {
+        if (WebConfig.hasX5()) {
             top.xuqingquan.web.x5.IAgentWebSettings mAgentWebSettings = this.mX5AgentWebSettings;
             if (mAgentWebSettings == null) {
                 this.mX5AgentWebSettings = top.xuqingquan.web.x5.AgentWebSettingsImpl.getInstance();

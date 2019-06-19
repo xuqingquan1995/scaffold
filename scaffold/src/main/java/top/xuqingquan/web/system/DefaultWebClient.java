@@ -12,15 +12,15 @@ import android.os.Handler;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
-import android.webkit.WebViewClient;
 import android.webkit.*;
 import androidx.annotation.RequiresApi;
 import com.alipay.sdk.app.PayTask;
 import top.xuqingquan.utils.Timber;
-import top.xuqingquan.web.publics.AbsAgentWebUIController;
-import top.xuqingquan.web.publics.AgentWebConfig;
-import top.xuqingquan.web.publics.AgentWebUtils;
 import top.xuqingquan.web.nokernel.PermissionInterceptor;
+import top.xuqingquan.web.nokernel.WebConfig;
+import top.xuqingquan.web.nokernel.WebUtils;
+import top.xuqingquan.web.publics.AbsAgentWebUIController;
+import top.xuqingquan.web.publics.AgentWebUtils;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;
@@ -118,7 +118,7 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
     }
 
 
-    public DefaultWebClient(Builder builder) {
+    private DefaultWebClient(Builder builder) {
         super(builder.mClient);
         this.mWebView = builder.mWebView;
         this.mWebViewClient = builder.mClient;
@@ -127,7 +127,7 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
         this.mAgentWebUIController = new WeakReference<>(AgentWebUtils.getAgentWebUIControllerByWebView(builder.mWebView));
         this.mIsInterceptUnkownUrl = builder.mIsInterceptUnkownScheme;
         if (builder.mUrlHandleWays <= 0) {
-            mUrlHandleWays = AgentWebConfig.ASK_USER_OPEN_OTHER_PAGE;
+            mUrlHandleWays = WebConfig.ASK_USER_OPEN_OTHER_PAGE;
         } else {
             mUrlHandleWays = builder.mUrlHandleWays;
         }
@@ -176,13 +176,13 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
     private boolean deepLink(String url) {
         switch (mUrlHandleWays) {
             // 直接打开其他App
-            case AgentWebConfig.DERECT_OPEN_OTHER_PAGE:
+            case WebConfig.DERECT_OPEN_OTHER_PAGE:
                 lookup(url);
                 return true;
             // 咨询用户是否打开其他App
-            case AgentWebConfig.ASK_USER_OPEN_OTHER_PAGE:
-                Activity mActivity = null;
-                if ((mActivity = mWeakReference.get()) == null) {
+            case WebConfig.ASK_USER_OPEN_OTHER_PAGE:
+                Activity mActivity = mWeakReference.get();
+                if (mActivity == null) {
                     return false;
                 }
                 ResolveInfo resolveInfo = lookupResolveInfo(url);
@@ -213,7 +213,9 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
         return super.shouldInterceptRequest(view, request);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
+    @Deprecated
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
         if (url.startsWith(HTTP_SCHEME) || url.startsWith(HTTPS_SCHEME)) {
             return (webClientHelper && HAS_ALIPAY_LIB && isAlipay(view, url));
@@ -251,7 +253,6 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
         }
         return super.shouldOverrideUrlLoading(view, url);
     }
-
 
     private int queryActiviesNumber(String url) {
         try {
@@ -323,7 +324,7 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
             if (mActivity == null) {
                 return false;
             }
-            /**
+            /*
              * 推荐采用的新的二合一接口(payInterceptorWithUrl),只需调用一次
              */
             if (mPayTask == null) {
@@ -333,7 +334,7 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
             boolean isIntercepted = task.payInterceptorWithUrl(url, true, result -> {
                 final String url1 = result.getReturnUrl();
                 if (!TextUtils.isEmpty(url1)) {
-                    AgentWebUtils.runInUiThread(() -> view.loadUrl(url1));
+                    WebUtils.runInUiThread(() -> view.loadUrl(url1));
                 }
             });
             Timber.i("alipay-isIntercepted:" + isIntercepted + "  url:" + url);
@@ -378,13 +379,10 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
 
     /**
      * MainFrame Error
-     *
-     * @param view
-     * @param errorCode
-     * @param description
-     * @param failingUrl
      */
+    @SuppressWarnings("deprecation")
     @Override
+    @Deprecated
     public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
         Timber.i("onReceivedError：" + description + "  CODE:" + errorCode);
         onMainFrameError(view, errorCode, description, failingUrl);
@@ -405,11 +403,10 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
         mErrorUrlsSet.add(failingUrl);
         // 下面逻辑判断开发者是否重写了 onMainFrameError 方法 ， 优先交给开发者处理
         if (this.mWebViewClient != null && webClientHelper) {
-            /**
+            /*
              * MainFrameErrorMethod
              */
-            Method onMainFrameErrorMethod = AgentWebUtils.isExistMethod(mWebViewClient, "onMainFrameError", AbsAgentWebUIController.class, WebView.class, int.class, String.class, String.class);
-            Method mMethod = onMainFrameErrorMethod;
+            Method mMethod = WebUtils.isExistMethod(mWebViewClient, "onMainFrameError", AbsAgentWebUIController.class, WebView.class, int.class, String.class, String.class);
             if (mMethod != null) {
                 try {
                     mMethod.invoke(this.mWebViewClient, mAgentWebUIController.get(), view, errorCode, description, failingUrl);

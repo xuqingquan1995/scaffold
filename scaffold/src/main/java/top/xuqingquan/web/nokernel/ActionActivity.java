@@ -115,7 +115,7 @@ public final class ActionActivity extends Activity {
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void permission(Action action) {
         List<String> permissions = action.getPermissions();
-        if (permissions==null||permissions.isEmpty()) {
+        if (permissions == null || permissions.isEmpty()) {
             mPermissionListener = null;
             mRationaleListener = null;
             finish();
@@ -146,13 +146,13 @@ public final class ActionActivity extends Activity {
             if (mChooserListener == null) {
                 finish();
             }
-            File mFile = AgentWebUtils.createImageFile(this);
+            File mFile = WebUtils.createImageFile(this);
             if (mFile == null) {
                 mChooserListener.onChoiceResult(REQUEST_CODE, Activity.RESULT_CANCELED, null);
                 mChooserListener = null;
                 finish();
             }
-            Intent intent = AgentWebUtils.getIntentCaptureCompat(this, mFile);
+            Intent intent = WebUtils.getIntentCaptureCompat(this, mFile);
             // 指定开启系统相机的Action
             mUri = intent.getParcelableExtra(MediaStore.EXTRA_OUTPUT);
             this.startActivityForResult(intent, REQUEST_CODE);

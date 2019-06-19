@@ -3,6 +3,7 @@ package top.xuqingquan.web.publics;
 import android.view.KeyEvent;
 import top.xuqingquan.web.nokernel.EventInterceptor;
 import top.xuqingquan.web.nokernel.IEventHandler;
+import top.xuqingquan.web.nokernel.WebConfig;
 
 /**
  * IEventHandler 对事件的处理，主要是针对
@@ -45,7 +46,7 @@ public class EventHandlerImpl implements IEventHandler {
         if (this.mEventInterceptor != null && this.mEventInterceptor.event()) {
             return true;
         }
-        if (AgentWebConfig.hasX5()) {
+        if (WebConfig.hasX5()) {
             if (mX5WebView != null && mX5WebView.canGoBack()) {
                 mX5WebView.goBack();
                 return true;

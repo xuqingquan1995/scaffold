@@ -103,9 +103,9 @@ public class FileChooser {
     /**
      * 修复某些特定手机拍照后，立刻获取照片为空的情况
      */
-    public static int MAX_WAIT_PHOTO_MS = 8 * 1000;
+    private final static int MAX_WAIT_PHOTO_MS = 8 * 1000;
 
-    public FileChooser(Builder builder) {
+    private FileChooser(Builder builder) {
         this.mActivity = builder.mActivity;
         this.sysUriValueCallback = builder.sysUriValueCallback;
         this.sysUriValueCallbacks = builder.sysUriValueCallbacks;
@@ -119,19 +119,19 @@ public class FileChooser {
         this.mPermissionInterceptor = builder.mPermissionInterceptor;
         this.mAcceptType = builder.mAcceptType;
         this.mAgentWebUIController = new WeakReference<>(AgentWebUtils.getAgentWebUIControllerByWebView(this.sysWebView));
-        if (AgentWebConfig.hasX5()) {
+        if (WebConfig.hasX5()) {
             this.x5UriValueCallback = builder.x5UriValueCallback;
             this.x5UriValueCallbacks = builder.x5UriValueCallbacks;
-            this.x5FileChooserParams=builder.x5FileChooserParams;
-            this.x5WebView=builder.x5WebView;
+            this.x5FileChooserParams = builder.x5FileChooserParams;
+            this.x5WebView = builder.x5WebView;
         }
     }
 
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public void openFileChooser() {
-        if (!AgentWebUtils.isUIThread()) {
-            AgentWebUtils.runInUiThread(this::openFileChooser);
+    void openFileChooser() {
+        if (!WebUtils.isUIThread()) {
+            WebUtils.runInUiThread(this::openFileChooser);
             return;
         }
 
@@ -140,7 +140,7 @@ public class FileChooser {
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void fileChooser() {
-        if (AgentWebUtils.getDeniedPermissions(mActivity, AgentWebPermissions.STORAGE).isEmpty()) {
+        if (WebUtils.getDeniedPermissions(mActivity, AgentWebPermissions.STORAGE).isEmpty()) {
             touchOffFileChooserAction();
         } else {
             Action mAction = Action.createPermissionsAction(AgentWebPermissions.STORAGE);
@@ -161,12 +161,12 @@ public class FileChooser {
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private Intent getFileChooserIntent() {
-        if (AgentWebConfig.hasX5()){
+        if (WebConfig.hasX5()) {
             Intent mIntent = x5FileChooserParams.createIntent();
             if (mIsAboveLollipop && x5FileChooserParams != null && mIntent != null) {
                 return mIntent;
             }
-        }else {
+        } else {
             Intent mIntent = sysFileChooserParams.createIntent();
             if (mIsAboveLollipop && sysFileChooserParams != null && mIntent != null) {
                 return mIntent;
@@ -195,7 +195,7 @@ public class FileChooser {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void openFileChooserInternal() {
         // 是否直接打开文件选择器
-        if (AgentWebConfig.hasX5()){
+        if (WebConfig.hasX5()) {
             if (this.mIsAboveLollipop && this.x5FileChooserParams != null && this.x5FileChooserParams.getAcceptTypes() != null) {
                 boolean needCamera = false;
                 String[] types = this.x5FileChooserParams.getAcceptTypes();
@@ -214,7 +214,7 @@ public class FileChooser {
                     return;
                 }
             }
-        }else{
+        } else {
             if (this.mIsAboveLollipop && this.sysFileChooserParams != null && this.sysFileChooserParams.getAcceptTypes() != null) {
                 boolean needCamera = false;
                 String[] types = this.sysFileChooserParams.getAcceptTypes();
@@ -239,7 +239,7 @@ public class FileChooser {
             return;
         }
         Timber.i("controller:" + this.mAgentWebUIController.get() + "   mAcceptType:" + mAcceptType);
-        if (AgentWebConfig.hasX5()){
+        if (WebConfig.hasX5()) {
             if (this.mAgentWebUIController.get() != null) {
                 this.mAgentWebUIController
                         .get()
@@ -248,7 +248,7 @@ public class FileChooser {
                                         mActivity.getString(R.string.agentweb_file_chooser)}, getCallBack());
                 Timber.i("open");
             }
-        }else {
+        } else {
             if (this.mAgentWebUIController.get() != null) {
                 this.mAgentWebUIController
                         .get()
@@ -288,12 +288,12 @@ public class FileChooser {
             return;
         }
         if (mPermissionInterceptor != null) {
-            if (AgentWebConfig.hasX5()) {
+            if (WebConfig.hasX5()) {
                 if (mPermissionInterceptor.intercept(FileChooser.this.x5WebView.getUrl(), AgentWebPermissions.CAMERA, "camera")) {
                     cancel();
                     return;
                 }
-            }else{
+            } else {
                 if (mPermissionInterceptor.intercept(FileChooser.this.sysWebView.getUrl(), AgentWebPermissions.CAMERA, "camera")) {
                     cancel();
                     return;
@@ -316,10 +316,10 @@ public class FileChooser {
 
     private List<String> checkNeedPermission() {
         List<String> deniedPermissions = new ArrayList<>();
-        if (!AgentWebUtils.hasPermission(mActivity, AgentWebPermissions.CAMERA)) {
+        if (!WebUtils.hasPermission(mActivity, AgentWebPermissions.CAMERA)) {
             deniedPermissions.add(AgentWebPermissions.CAMERA[0]);
         }
-        if (!AgentWebUtils.hasPermission(mActivity, AgentWebPermissions.STORAGE)) {
+        if (!WebUtils.hasPermission(mActivity, AgentWebPermissions.STORAGE)) {
             deniedPermissions.addAll(Arrays.asList(AgentWebPermissions.STORAGE));
         }
         return deniedPermissions;
@@ -337,7 +337,7 @@ public class FileChooser {
         @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
         @Override
         public void onRequestPermissionsResult(@NonNull String[] permissions, @NonNull int[] grantResults, Bundle extras) {
-            boolean tag = AgentWebUtils.hasPermission(mActivity, Arrays.asList(permissions));
+            boolean tag = WebUtils.hasPermission(mActivity, Arrays.asList(permissions));
             permissionResult(tag, extras.getInt(KEY_FROM_INTENTION));
         }
     };
@@ -375,11 +375,9 @@ public class FileChooser {
                 Timber.i("permission denied");
             }
         }
-
-
     }
 
-    public void onIntentResult(int requestCode, int resultCode, Intent data) {
+    private void onIntentResult(int requestCode, int resultCode, Intent data) {
         Timber.i("request:" + requestCode + "  result:" + resultCode + "  data:" + data);
         if (REQUEST_CODE != requestCode) {
             return;
@@ -403,7 +401,7 @@ public class FileChooser {
             aboveLollipopCheckFilesAndCallback(mCameraState ? new Uri[]{data.getParcelableExtra(KEY_URI)} : processData(data), mCameraState);
             return;
         }
-        if (AgentWebConfig.hasX5()) {
+        if (WebConfig.hasX5()) {
             if (x5UriValueCallback == null) {
                 cancel();
                 return;
@@ -416,7 +414,7 @@ public class FileChooser {
             }
         }
         if (mCameraState) {
-            if (AgentWebConfig.hasX5()) {
+            if (WebConfig.hasX5()) {
                 x5UriValueCallback.onReceiveValue(data.getParcelableExtra(KEY_URI));
             } else {
                 sysUriValueCallback.onReceiveValue(data.getParcelableExtra(KEY_URI));
@@ -437,7 +435,7 @@ public class FileChooser {
         if (sysUriValueCallbacks != null) {
             sysUriValueCallbacks.onReceiveValue(null);
         }
-        if (AgentWebConfig.hasX5()) {
+        if (WebConfig.hasX5()) {
             if (x5UriValueCallback != null) {
                 x5UriValueCallback.onReceiveValue(null);
             }
@@ -453,7 +451,7 @@ public class FileChooser {
             if (sysUriValueCallback != null) {
                 sysUriValueCallback.onReceiveValue(Uri.EMPTY);
             }
-            if (AgentWebConfig.hasX5()) {
+            if (WebConfig.hasX5()) {
                 if (x5UriValueCallback != null) {
                     x5UriValueCallback.onReceiveValue(Uri.EMPTY);
                 }
@@ -465,7 +463,7 @@ public class FileChooser {
         if (sysUriValueCallback != null) {
             sysUriValueCallback.onReceiveValue(mUri);
         }
-        if (AgentWebConfig.hasX5()) {
+        if (WebConfig.hasX5()) {
             if (x5UriValueCallback != null) {
                 x5UriValueCallback.onReceiveValue(mUri);
             }
@@ -513,9 +511,9 @@ public class FileChooser {
             sum += mFile.length();
         }
 
-        if (sum > AgentWebConfig.MAX_FILE_LENGTH) {
+        if (sum > WebConfig.MAX_FILE_LENGTH) {
             if (mAgentWebUIController.get() != null) {
-                mAgentWebUIController.get().onShowMessage(mActivity.getString(R.string.agentweb_max_file_length_limit, (AgentWebConfig.MAX_FILE_LENGTH / 1024 / 1024) + ""), TAG.concat("|convertFileAndCallback"));
+                mAgentWebUIController.get().onShowMessage(mActivity.getString(R.string.agentweb_max_file_length_limit, (WebConfig.MAX_FILE_LENGTH / 1024 / 1024) + ""), TAG.concat("|convertFileAndCallback"));
             }
             mJsChannelCallback.call(null);
             return;
@@ -526,13 +524,10 @@ public class FileChooser {
     /**
      * 经过多次的测试，在小米 MIUI ， 华为 ，多部分为 Android 6.0 左右系统相机获取到的文件
      * length为0 ，导致前端 ，获取到的文件， 作预览的时候不正常 ，等待5S左右文件又正常了 ， 所以这里做了阻塞等待处理，
-     *
-     * @param datas
-     * @param isCamera
      */
     private void aboveLollipopCheckFilesAndCallback(final Uri[] datas, boolean isCamera) {
         String[] paths = FileUtils.uriToPath(mActivity, datas);
-        if (AgentWebConfig.hasX5()){
+        if (WebConfig.hasX5()) {
             if (x5UriValueCallbacks == null) {
                 return;
             }
@@ -549,7 +544,7 @@ public class FileChooser {
                 x5UriValueCallbacks.onReceiveValue(null);
                 return;
             }
-        }else {
+        } else {
             if (sysUriValueCallbacks == null) {
                 return;
             }
@@ -569,9 +564,9 @@ public class FileChooser {
         }
         final String path = paths[0];
         mAgentWebUIController.get().onLoading(mActivity.getString(R.string.agentweb_loading));
-        if (AgentWebConfig.hasX5()){
+        if (WebConfig.hasX5()) {
             AsyncTask.THREAD_POOL_EXECUTOR.execute(new WaitPhotoRunnable(path, new AboveLCallback(x5UriValueCallbacks, datas, mAgentWebUIController)));
-        }else{
+        } else {
             AsyncTask.THREAD_POOL_EXECUTOR.execute(new WaitPhotoRunnable(path, new AboveLCallback(sysUriValueCallbacks, datas, mAgentWebUIController)));
         }
 
@@ -597,16 +592,16 @@ public class FileChooser {
 
         @Override
         public boolean handleMessage(final Message msg) {
-            AgentWebUtils.runInUiThread(AboveLCallback.this::safeHandleMessage);
+            WebUtils.runInUiThread(AboveLCallback.this::safeHandleMessage);
             return false;
         }
 
         private void safeHandleMessage() {
-            if (AgentWebConfig.hasX5()){
-                if (x5ValueCallback!=null){
+            if (WebConfig.hasX5()) {
+                if (x5ValueCallback != null) {
                     x5ValueCallback.onReceiveValue(mUris);
                 }
-            }else{
+            } else {
                 if (sysValueCallback != null) {
                     sysValueCallback.onReceiveValue(mUris);
                 }
@@ -660,7 +655,7 @@ public class FileChooser {
     }
 
     // 必须执行在子线程, 会阻塞直到文件转换完成;
-    public static Queue<FileParcel> convertFile(String[] paths) throws Exception {
+    private static Queue<FileParcel> convertFile(String[] paths) throws Exception {
         if (paths == null || paths.length == 0) {
             return null;
         }
@@ -693,7 +688,7 @@ public class FileChooser {
         private CountDownLatch mCountDownLatch;
         private int id;
 
-        public EncodeFileRunnable(String filePath, Queue<FileParcel> queue, CountDownLatch countDownLatch, int id) {
+        EncodeFileRunnable(String filePath, Queue<FileParcel> queue, CountDownLatch countDownLatch, int id) {
             this.filePath = filePath;
             this.mQueue = queue;
             this.mCountDownLatch = countDownLatch;
@@ -733,7 +728,7 @@ public class FileChooser {
         }
     }
 
-    static String convertFileParcelObjectsToJson(Collection<FileParcel> collection) {
+    private static String convertFileParcelObjectsToJson(Collection<FileParcel> collection) {
 
         if (collection == null || collection.size() == 0) {
             return null;
@@ -799,11 +794,11 @@ public class FileChooser {
         }
     }
 
-    public static Builder newBuilder(Activity activity, android.webkit.WebView webView) {
+    static Builder newBuilder(Activity activity, android.webkit.WebView webView) {
         return new Builder().setActivity(activity).setWebView(webView);
     }
 
-    public static Builder newBuilder(Activity activity, com.tencent.smtt.sdk.WebView webView) {
+    static Builder newBuilder(Activity activity, com.tencent.smtt.sdk.WebView webView) {
         return new Builder().setActivity(activity).setWebView(webView);
     }
 
@@ -823,12 +818,12 @@ public class FileChooser {
         private String mAcceptType = "*/*";
         private Handler.Callback mJsChannelCallback;
 
-        public Builder setAcceptType(String acceptType) {
+        Builder setAcceptType(String acceptType) {
             this.mAcceptType = acceptType;
             return this;
         }
 
-        public Builder setPermissionInterceptor(PermissionInterceptor permissionInterceptor) {
+        Builder setPermissionInterceptor(PermissionInterceptor permissionInterceptor) {
             mPermissionInterceptor = permissionInterceptor;
             return this;
         }
@@ -838,7 +833,7 @@ public class FileChooser {
             return this;
         }
 
-        public Builder setUriValueCallback(android.webkit.ValueCallback<Uri> uriValueCallback) {
+        Builder setUriValueCallback(android.webkit.ValueCallback<Uri> uriValueCallback) {
             sysUriValueCallback = uriValueCallback;
             mIsAboveLollipop = false;
             mJsChannel = false;
@@ -846,7 +841,7 @@ public class FileChooser {
             return this;
         }
 
-        public Builder setUriValueCallbacks(android.webkit.ValueCallback<Uri[]> uriValueCallbacks) {
+        Builder setUriValueCallbacks(android.webkit.ValueCallback<Uri[]> uriValueCallbacks) {
             sysUriValueCallbacks = uriValueCallbacks;
             mIsAboveLollipop = true;
             sysUriValueCallback = null;
@@ -854,7 +849,7 @@ public class FileChooser {
             return this;
         }
 
-        public Builder setUriValueCallback(com.tencent.smtt.sdk.ValueCallback<Uri> uriValueCallback) {
+        Builder setUriValueCallback(com.tencent.smtt.sdk.ValueCallback<Uri> uriValueCallback) {
             x5UriValueCallback = uriValueCallback;
             mIsAboveLollipop = false;
             mJsChannel = false;
@@ -862,7 +857,7 @@ public class FileChooser {
             return this;
         }
 
-        public Builder setUriValueCallbacks(com.tencent.smtt.sdk.ValueCallback<Uri[]> uriValueCallbacks) {
+        Builder setUriValueCallbacks(com.tencent.smtt.sdk.ValueCallback<Uri[]> uriValueCallbacks) {
             x5UriValueCallbacks = uriValueCallbacks;
             mIsAboveLollipop = true;
             x5UriValueCallback = null;
@@ -870,17 +865,17 @@ public class FileChooser {
             return this;
         }
 
-        public Builder setFileChooserParams(android.webkit.WebChromeClient.FileChooserParams fileChooserParams) {
+        Builder setFileChooserParams(android.webkit.WebChromeClient.FileChooserParams fileChooserParams) {
             sysFileChooserParams = fileChooserParams;
             return this;
         }
 
-        public Builder setFileChooserParams(com.tencent.smtt.sdk.WebChromeClient.FileChooserParams fileChooserParams) {
+        Builder setFileChooserParams(com.tencent.smtt.sdk.WebChromeClient.FileChooserParams fileChooserParams) {
             x5FileChooserParams = fileChooserParams;
             return this;
         }
 
-        public Builder setJsChannelCallback(Handler.Callback jsChannelCallback) {
+        Builder setJsChannelCallback(Handler.Callback jsChannelCallback) {
             this.mJsChannelCallback = jsChannelCallback;
             mJsChannel = true;
             sysUriValueCallback = null;
@@ -888,17 +883,17 @@ public class FileChooser {
             return this;
         }
 
-        public Builder setWebView(android.webkit.WebView webView) {
+        Builder setWebView(android.webkit.WebView webView) {
             sysWebView = webView;
             return this;
         }
 
-        public Builder setWebView(com.tencent.smtt.sdk.WebView webView) {
+        Builder setWebView(com.tencent.smtt.sdk.WebView webView) {
             x5WebView = webView;
             return this;
         }
 
-        public FileChooser build() {
+        FileChooser build() {
             return new FileChooser(this);
         }
     }
