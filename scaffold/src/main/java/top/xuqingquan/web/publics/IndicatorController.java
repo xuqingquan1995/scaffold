@@ -1,5 +1,7 @@
 package top.xuqingquan.web.publics;
 
+import top.xuqingquan.web.nokernel.BaseIndicatorSpec;
+
 public interface IndicatorController {
 
     void progress(android.webkit.WebView v, int newProgress);

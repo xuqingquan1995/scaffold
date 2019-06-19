@@ -20,7 +20,7 @@ import top.xuqingquan.utils.Timber;
 import top.xuqingquan.web.publics.AbsAgentWebUIController;
 import top.xuqingquan.web.publics.AgentWebConfig;
 import top.xuqingquan.web.publics.AgentWebUtils;
-import top.xuqingquan.web.publics.PermissionInterceptor;
+import top.xuqingquan.web.nokernel.PermissionInterceptor;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;

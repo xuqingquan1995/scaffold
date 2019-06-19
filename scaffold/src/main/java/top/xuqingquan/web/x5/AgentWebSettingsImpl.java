@@ -5,7 +5,7 @@ import com.tencent.smtt.sdk.DownloadListener;
 import com.tencent.smtt.sdk.WebView;
 import top.xuqingquan.utils.Timber;
 import top.xuqingquan.web.AgentWeb;
-import top.xuqingquan.web.publics.PermissionInterceptor;
+import top.xuqingquan.web.nokernel.PermissionInterceptor;
 
 public class AgentWebSettingsImpl extends AbsAgentWebSettings {
     private AgentWeb mAgentWeb;

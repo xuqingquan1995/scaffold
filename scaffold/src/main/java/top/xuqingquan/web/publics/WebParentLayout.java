@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import top.xuqingquan.R;
 import top.xuqingquan.utils.Timber;
+import top.xuqingquan.web.nokernel.Provider;
 
 public class WebParentLayout extends FrameLayout implements Provider<AbsAgentWebUIController> {
     private AbsAgentWebUIController mAgentWebUIController = null;

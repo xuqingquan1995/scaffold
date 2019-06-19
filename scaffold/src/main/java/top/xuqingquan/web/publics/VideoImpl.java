@@ -10,6 +10,7 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import androidx.core.util.Pair;
 import com.tencent.smtt.export.external.interfaces.IX5WebChromeClient;
+import top.xuqingquan.web.nokernel.EventInterceptor;
 
 import java.util.HashSet;
 import java.util.Set;

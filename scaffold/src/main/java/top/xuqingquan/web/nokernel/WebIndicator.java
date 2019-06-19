@@ -1,4 +1,4 @@
-package top.xuqingquan.web.publics;
+package top.xuqingquan.web.nokernel;
 
 import android.animation.*;
 import android.content.Context;
@@ -12,6 +12,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.FrameLayout;
 import top.xuqingquan.utils.Timber;
+import top.xuqingquan.web.publics.AgentWebUtils;
 
 public class WebIndicator extends BaseIndicatorView implements BaseIndicatorSpec {
     /**

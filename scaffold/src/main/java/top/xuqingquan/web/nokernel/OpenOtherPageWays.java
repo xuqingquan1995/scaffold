@@ -1,4 +1,6 @@
-package top.xuqingquan.web.publics;
+package top.xuqingquan.web.nokernel;
+
+import top.xuqingquan.web.publics.AgentWebConfig;
 
 /**
  * Created by 许清泉 on 2019-06-19 00:30

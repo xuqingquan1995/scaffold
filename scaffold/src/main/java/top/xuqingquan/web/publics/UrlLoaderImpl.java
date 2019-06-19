@@ -3,6 +3,8 @@ package top.xuqingquan.web.publics;
 import android.os.Handler;
 import android.os.Looper;
 import top.xuqingquan.utils.Timber;
+import top.xuqingquan.web.nokernel.HttpHeaders;
+import top.xuqingquan.web.nokernel.IUrlLoader;
 
 import java.util.Map;
 

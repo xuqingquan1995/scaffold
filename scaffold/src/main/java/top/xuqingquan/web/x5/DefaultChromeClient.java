@@ -15,13 +15,17 @@ import com.tencent.smtt.sdk.WebChromeClient;
 import com.tencent.smtt.sdk.WebStorage;
 import com.tencent.smtt.sdk.WebView;
 import top.xuqingquan.utils.Timber;
+import top.xuqingquan.web.nokernel.Action;
+import top.xuqingquan.web.nokernel.ActionActivity;
+import top.xuqingquan.web.nokernel.AgentWebPermissions;
+import top.xuqingquan.web.nokernel.PermissionInterceptor;
 import top.xuqingquan.web.publics.*;
 
 import java.lang.ref.WeakReference;
 import java.util.Arrays;
 import java.util.List;
 
-import static top.xuqingquan.web.publics.ActionActivity.KEY_FROM_INTENTION;
+import static top.xuqingquan.web.nokernel.ActionActivity.KEY_FROM_INTENTION;
 
 public class DefaultChromeClient extends MiddlewareWebChromeBase {
     /**

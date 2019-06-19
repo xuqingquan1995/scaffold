@@ -9,6 +9,7 @@ import androidx.annotation.*;
 import androidx.collection.ArrayMap;
 import androidx.fragment.app.Fragment;
 import top.xuqingquan.utils.Timber;
+import top.xuqingquan.web.nokernel.*;
 import top.xuqingquan.web.publics.*;
 
 import java.lang.ref.WeakReference;
@@ -190,7 +191,11 @@ public final class AgentWeb {
     public JsAccessEntrace getJsAccessEntrace() {
         JsAccessEntrace mJsAccessEntrace = this.mJsAccessEntrace;
         if (mJsAccessEntrace == null) {
-            this.mJsAccessEntrace = JsAccessEntraceImpl.getInstance(mWebCreator.getWebView());
+            if (AgentWebConfig.hasX5()){
+                this.mJsAccessEntrace = JsAccessEntraceImpl.getInstance(mWebCreator.getX5WebView());
+            }else {
+                this.mJsAccessEntrace = JsAccessEntraceImpl.getInstance(mWebCreator.getWebView());
+            }
             mJsAccessEntrace = this.mJsAccessEntrace;
         }
         return mJsAccessEntrace;
@@ -198,10 +203,18 @@ public final class AgentWeb {
 
 
     public AgentWeb clearWebCache() {
-        if (this.getWebCreator().getWebView() != null) {
-            AgentWebUtils.clearWebViewAllCache(mActivity, this.getWebCreator().getWebView());
-        } else {
-            AgentWebUtils.clearWebViewAllCache(mActivity);
+        if (AgentWebConfig.hasX5()){
+            if (this.getWebCreator().getX5WebView() != null) {
+                AgentWebUtils.clearWebViewAllCache(mActivity, this.getWebCreator().getX5WebView());
+            } else {
+                AgentWebUtils.clearWebViewAllCache(mActivity);
+            }
+        }else{
+            if (this.getWebCreator().getWebView() != null) {
+                AgentWebUtils.clearWebViewAllCache(mActivity, this.getWebCreator().getWebView());
+            } else {
+                AgentWebUtils.clearWebViewAllCache(mActivity);
+            }
         }
         return this;
     }
@@ -221,13 +234,19 @@ public final class AgentWeb {
 
     public boolean handleKeyEvent(int keyCode, KeyEvent keyEvent) {
         if (mIEventHandler == null) {
-            mIEventHandler = EventHandlerImpl.getInstantce(mWebCreator.getWebView(), getInterceptor());
+            if (AgentWebConfig.hasX5()) {
+                mIEventHandler = EventHandlerImpl.getInstantce(mWebCreator.getX5WebView(), getInterceptor());
+            } else {
+                mIEventHandler = EventHandlerImpl.getInstantce(mWebCreator.getWebView(), getInterceptor());
+            }
         }
         return mIEventHandler.onKeyDown(keyCode, keyEvent);
     }
 
     public boolean back() {
-        if (mIEventHandler == null) {
+        if (AgentWebConfig.hasX5()) {
+            mIEventHandler = EventHandlerImpl.getInstantce(mWebCreator.getX5WebView(), getInterceptor());
+        } else {
             mIEventHandler = EventHandlerImpl.getInstantce(mWebCreator.getWebView(), getInterceptor());
         }
         return mIEventHandler.back();
@@ -240,7 +259,11 @@ public final class AgentWeb {
 
     public IEventHandler getIEventHandler() {
         if (this.mIEventHandler == null) {
-            this.mIEventHandler = EventHandlerImpl.getInstantce(mWebCreator.getWebView(), getInterceptor());
+            if (AgentWebConfig.hasX5()) {
+                mIEventHandler = EventHandlerImpl.getInstantce(mWebCreator.getX5WebView(), getInterceptor());
+            } else {
+                mIEventHandler = EventHandlerImpl.getInstantce(mWebCreator.getWebView(), getInterceptor());
+            }
         }
         return this.mIEventHandler;
     }
@@ -344,7 +367,11 @@ public final class AgentWeb {
 
     private IVideo getIVideo() {
         if (mIVideo == null) {
-            mIVideo = new VideoImpl(mActivity, mWebCreator.getWebView());
+            if (AgentWebConfig.hasX5()) {
+                mIVideo = new VideoImpl(mActivity, mWebCreator.getX5WebView());
+            } else {
+                mIVideo = new VideoImpl(mActivity, mWebCreator.getWebView());
+            }
         }
         return mIVideo;
     }

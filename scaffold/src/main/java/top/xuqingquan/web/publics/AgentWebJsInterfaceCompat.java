@@ -30,22 +30,41 @@ public class AgentWebJsInterfaceCompat {
     public void uploadFile(String acceptType) {
         Timber.i(acceptType + "  " + mActivityWeakReference.get() + "  " + mReference.get());
         if (mActivityWeakReference.get() != null && mReference.get() != null) {
-            AgentWebUtils.showFileChooserCompat(mActivityWeakReference.get(),
-                    mReference.get().getWebCreator().getWebView(),
-                    null,
-                    null,
-                    mReference.get().getPermissionInterceptor(),
-                    null,
-                    acceptType,
-                    msg -> {
-                        if (mReference.get() != null) {
-                            mReference.get().getJsAccessEntrace()
-                                    .quickCallJs("uploadFileResult",
-                                            msg.obj instanceof String ? (String) msg.obj : null);
+            if (AgentWebConfig.hasX5()) {
+                AgentWebUtils.showFileChooserCompat(mActivityWeakReference.get(),
+                        mReference.get().getWebCreator().getX5WebView(),
+                        null,
+                        null,
+                        mReference.get().getPermissionInterceptor(),
+                        null,
+                        acceptType,
+                        msg -> {
+                            if (mReference.get() != null) {
+                                mReference.get().getJsAccessEntrace()
+                                        .quickCallJs("uploadFileResult",
+                                                msg.obj instanceof String ? (String) msg.obj : null);
+                            }
+                            return true;
                         }
-                        return true;
-                    }
-            );
+                );
+            } else {
+                AgentWebUtils.showFileChooserCompat(mActivityWeakReference.get(),
+                        mReference.get().getWebCreator().getWebView(),
+                        null,
+                        null,
+                        mReference.get().getPermissionInterceptor(),
+                        null,
+                        acceptType,
+                        msg -> {
+                            if (mReference.get() != null) {
+                                mReference.get().getJsAccessEntrace()
+                                        .quickCallJs("uploadFileResult",
+                                                msg.obj instanceof String ? (String) msg.obj : null);
+                            }
+                            return true;
+                        }
+                );
+            }
         }
     }
 }

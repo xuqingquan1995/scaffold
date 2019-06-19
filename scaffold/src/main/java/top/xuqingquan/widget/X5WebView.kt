@@ -131,6 +131,12 @@ class X5WebView : FrameLayout {
 
     fun reload() = agentWeb?.urlLoader?.reload()
 
-    fun getCurrentUrl() = agentWeb?.webCreator?.webView?.url
+    fun getCurrentUrl(): String? {
+        return if (AgentWebConfig.hasX5()) {
+            agentWeb?.webCreator?.x5WebView?.url
+        } else {
+            agentWeb?.webCreator?.webView?.url
+        }
+    }
 
 }

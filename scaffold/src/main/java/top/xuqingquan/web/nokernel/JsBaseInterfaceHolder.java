@@ -1,6 +1,7 @@
-package top.xuqingquan.web.publics;
+package top.xuqingquan.web.nokernel;
 
 import android.webkit.JavascriptInterface;
+import top.xuqingquan.web.publics.AgentWebConfig;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;

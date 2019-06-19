@@ -1,4 +1,4 @@
-package top.xuqingquan.web.publics;
+package top.xuqingquan.web.nokernel;
 
 public interface WebLifeCycle {
     void onResume();

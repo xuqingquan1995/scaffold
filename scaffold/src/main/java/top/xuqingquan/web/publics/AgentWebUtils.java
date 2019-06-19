@@ -29,6 +29,7 @@ import com.google.android.material.snackbar.Snackbar;
 import top.xuqingquan.R;
 import top.xuqingquan.utils.FileUtils;
 import top.xuqingquan.utils.Timber;
+import top.xuqingquan.web.nokernel.PermissionInterceptor;
 
 import java.io.File;
 import java.io.IOException;
@@ -146,20 +147,18 @@ public class AgentWebUtils {
         return null;
     }
 
-    private static WeakReference<Snackbar> snackbarWeakReference;
-
     public static void show(View parent,
-                     CharSequence text,
-                     int duration,
-                     @ColorInt int textColor,
-                     @ColorInt int bgColor,
-                     CharSequence actionText,
-                     @ColorInt int actionTextColor,
-                     View.OnClickListener listener) {
+                            CharSequence text,
+                            int duration,
+                            @ColorInt int textColor,
+                            @ColorInt int bgColor,
+                            CharSequence actionText,
+                            @ColorInt int actionTextColor,
+                            View.OnClickListener listener) {
         SpannableString spannableString = new SpannableString(text);
         ForegroundColorSpan colorSpan = new ForegroundColorSpan(textColor);
         spannableString.setSpan(colorSpan, 0, spannableString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        snackbarWeakReference = new WeakReference<>(Snackbar.make(parent, spannableString, duration));
+        WeakReference<Snackbar> snackbarWeakReference = new WeakReference<>(Snackbar.make(parent, spannableString, duration));
         Snackbar snackbar = snackbarWeakReference.get();
         View view = snackbar.getView();
         view.setBackgroundColor(bgColor);
@@ -200,7 +199,8 @@ public class AgentWebUtils {
             Timber.e(t);
         }
     }
-    static void clearWebViewAllCache(Context context, com.tencent.smtt.sdk.WebView webView) {
+
+    public static void clearWebViewAllCache(Context context, com.tencent.smtt.sdk.WebView webView) {
         try {
             AgentWebConfig.removeAllCookies(null);
             webView.getSettings().setCacheMode(android.webkit.WebSettings.LOAD_NO_CACHE);
@@ -217,9 +217,9 @@ public class AgentWebUtils {
 
     public static void clearWebViewAllCache(Context context) {
         try {
-            if (AgentWebConfig.hasX5()){
+            if (AgentWebConfig.hasX5()) {
                 clearWebViewAllCache(context, new com.tencent.smtt.sdk.WebView(context.getApplicationContext()));
-            }else {
+            } else {
                 clearWebViewAllCache(context, new android.webkit.WebView(context.getApplicationContext()));
             }
         } catch (Exception e) {
@@ -395,13 +395,13 @@ public class AgentWebUtils {
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public static boolean showFileChooserCompat(Activity activity,
-                                         android.webkit.WebView webView,
-                                         android.webkit.ValueCallback valueCallbacks,
-                                         android.webkit.WebChromeClient.FileChooserParams fileChooserParams,
-                                         PermissionInterceptor permissionInterceptor,
-                                         android.webkit.ValueCallback valueCallback,
-                                         String mimeType,
-                                         Handler.Callback jsChannelCallback
+                                                android.webkit.WebView webView,
+                                                android.webkit.ValueCallback valueCallbacks,
+                                                android.webkit.WebChromeClient.FileChooserParams fileChooserParams,
+                                                PermissionInterceptor permissionInterceptor,
+                                                android.webkit.ValueCallback valueCallback,
+                                                String mimeType,
+                                                Handler.Callback jsChannelCallback
     ) {
         try {
             FileChooser.Builder builder = FileChooser.newBuilder(activity, webView);
@@ -437,13 +437,13 @@ public class AgentWebUtils {
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public static boolean showFileChooserCompat(Activity activity,
-                                         com.tencent.smtt.sdk.WebView webView,
-                                         com.tencent.smtt.sdk.ValueCallback valueCallbacks,
-                                         com.tencent.smtt.sdk.WebChromeClient.FileChooserParams fileChooserParams,
-                                         PermissionInterceptor permissionInterceptor,
-                                         com.tencent.smtt.sdk.ValueCallback valueCallback,
-                                         String mimeType,
-                                         Handler.Callback jsChannelCallback
+                                                com.tencent.smtt.sdk.WebView webView,
+                                                com.tencent.smtt.sdk.ValueCallback valueCallbacks,
+                                                com.tencent.smtt.sdk.WebChromeClient.FileChooserParams fileChooserParams,
+                                                PermissionInterceptor permissionInterceptor,
+                                                com.tencent.smtt.sdk.ValueCallback valueCallback,
+                                                String mimeType,
+                                                Handler.Callback jsChannelCallback
     ) {
         try {
             FileChooser.Builder builder = FileChooser.newBuilder(activity, webView);

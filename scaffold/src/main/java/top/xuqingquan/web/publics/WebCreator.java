@@ -1,6 +1,7 @@
 package top.xuqingquan.web.publics;
 
 import android.widget.FrameLayout;
+import top.xuqingquan.web.nokernel.IWebIndicator;
 
 public interface WebCreator extends IWebIndicator {
     WebCreator create();

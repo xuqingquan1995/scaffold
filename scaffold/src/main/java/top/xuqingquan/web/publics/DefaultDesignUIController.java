@@ -29,6 +29,7 @@ public class DefaultDesignUIController extends DefaultUIController {
     public void onJsAlert(android.webkit.WebView view, String url, String message) {
         onJsAlertInternal(view, message);
     }
+
     public void onJsAlert(com.tencent.smtt.sdk.WebView view, String url, String message) {
         onJsAlertInternal(view, message);
     }
@@ -106,6 +107,7 @@ public class DefaultDesignUIController extends DefaultUIController {
 
     private RecyclerView.Adapter getAdapter(final String[] ways, final Handler.Callback callback) {
         return new RecyclerView.Adapter<BottomSheetHolder>() {
+            @NonNull
             @Override
             public BottomSheetHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
                 return new BottomSheetHolder(mLayoutInflater.inflate(android.R.layout.simple_list_item_1, viewGroup, false));
@@ -156,9 +158,9 @@ public class DefaultDesignUIController extends DefaultUIController {
         if (!TextUtils.isEmpty(from) && from.contains("performDownload")) {
             return;
         }
-        if (AgentWebConfig.hasX5()){
+        if (AgentWebConfig.hasX5()) {
             onJsAlertInternal(mWebParentLayout.getX5WebView(), message);
-        }else{
+        } else {
             onJsAlertInternal(mWebParentLayout.getWebView(), message);
         }
     }

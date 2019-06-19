@@ -14,6 +14,7 @@ import org.json.JSONObject;
 import top.xuqingquan.R;
 import top.xuqingquan.utils.FileUtils;
 import top.xuqingquan.utils.Timber;
+import top.xuqingquan.web.nokernel.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -23,7 +24,7 @@ import java.lang.ref.WeakReference;
 import java.util.*;
 import java.util.concurrent.*;
 
-import static top.xuqingquan.web.publics.ActionActivity.*;
+import static top.xuqingquan.web.nokernel.ActionActivity.*;
 
 public class FileChooser {
     /**
@@ -568,7 +569,11 @@ public class FileChooser {
         }
         final String path = paths[0];
         mAgentWebUIController.get().onLoading(mActivity.getString(R.string.agentweb_loading));
-        AsyncTask.THREAD_POOL_EXECUTOR.execute(new WaitPhotoRunnable(path, new AboveLCallback(sysUriValueCallbacks, datas, mAgentWebUIController)));
+        if (AgentWebConfig.hasX5()){
+            AsyncTask.THREAD_POOL_EXECUTOR.execute(new WaitPhotoRunnable(path, new AboveLCallback(x5UriValueCallbacks, datas, mAgentWebUIController)));
+        }else{
+            AsyncTask.THREAD_POOL_EXECUTOR.execute(new WaitPhotoRunnable(path, new AboveLCallback(sysUriValueCallbacks, datas, mAgentWebUIController)));
+        }
 
     }
 
@@ -597,12 +602,13 @@ public class FileChooser {
         }
 
         private void safeHandleMessage() {
-            if (sysValueCallback != null) {
-                sysValueCallback.onReceiveValue(mUris);
-            }
             if (AgentWebConfig.hasX5()){
                 if (x5ValueCallback!=null){
                     x5ValueCallback.onReceiveValue(mUris);
+                }
+            }else{
+                if (sysValueCallback != null) {
+                    sysValueCallback.onReceiveValue(mUris);
                 }
             }
             if (controller != null && controller.get() != null) {

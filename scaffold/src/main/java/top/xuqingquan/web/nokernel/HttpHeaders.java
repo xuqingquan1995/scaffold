@@ -1,4 +1,4 @@
-package top.xuqingquan.web.publics;
+package top.xuqingquan.web.nokernel;
 
 import android.text.TextUtils;
 import androidx.annotation.NonNull;

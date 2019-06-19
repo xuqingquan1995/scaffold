@@ -2,9 +2,6 @@ package top.xuqingquan.web.publics;
 
 import android.app.Activity;
 import android.os.Handler;
-import android.webkit.JsPromptResult;
-import android.webkit.JsResult;
-import android.webkit.WebView;
 
 public class AgentWebUIControllerImplBase extends AbsAgentWebUIController {
 
@@ -13,7 +10,7 @@ public class AgentWebUIControllerImplBase extends AbsAgentWebUIController {
     }
 
     @Override
-    public void onJsAlert(WebView view, String url, String message) {
+    public void onJsAlert(android.webkit.WebView view, String url, String message) {
         getDelegate().onJsAlert(view, url, message);
     }
 
@@ -23,7 +20,7 @@ public class AgentWebUIControllerImplBase extends AbsAgentWebUIController {
     }
 
     @Override
-    public void onOpenPagePrompt(WebView view, String url, Handler.Callback callback) {
+    public void onOpenPagePrompt(android.webkit.WebView view, String url, Handler.Callback callback) {
         getDelegate().onOpenPagePrompt(view, url, callback);
     }
 
@@ -33,7 +30,7 @@ public class AgentWebUIControllerImplBase extends AbsAgentWebUIController {
     }
 
     @Override
-    public void onJsConfirm(WebView view, String url, String message, JsResult jsResult) {
+    public void onJsConfirm(android.webkit.WebView view, String url, String message, android.webkit.JsResult jsResult) {
         getDelegate().onJsConfirm(view, url, message, jsResult);
     }
 
@@ -43,7 +40,7 @@ public class AgentWebUIControllerImplBase extends AbsAgentWebUIController {
     }
 
     @Override
-    public void onSelectItemsPrompt(WebView view, String url, String[] ways, Handler.Callback callback) {
+    public void onSelectItemsPrompt(android.webkit.WebView view, String url, String[] ways, Handler.Callback callback) {
         getDelegate().onSelectItemsPrompt(view, url, ways, callback);
     }
 
@@ -58,7 +55,7 @@ public class AgentWebUIControllerImplBase extends AbsAgentWebUIController {
     }
 
     @Override
-    public void onJsPrompt(WebView view, String url, String message, String defaultValue, JsPromptResult jsPromptResult) {
+    public void onJsPrompt(android.webkit.WebView view, String url, String message, String defaultValue, android.webkit.JsPromptResult jsPromptResult) {
         getDelegate().onJsPrompt(view, url, message, defaultValue, jsPromptResult);
     }
 
@@ -68,7 +65,7 @@ public class AgentWebUIControllerImplBase extends AbsAgentWebUIController {
     }
 
     @Override
-    public void onMainFrameError(WebView view, int errorCode, String description, String failingUrl) {
+    public void onMainFrameError(android.webkit.WebView view, int errorCode, String description, String failingUrl) {
         getDelegate().onMainFrameError(view, errorCode, description, failingUrl);
     }
 

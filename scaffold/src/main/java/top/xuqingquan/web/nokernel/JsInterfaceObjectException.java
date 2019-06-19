@@ -1,7 +1,7 @@
-package top.xuqingquan.web.publics;
+package top.xuqingquan.web.nokernel;
 
 public class JsInterfaceObjectException extends RuntimeException {
-    JsInterfaceObjectException(String msg){
+    public JsInterfaceObjectException(String msg){
         super(msg);
     }
 }

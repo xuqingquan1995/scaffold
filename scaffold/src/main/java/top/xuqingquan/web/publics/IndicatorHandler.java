@@ -1,5 +1,7 @@
 package top.xuqingquan.web.publics;
 
+import top.xuqingquan.web.nokernel.BaseIndicatorSpec;
+
 public class IndicatorHandler implements IndicatorController {
 	private BaseIndicatorSpec mBaseIndicatorSpec;
 

@@ -1,5 +1,7 @@
 package top.xuqingquan.web.publics;
 
+import top.xuqingquan.web.nokernel.WebLifeCycle;
+
 public class DefaultWebLifeCycleImpl implements WebLifeCycle {
     private android.webkit.WebView mWebView;
     private com.tencent.smtt.sdk.WebView mX5WebView;

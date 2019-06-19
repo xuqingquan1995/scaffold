@@ -1,4 +1,4 @@
-package top.xuqingquan.web.publics;
+package top.xuqingquan.web.nokernel;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import top.xuqingquan.utils.Timber;
+import top.xuqingquan.web.publics.AgentWebUtils;
 
 import java.io.File;
 import java.util.List;
