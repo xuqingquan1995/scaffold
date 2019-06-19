@@ -101,12 +101,34 @@ public class WebUtils {
         return mFile;
     }
 
-    public static Intent getIntentCaptureCompat(Context context, File file) {
+    static Intent getIntentCaptureCompat(Context context, File file) {
         Intent mIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         Uri mUri = FileUtils.getUriFromFile(context, file);
         mIntent.addCategory(Intent.CATEGORY_DEFAULT);
         mIntent.putExtra(MediaStore.EXTRA_OUTPUT, mUri);
         return mIntent;
+    }
+
+    public static Intent getCommonFileIntentCompat(Context context, File file) {
+        Intent mIntent = new Intent().setAction(Intent.ACTION_VIEW);
+        setIntentDataAndType(context, mIntent, FileUtils.getMIMEType(file), file, false);
+        return mIntent;
+    }
+
+    private static void setIntentDataAndType(Context context,
+                                             Intent intent,
+                                             String type,
+                                             File file,
+                                             @SuppressWarnings("SameParameterValue") boolean writeAble) {
+        if (Build.VERSION.SDK_INT >= 24) {
+            intent.setDataAndType(FileUtils.getUriFromFile(context, file), type);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            if (writeAble) {
+                intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+            }
+        } else {
+            intent.setDataAndType(Uri.fromFile(file), type);
+        }
     }
 
     public static boolean isUIThread() {

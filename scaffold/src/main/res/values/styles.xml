@@ -9,7 +9,7 @@
         <attr name="agent_indicatorHeight" format="dimension"/>
     </declare-styleable>
 
-    <declare-styleable name="X5WebView">
+    <declare-styleable name="ScaffoldWebView">
         <attr name="x5_url" format="string"/>
         <attr name="x5_debug" format="boolean"/>
         <attr name="x5_indicatorColor" format="reference"/>

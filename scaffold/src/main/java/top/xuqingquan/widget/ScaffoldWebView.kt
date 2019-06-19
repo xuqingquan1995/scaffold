@@ -14,14 +14,14 @@ import org.jetbrains.anko.px2dip
 import top.xuqingquan.BuildConfig
 import top.xuqingquan.R
 import top.xuqingquan.web.AgentWeb
-import top.xuqingquan.web.publics.AgentWebConfig
 import top.xuqingquan.web.nokernel.WebConfig
+import top.xuqingquan.web.publics.AgentWebConfig
 
 /**
  * Created by 许清泉 on 2019-05-22 21:00
- * 调用 [X5WebView.loadUrl]方法之前可以设置各种自定义的参数
+ * 调用 [ScaffoldWebView.loadUrl]方法之前可以设置各种自定义的参数
  */
-class X5WebView : FrameLayout {
+class ScaffoldWebView : FrameLayout {
 
     var agentWeb: AgentWeb? = null
         private set
@@ -47,16 +47,16 @@ class X5WebView : FrameLayout {
     constructor(context: Context) : super(context)
 
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
-        val typedArray = context.obtainStyledAttributes(attrs, R.styleable.X5WebView)
-        typedArray.getString(R.styleable.X5WebView_x5_url)?.let {
+        val typedArray = context.obtainStyledAttributes(attrs, R.styleable.ScaffoldWebView)
+        typedArray.getString(R.styleable.ScaffoldWebView_x5_url)?.let {
             url = it
         }
-        debug = typedArray.getBoolean(R.styleable.X5WebView_x5_debug, false)
-        indicatorColor = typedArray.getColor(R.styleable.X5WebView_x5_indicatorColor, -1)
-        indicatorHeight = typedArray.getDimension(R.styleable.X5WebView_x5_indicatorHeight, -1f).toInt()
-        error_layout = typedArray.getResourceId(R.styleable.X5WebView_x5_error_layout, -1)
+        debug = typedArray.getBoolean(R.styleable.ScaffoldWebView_x5_debug, false)
+        indicatorColor = typedArray.getColor(R.styleable.ScaffoldWebView_x5_indicatorColor, -1)
+        indicatorHeight = typedArray.getDimension(R.styleable.ScaffoldWebView_x5_indicatorHeight, -1f).toInt()
+        error_layout = typedArray.getResourceId(R.styleable.ScaffoldWebView_x5_error_layout, -1)
         if (error_layout != -1) {
-            refresh_error = typedArray.getResourceId(R.styleable.X5WebView_x5_refresh_error, -1)
+            refresh_error = typedArray.getResourceId(R.styleable.ScaffoldWebView_x5_refresh_error, -1)
         }
         indicatorHeight = if (indicatorHeight == -1) {
             2
@@ -98,7 +98,7 @@ class X5WebView : FrameLayout {
     /**
      * 在调用该方法前可以自定义其他参数
      */
-    fun loadUrl(url: String = this@X5WebView.url!!) {
+    fun loadUrl(url: String = this@ScaffoldWebView.url!!) {
         if (agentWeb == null) {
             initAgentWeb()
         }

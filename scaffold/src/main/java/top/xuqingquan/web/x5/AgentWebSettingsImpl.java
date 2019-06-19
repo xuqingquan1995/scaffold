@@ -1,11 +1,14 @@
 package top.xuqingquan.web.x5;
 
 import android.app.Activity;
+import android.app.DownloadManager;
+import android.net.Uri;
+import androidx.core.content.ContextCompat;
 import com.tencent.smtt.sdk.DownloadListener;
 import com.tencent.smtt.sdk.WebView;
+import top.xuqingquan.utils.FileUtils;
 import top.xuqingquan.utils.Timber;
 import top.xuqingquan.web.AgentWeb;
-import top.xuqingquan.web.nokernel.PermissionInterceptor;
 
 public class AgentWebSettingsImpl extends AbsAgentWebSettings {
     private AgentWeb mAgentWeb;
@@ -17,21 +20,29 @@ public class AgentWebSettingsImpl extends AbsAgentWebSettings {
 
     @Override
     public WebListenerManager setDownloader(WebView webView, DownloadListener downloadListener) {
-        //TODO 改用系统下载
-        Class<?> clazz;
-        Object mDefaultDownloadImpl$Extra = null;
+        DownloadListener listener = downloadListener;
         try {
-            clazz = Class.forName("top.xuqingquan.web.download.DefaultDownloadImpl");
-            mDefaultDownloadImpl$Extra =
-                    clazz.getDeclaredMethod("create", Activity.class, WebView.class,
-                            Class.forName("top.xuqingquan.web.download.DownloadListener"),
-                            PermissionInterceptor.class)
-                            .invoke(mDefaultDownloadImpl$Extra, webView.getContext()
-                                    , webView, null, mAgentWeb.getPermissionInterceptor());
-
+            Class.forName("com.download.library.DownloadTask");//如果有依赖下载库则使用下载库，否则使用系统的
+            if (mAgentWeb != null) {
+                listener = DefaultDownloadImpl.create((Activity) webView.getContext(), webView, null, mAgentWeb.getPermissionInterceptor());
+            }
         } catch (Throwable t) {
             Timber.e(t);
+            try {
+                listener = (url, userAgent, contentDisposition, mimetype, contentLength) -> {
+                    DownloadManager downloadManager = ContextCompat.getSystemService(webView.getContext(), DownloadManager.class);
+                    if (downloadManager != null) {
+                        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+                        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                        request.setDestinationInExternalPublicDir(FileUtils.getCacheFile(webView.getContext()).getAbsolutePath(), url.substring(url.lastIndexOf("/") + 1));
+                        request.setVisibleInDownloadsUi(true);
+                        downloadManager.enqueue(request);
+                    }
+                };
+            } catch (Throwable tt) {
+                Timber.e(tt);
+            }
         }
-        return super.setDownloader(webView, mDefaultDownloadImpl$Extra == null ? downloadListener : (DownloadListener) mDefaultDownloadImpl$Extra);
+        return super.setDownloader(webView, listener);
     }
 }

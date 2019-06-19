@@ -3,6 +3,7 @@ package top.xuqingquan.web.publics;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.webkit.CookieManager;
 import androidx.annotation.Nullable;
 import top.xuqingquan.utils.Timber;
 
@@ -20,6 +21,15 @@ public class AgentWebConfig {
             } else {
                 android.webkit.WebView.setWebContentsDebuggingEnabled(true);
             }
+        }
+    }
+
+    //获取Cookie
+    public static String getCookiesByUrl(String url) {
+        if (WebConfig.hasX5()) {
+            return com.tencent.smtt.sdk.CookieManager.getInstance() == null ? null : CookieManager.getInstance().getCookie(url);
+        } else {
+            return android.webkit.CookieManager.getInstance() == null ? null : CookieManager.getInstance().getCookie(url);
         }
     }
 
