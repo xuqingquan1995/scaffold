@@ -23,11 +23,11 @@ public class JsInterfaceHolderImpl extends JsBaseInterfaceHolder {
         return new JsInterfaceHolderImpl(webView);
     }
 
-    JsInterfaceHolderImpl(android.webkit.WebView webView) {
+    private JsInterfaceHolderImpl(android.webkit.WebView webView) {
         this.mWebView = webView;
     }
 
-    JsInterfaceHolderImpl(com.tencent.smtt.sdk.WebView webView) {
+    private JsInterfaceHolderImpl(com.tencent.smtt.sdk.WebView webView) {
         this.mx5WebView = webView;
     }
 
@@ -57,6 +57,7 @@ public class JsInterfaceHolderImpl extends JsBaseInterfaceHolder {
         return this;
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     @SuppressLint("JavascriptInterface")
     private JsInterfaceHolder addJavaObjectDirect(String k, Object v) {
         Timber.i("k:" + k + "  v:" + v);

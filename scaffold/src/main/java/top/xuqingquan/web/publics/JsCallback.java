@@ -18,14 +18,14 @@ public class JsCallback {
     private int mIsPermanent;
     private String mInjectedName;
 
-    public JsCallback(android.webkit.WebView view, String injectedName, int index) {
+    JsCallback(android.webkit.WebView view, String injectedName, int index) {
         mCouldGoOn = true;
         mWebViewRef = new WeakReference<>(view);
         mInjectedName = injectedName;
         mIndex = index;
     }
 
-    public JsCallback(com.tencent.smtt.sdk.WebView view, String injectedName, int index) {
+    JsCallback(com.tencent.smtt.sdk.WebView view, String injectedName, int index) {
         mCouldGoOn = true;
         mx5WebViewRef = new WeakReference<>(view);
         mInjectedName = injectedName;
@@ -110,7 +110,7 @@ public class JsCallback {
     }
 
     public static class JsCallbackException extends Exception {
-        public JsCallbackException(String msg) {
+        JsCallbackException(String msg) {
             super(msg);
         }
     }

@@ -39,15 +39,6 @@ public class DefaultWebCreator implements WebCreator {
 
     /**
      * 使用默认的进度条
-     *
-     * @param activity
-     * @param viewGroup
-     * @param lp
-     * @param index
-     * @param color
-     * @param mHeight
-     * @param webView
-     * @param webLayout
      */
     public DefaultWebCreator(@NonNull Activity activity,
                                 @Nullable ViewGroup viewGroup,
@@ -89,13 +80,6 @@ public class DefaultWebCreator implements WebCreator {
 
     /**
      * 关闭进度条
-     *
-     * @param activity
-     * @param viewGroup
-     * @param lp
-     * @param index
-     * @param webView
-     * @param webLayout
      */
     public DefaultWebCreator(@NonNull Activity activity, @Nullable ViewGroup viewGroup, ViewGroup.LayoutParams lp, int index, @Nullable android.webkit.WebView webView, top.xuqingquan.web.system.IWebLayout webLayout) {
         this.mActivity = activity;
@@ -119,14 +103,6 @@ public class DefaultWebCreator implements WebCreator {
 
     /**
      * 自定义Indicator
-     *
-     * @param activity
-     * @param viewGroup
-     * @param lp
-     * @param index
-     * @param progressView
-     * @param webView
-     * @param webLayout
      */
     public DefaultWebCreator(@NonNull Activity activity, @Nullable ViewGroup viewGroup, ViewGroup.LayoutParams lp, int index, BaseIndicatorView progressView, android.webkit.WebView webView, top.xuqingquan.web.system.IWebLayout webLayout) {
         this.mActivity = activity;
@@ -203,7 +179,7 @@ public class DefaultWebCreator implements WebCreator {
         FrameLayout.LayoutParams mLayoutParams = new FrameLayout.LayoutParams(-1, -1);
         if (WebConfig.hasX5()) {
             this.mX5WebView = createX5WebView();
-            View target = mX5IWebLayout == null ? this.mX5WebView : webLayout();
+            View target = mX5IWebLayout == null ? this.mX5WebView : x5WebLayout();
             mFrameLayout.addView(target, mLayoutParams);
             mFrameLayout.bindWebView(this.mX5WebView);
             Timber.i("  instanceof  AgentWebView:" + (this.mX5WebView instanceof top.xuqingquan.web.x5.AgentWebView));

@@ -802,6 +802,7 @@ public class FileChooser {
         return new Builder().setActivity(activity).setWebView(webView);
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     public static final class Builder {
         private Activity mActivity;
         private android.webkit.ValueCallback<Uri> sysUriValueCallback;

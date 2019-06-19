@@ -36,10 +36,6 @@ public class AgentWebView extends WebView {
         mAgentWebChrome.setDelegate(client);
         mFixedOnReceivedTitle.setWebChromeClient(client);
         super.setWebChromeClient(mAgentWebChrome);
-        setWebChromeClientSupport(mAgentWebChrome);
-    }
-
-    protected final void setWebChromeClientSupport(WebChromeClient client) {
     }
 
     @Override
@@ -144,11 +140,11 @@ public class AgentWebView extends WebView {
             mWebChromeClient = webChromeClient;
         }
 
-        public void onPageStarted() {
+        void onPageStarted() {
             mIsOnReceivedTitle = false;
         }
 
-        public void onPageFinished(WebView view) {
+        void onPageFinished(WebView view) {
             if (!mIsOnReceivedTitle && mWebChromeClient != null) {
                 WebBackForwardList list = null;
                 try {
@@ -166,7 +162,7 @@ public class AgentWebView extends WebView {
             }
         }
 
-        public void onReceivedTitle() {
+        void onReceivedTitle() {
             mIsOnReceivedTitle = true;
         }
     }

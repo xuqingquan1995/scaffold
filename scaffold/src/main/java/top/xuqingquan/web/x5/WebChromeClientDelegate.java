@@ -19,7 +19,7 @@ public class WebChromeClientDelegate extends WebChromeClient {
         return mDelegate;
     }
 
-    public WebChromeClientDelegate(WebChromeClient webChromeClient) {
+    WebChromeClientDelegate(WebChromeClient webChromeClient) {
         this.mDelegate = webChromeClient;
     }
 
@@ -160,7 +160,7 @@ public class WebChromeClientDelegate extends WebChromeClient {
     @Deprecated
     public void onExceededDatabaseQuota(String url, String databaseIdentifier,
                                         long quota, long estimatedDatabaseSize, long totalQuota,
-                                        WebStorage.QuotaUpdater quotaUpdater) {
+                                        @SuppressWarnings("deprecation") WebStorage.QuotaUpdater quotaUpdater) {
         if (this.mDelegate != null) {
             this.mDelegate.onExceededDatabaseQuota(url, databaseIdentifier, quota, estimatedDatabaseSize, totalQuota, quotaUpdater);
             return;
@@ -172,7 +172,7 @@ public class WebChromeClientDelegate extends WebChromeClient {
     @Override
     @Deprecated
     public void onReachedMaxAppCacheSize(long requiredStorage, long quota,
-                                         WebStorage.QuotaUpdater quotaUpdater) {
+                                         @SuppressWarnings("deprecation") WebStorage.QuotaUpdater quotaUpdater) {
         if (this.mDelegate != null) {
             this.mDelegate.onReachedMaxAppCacheSize(requiredStorage, quota, quotaUpdater);
             return;

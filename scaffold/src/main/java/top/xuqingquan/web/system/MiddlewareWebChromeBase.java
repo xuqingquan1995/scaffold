@@ -6,11 +6,13 @@ public class MiddlewareWebChromeBase extends WebChromeClientDelegate {
 
     private MiddlewareWebChromeBase mMiddlewareWebChromeBase;
 
-    protected MiddlewareWebChromeBase(WebChromeClient webChromeClient) {
+    @SuppressWarnings("WeakerAccess")
+    public MiddlewareWebChromeBase(WebChromeClient webChromeClient) {
         super(webChromeClient);
     }
 
-    protected MiddlewareWebChromeBase() {
+    @SuppressWarnings("WeakerAccess")
+    public MiddlewareWebChromeBase() {
         super(null);
     }
 
@@ -19,6 +21,7 @@ public class MiddlewareWebChromeBase extends WebChromeClientDelegate {
         super.setDelegate(delegate);
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     public final MiddlewareWebChromeBase enq(MiddlewareWebChromeBase middlewareWebChromeBase) {
         setDelegate(middlewareWebChromeBase);
         this.mMiddlewareWebChromeBase = middlewareWebChromeBase;

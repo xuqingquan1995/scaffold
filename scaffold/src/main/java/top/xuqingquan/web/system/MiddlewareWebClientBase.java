@@ -5,15 +5,18 @@ import android.webkit.WebViewClient;
 public class MiddlewareWebClientBase extends WebViewClientDelegate {
     private MiddlewareWebClientBase mMiddleWrareWebClientBase;
 
-    MiddlewareWebClientBase(MiddlewareWebClientBase client) {
+    @SuppressWarnings("unused")
+    public MiddlewareWebClientBase(MiddlewareWebClientBase client) {
         super(client);
         this.mMiddleWrareWebClientBase = client;
     }
 
+    @SuppressWarnings("WeakerAccess")
     protected MiddlewareWebClientBase(WebViewClient client) {
         super(client);
     }
 
+    @SuppressWarnings("WeakerAccess")
     protected MiddlewareWebClientBase() {
         super(null);
     }
@@ -28,6 +31,7 @@ public class MiddlewareWebClientBase extends WebViewClientDelegate {
 
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     public final MiddlewareWebClientBase enq(MiddlewareWebClientBase middleWrareWebClientBase) {
         setDelegate(middleWrareWebClientBase);
         this.mMiddleWrareWebClientBase = middleWrareWebClientBase;

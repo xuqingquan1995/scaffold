@@ -369,6 +369,7 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
 
     @Override
     public void onPageStarted(WebView view, String url, Bitmap favicon) {
+        //noinspection RedundantCollectionOperation
         if (!mWaittingFinishSet.contains(url)) {
             mWaittingFinishSet.add(url);
         }
@@ -431,6 +432,7 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
         } else {
             view.setVisibility(View.VISIBLE);
         }
+        //noinspection RedundantCollectionOperation
         if (mWaittingFinishSet.contains(url)) {
             mWaittingFinishSet.remove(url);
         }
@@ -493,6 +495,7 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
         private Activity mActivity;
         private WebViewClient mClient;
         private boolean mWebClientHelper;
+        @SuppressWarnings("unused")
         private PermissionInterceptor mPermissionInterceptor;
         private WebView mWebView;
         private boolean mIsInterceptUnkownScheme;

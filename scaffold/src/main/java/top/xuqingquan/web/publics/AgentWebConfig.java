@@ -23,7 +23,7 @@ public class AgentWebConfig {
         }
     }
 
-    public static void removeAllCookies(@Nullable android.webkit.ValueCallback<Boolean> callback) {
+    static void removeAllCookies(@Nullable android.webkit.ValueCallback<Boolean> callback) {
         if (callback == null) {
             callback = getDefaultIgnoreCallback();
         }
@@ -37,7 +37,7 @@ public class AgentWebConfig {
         toSyncCookies();
     }
 
-    public static void removeAllCookies(@Nullable com.tencent.smtt.sdk.ValueCallback<Boolean> callback) {
+    static void removeAllX5Cookies(@Nullable com.tencent.smtt.sdk.ValueCallback<Boolean> callback) {
         if (callback == null) {
             callback = getX5DefaultIgnoreCallback();
         }
@@ -58,7 +58,7 @@ public class AgentWebConfig {
         }
     }
 
-    public static void createCookiesSyncInstance(Context context) {
+    private static void createCookiesSyncInstance(Context context) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             if (hasX5()) {
                 com.tencent.smtt.sdk.CookieSyncManager.createInstance(context);

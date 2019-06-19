@@ -120,7 +120,7 @@ public class AgentWebUtils {
 
     public static void clearWebViewAllCache(Context context, com.tencent.smtt.sdk.WebView webView) {
         try {
-            AgentWebConfig.removeAllCookies(null);
+            AgentWebConfig.removeAllX5Cookies(null);
             webView.getSettings().setCacheMode(android.webkit.WebSettings.LOAD_NO_CACHE);
             context.deleteDatabase("webviewCache.db");
             context.deleteDatabase("webview.db");

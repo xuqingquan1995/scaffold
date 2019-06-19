@@ -9,11 +9,11 @@ public abstract class BaseJsAccessEntrace implements JsAccessEntrace {
     private android.webkit.WebView mWebView;
     private com.tencent.smtt.sdk.WebView mx5WebView;
 
-    public BaseJsAccessEntrace(android.webkit.WebView webView) {
+    BaseJsAccessEntrace(android.webkit.WebView webView) {
         this.mWebView = webView;
     }
 
-    public BaseJsAccessEntrace(com.tencent.smtt.sdk.WebView webView) {
+    BaseJsAccessEntrace(com.tencent.smtt.sdk.WebView webView) {
         this.mx5WebView = webView;
     }
 
@@ -37,7 +37,12 @@ public abstract class BaseJsAccessEntrace implements JsAccessEntrace {
 
     @Override
     public void callJs(String js) {
-        this.callJs(js, null);
+        if (WebConfig.hasX5()) {
+            //noinspection RedundantCast
+            this.callJs(js, (com.tencent.smtt.sdk.ValueCallback<String>) null);
+        } else {
+            this.callJs(js, (android.webkit.ValueCallback<String>) null);
+        }
     }
 
     private void loadJs(String js) {
@@ -106,7 +111,12 @@ public abstract class BaseJsAccessEntrace implements JsAccessEntrace {
 
     @Override
     public void quickCallJs(String method, String... params) {
-        this.quickCallJs(method, null, params);
+        if (WebConfig.hasX5()) {
+            //noinspection RedundantCast
+            this.quickCallJs(method, (com.tencent.smtt.sdk.ValueCallback<String>) null, params);
+        } else {
+            this.quickCallJs(method, (android.webkit.ValueCallback<String>) null, params);
+        }
     }
 
     @Override

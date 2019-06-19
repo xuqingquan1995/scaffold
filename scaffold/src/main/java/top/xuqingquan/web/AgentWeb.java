@@ -15,6 +15,7 @@ import top.xuqingquan.web.publics.*;
 import java.lang.ref.WeakReference;
 import java.util.Map;
 
+@SuppressWarnings("unused")
 public final class AgentWeb {
     /**
      * Activity
@@ -176,7 +177,6 @@ public final class AgentWeb {
         doCompat();
     }
 
-
     /**
      * @return PermissionInterceptor 权限控制者
      */
@@ -201,7 +201,6 @@ public final class AgentWeb {
         return mJsAccessEntrace;
     }
 
-
     public AgentWeb clearWebCache() {
         if (WebConfig.hasX5()){
             if (this.getWebCreator().getX5WebView() != null) {
@@ -218,7 +217,6 @@ public final class AgentWeb {
         }
         return this;
     }
-
 
     public static AgentBuilder with(@NonNull Activity activity) {
         return new AgentBuilder(activity);
@@ -252,7 +250,6 @@ public final class AgentWeb {
         return mIEventHandler.back();
     }
 
-
     public WebCreator getWebCreator() {
         return this.mWebCreator;
     }
@@ -276,6 +273,7 @@ public final class AgentWeb {
         return this.mX5AgentWebSettings;
     }
 
+    @SuppressWarnings("WeakerAccess")
     public IndicatorController getIndicatorController() {
         return this.mIndicatorController;
     }
@@ -290,35 +288,6 @@ public final class AgentWeb {
 
     public void destroy() {
         this.mWebLifeCycle.onDestroy();
-    }
-
-    public static class PreAgentWeb {
-        private AgentWeb mAgentWeb;
-        private boolean isReady = false;
-
-        PreAgentWeb(AgentWeb agentWeb) {
-            this.mAgentWeb = agentWeb;
-        }
-
-        public PreAgentWeb ready() {
-            if (!isReady) {
-                mAgentWeb.ready();
-                isReady = true;
-            }
-            return this;
-        }
-
-        public AgentWeb get() {
-            ready();
-            return mAgentWeb;
-        }
-
-        public AgentWeb go(@Nullable String url) {
-            if (!isReady) {
-                ready();
-            }
-            return mAgentWeb.go(url);
-        }
     }
 
     private void doCompat() {
@@ -442,6 +411,7 @@ public final class AgentWeb {
         }
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     private AgentWeb ready() {
         AgentWebConfig.initCookiesManager(mActivity.getApplicationContext());
         if (WebConfig.hasX5()) {
@@ -564,6 +534,36 @@ public final class AgentWeb {
         }
     }
 
+    public static final class PreAgentWeb {
+        private AgentWeb mAgentWeb;
+        private boolean isReady = false;
+
+        PreAgentWeb(AgentWeb agentWeb) {
+            this.mAgentWeb = agentWeb;
+        }
+
+        @SuppressWarnings("UnusedReturnValue")
+        PreAgentWeb ready() {
+            if (!isReady) {
+                mAgentWeb.ready();
+                isReady = true;
+            }
+            return this;
+        }
+
+        public AgentWeb get() {
+            ready();
+            return mAgentWeb;
+        }
+
+        public AgentWeb go(@Nullable String url) {
+            if (!isReady) {
+                ready();
+            }
+            return mAgentWeb.go(url);
+        }
+    }
+
     public static final class AgentBuilder {
         private Activity mActivity;
         private ViewGroup mViewGroup;
@@ -607,12 +607,12 @@ public final class AgentWeb {
         private int mReloadId;
         private int mTag;
 
-        public AgentBuilder(@NonNull Fragment fragment) {
+        AgentBuilder(@NonNull Fragment fragment) {
             mActivity = fragment.getActivity();
             mTag = AgentWeb.FRAGMENT_TAG;
         }
 
-        public AgentBuilder(@NonNull Activity activity) {
+        AgentBuilder(@NonNull Activity activity) {
             mActivity = activity;
             mTag = AgentWeb.ACTIVITY_TAG;
         }
@@ -663,7 +663,7 @@ public final class AgentWeb {
     public static class IndicatorBuilder {
         private AgentBuilder mAgentBuilder;
 
-        public IndicatorBuilder(AgentBuilder agentBuilder) {
+        IndicatorBuilder(AgentBuilder agentBuilder) {
             this.mAgentBuilder = agentBuilder;
         }
 
@@ -705,7 +705,7 @@ public final class AgentWeb {
     public static class CommonBuilder {
         private AgentBuilder mAgentBuilder;
 
-        public CommonBuilder(AgentBuilder agentBuilder) {
+        CommonBuilder(AgentBuilder agentBuilder) {
             this.mAgentBuilder = agentBuilder;
         }
 
@@ -875,7 +875,7 @@ public final class AgentWeb {
         }
     }
 
-    private static final class PermissionInterceptorWrapper implements PermissionInterceptor {
+    public static final class PermissionInterceptorWrapper implements PermissionInterceptor {
 
         private WeakReference<PermissionInterceptor> mWeakReference;
 

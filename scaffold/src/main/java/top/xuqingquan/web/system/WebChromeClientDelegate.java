@@ -16,7 +16,7 @@ public class WebChromeClientDelegate extends WebChromeClient {
         return mDelegate;
     }
 
-    public WebChromeClientDelegate(WebChromeClient webChromeClient) {
+    WebChromeClientDelegate(WebChromeClient webChromeClient) {
         this.mDelegate = webChromeClient;
     }
 
@@ -69,8 +69,9 @@ public class WebChromeClientDelegate extends WebChromeClient {
         super.onShowCustomView(view, callback);
     }
 
-
+    @SuppressWarnings("deprecation")
     @Override
+    @Deprecated
     public void onShowCustomView(View view, int requestedOrientation,
                                  CustomViewCallback callback) {
         if (this.mDelegate != null) {
@@ -153,6 +154,7 @@ public class WebChromeClientDelegate extends WebChromeClient {
         return super.onJsBeforeUnload(view, url, message, result);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     @Deprecated
     public void onExceededDatabaseQuota(String url, String databaseIdentifier,
@@ -168,6 +170,7 @@ public class WebChromeClientDelegate extends WebChromeClient {
 
     @Override
     @Deprecated
+    @SuppressWarnings("deprecation")
     public void onReachedMaxAppCacheSize(long requiredStorage, long quota,
                                          WebStorage.QuotaUpdater quotaUpdater) {
         if (this.mDelegate != null) {
@@ -220,6 +223,8 @@ public class WebChromeClientDelegate extends WebChromeClient {
     }
 
     @Override
+    @SuppressWarnings("deprecation")
+    @Deprecated
     public boolean onJsTimeout() {
         if (this.mDelegate != null) {
             return this.mDelegate.onJsTimeout();
@@ -229,6 +234,7 @@ public class WebChromeClientDelegate extends WebChromeClient {
 
     @Override
     @Deprecated
+    @SuppressWarnings("deprecation")
     public void onConsoleMessage(String message, int lineNumber, String sourceID) {
         if (this.mDelegate != null) {
             this.mDelegate.onConsoleMessage(message, lineNumber, sourceID);

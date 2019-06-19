@@ -41,30 +41,15 @@ public class DefaultUIController extends AbsAgentWebUIController {
 
     @Override
     public void onOpenPagePrompt(android.webkit.WebView view, String url, final Handler.Callback callback) {
-        Timber.i("onOpenPagePrompt");
-        if (mAskOpenOtherAppDialog == null) {
-            mAskOpenOtherAppDialog = new AlertDialog
-                    .Builder(mActivity)
-                    .setMessage(mResources.getString(R.string.agentweb_leave_app_and_go_other_page,
-                            DeviceUtils.getApplicationName(mActivity)))//
-                    .setTitle(mResources.getString(R.string.agentweb_tips))
-                    .setNegativeButton(android.R.string.cancel, (dialog, which) -> {
-                        if (callback != null) {
-                            callback.handleMessage(Message.obtain(null, -1));
-                        }
-                    })//
-                    .setPositiveButton(mResources.getString(R.string.agentweb_leave), (dialog, which) -> {
-                        if (callback != null) {
-                            callback.handleMessage(Message.obtain(null, 1));
-                        }
-                    })
-                    .create();
-        }
-        mAskOpenOtherAppDialog.show();
+        onOpenPagePrompt(callback);
     }
 
     @Override
     public void onOpenPagePrompt(com.tencent.smtt.sdk.WebView view, String url, Handler.Callback callback) {
+        onOpenPagePrompt(callback);
+    }
+
+    private void onOpenPagePrompt(Handler.Callback callback) {
         Timber.i("onOpenPagePrompt");
         if (mAskOpenOtherAppDialog == null) {
             mAskOpenOtherAppDialog = new AlertDialog
@@ -113,8 +98,8 @@ public class DefaultUIController extends AbsAgentWebUIController {
     }
 
     private void onForceDownloadAlertInternal(final Handler.Callback callback) {
-        Activity mActivity;
-        if ((mActivity = this.mActivity) == null || mActivity.isFinishing()) {
+        Activity mActivity = this.mActivity;
+        if (mActivity == null || mActivity.isFinishing()) {
             return;
         }
         if (mAlertDialogForceDownload == null) {

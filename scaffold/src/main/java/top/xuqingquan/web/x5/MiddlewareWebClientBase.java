@@ -5,16 +5,19 @@ import com.tencent.smtt.sdk.WebViewClient;
 public class MiddlewareWebClientBase extends WebViewClientDelegate {
     private MiddlewareWebClientBase mMiddleWrareWebClientBase;
 
-    MiddlewareWebClientBase(MiddlewareWebClientBase client) {
+    @SuppressWarnings("unused")
+    public MiddlewareWebClientBase(MiddlewareWebClientBase client) {
         super(client);
         this.mMiddleWrareWebClientBase = client;
     }
 
-    MiddlewareWebClientBase(WebViewClient client) {
+    @SuppressWarnings("WeakerAccess")
+    public MiddlewareWebClientBase(WebViewClient client) {
         super(client);
     }
 
-    MiddlewareWebClientBase() {
+    @SuppressWarnings("WeakerAccess")
+    public MiddlewareWebClientBase() {
         super(null);
     }
 
@@ -28,6 +31,7 @@ public class MiddlewareWebClientBase extends WebViewClientDelegate {
 
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     public final MiddlewareWebClientBase enq(MiddlewareWebClientBase middleWrareWebClientBase) {
         setDelegate(middleWrareWebClientBase);
         this.mMiddleWrareWebClientBase = middleWrareWebClientBase;

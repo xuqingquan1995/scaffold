@@ -100,6 +100,7 @@ public class WebViewClientDelegate extends WebViewClient {
         return super.shouldInterceptRequest(view, request);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     @Deprecated
     public void onTooManyRedirects(WebView view, Message cancelMsg,
