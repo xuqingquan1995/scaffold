@@ -175,7 +175,7 @@
 #实体类
 -keep class top.xuqingquan.base.model.entity.** {*;}
 
--keep class * implements top.xuqingquan.integration.ConfigModule
+-keep class * implements top.xuqingquan.integration.LifecycleConfig
 
 #########################################################################
 #                                                                       #

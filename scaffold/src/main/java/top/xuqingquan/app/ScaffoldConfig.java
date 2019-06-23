@@ -32,9 +32,7 @@ import top.xuqingquan.http.log.RequestInterceptor;
 import top.xuqingquan.imageloader.BaseImageLoaderStrategy;
 import top.xuqingquan.imageloader.GlideImageLoaderStrategy;
 import top.xuqingquan.imageloader.ImageLoader;
-import top.xuqingquan.integration.AppManager;
-import top.xuqingquan.integration.IRepositoryManager;
-import top.xuqingquan.integration.RepositoryManager;
+import top.xuqingquan.integration.*;
 import top.xuqingquan.lifecycle.FragmentLifecycleCallbacksImpl;
 import top.xuqingquan.utils.FileUtils;
 
@@ -59,6 +57,7 @@ public class ScaffoldConfig {
     private static BaseImageLoaderStrategy baseImageLoaderStrategy;
     private static GlobalHttpHandler globalHttpHandler;
     private static List<Interceptor> interceptors;
+    private static List<Interceptor> netInterceptors;
     private static File cacheFile;
     private static Cache.Factory cacheFactory;
     private static Cache<String, Object> extras;
@@ -90,6 +89,7 @@ public class ScaffoldConfig {
             if (gsonConfiguration != null) {
                 gsonConfiguration.configGson(application, builder);
             }
+            gson = builder.create();
         }
         return gson;
     }
@@ -167,6 +167,10 @@ public class ScaffoldConfig {
 
     public static List<Interceptor> getInterceptors() {
         return interceptors;
+    }
+
+    public static List<Interceptor> getNetInterceptors() {
+        return netInterceptors;
     }
 
     public static File getCacheFile() {
@@ -280,6 +284,14 @@ public class ScaffoldConfig {
         return this;
     }
 
+    public ScaffoldConfig addNetInterceptor(Interceptor interceptor) {
+        if (netInterceptors == null) {
+            netInterceptors = new ArrayList<>();
+        }
+        netInterceptors.add(interceptor);
+        return this;
+    }
+
     public ScaffoldConfig setCacheFile(File cacheFile) {
         ScaffoldConfig.cacheFile = cacheFile;
         return this;
@@ -322,8 +334,15 @@ public class ScaffoldConfig {
             builder
                     .connectTimeout(TIME_OUT, TimeUnit.SECONDS)
                     .readTimeout(TIME_OUT, TimeUnit.SECONDS)
-                    .addNetworkInterceptor(RequestInterceptor.getInstance());
-            builder.addInterceptor(chain -> chain.proceed(getGlobalHttpHandler().onHttpRequestBefore(chain, chain.request())));
+                    .addNetworkInterceptor(RequestInterceptor.getInstance())
+                    .addInterceptor(chain -> chain.proceed(getGlobalHttpHandler().onHttpRequestBefore(chain, chain.request())));
+            List<Interceptor> netInterceptors = getNetInterceptors();
+            //如果外部提供了 Interceptor 的集合则遍历添加
+            if (netInterceptors != null) {
+                for (Interceptor interceptor : netInterceptors) {
+                    builder.addNetworkInterceptor(interceptor);
+                }
+            }
             List<Interceptor> interceptors = getInterceptors();
             //如果外部提供了 Interceptor 的集合则遍历添加
             if (interceptors != null) {
@@ -359,8 +378,7 @@ public class ScaffoldConfig {
             if (configuration != null) {
                 configuration.configRetrofit(application, builder);
             }
-            builder
-                    .addConverterFactory(GsonConverterFactory.create(ScaffoldConfig.getGson()));//使用 Gson
+            builder.addConverterFactory(GsonConverterFactory.create(ScaffoldConfig.getGson()));//使用 Gson
             retrofit = builder.build();
         }
         return retrofit;
@@ -389,10 +407,16 @@ public class ScaffoldConfig {
     }
 
     public static Application.ActivityLifecycleCallbacks getActivityLifecycleCallbacks() {
+        if (activityLifecycleCallbacks == null) {
+            activityLifecycleCallbacks = new ActivityLifecycle();
+        }
         return activityLifecycleCallbacks;
     }
 
     public static FragmentManager.FragmentLifecycleCallbacks getFragmentLifecycleCallbacks() {
+        if (fragmentLifecycleCallbacks == null) {
+            fragmentLifecycleCallbacks = new FragmentLifecycle();
+        }
         return fragmentLifecycleCallbacks;
     }
 

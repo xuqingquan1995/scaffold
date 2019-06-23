@@ -2,7 +2,7 @@ package top.xuqingquan.utils
 
 import android.content.Context
 import android.content.pm.PackageManager
-import top.xuqingquan.integration.ConfigModule
+import top.xuqingquan.integration.LifecycleConfig
 import java.util.ArrayList
 
 /**
@@ -10,11 +10,11 @@ import java.util.ArrayList
  */
 class ManifestParser(private val context: Context) {
     companion object {
-        private const val MODULE_VALUE = "ConfigModule"
+        private const val MODULE_VALUE = "LifecycleConfig"
     }
 
-    fun parse(): List<ConfigModule> {
-        val modules = ArrayList<ConfigModule>()
+    fun parse(): List<LifecycleConfig> {
+        val modules = ArrayList<LifecycleConfig>()
         try {
             val appInfo = context.packageManager.getApplicationInfo(
                 context.packageName, PackageManager.GET_META_DATA
@@ -27,28 +27,28 @@ class ManifestParser(private val context: Context) {
                 }
             }
         } catch (e: PackageManager.NameNotFoundException) {
-            throw RuntimeException("Unable to find metadata to parse ConfigModule", e)
+            throw RuntimeException("Unable to find metadata to parse LifecycleConfig", e)
         }
         return modules
     }
 
-    private fun parseModule(className: String): ConfigModule {
+    private fun parseModule(className: String): LifecycleConfig {
         val clazz: Class<*>
         try {
             clazz = Class.forName(className)
         } catch (e: ClassNotFoundException) {
-            throw IllegalArgumentException("Unable to find ConfigModule implementation", e)
+            throw IllegalArgumentException("Unable to find LifecycleConfig implementation", e)
         }
         val module: Any
         try {
             module = clazz.newInstance()
         } catch (e: InstantiationException) {
-            throw RuntimeException("Unable to instantiate ConfigModule implementation for $clazz", e)
+            throw RuntimeException("Unable to instantiate LifecycleConfig implementation for $clazz", e)
         } catch (e: IllegalAccessException) {
-            throw RuntimeException("Unable to instantiate ConfigModule implementation for $clazz", e)
+            throw RuntimeException("Unable to instantiate LifecycleConfig implementation for $clazz", e)
         }
-        if (module !is ConfigModule) {
-            throw RuntimeException("Expected instanceof ConfigModule, but found: $module")
+        if (module !is LifecycleConfig) {
+            throw RuntimeException("Expected instanceof LifecycleConfig, but found: $module")
         }
         return module
     }

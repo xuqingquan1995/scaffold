@@ -8,9 +8,9 @@ import top.xuqingquan.delegate.AppLifecycles
 
 /**
  * Created by 许清泉 on 2019/4/14 18:28
- * 可以给框架配置一些参数,需要实现 {@link ConfigModule} 后,在 AndroidManifest 中声明该实现类
+ * 可以给框架配置一些参数,需要实现 {@link LifecycleConfig} 后,在 AndroidManifest 中声明该实现类
  */
-interface ConfigModule {
+interface LifecycleConfig {
 
     /**
      * 使用 [AppLifecycles] 在 [Application] 的生命周期中注入一些操作
