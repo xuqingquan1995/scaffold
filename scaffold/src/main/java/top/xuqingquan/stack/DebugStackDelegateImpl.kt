@@ -11,7 +11,7 @@ import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.FragmentActivity
 import top.xuqingquan.R
-import top.xuqingquan.app.AppComponentUtils
+import top.xuqingquan.app.ScaffoldConfig
 import top.xuqingquan.utils.Timber
 import java.lang.ref.WeakReference
 
@@ -19,7 +19,7 @@ import java.lang.ref.WeakReference
  * Created by 许清泉 on 2019-04-24 22:49
  */
 class DebugStackDelegateImpl(private val mActivity: FragmentActivity) : DebugStackDelegate {
-    private val showStack: Boolean = AppComponentUtils.obtainAppComponentFromContext(mActivity).showStack()
+    private val showStack: Boolean = ScaffoldConfig.isShowStack()
     private var mStackDialog: AlertDialog? = null
     private val list = StackList.instance!!
         get() {

@@ -3,21 +3,27 @@ package top.xuqingquan.imageloader;
 import android.content.Context;
 import androidx.annotation.Nullable;
 import androidx.core.util.Preconditions;
-import javax.inject.Inject;
-import javax.inject.Singleton;
+import top.xuqingquan.app.ScaffoldConfig;
 
 /**
  * Created by 许清泉 on 2019/4/14 22:38
  */
-@Singleton
 public class ImageLoader {
-
-    @Inject
     @Nullable
     BaseImageLoaderStrategy mStrategy;
+    private static ImageLoader instance;
 
-    @Inject
-    public ImageLoader() {
+    private ImageLoader() {
+        mStrategy= ScaffoldConfig.getLoaderStrategy();
+    }
+
+    public static ImageLoader getInstance() {
+        if (instance==null){
+            synchronized (ImageLoader.class){
+                instance=new ImageLoader();
+            }
+        }
+        return instance;
     }
 
     /**

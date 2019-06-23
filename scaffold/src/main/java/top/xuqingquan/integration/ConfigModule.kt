@@ -4,7 +4,6 @@ import android.app.Activity
 import android.app.Application
 import android.content.Context
 import androidx.fragment.app.FragmentManager
-import top.xuqingquan.di.module.GlobalConfigModule
 import top.xuqingquan.delegate.AppLifecycles
 
 /**
@@ -12,13 +11,6 @@ import top.xuqingquan.delegate.AppLifecycles
  * 可以给框架配置一些参数,需要实现 {@link ConfigModule} 后,在 AndroidManifest 中声明该实现类
  */
 interface ConfigModule {
-    /**
-     * 使用 [GlobalConfigModule.Builder] 给框架配置一些配置参数
-     *
-     * @param context [Context]
-     * @param builder [GlobalConfigModule.Builder]
-     */
-    fun applyOptions(context: Context, builder: GlobalConfigModule.Builder)
 
     /**
      * 使用 [AppLifecycles] 在 [Application] 的生命周期中注入一些操作

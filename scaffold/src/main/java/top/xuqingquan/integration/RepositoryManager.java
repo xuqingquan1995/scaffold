@@ -4,31 +4,39 @@ import android.app.Application;
 import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.core.util.Preconditions;
-import dagger.Lazy;
 import retrofit2.Retrofit;
+import top.xuqingquan.app.ScaffoldConfig;
 import top.xuqingquan.cache.Cache;
 import top.xuqingquan.cache.CacheType;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
 /**
  * Created by 许清泉 on 2019/4/14 17:23
  */
-@Singleton
 public class RepositoryManager implements IRepositoryManager {
-    @Inject
-    Lazy<Retrofit> mRetrofit;
-    @Inject
-    Application mApplication;
-    @Inject
-    Cache.Factory mCachefactory;
+    private Retrofit mRetrofit;
+    private Application mApplication;
+    private Cache.Factory mCachefactory;
     private Cache<String, Object> mRetrofitServiceCache;
+    private static RepositoryManager instance;
 
-    @Inject
-    public RepositoryManager() {
+    private RepositoryManager() {
+        mApplication = ScaffoldConfig.getApplication();
+        mCachefactory = ScaffoldConfig.getCacheFactory();
+        mRetrofit = ScaffoldConfig.getRetrofit();
+    }
+
+    public static RepositoryManager getInstance() {
+        if (instance == null) {
+            synchronized (RepositoryManager.class) {
+                if (instance == null) {
+                    instance = new RepositoryManager();
+                }
+            }
+        }
+        return instance;
     }
 
     /**
@@ -78,7 +86,7 @@ public class RepositoryManager implements IRepositoryManager {
                 "Cannot return null from a Cache.Factory#build(int) method");
         T retrofitService = (T) mRetrofitServiceCache.get(serviceClass.getCanonicalName());
         if (retrofitService == null) {
-            retrofitService = mRetrofit.get().create(serviceClass);
+            retrofitService = mRetrofit.create(serviceClass);
             mRetrofitServiceCache.put(serviceClass.getCanonicalName(), retrofitService);
         }
         return retrofitService;

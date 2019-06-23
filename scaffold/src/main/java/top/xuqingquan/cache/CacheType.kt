@@ -4,7 +4,6 @@ import android.app.Activity
 import android.app.ActivityManager
 import android.content.Context
 import androidx.fragment.app.Fragment
-import top.xuqingquan.di.component.AppComponent
 import top.xuqingquan.integration.RepositoryManager
 
 /**
@@ -53,9 +52,6 @@ interface CacheType {
             }
         }
 
-        /**
-         * [AppComponent] 中的 extras
-         */
         @JvmStatic
         val EXTRAS: CacheType = object : CacheType {
             private val MAX_SIZE = 500

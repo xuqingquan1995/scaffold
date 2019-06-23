@@ -7,7 +7,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import top.xuqingquan.app.AppComponentUtils
+import top.xuqingquan.app.ScaffoldConfig
 import top.xuqingquan.cache.Cache
 import top.xuqingquan.cache.CacheType
 import top.xuqingquan.delegate.IActivity
@@ -33,8 +33,7 @@ abstract class SimpleActivity : AppCompatActivity(), IActivity {
     final override fun provideCache(): Cache<String, Any> {
         if (mCache == null) {
             @Suppress("UNCHECKED_CAST")
-            mCache =
-                AppComponentUtils.obtainAppComponentFromContext(this).cacheFactory().build(CacheType.ACTIVITY_CACHE) as Cache<String, Any>
+            mCache =ScaffoldConfig.getCacheFactory().build(CacheType.ACTIVITY_CACHE) as Cache<String, Any>
         }
         return mCache!!
     }

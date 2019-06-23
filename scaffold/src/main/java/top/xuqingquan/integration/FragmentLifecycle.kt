@@ -12,17 +12,12 @@ import top.xuqingquan.delegate.FragmentDelegate
 import top.xuqingquan.delegate.FragmentDelegateImpl
 import top.xuqingquan.delegate.IFragment
 
-import javax.inject.Inject
-import javax.inject.Singleton
-
 /**
  * Created by 许清泉 on 2019/4/14 23:19
  * [FragmentManager.FragmentLifecycleCallbacks] 默认实现类
  * 通过 [FragmentDelegate] 管理 [Fragment]
  */
-@Singleton
-class FragmentLifecycle @Inject
-constructor() : FragmentManager.FragmentLifecycleCallbacks() {
+class FragmentLifecycle: FragmentManager.FragmentLifecycleCallbacks() {
 
     override fun onFragmentAttached(fm: FragmentManager, f: Fragment, context: Context) {
         super.onFragmentAttached(fm, f, context)

@@ -3,7 +3,6 @@ package top.xuqingquan.delegate
 import android.app.Activity
 import android.os.Bundle
 import top.xuqingquan.cache.Cache
-import top.xuqingquan.di.component.AppComponent
 import top.xuqingquan.stack.DebugStackDelegate
 import top.xuqingquan.utils.FragmentOnKeyListener
 
@@ -20,13 +19,6 @@ interface IActivity {
      * @return like [LruCache]
      */
     fun provideCache(): Cache<String, Any>
-
-    /**
-     * 提供 AppComponent (提供所有的单例对象) 给实现类, 进行 Component 依赖
-     *
-     * @param appComponent
-     */
-    fun setupActivityComponent(appComponent: AppComponent)
 
     /**
      * 初始化数据

@@ -5,11 +5,10 @@ import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
+import top.xuqingquan.app.ScaffoldConfig;
 import top.xuqingquan.http.GlobalHttpHandler;
 import top.xuqingquan.utils.Timber;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -17,20 +16,29 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by 许清泉 on 2019/4/14 20:51
  */
-@Singleton
 public class RequestInterceptor implements Interceptor {
 
-    @Inject
-    FormatPrinter mPrinter;
-    @Inject
-    GlobalHttpHandler mHandler;
-    @Inject
-    Level printLevel;
+    private FormatPrinter mPrinter;
+    private GlobalHttpHandler mHandler;
+    private Level printLevel;
+    private static RequestInterceptor instance;
 
-    @Inject
-    public RequestInterceptor() {
+    private RequestInterceptor() {
+        mPrinter= ScaffoldConfig.getFormatPrinter();
+        mHandler=ScaffoldConfig.getGlobalHttpHandler();
+        printLevel=ScaffoldConfig.getLevel();
     }
 
+    public static RequestInterceptor getInstance() {
+        if (instance==null){
+            synchronized (RequestInterceptor.class){
+                if (instance==null){
+                    instance=new RequestInterceptor();
+                }
+            }
+        }
+        return instance;
+    }
 
     @NonNull
     @Override

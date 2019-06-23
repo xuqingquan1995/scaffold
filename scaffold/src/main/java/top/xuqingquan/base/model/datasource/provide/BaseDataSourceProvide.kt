@@ -5,7 +5,7 @@ import androidx.annotation.MainThread
 import androidx.lifecycle.Transformations
 import androidx.paging.DataSource
 import androidx.paging.toLiveData
-import top.xuqingquan.app.AppComponentUtils
+import top.xuqingquan.app.ScaffoldConfig
 import top.xuqingquan.base.model.datasource.BaseItemKeyedDataSource
 import top.xuqingquan.base.model.datasource.BasePageKeyedDataSource
 import top.xuqingquan.base.model.datasource.factory.BaseItemKeyedDataSourceFactory
@@ -17,7 +17,7 @@ import top.xuqingquan.base.model.entity.Listing
  */
 class BaseDataSourceProvide(context: Context) {
 
-    private val config = AppComponentUtils.obtainAppComponentFromContext(context).pageConfig()
+    private val config = ScaffoldConfig.getPagedListConfig()
 
     @MainThread
     fun <Key, Value> getDataSource(factory: BasePageKeyedDataSourceFactory<Key, Value>): Listing<Value> {

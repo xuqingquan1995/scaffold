@@ -11,7 +11,7 @@ import com.bumptech.glide.load.engine.cache.LruResourceCache
 import com.bumptech.glide.load.engine.cache.MemorySizeCalculator
 import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.module.AppGlideModule
-import top.xuqingquan.app.AppComponentUtils
+import top.xuqingquan.app.ScaffoldConfig
 import top.xuqingquan.http.OkHttpUrlLoader
 import top.xuqingquan.utils.FileUtils
 import java.io.File
@@ -25,10 +25,9 @@ class GlideConfiguration : AppGlideModule() {
     private val IMAGE_DISK_CACHE_MAX_SIZE: Long = 100 * 1024 * 1024//图片缓存文件最大值为100Mb
 
     override fun applyOptions(context: Context, builder: GlideBuilder) {
-        val appComponent = AppComponentUtils.obtainAppComponentFromContext(context)
         builder.setDiskCache {
             DiskLruCacheWrapper.create(
-                FileUtils.makeDirs(File(appComponent.cacheFile(), "Glide")),
+                FileUtils.makeDirs(File(ScaffoldConfig.getCacheFile(), "Glide")),
                 IMAGE_DISK_CACHE_MAX_SIZE
             )
         }
@@ -40,18 +39,17 @@ class GlideConfiguration : AppGlideModule() {
 
         builder.setMemoryCache(LruResourceCache(customMemoryCacheSize.toLong()))
         builder.setBitmapPool(LruBitmapPool(customBitmapPoolSize.toLong()))
-        val loadImgStrategy = appComponent.imageLoader().loadImgStrategy
+        val loadImgStrategy = ScaffoldConfig.getImageLoader().loadImgStrategy
         if (loadImgStrategy is GlideAppliesOptions) {
             (loadImgStrategy as GlideAppliesOptions).applyGlideOptions(context, builder)
         }
     }
 
     override fun registerComponents(context: Context, glide: Glide, registry: Registry) {
-        val appComponent = AppComponentUtils.obtainAppComponentFromContext(context)
         registry.replace(
             GlideUrl::class.java,
             InputStream::class.java,
-            OkHttpUrlLoader.Factory(appComponent.okHttpClient())
+            OkHttpUrlLoader.Factory(ScaffoldConfig.getOkHttpClient())
         )
     }
 }

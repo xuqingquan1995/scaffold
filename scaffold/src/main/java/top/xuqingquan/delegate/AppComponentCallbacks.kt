@@ -3,7 +3,6 @@ package top.xuqingquan.delegate
 import android.app.Application
 import android.content.ComponentCallbacks2
 import android.content.res.Configuration
-import top.xuqingquan.di.component.AppComponent
 
 /**
  * Created by 许清泉 on 2019/4/14 23:12
@@ -13,7 +12,7 @@ import top.xuqingquan.di.component.AppComponent
  * 响应 {@link ComponentCallbacks2#onTrimMemory(int)} 回调, 开发者的 App 会存活的更持久, 有利于用户体验
  * 不响应 {@link ComponentCallbacks2#onTrimMemory(int)} 回调, 系统 kill 掉进程的几率更大
  */
-class AppComponentCallbacks(private val mApplication: Application, private val mAppComponent: AppComponent) :
+class AppComponentCallbacks(private val mApplication: Application) :
     ComponentCallbacks2 {
 
     /**

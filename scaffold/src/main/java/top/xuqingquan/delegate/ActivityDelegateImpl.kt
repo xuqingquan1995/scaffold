@@ -5,7 +5,6 @@ import android.app.Application
 import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
 import org.greenrobot.eventbus.EventBus
-import top.xuqingquan.app.AppComponentUtils
 import top.xuqingquan.stack.DebugStackDelegate
 import top.xuqingquan.stack.DebugStackDelegateImpl
 import top.xuqingquan.utils.EventBusHelper
@@ -33,8 +32,6 @@ class ActivityDelegateImpl(private var mActivity: Activity?) : ActivityDelegate 
             EventBus.getDefault().register(mActivity!!)
         }
         iActivity!!.setDebugStackDelegate(delegate)
-        //这里提供 AppComponent 对象给 BaseActivity 的子类, 用于 Dagger2 的依赖注入
-        iActivity!!.setupActivityComponent(AppComponentUtils.obtainAppComponentFromContext(mActivity!!))
     }
 
     override fun onStart() {

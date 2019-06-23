@@ -6,35 +6,26 @@ import android.os.Bundle
 import androidx.core.util.Preconditions
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
-import dagger.Lazy
+import top.xuqingquan.app.ScaffoldConfig
 import top.xuqingquan.cache.Cache
 import top.xuqingquan.cache.IntelligentCache
 import top.xuqingquan.delegate.ActivityDelegate
 import top.xuqingquan.delegate.ActivityDelegateImpl
 import top.xuqingquan.delegate.IActivity
 
-import javax.inject.Inject
-import javax.inject.Singleton
-
 /**
  * Created by 许清泉 on 2019/4/14 15:24
  * [Application.ActivityLifecycleCallbacks]  默认实现类
  * 通过 [ActivityDelegate] 管理 [Activity]
  */
-@Singleton
-class ActivityLifecycle @Inject
-constructor() : Application.ActivityLifecycleCallbacks {
+class ActivityLifecycle : Application.ActivityLifecycleCallbacks {
 
-    @Inject
-    lateinit var mAppManager: AppManager
-    @Inject
-    lateinit var mApplication: Application
-    @Inject
-    lateinit var mExtras: Cache<String, Any>
-    @Inject
-    lateinit var mFragmentLifecycle: Lazy<FragmentManager.FragmentLifecycleCallbacks>
-    @Inject
-    lateinit var mFragmentLifecycles: Lazy<MutableList<FragmentManager.FragmentLifecycleCallbacks>>
+    private var mAppManager = ScaffoldConfig.getAppManager()
+    private var mApplication = ScaffoldConfig.getApplication()
+    private var mExtras = ScaffoldConfig.getExtras()
+    var mFragmentLifecycle: FragmentManager.FragmentLifecycleCallbacks = ScaffoldConfig.getFragmentLifecycleCallbacks()
+    var mFragmentLifecycles: MutableList<FragmentManager.FragmentLifecycleCallbacks> =
+        ScaffoldConfig.getFragmentLifecycleCallbacksList()
 
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
         mAppManager.addActivity(activity)
@@ -50,7 +41,6 @@ constructor() : Application.ActivityLifecycleCallbacks {
             }
             activityDelegate.onCreate(savedInstanceState)
         }
-
         registerFragmentCallbacks(activity)
     }
 
@@ -103,22 +93,21 @@ constructor() : Application.ActivityLifecycleCallbacks {
      * @param activity
      */
     private fun registerFragmentCallbacks(activity: Activity) {
-
         if (activity is FragmentActivity) {
             //mFragmentLifecycle 为 Fragment 生命周期实现类, 用于框架内部对每个 Fragment 的必要操作, 如给每个 Fragment 配置 FragmentDelegate
             //注册框架内部已实现的 Fragment 生命周期逻辑
-            activity.supportFragmentManager.registerFragmentLifecycleCallbacks(mFragmentLifecycle.get(), true)
+            activity.supportFragmentManager.registerFragmentLifecycleCallbacks(mFragmentLifecycle, true)
             if (mExtras.containsKey(IntelligentCache.getKeyOfKeep(ConfigModule::class.java.name))) {
                 val modules =
                     mExtras.get(IntelligentCache.getKeyOfKeep(ConfigModule::class.java.name)) as List<ConfigModule>?
                 modules?.forEach {
-                    it.injectFragmentLifecycle(mApplication, mFragmentLifecycles.get())
+                    it.injectFragmentLifecycle(mApplication, mFragmentLifecycles)
                 }
                 mExtras.remove(IntelligentCache.getKeyOfKeep(ConfigModule::class.java.name))
             }
 
             //注册框架外部, 开发者扩展的 Fragment 生命周期逻辑
-            for (fragmentLifecycle in mFragmentLifecycles.get()) {
+            for (fragmentLifecycle in mFragmentLifecycles) {
                 activity.supportFragmentManager.registerFragmentLifecycleCallbacks(fragmentLifecycle, true)
             }
         }

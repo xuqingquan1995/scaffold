@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import org.greenrobot.eventbus.EventBus
-import top.xuqingquan.app.AppComponentUtils
 import top.xuqingquan.utils.EventBusHelper
 
 /**
@@ -27,7 +26,6 @@ class FragmentDelegateImpl(private var mFragmentManager: FragmentManager?, priva
         if (iFragment?.useEventBus() == true && EventBusHelper.haveAnnotation(mFragment!!)) {
             EventBus.getDefault().register(mFragment)
         }
-        iFragment?.setupFragmentComponent(AppComponentUtils.obtainAppComponentFromContext(mFragment!!.activity!!))
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) {

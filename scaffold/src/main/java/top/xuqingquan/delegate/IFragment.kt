@@ -2,7 +2,6 @@ package top.xuqingquan.delegate
 
 import android.os.Bundle
 import top.xuqingquan.cache.Cache
-import top.xuqingquan.di.component.AppComponent
 
 /**
  * Created by 许清泉 on 2019/4/14 13:51
@@ -17,13 +16,6 @@ interface IFragment {
      * @return like [LruCache]
      */
     fun provideCache(): Cache<String, Any>
-
-    /**
-     * 提供 AppComponent (提供所有的单例对象) 给实现类, 进行 Component 依赖
-     *
-     * @param appComponent
-     */
-    fun setupFragmentComponent(appComponent: AppComponent)
 
     /**
      * 初始化数据

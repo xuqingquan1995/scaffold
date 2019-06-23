@@ -73,14 +73,10 @@ dependencies {
     api rootProject.ext.deps.material
     api rootProject.ext.deps.viewpager2
     compileOnly rootProject.ext.deps.autosize
-    //依赖注入
-    api rootProject.ext.deps.dagger
-    kapt rootProject.ext.deps.dagger_compiler
     //retorfit
     api rootProject.ext.deps.retrofit
     api rootProject.ext.deps.converter_gson
     api rootProject.ext.deps.logging_interceptor
-    api rootProject.ext.deps.coroutines_adapter
     //format
     api rootProject.ext.deps.gson
     //eventbus

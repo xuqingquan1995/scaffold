@@ -10,7 +10,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.annotation.LayoutRes
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import top.xuqingquan.app.AppComponentUtils
+import top.xuqingquan.app.ScaffoldConfig
 import top.xuqingquan.base.view.activity.SimpleActivity
 import top.xuqingquan.cache.Cache
 import top.xuqingquan.cache.CacheType
@@ -35,7 +35,7 @@ abstract class SimpleFragment : Fragment(), IFragment, FragmentOnKeyListener {
     final override fun provideCache(): Cache<String, Any> {
         if (mCache == null) {
             @Suppress("UNCHECKED_CAST")
-            mCache = AppComponentUtils.obtainAppComponentFromContext(mContext!!).cacheFactory()
+            mCache =ScaffoldConfig.getCacheFactory()
                 .build(CacheType.FRAGMENT_CACHE) as Cache<String, Any>
         }
         return mCache!!
