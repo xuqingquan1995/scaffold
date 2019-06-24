@@ -47,6 +47,7 @@ public class RequestInterceptor implements Interceptor {
         boolean logRequest = printLevel == Level.ALL || printLevel == Level.REQUEST;
         if (logRequest) {
             //打印请求信息
+            //noinspection ConstantConditions
             if (request.body() != null && HttpParseUtils.isParseable(request.body().contentType())) {
                 mPrinter.printJsonRequest(request, HttpParseUtils.parseParams(request));
             } else {

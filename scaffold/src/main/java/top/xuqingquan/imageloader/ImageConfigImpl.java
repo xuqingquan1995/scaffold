@@ -11,9 +11,6 @@ public class ImageConfigImpl extends ImageConfig {
     private int fallback; //请求 url 为空,则使用此图片作为占位符
     private int imageRadius;//图片每个圆角的大小
     private int blurValue;//高斯模糊值, 值越大模糊效果越大
-    /**
-     * @see {@link Builder#transformation(BitmapTransformation)}
-     */
     @Deprecated
     private BitmapTransformation transformation;//glide用它来改变图形的形状
     private ImageView[] imageViews;

@@ -27,14 +27,13 @@ object HttpParseUtils {
     fun printResult(response: Response): String? {
         try {
             //读取服务器返回的结果
-            val responseBody = response.newBuilder().build().body()
+            val responseBody = response.newBuilder().build().body
             val source = responseBody!!.source()
             source.request(Long.MAX_VALUE) // Buffer the entire body.
             val buffer = source.buffer
             //获取content的压缩类型
             val encoding = response
-                .headers()
-                .get("Content-Encoding")
+                .headers["Content-Encoding"]
             val clone = buffer.clone()
             //解析response content
             return parseContent(responseBody, encoding, clone)
@@ -83,7 +82,7 @@ object HttpParseUtils {
     @JvmStatic
     fun parseParams(request: Request): String {
         try {
-            val body = request.newBuilder().build().body() ?: return ""
+            val body = request.newBuilder().build().body ?: return ""
             val requestbuffer = Buffer()
             body.writeTo(requestbuffer)
             var charset: Charset? = StandardCharsets.UTF_8
@@ -108,7 +107,7 @@ object HttpParseUtils {
      */
     @JvmStatic
     fun isParseable(mediaType: MediaType?) =
-        if (mediaType?.type() == null) false else isText(mediaType) || isPlain(
+        if (mediaType?.type == null) false else isText(mediaType) || isPlain(
             mediaType
         ) || isJson(mediaType) || isForm(
             mediaType
@@ -117,26 +116,27 @@ object HttpParseUtils {
         )
 
     @JvmStatic
-    fun isText(mediaType: MediaType?) = if (mediaType?.type() == null) false else mediaType.type() == "text"
+    fun isText(mediaType: MediaType?) = if (mediaType?.type == null) false else mediaType.type == "text"
 
+    @JvmStatic
     fun isPlain(mediaType: MediaType?) =
-        if (mediaType?.subtype() == null) false else mediaType.subtype().toLowerCase().contains("plain")
+        if (mediaType?.subtype == null) false else mediaType.subtype.toLowerCase().contains("plain")
 
     @JvmStatic
     fun isJson(mediaType: MediaType?) =
-        if (mediaType?.subtype() == null) false else mediaType.subtype().toLowerCase().contains("json")
+        if (mediaType?.subtype == null) false else mediaType.subtype.toLowerCase().contains("json")
 
     @JvmStatic
     fun isXml(mediaType: MediaType?) =
-        if (mediaType?.subtype() == null) false else mediaType.subtype().toLowerCase().contains("xml")
+        if (mediaType?.subtype == null) false else mediaType.subtype.toLowerCase().contains("xml")
 
     @JvmStatic
     fun isHtml(mediaType: MediaType?) =
-        if (mediaType?.subtype() == null) false else mediaType.subtype().toLowerCase().contains("html")
+        if (mediaType?.subtype == null) false else mediaType.subtype.toLowerCase().contains("html")
 
     @JvmStatic
     fun isForm(mediaType: MediaType?) =
-        if (mediaType?.subtype() == null) false else mediaType.subtype().toLowerCase().contains("x-www-form-urlencoded")
+        if (mediaType?.subtype == null) false else mediaType.subtype.toLowerCase().contains("x-www-form-urlencoded")
 
     @JvmStatic
     fun convertCharset(charset: Charset): String {

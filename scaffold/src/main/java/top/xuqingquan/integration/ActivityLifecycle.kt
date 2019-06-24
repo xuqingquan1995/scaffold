@@ -23,8 +23,8 @@ class ActivityLifecycle : Application.ActivityLifecycleCallbacks {
     private var mAppManager = ScaffoldConfig.getAppManager()
     private var mApplication = ScaffoldConfig.getApplication()
     private var mExtras = ScaffoldConfig.getExtras()
-    var mFragmentLifecycle: FragmentManager.FragmentLifecycleCallbacks = ScaffoldConfig.getFragmentLifecycleCallbacks()
-    var mFragmentLifecycles: MutableList<FragmentManager.FragmentLifecycleCallbacks> =
+    private var mFragmentLifecycle: FragmentManager.FragmentLifecycleCallbacks = ScaffoldConfig.getFragmentLifecycleCallbacks()
+    private var mFragmentLifecycles: MutableList<FragmentManager.FragmentLifecycleCallbacks> =
         ScaffoldConfig.getFragmentLifecycleCallbacksList()
 
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {

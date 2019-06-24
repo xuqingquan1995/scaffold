@@ -1,5 +1,6 @@
 package top.xuqingquan.imageloader
 
+import android.annotation.SuppressLint
 import android.content.Context
 import androidx.core.util.Preconditions
 import com.bumptech.glide.Glide
@@ -17,6 +18,7 @@ import top.xuqingquan.utils.Timber
  */
 class GlideImageLoaderStrategy : BaseImageLoaderStrategy<ImageConfigImpl>, GlideAppliesOptions {
 
+    @SuppressLint("CheckResult")
     override fun loadImage(ctx: Context?, config: ImageConfigImpl?) {
         Preconditions.checkNotNull(ctx, "Context is required")
         Preconditions.checkNotNull(config, "ImageConfigImpl is required")
@@ -51,15 +53,15 @@ class GlideImageLoaderStrategy : BaseImageLoaderStrategy<ImageConfigImpl>, Glide
         if (config.transformation != null) {//glide用它来改变图形的形状
             glideRequest.transform(config.transformation)
         }
-        if (config.getPlaceholder() !== 0) {
+        if (config.getPlaceholder() != 0) {
             //设置占位符
             glideRequest.placeholder(config.getPlaceholder())
         }
-        if (config.getErrorPic() !== 0) {
+        if (config.getErrorPic() != 0) {
             //设置错误的图片
             glideRequest.error(config.getErrorPic())
         }
-        if (config.fallback !== 0) {
+        if (config.fallback != 0) {
             //设置请求 url 为空图片
             glideRequest.fallback(config.fallback)
         }
