@@ -31,6 +31,7 @@ class LruCache<K, V>(private val initialMaxSize: Int) : Cache<K, V> {
      * @param item 每个 `item` 所占用的 size
      * @return 单个 item 的 `size`
      */
+    @Suppress("UNUSED_PARAMETER")
     internal fun getItemSize(item: V): Int {
         return 1
     }
@@ -41,6 +42,7 @@ class LruCache<K, V>(private val initialMaxSize: Int) : Cache<K, V> {
      * @param key   被驱逐条目的 `key`
      * @param value 被驱逐条目的 `value`
      */
+    @Suppress("UNUSED_PARAMETER")
     internal fun onItemEvicted(key: K, value: V) {
         // optional override
     }

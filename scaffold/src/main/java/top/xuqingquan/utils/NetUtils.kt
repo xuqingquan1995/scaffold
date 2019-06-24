@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat
  */
 object NetUtils {
 
+    @Suppress("DEPRECATION")
     @JvmStatic
     fun checkNetworkType(ctx: Context): Int {
         val context = ctx.applicationContext
@@ -29,11 +30,9 @@ object NetUtils {
                     , TelephonyManager.NETWORK_TYPE_EDGE -> 4
                 else -> netType
             }
-
             else -> netType
         }
     }
-
 
     @JvmStatic
     fun networkIsConnect(ctx: Context): Boolean {

@@ -1,23 +1,27 @@
 package top.xuqingquan.base.view.adapter.viewholder
 
 import android.view.View
+import android.widget.ProgressBar
+import android.widget.TextView
+import androidx.core.view.isVisible
+import top.xuqingquan.R
 import top.xuqingquan.base.model.entity.NetworkStatus
-import top.xuqingquan.databinding.NetworkStateBinding
 
 /**
  * Created by 许清泉 on 2019-04-27 16:11
  */
-class NetworkStateViewHolder(val binding: NetworkStateBinding) :
-    BaseViewHolder<NetworkStatus>(binding) {
+class NetworkStateViewHolder(view: View) :
+    BaseViewHolder<NetworkStatus>(view) {
+    private val loading_failure = view.findViewById<TextView>(R.id.loading_failure)
+    private val loading = view.findViewById<ProgressBar>(R.id.loading)
+    private val loading_tv = view.findViewById<TextView>(R.id.loading_tv)
     override fun setData(data: NetworkStatus, position: Int) {
     }
 
-    fun bind(data: NetworkStatus,listener: View.OnClickListener) {
-        binding.apply {
-            clickListener = listener
-            loadingVisible = data == NetworkStatus.RUNNING
-            errorVisible = data == NetworkStatus.FAILED
-            executePendingBindings()
-        }
+    fun bind(data: NetworkStatus, listener: View.OnClickListener) {
+        loading_failure.setOnClickListener(listener)
+        loading_failure.isVisible = (data == NetworkStatus.FAILED)
+        loading.isVisible=(data == NetworkStatus.RUNNING)
+        loading_tv.isVisible=(data == NetworkStatus.RUNNING)
     }
 }

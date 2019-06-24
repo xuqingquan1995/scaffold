@@ -6,10 +6,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import kotlin.jvm.functions.Function0;
 import org.jetbrains.annotations.NotNull;
+import top.xuqingquan.R;
 import top.xuqingquan.base.model.entity.NetworkStatus;
 import top.xuqingquan.base.view.adapter.viewholder.BaseViewHolder;
 import top.xuqingquan.base.view.adapter.viewholder.NetworkStateViewHolder;
-import top.xuqingquan.databinding.NetworkStateBinding;
 
 /**
  * Created by 许清泉 on 2019-04-27 16:23
@@ -22,7 +22,7 @@ public abstract class BasePagedListAdapter<T> extends SimplePagedListAdapter<T> 
     private static final int ITEM = 1;
     private Function0 retry;
 
-    public BasePagedListAdapter(@NotNull Function0 retry, @NotNull DiffUtil.ItemCallback diff) {
+    public BasePagedListAdapter(@NotNull Function0 retry, @NotNull DiffUtil.ItemCallback<T> diff) {
         super(diff);
         this.retry = retry;
     }
@@ -31,7 +31,7 @@ public abstract class BasePagedListAdapter<T> extends SimplePagedListAdapter<T> 
     @Override
     public BaseViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
         if (viewType == NETWORK_STATE) {
-            return new NetworkStateViewHolder(NetworkStateBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+            return new NetworkStateViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.network_state, parent, false));
         }
         return super.onCreateViewHolder(parent, viewType);
     }

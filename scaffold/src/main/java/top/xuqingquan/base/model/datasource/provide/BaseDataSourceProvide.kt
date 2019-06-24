@@ -1,6 +1,5 @@
 package top.xuqingquan.base.model.datasource.provide
 
-import android.content.Context
 import androidx.annotation.MainThread
 import androidx.lifecycle.Transformations
 import androidx.paging.DataSource
@@ -15,7 +14,7 @@ import top.xuqingquan.base.model.entity.Listing
 /**
  * Created by 许清泉 on 2019-04-20 21:05
  */
-class BaseDataSourceProvide(context: Context) {
+class BaseDataSourceProvide {
 
     private val config = ScaffoldConfig.getPagedListConfig()
 

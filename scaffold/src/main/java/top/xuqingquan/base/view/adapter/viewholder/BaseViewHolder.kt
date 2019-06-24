@@ -1,15 +1,14 @@
 package top.xuqingquan.base.view.adapter.viewholder
 
 import android.view.View
-import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 
 /**
  * Created by 许清泉 on 2019/4/13 23:28
  * 简单实现ViewHolder
  */
-abstract class BaseViewHolder<T>(private val binding: ViewDataBinding) :
-    RecyclerView.ViewHolder(binding.root) {
+abstract class BaseViewHolder<T>(view: View) :
+    RecyclerView.ViewHolder(view) {
 
     var onViewClickListener: OnViewClickListener? = null
 
@@ -49,7 +48,6 @@ abstract class BaseViewHolder<T>(private val binding: ViewDataBinding) :
      * 释放资源
      */
     fun onRelease() {
-        binding.unbind()
         onViewClickListener = null
     }
 }

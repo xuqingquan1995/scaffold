@@ -10,8 +10,6 @@ import top.xuqingquan.utils.Timber
  * ================================================
  * 对 OkHttp 的请求和响应信息进行更规范和清晰的打印, 此类为框架默认实现, 以默认格式打印信息, 若觉得默认打印格式
  * 并不能满足自己的需求, 可自行扩展自己理想的打印格式
- *
- * @see GlobalConfigModule.Builder.formatPrinter
  */
 class DefaultFormatPrinter : FormatPrinter {
 
@@ -26,7 +24,7 @@ class DefaultFormatPrinter : FormatPrinter {
         val tag = getTag(true)
 
         Timber.tag(tag).d(REQUEST_UP_LINE)
-        logLines(tag, arrayOf(URL_TAG + request.url()), false)
+        logLines(tag, arrayOf(URL_TAG + request.url), false)
         logLines(tag, getRequest(request), true)
         logLines(tag, requestBody.split(LINE_SEPARATOR.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray(), true)
         Timber.tag(tag).d(END_LINE)
@@ -41,7 +39,7 @@ class DefaultFormatPrinter : FormatPrinter {
         val tag = getTag(true)
 
         Timber.tag(tag).d(REQUEST_UP_LINE)
-        logLines(tag, arrayOf(URL_TAG + request.url()), false)
+        logLines(tag, arrayOf(URL_TAG + request.url), false)
         logLines(tag, getRequest(request), true)
         logLines(tag, OMITTED_REQUEST, true)
         Timber.tag(tag).d(END_LINE)
@@ -55,24 +53,24 @@ class DefaultFormatPrinter : FormatPrinter {
      * @param code         响应码
      * @param headers      请求头
      * @param contentType  服务器返回数据的数据类型
-     * @param bodyString   服务器返回的数据(已解析)
+     * @param bs   服务器返回的数据(已解析)
      * @param segments     域名后面的资源地址
      * @param message      响应信息
      * @param responseUrl  请求地址
      */
     override fun printJsonResponse(
         chainMs: Long, isSuccessful: Boolean, code: Int, headers: String, contentType: MediaType?,
-        bodyString: String?, segments: List<String>, message: String, responseUrl: String
+        bs: String?, segments: List<String>, message: String, responseUrl: String
     ) {
-        var bodyString = bodyString
-        bodyString = if (HttpParseUtils.isJson(contentType))
-            CharacterUtils.jsonFormat(bodyString)
-        else if (HttpParseUtils.isXml(contentType)) CharacterUtils.xmlFormat(bodyString) else bodyString
-
+        var bodyString = bs
+        bodyString = when {
+            HttpParseUtils.isJson(contentType) -> CharacterUtils.jsonFormat(bodyString)
+            HttpParseUtils.isXml(contentType) -> CharacterUtils.xmlFormat(bodyString)
+            else -> bodyString
+        }
         val responseBody = LINE_SEPARATOR + BODY_TAG + LINE_SEPARATOR + bodyString
         val tag = getTag(false)
         val urlLine = arrayOf(URL_TAG + responseUrl, N)
-
         Timber.tag(tag).d(RESPONSE_UP_LINE)
         logLines(tag, urlLine, true)
         logLines(tag, getResponse(headers, chainMs, code, isSuccessful, segments, message), true)
@@ -144,6 +142,7 @@ class DefaultFormatPrinter : FormatPrinter {
         private fun logLines(tag: String, lines: Array<String>, withLineSize: Boolean) {
             for (line in lines) {
                 val lineLength = line.length
+                @Suppress("LocalVariableName")
                 val MAX_LONG_SIZE = if (withLineSize) 110 else lineLength
                 for (i in 0..lineLength / MAX_LONG_SIZE) {
                     val start = i * MAX_LONG_SIZE
@@ -191,8 +190,8 @@ class DefaultFormatPrinter : FormatPrinter {
 
         private fun getRequest(request: Request): Array<String> {
             val log: String
-            val header = request.headers().toString()
-            log = METHOD_TAG + request.method() + DOUBLE_SEPARATOR +
+            val header = request.headers.toString()
+            log = METHOD_TAG + request.method + DOUBLE_SEPARATOR +
                     if (isEmpty(header)) "" else HEADERS_TAG + LINE_SEPARATOR + dotHeaders(header)
             return log.split(LINE_SEPARATOR.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
         }
@@ -233,12 +232,10 @@ class DefaultFormatPrinter : FormatPrinter {
             var tag = "─ "
             if (headers.size > 1) {
                 for (i in headers.indices) {
-                    if (i == 0) {
-                        tag = CORNER_UP
-                    } else if (i == headers.size - 1) {
-                        tag = CORNER_BOTTOM
-                    } else {
-                        tag = CENTER_LINE
+                    when (i) {
+                        0 -> tag = CORNER_UP
+                        headers.size - 1 -> tag = CORNER_BOTTOM
+                        else -> tag = CENTER_LINE
                     }
                     builder.append(tag).append(headers[i]).append("\n")
                 }

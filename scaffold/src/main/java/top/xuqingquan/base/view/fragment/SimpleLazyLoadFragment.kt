@@ -5,6 +5,7 @@ package top.xuqingquan.base.view.fragment
  * 子类覆写[SimpleLazyLoadFragment]lazyLoadData可快速实现Fragment懒加载
  * 不使用MVVM模式的时候可以使用这个类
  */
+@Suppress("DEPRECATION")
 @Deprecated("懒加载使用其他方式")
 abstract class SimpleLazyLoadFragment : SimpleFragment() {
     private var isViewCreated: Boolean = false // 界面是否已创建完成
