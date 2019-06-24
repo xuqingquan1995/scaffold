@@ -45,19 +45,19 @@ class AppLifecyclesImpl : AppLifecycles {
                     it.printStackTrace()
                 }
                 .start()
-        }
-        try {
-            Class.forName("com.zxy.recovery.core.Recovery")
-            //崩溃重启框架，debug时使用
-            Recovery.getInstance()
-                .debug(true)
-                .recoverInBackground(false)
-                .recoverStack(true)
-                .recoverEnabled(true)
-                .callback(RecoveryCrashCallback())
-                .silent(false, Recovery.SilentMode.RECOVER_ACTIVITY_STACK)
-                .init(application)
-        } catch (e: Throwable) {
+            try {
+                Class.forName("com.zxy.recovery.core.Recovery")
+                //崩溃重启框架，debug时使用
+                Recovery.getInstance()
+                    .debug(true)
+                    .recoverInBackground(false)
+                    .recoverStack(true)
+                    .recoverEnabled(true)
+                    .callback(RecoveryCrashCallback())
+                    .silent(false, Recovery.SilentMode.RECOVER_ACTIVITY_STACK)
+                    .init(application)
+            } catch (e: Throwable) {
+            }
         }
         try {
             Class.forName("me.jessyan.autosize.AutoSizeConfig")

@@ -37,7 +37,6 @@ android {
             jniLibs.srcDir 'libs'//说明so的路径为该libs路径，关联所有so文件
         }
     }
-    //在Android代码块中添加如下配置：（可优化最上图中transformClassDexBuilderForDebug的时间）
     dexOptions {
         preDexLibraries true
         maxProcessCount 8
@@ -64,11 +63,11 @@ dependencies {
     compileOnly rootProject.ext.deps.multidex
     //view
     api rootProject.ext.deps.recyclerview
-    api rootProject.ext.deps.paging
+    compileOnly rootProject.ext.deps.paging
     api rootProject.ext.deps.glide
     kapt rootProject.ext.deps.glide_compiler
     api rootProject.ext.deps.material
-    api rootProject.ext.deps.viewpager2
+    compileOnly rootProject.ext.deps.viewpager2
     compileOnly rootProject.ext.deps.autosize
     //retorfit
     api rootProject.ext.deps.retrofit
@@ -88,7 +87,5 @@ dependencies {
     releaseCompileOnly rootProject.ext.deps.anrwatchdog
     //test
     testImplementation rootProject.ext.deps.junit
-    androidTestImplementation (rootProject.ext.deps.espresso_core){
-        exclude group: 'junit', module: 'junit'
-    }
+    androidTestImplementation rootProject.ext.deps.espresso_core
 }
