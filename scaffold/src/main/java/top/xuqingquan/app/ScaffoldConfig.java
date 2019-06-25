@@ -2,6 +2,7 @@ package top.xuqingquan.app;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
+import android.content.ComponentCallbacks2;
 import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,7 +22,6 @@ import top.xuqingquan.cache.Cache;
 import top.xuqingquan.cache.CacheType;
 import top.xuqingquan.cache.IntelligentCache;
 import top.xuqingquan.cache.LruCache;
-import top.xuqingquan.http.BaseUrl;
 import top.xuqingquan.http.GlobalHttpHandler;
 import top.xuqingquan.http.log.DefaultFormatPrinter;
 import top.xuqingquan.http.log.FormatPrinter;
@@ -49,7 +49,6 @@ public class ScaffoldConfig {
     private static Gson gson;
     private static GsonConfiguration gsonConfiguration;
     private static HttpUrl httpUrl;
-    private static BaseUrl baseUrl;
     private static boolean showStack = BuildConfig.DEBUG;
     private static Level level;
     private static PagedList.Config config;
@@ -65,6 +64,7 @@ public class ScaffoldConfig {
     private static Cache<String, Object> extras;
     private static RetrofitConfiguration retrofitConfiguration;
     private static OkhttpConfiguration okhttpConfiguration;
+    private static ComponentCallbacks2 componentCallbacks2;
 
     private ScaffoldConfig(@NonNull Application application) {
         ScaffoldConfig.application = application;
@@ -100,12 +100,6 @@ public class ScaffoldConfig {
 
     @NonNull
     public static HttpUrl getHttpUrl() {
-        if (baseUrl != null) {
-            HttpUrl httpUrl = baseUrl.url();
-            if (httpUrl != null) {
-                return httpUrl;
-            }
-        }
         if (httpUrl == null) {
             //noinspection ConstantConditions
             return HttpUrl.parse("https://api.github.com/");
@@ -238,15 +232,14 @@ public class ScaffoldConfig {
         return okhttpConfiguration;
     }
 
-    @NonNull
-    public ScaffoldConfig setGsonConfiguration(@Nullable GsonConfiguration gsonConfiguration) {
-        ScaffoldConfig.gsonConfiguration = gsonConfiguration;
-        return this;
+    @Nullable
+    public static ComponentCallbacks2 getComponentCallbacks2() {
+        return componentCallbacks2;
     }
 
     @NonNull
-    public ScaffoldConfig setBaseUrl(@NonNull BaseUrl baseUrl) {
-        ScaffoldConfig.baseUrl = baseUrl;
+    public ScaffoldConfig setGsonConfiguration(@Nullable GsonConfiguration gsonConfiguration) {
+        ScaffoldConfig.gsonConfiguration = gsonConfiguration;
         return this;
     }
 
@@ -337,6 +330,12 @@ public class ScaffoldConfig {
     @NonNull
     public ScaffoldConfig setOkhttpConfiguration(@Nullable OkhttpConfiguration okhttpConfiguration) {
         ScaffoldConfig.okhttpConfiguration = okhttpConfiguration;
+        return this;
+    }
+
+    @NonNull
+    public ScaffoldConfig setComponentCallbacks2(@Nullable ComponentCallbacks2 componentCallbacks2) {
+        ScaffoldConfig.componentCallbacks2 = componentCallbacks2;
         return this;
     }
 

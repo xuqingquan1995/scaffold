@@ -12,9 +12,9 @@ import top.xuqingquan.base.model.entity.NetworkStatus
  */
 class NetworkStateViewHolder(view: View) :
     BaseViewHolder<NetworkStatus>(view) {
-    private val loading_failure = view.findViewById<TextView>(R.id.loading_failure)
-    private val loading = view.findViewById<ProgressBar>(R.id.loading)
-    private val loading_tv = view.findViewById<TextView>(R.id.loading_tv)
+    private val loading_failure = getView<TextView>(R.id.loading_failure)
+    private val loading = getView<ProgressBar>(R.id.loading)
+    private val loading_tv = getView<TextView>(R.id.loading_tv)
     override fun setData(data: NetworkStatus, position: Int) {
     }
 

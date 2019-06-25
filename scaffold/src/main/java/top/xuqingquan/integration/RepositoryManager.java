@@ -63,6 +63,7 @@ public class RepositoryManager implements IRepositoryManager {
         Preconditions.checkNotNull(serviceClass, "serviceClass == null");
 
         // 二次代理
+        //noinspection unchecked
         return (T) Proxy.newProxyInstance(serviceClass.getClassLoader(),
                 new Class<?>[]{serviceClass}, (proxy, method, args) -> {
                     // 此处在调用 serviceClass 中的方法时触发
@@ -78,6 +79,7 @@ public class RepositoryManager implements IRepositoryManager {
      * @param <T>          ApiService class
      * @return ApiService
      */
+    @SuppressWarnings("unchecked")
     private <T> T getRetrofitService(Class<T> serviceClass) {
         if (mRetrofitServiceCache == null) {
             mRetrofitServiceCache = mCachefactory.build(CacheType.getRETROFIT_SERVICE_CACHE());

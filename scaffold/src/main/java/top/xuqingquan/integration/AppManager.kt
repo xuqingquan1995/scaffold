@@ -12,6 +12,7 @@ import java.util.*
 /**
  * Created by 许清泉 on 2019/4/14 15:28
  */
+@Suppress("unused")
 class AppManager private constructor() {
 
     companion object {

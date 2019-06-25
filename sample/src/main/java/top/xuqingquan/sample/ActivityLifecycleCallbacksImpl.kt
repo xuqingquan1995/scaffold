@@ -1,4 +1,4 @@
-package top.xuqingquan.lifecycle
+package top.xuqingquan.sample
 
 import android.app.Activity
 import android.app.Application
