@@ -3,10 +3,8 @@ package top.xuqingquan.app;
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
-import android.text.TextUtils;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.util.Preconditions;
 import androidx.fragment.app.FragmentManager;
 import androidx.paging.PagedList;
 import com.google.gson.Gson;
@@ -39,8 +37,12 @@ import top.xuqingquan.utils.FileUtils;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class ScaffoldConfig {
     private static ScaffoldConfig instance;
     private static Application application;
@@ -64,11 +66,11 @@ public class ScaffoldConfig {
     private static RetrofitConfiguration retrofitConfiguration;
     private static OkhttpConfiguration okhttpConfiguration;
 
-    private ScaffoldConfig(Application application) {
+    private ScaffoldConfig(@NonNull Application application) {
         ScaffoldConfig.application = application;
     }
 
-    public static ScaffoldConfig getInstance(Application application) {
+    public static ScaffoldConfig getInstance(@NonNull Application application) {
         if (instance == null) {
             synchronized (ScaffoldConfig.class) {
                 if (instance == null) {
@@ -79,10 +81,12 @@ public class ScaffoldConfig {
         return instance;
     }
 
+    @NonNull
     public static Application getApplication() {
         return application;
     }
 
+    @NonNull
     public static Gson getGson() {
         if (gson == null) {
             GsonBuilder builder = new GsonBuilder();
@@ -94,6 +98,7 @@ public class ScaffoldConfig {
         return gson;
     }
 
+    @NonNull
     public static HttpUrl getHttpUrl() {
         if (baseUrl != null) {
             HttpUrl httpUrl = baseUrl.url();
@@ -102,6 +107,7 @@ public class ScaffoldConfig {
             }
         }
         if (httpUrl == null) {
+            //noinspection ConstantConditions
             return HttpUrl.parse("https://api.github.com/");
         } else {
             return httpUrl;
@@ -112,6 +118,7 @@ public class ScaffoldConfig {
         return showStack;
     }
 
+    @NonNull
     public static Level getLevel() {
         if (level == null) {
             level = BuildConfig.DEBUG ? Level.ALL : Level.NONE;
@@ -119,6 +126,7 @@ public class ScaffoldConfig {
         return level;
     }
 
+    @NonNull
     public static PagedList.Config getPagedListConfig() {
         if (config == null) {
             config = new PagedList.Config.Builder()
@@ -131,6 +139,7 @@ public class ScaffoldConfig {
         return config;
     }
 
+    @NonNull
     public static ExecutorService getExecutorService() {
         if (executorService == null) {
             executorService = new ThreadPoolExecutor(0, Integer.MAX_VALUE, 60, TimeUnit.SECONDS,
@@ -139,6 +148,7 @@ public class ScaffoldConfig {
         return executorService;
     }
 
+    @NonNull
     public static FormatPrinter getFormatPrinter() {
         if (formatPrinter == null) {
             formatPrinter = new DefaultFormatPrinter();
@@ -146,6 +156,7 @@ public class ScaffoldConfig {
         return formatPrinter;
     }
 
+    @NonNull
     public static ImageLoader getImageLoader() {
         if (imageLoader == null) {
             imageLoader = ImageLoader.getInstance();
@@ -153,11 +164,15 @@ public class ScaffoldConfig {
         return imageLoader;
     }
 
-    @Nullable
+    @NonNull
     public static BaseImageLoaderStrategy getLoaderStrategy() {
+        if (baseImageLoaderStrategy == null) {//设置默认图片加载器
+            baseImageLoaderStrategy = new GlideImageLoaderStrategy();
+        }
         return baseImageLoaderStrategy;
     }
 
+    @NonNull
     public static GlobalHttpHandler getGlobalHttpHandler() {
         if (globalHttpHandler == null) {
             globalHttpHandler = GlobalHttpHandler.EMPTY;
@@ -165,14 +180,17 @@ public class ScaffoldConfig {
         return globalHttpHandler;
     }
 
+    @Nullable
     public static List<Interceptor> getInterceptors() {
         return interceptors;
     }
 
+    @Nullable
     public static List<Interceptor> getNetInterceptors() {
         return netInterceptors;
     }
 
+    @NonNull
     public static File getCacheFile() {
         if (cacheFile == null) {
             cacheFile = FileUtils.getCacheFile(application);
@@ -180,103 +198,108 @@ public class ScaffoldConfig {
         return cacheFile;
     }
 
+    @NonNull
     public static Cache.Factory getCacheFactory() {
-        return cacheFactory == null ?
-                cacheFactory = type -> {
-                    //若想自定义 LruCache 的 size, 或者不想使用 LruCache, 想使用自己自定义的策略
-                    //使用 GlobalConfigModule.Builder#cacheFactory() 即可扩展
-                    switch (type.getCacheTypeId()) {
-                        //Activity、Fragment 以及 Extras 使用 IntelligentCache (具有 LruCache 和 可永久存储数据的 Map)
-                        case CacheType.EXTRAS_TYPE_ID:
-                        case CacheType.ACTIVITY_CACHE_TYPE_ID:
-                        case CacheType.FRAGMENT_CACHE_TYPE_ID:
-                            return new IntelligentCache(type.calculateCacheSize(application));
-                        //其余使用 LruCache (当达到最大容量时可根据 LRU 算法抛弃不合规数据)
-                        default:
-                            return new LruCache(type.calculateCacheSize(application));
-                    }
-                } : cacheFactory;
+        if (cacheFactory == null) {
+            cacheFactory = type -> {
+                //若想自定义 LruCache 的 size, 或者不想使用 LruCache, 想使用自己自定义的策略
+                //使用 GlobalConfigModule.Builder#cacheFactory() 即可扩展
+                switch (type.getCacheTypeId()) {
+                    //Activity、Fragment 以及 Extras 使用 IntelligentCache (具有 LruCache 和 可永久存储数据的 Map)
+                    case CacheType.EXTRAS_TYPE_ID:
+                    case CacheType.ACTIVITY_CACHE_TYPE_ID:
+                    case CacheType.FRAGMENT_CACHE_TYPE_ID:
+                        return new IntelligentCache(type.calculateCacheSize(application));
+                    //其余使用 LruCache (当达到最大容量时可根据 LRU 算法抛弃不合规数据)
+                    default:
+                        return new LruCache(type.calculateCacheSize(application));
+                }
+            };
+        }
+        return cacheFactory;
     }
 
+    @NonNull
     public static Cache<String, Object> getExtras() {
         if (extras == null) {
+            //noinspection unchecked
             extras = getCacheFactory().build(CacheType.getEXTRAS());
         }
         return extras;
     }
 
+    @Nullable
     public static RetrofitConfiguration getRetrofitConfiguration() {
         return retrofitConfiguration;
     }
 
+    @Nullable
     public static OkhttpConfiguration getOkhttpConfiguration() {
         return okhttpConfiguration;
     }
 
-    public ScaffoldConfig setGsonConfiguration(GsonConfiguration gsonConfiguration) {
+    @NonNull
+    public ScaffoldConfig setGsonConfiguration(@Nullable GsonConfiguration gsonConfiguration) {
         ScaffoldConfig.gsonConfiguration = gsonConfiguration;
         return this;
     }
 
-    public ScaffoldConfig setBaseUrl(BaseUrl baseUrl) {
-        ScaffoldConfig.baseUrl = Preconditions.checkNotNull(baseUrl, BaseUrl.class.getCanonicalName() + "can not be null.");
-        ;
+    @NonNull
+    public ScaffoldConfig setBaseUrl(@NonNull BaseUrl baseUrl) {
+        ScaffoldConfig.baseUrl = baseUrl;
         return this;
     }
 
-    public ScaffoldConfig setBaseUrl(String baseUrl) {
-        if (TextUtils.isEmpty(baseUrl)) {
-            throw new NullPointerException("BaseUrl can not be empty");
-        }
+    @NonNull
+    public ScaffoldConfig setBaseUrl(@NonNull String baseUrl) {
         ScaffoldConfig.httpUrl = HttpUrl.parse(baseUrl);
         return this;
     }
 
+    @NonNull
     public ScaffoldConfig setShowStack(boolean showStack) {
         ScaffoldConfig.showStack = showStack;
         return this;
     }
 
-    public ScaffoldConfig setLevel(Level level) {
-        if (level == null) {
-            level = BuildConfig.DEBUG ? Level.ALL : Level.NONE;
-        }
+    @NonNull
+    public ScaffoldConfig setLevel(@Nullable Level level) {
         ScaffoldConfig.level = level;
         return this;
     }
 
-    public ScaffoldConfig sePagedListConfig(PagedList.Config config) {
+    @NonNull
+    public ScaffoldConfig setPagedListConfig(@Nullable PagedList.Config config) {
         ScaffoldConfig.config = config;
         return this;
     }
 
-    public ScaffoldConfig setExecutorService(ExecutorService executorService) {
-        if (executorService == null) {
-            executorService = Executors.newCachedThreadPool();
-        }
+    @NonNull
+    public ScaffoldConfig setExecutorService(@Nullable ExecutorService executorService) {
         ScaffoldConfig.executorService = executorService;
         return this;
     }
 
-    public ScaffoldConfig setFormatPrinter(FormatPrinter formatPrinter) {
-        ScaffoldConfig.formatPrinter = Preconditions.checkNotNull(formatPrinter, FormatPrinter.class.getCanonicalName() + "can not be null.");
+    @NonNull
+    public ScaffoldConfig setFormatPrinter(@Nullable FormatPrinter formatPrinter) {
+        ScaffoldConfig.formatPrinter = formatPrinter;
         return this;
     }
 
-    public ScaffoldConfig setLoaderStrategy(BaseImageLoaderStrategy loaderStrategy) {
-        if (loaderStrategy == null) {//设置默认图片加载器
-            loaderStrategy = new GlideImageLoaderStrategy();
-        }
+    @NonNull
+    public ScaffoldConfig setLoaderStrategy(@Nullable BaseImageLoaderStrategy loaderStrategy) {
         ScaffoldConfig.baseImageLoaderStrategy = loaderStrategy;
         return this;
     }
 
-    public ScaffoldConfig setGlobalHttpHandler(GlobalHttpHandler globalHttpHandler) {
+    @NonNull
+    public ScaffoldConfig setGlobalHttpHandler(@Nullable GlobalHttpHandler globalHttpHandler) {
         ScaffoldConfig.globalHttpHandler = globalHttpHandler;
         return this;
     }
 
-    public ScaffoldConfig addInterceptor(Interceptor interceptor) {
+    @NonNull
+    public ScaffoldConfig addInterceptor(@NonNull Interceptor interceptor) {
         if (interceptors == null) {
             interceptors = new ArrayList<>();
         }
@@ -284,7 +307,8 @@ public class ScaffoldConfig {
         return this;
     }
 
-    public ScaffoldConfig addNetInterceptor(Interceptor interceptor) {
+    @NonNull
+    public ScaffoldConfig addNetInterceptor(@NonNull Interceptor interceptor) {
         if (netInterceptors == null) {
             netInterceptors = new ArrayList<>();
         }
@@ -292,22 +316,26 @@ public class ScaffoldConfig {
         return this;
     }
 
-    public ScaffoldConfig setCacheFile(File cacheFile) {
+    @NonNull
+    public ScaffoldConfig setCacheFile(@Nullable File cacheFile) {
         ScaffoldConfig.cacheFile = cacheFile;
         return this;
     }
 
-    public ScaffoldConfig setCacheFactory(Cache.Factory cacheFactory) {
+    @NonNull
+    public ScaffoldConfig setCacheFactory(@Nullable Cache.Factory cacheFactory) {
         ScaffoldConfig.cacheFactory = cacheFactory;
         return this;
     }
 
-    public ScaffoldConfig setRetrofitConfiguration(RetrofitConfiguration retrofitConfiguration) {
+    @NonNull
+    public ScaffoldConfig setRetrofitConfiguration(@Nullable RetrofitConfiguration retrofitConfiguration) {
         ScaffoldConfig.retrofitConfiguration = retrofitConfiguration;
         return this;
     }
 
-    public ScaffoldConfig setOkhttpConfiguration(OkhttpConfiguration okhttpConfiguration) {
+    @NonNull
+    public ScaffoldConfig setOkhttpConfiguration(@Nullable OkhttpConfiguration okhttpConfiguration) {
         ScaffoldConfig.okhttpConfiguration = okhttpConfiguration;
         return this;
     }
@@ -321,6 +349,7 @@ public class ScaffoldConfig {
     private static IRepositoryManager repositoryManager;
     private static final int TIME_OUT = 10;
 
+    @NonNull
     public static OkHttpClient.Builder getOkHttpClientBuilder() {
         if (okHttpClientBuilder == null) {
             okHttpClientBuilder = new OkHttpClient.Builder();
@@ -328,6 +357,7 @@ public class ScaffoldConfig {
         return okHttpClientBuilder;
     }
 
+    @NonNull
     public static OkHttpClient getOkHttpClient() {
         if (okHttpClient == null) {
             OkHttpClient.Builder builder = getOkHttpClientBuilder();
@@ -361,6 +391,7 @@ public class ScaffoldConfig {
         return okHttpClient;
     }
 
+    @NonNull
     public static Retrofit.Builder getRetrofitBuilder() {
         if (retrofitBuilder == null) {
             retrofitBuilder = new Retrofit.Builder();
@@ -368,6 +399,7 @@ public class ScaffoldConfig {
         return retrofitBuilder;
     }
 
+    @NonNull
     public static Retrofit getRetrofit() {
         if (retrofit == null) {
             Retrofit.Builder builder = getRetrofitBuilder();
@@ -384,6 +416,7 @@ public class ScaffoldConfig {
         return retrofit;
     }
 
+    @NonNull
     public static IRepositoryManager getRepositoryManager() {
         if (repositoryManager == null) {
             repositoryManager = RepositoryManager.getInstance();
@@ -399,6 +432,7 @@ public class ScaffoldConfig {
     private static FragmentManager.FragmentLifecycleCallbacks fragmentLifecycleCallbacks;
     private static List<FragmentManager.FragmentLifecycleCallbacks> fragmentLifecycleCallbacksList;
 
+    @NonNull
     public static AppManager getAppManager() {
         if (appManager == null) {
             appManager = AppManager.getAppManager().init(application);
@@ -406,6 +440,7 @@ public class ScaffoldConfig {
         return appManager;
     }
 
+    @NonNull
     public static Application.ActivityLifecycleCallbacks getActivityLifecycleCallbacks() {
         if (activityLifecycleCallbacks == null) {
             activityLifecycleCallbacks = new ActivityLifecycle();
@@ -413,6 +448,7 @@ public class ScaffoldConfig {
         return activityLifecycleCallbacks;
     }
 
+    @NonNull
     public static FragmentManager.FragmentLifecycleCallbacks getFragmentLifecycleCallbacks() {
         if (fragmentLifecycleCallbacks == null) {
             fragmentLifecycleCallbacks = new FragmentLifecycle();
@@ -420,6 +456,7 @@ public class ScaffoldConfig {
         return fragmentLifecycleCallbacks;
     }
 
+    @NonNull
     public static List<FragmentManager.FragmentLifecycleCallbacks> getFragmentLifecycleCallbacksList() {
         if (fragmentLifecycleCallbacksList == null) {
             fragmentLifecycleCallbacksList = new ArrayList<>();
@@ -431,7 +468,7 @@ public class ScaffoldConfig {
     /*********************************************************************/
 
     public interface GsonConfiguration {
-        void configGson(@NonNull Context context, GsonBuilder builder);
+        void configGson(@NonNull Context context, @NonNull GsonBuilder builder);
     }
 
     /**

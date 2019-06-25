@@ -45,12 +45,14 @@ class AppDelegate(context: Context) : AppLifecycles {
     override fun onCreate(application: Application) {
         this.mApplication = application
         ScaffoldConfig.getInstance(application)
-        mActivityLifecycle=ScaffoldConfig.getActivityLifecycleCallbacks()
+        mActivityLifecycle = ScaffoldConfig.getActivityLifecycleCallbacks()
         //将 LifecycleConfig 的实现类的集合存放到缓存 Cache, 可以随时获取
         //使用 IntelligentCache.KEY_KEEP 作为 key 的前缀, 可以使储存的数据永久存储在内存中
         //否则存储在 LRU 算法的存储空间中 (大于或等于缓存所能允许的最大 size, 则会根据 LRU 算法清除之前的条目)
         //前提是 extras 使用的是 IntelligentCache (框架默认使用)
-        ScaffoldConfig.getExtras().put(IntelligentCache.getKeyOfKeep(LifecycleConfig::class.java.name), mModules!!)
+        mModules?.let {
+            ScaffoldConfig.getExtras().put(IntelligentCache.getKeyOfKeep(LifecycleConfig::class.java.name), it)
+        }
         this.mModules = null
         //注册框架内部已实现的 Activity 生命周期逻辑
         mApplication!!.registerActivityLifecycleCallbacks(mActivityLifecycle)

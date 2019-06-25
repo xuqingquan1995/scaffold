@@ -22,8 +22,6 @@ class GlobalConfiguration : LifecycleConfig {
         lifecycles: MutableList<Application.ActivityLifecycleCallbacks>
     ) {
         lifecycles.add(ActivityLifecycleCallbacksImpl())
-//        lifecycles.add(ActivityLifecycleCallbacksImpl())
-//        lifecycles.add(ActivityLifecycleCallbacksImpl())
     }
 
     override fun injectFragmentLifecycle(
