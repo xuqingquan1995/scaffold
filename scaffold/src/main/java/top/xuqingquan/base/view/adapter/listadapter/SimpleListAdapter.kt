@@ -1,7 +1,9 @@
 package top.xuqingquan.base.view.adapter.listadapter
 
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -18,10 +20,6 @@ abstract class SimpleListAdapter<T>(diff: DiffUtil.ItemCallback<T>) : ListAdapte
         val holder = getViewHolder(parent, viewType)
         setOnClickListener(holder, viewType)
         return holder
-    }
-
-    override fun onBindViewHolder(holder: BaseViewHolder<T>, position: Int) {
-        holder.setData(getItem(position), position)
     }
 
     protected fun setOnClickListener(
@@ -47,10 +45,25 @@ abstract class SimpleListAdapter<T>(diff: DiffUtil.ItemCallback<T>) : ListAdapte
         }
     }
 
+    override fun onBindViewHolder(holder: BaseViewHolder<T>, position: Int) {
+        holder.setData(getItem(position), position)
+        setData(holder,getItem(position)!!,position)
+    }
+
     /**
      * 创建ViewHolder
      */
-    abstract fun getViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<T>
+    open fun getViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<T>{
+        return BaseViewHolder(LayoutInflater.from(parent.context).inflate(getLayoutRes(viewType),parent,false))
+    }
+
+    /**
+     * 默认设置布局的方式
+     */
+    @LayoutRes
+    open fun getLayoutRes(viewType: Int)=0
+
+    open fun setData(holder: BaseViewHolder<T>,data: T,position: Int){}
 
     /**
      * 在Adapter内部实现单击回调

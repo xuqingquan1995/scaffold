@@ -1,13 +1,15 @@
 package top.xuqingquan.base.view.adapter.viewholder
 
 import android.view.View
+import androidx.annotation.IdRes
 import androidx.recyclerview.widget.RecyclerView
+import org.jetbrains.anko.find
 
 /**
  * Created by 许清泉 on 2019/4/13 23:28
  * 简单实现ViewHolder
  */
-abstract class BaseViewHolder<T>(view: View) :
+open class BaseViewHolder<T>(val view: View) :
     RecyclerView.ViewHolder(view) {
 
     var onViewClickListener: OnViewClickListener? = null
@@ -17,7 +19,9 @@ abstract class BaseViewHolder<T>(view: View) :
      * @param data 数据
      * @param position 在RecyclerView中的位置
      */
-    abstract fun setData(data: T, position: Int)
+    open fun setData(data: T, position: Int){}
+
+    inline fun <reified V : View> getView(@IdRes viewId: Int): V =view.find(viewId)
 
     init {
         itemView.setOnClickListener {

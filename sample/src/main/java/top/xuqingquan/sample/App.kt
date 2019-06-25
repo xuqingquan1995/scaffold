@@ -6,7 +6,7 @@ import top.xuqingquan.app.ScaffoldConfig
 import top.xuqingquan.delegate.AppDelegate
 import top.xuqingquan.delegate.AppLifecycles
 
-class App:Application() {
+class App : Application() {
 
     private lateinit var mAppDelegate: AppLifecycles
 
