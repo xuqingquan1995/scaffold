@@ -7,6 +7,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import top.xuqingquan.BuildConfig
+import top.xuqingquan.app.ScaffoldConfig
 import top.xuqingquan.base.model.entity.NetworkStatus
 import kotlin.coroutines.CoroutineContext
 
@@ -14,6 +15,8 @@ import kotlin.coroutines.CoroutineContext
  * Created by 许清泉 on 2019-04-20 18:35
  */
 abstract class BaseItemKeyedDataSource<Key, Value> : ItemKeyedDataSource<Key, Value>() {
+
+    protected val repositoryManager= ScaffoldConfig.getRepositoryManager()
 
     /**
      * 用于更新全过程的网络状态

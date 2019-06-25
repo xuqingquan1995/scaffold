@@ -14,7 +14,7 @@ import top.xuqingquan.base.model.entity.Listing
 /**
  * Created by 许清泉 on 2019-04-20 21:05
  */
-class BaseDataSourceProvide {
+object BaseDataSourceProvide {
 
     private val config = ScaffoldConfig.getPagedListConfig()
 
