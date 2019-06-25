@@ -1,7 +1,9 @@
 package top.xuqingquan.base.view.adapter.listadapter
 
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
 import top.xuqingquan.base.view.adapter.viewholder.BaseViewHolder
 
@@ -9,42 +11,60 @@ import top.xuqingquan.base.view.adapter.viewholder.BaseViewHolder
  * Created by 许清泉 on 2019/4/13 23:54
  * 简单的可持有数据的RecyclerViewAdapter
  */
-abstract class SimpleRecyclerAdapter<T>(private val list: MutableList<T>) :
+class SimpleRecyclerAdapter<T>(private val list: MutableList<T>) :
     RecyclerView.Adapter<BaseViewHolder<T>>() {
     var listener: OnViewClickListener<T>? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<T> {
         val holder = getViewHolder(parent, viewType)
+        setOnClickListener(holder, viewType)
+        return holder
+    }
+
+    protected fun setOnClickListener(
+        holder: BaseViewHolder<T>,
+        viewType: Int
+    ) {
         holder.onViewClickListener = object : BaseViewHolder.OnViewClickListener {
             override fun onClick(view: View, position: Int) {
                 if (listener == null) {
-                    onClick(view, position, list[position], viewType)
+                    onClick(view, position, getItem(position), viewType)
                 } else {
-                    listener!!.onClick(view, position, list[position], viewType)
+                    listener!!.onClick(view, position, getItem(position), viewType)
                 }
             }
 
             override fun onLongClick(view: View, position: Int): Boolean {
                 return if (listener == null) {
-                    onLongClick(view, position, list[position], viewType)
+                    onLongClick(view, position, getItem(position), viewType)
                 } else {
-                    listener!!.onLongClick(view, position, list[position], viewType)
+                    listener!!.onLongClick(view, position, getItem(position), viewType)
                 }
             }
         }
-        return holder
     }
 
     override fun getItemCount() = list.size
 
     override fun onBindViewHolder(holder: BaseViewHolder<T>, position: Int) {
         holder.setData(list[position], position)
+        setData(holder, getItem(position)!!, position)
     }
 
     /**
      * 创建ViewHolder
      */
-    abstract fun getViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<T>
+    open fun getViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<T> {
+        return BaseViewHolder(LayoutInflater.from(parent.context).inflate(getLayoutRes(viewType), parent, false))
+    }
+
+    /**
+     * 默认设置布局的方式
+     */
+    @LayoutRes
+    open fun getLayoutRes(viewType: Int) = 0
+
+    open fun setData(holder: BaseViewHolder<T>, data: T, position: Int) {}
 
     /**
      * 单击回调
