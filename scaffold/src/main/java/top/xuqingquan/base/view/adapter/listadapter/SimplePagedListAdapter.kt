@@ -48,23 +48,23 @@ open class SimplePagedListAdapter<T>(diff: DiffUtil.ItemCallback<T>) :
 
     override fun onBindViewHolder(holder: BaseViewHolder<T>, position: Int) {
         holder.setData(getItem(position)!!, position)
-        setData(holder,getItem(position)!!,position)
+        setData(holder, getItem(position)!!, position)
     }
 
     /**
      * 创建ViewHolder
      */
-    open fun getViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<T>{
-        return BaseViewHolder(LayoutInflater.from(parent.context).inflate(getLayoutRes(viewType),parent,false))
+    open fun getViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<T> {
+        return BaseViewHolder(LayoutInflater.from(parent.context).inflate(getLayoutRes(viewType), parent, false))
     }
 
     /**
      * 默认设置布局的方式
      */
     @LayoutRes
-    open fun getLayoutRes(viewType: Int)=0
+    open fun getLayoutRes(viewType: Int) = 0
 
-    open fun setData(holder: BaseViewHolder<T>,data: T,position: Int){}
+    open fun setData(holder: BaseViewHolder<T>, data: T, position: Int) {}
 
     /**
      * 在Adapter内部实现单击回调
@@ -87,6 +87,7 @@ open class SimplePagedListAdapter<T>(diff: DiffUtil.ItemCallback<T>) :
     }
 
     companion object {
+        @Suppress("unused")
         @JvmStatic
         fun releaseAllViewHolder(recyclerView: RecyclerView) {
             for (i in recyclerView.childCount - 1 downTo 0) {

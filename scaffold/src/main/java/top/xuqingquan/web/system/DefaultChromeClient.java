@@ -6,14 +6,16 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.webkit.WebChromeClient;
 import android.webkit.*;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import top.xuqingquan.utils.Timber;
 import top.xuqingquan.web.nokernel.*;
-import top.xuqingquan.web.publics.*;
+import top.xuqingquan.web.publics.AbsAgentWebUIController;
+import top.xuqingquan.web.publics.AgentWebUtils;
+import top.xuqingquan.web.publics.IVideo;
+import top.xuqingquan.web.publics.IndicatorController;
 
 import java.lang.ref.WeakReference;
 import java.util.Arrays;
@@ -68,10 +70,10 @@ public class DefaultChromeClient extends MiddlewareWebChromeBase {
     private IndicatorController mIndicatorController;
 
     public DefaultChromeClient(Activity activity,
-                        IndicatorController indicatorController,
-                        WebChromeClient chromeClient,
-                        @Nullable IVideo iVideo,
-                        PermissionInterceptor permissionInterceptor, WebView webView) {
+                               IndicatorController indicatorController,
+                               WebChromeClient chromeClient,
+                               @Nullable IVideo iVideo,
+                               PermissionInterceptor permissionInterceptor, WebView webView) {
         super(chromeClient);
         this.mIndicatorController = indicatorController;
         mIsWrapper = chromeClient != null;

@@ -3,6 +3,7 @@ package top.xuqingquan.integration
 import android.app.Activity
 import android.app.Application
 import android.content.Context
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import top.xuqingquan.delegate.AppLifecycles
 

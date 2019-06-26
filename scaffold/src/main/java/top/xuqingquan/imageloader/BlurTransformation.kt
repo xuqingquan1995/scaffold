@@ -17,7 +17,7 @@ class BlurTransformation(@IntRange(from = 0) private val radius: Int = 15) : Bit
     override fun updateDiskCacheKey(messageDigest: MessageDigest) = messageDigest.update(ID_BYTES)
 
     override fun transform(pool: BitmapPool, toTransform: Bitmap, outWidth: Int, outHeight: Int): Bitmap {
-        return FastBlur.doBlur(toTransform,radius,true)
+        return FastBlur.doBlur(toTransform, radius, true)
     }
 
     override fun equals(other: Any?) = other is BlurTransformation

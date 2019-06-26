@@ -168,6 +168,7 @@ public class Extra implements Cloneable, Serializable {
     public top.xuqingquan.web.system.DefaultDownloadImpl create() {
         return new top.xuqingquan.web.system.DefaultDownloadImpl(this);
     }
+
     public top.xuqingquan.web.x5.DefaultDownloadImpl createX5() {
         return new top.xuqingquan.web.x5.DefaultDownloadImpl(this);
     }

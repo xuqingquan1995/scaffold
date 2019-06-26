@@ -1,8 +1,6 @@
 package top.xuqingquan.stack
 
 import androidx.fragment.app.Fragment
-import com.google.gson.GsonBuilder
-import top.xuqingquan.utils.Timber
 
 /**
  * Created by 许清泉 on 2019-05-07 22:04

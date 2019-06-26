@@ -18,6 +18,7 @@ object ViewUtils {
     fun dp2px(context: Context, dipValue: Float): Int {
         return context.dip(dipValue)
     }
+
     /**
      * 将视图保存成文件
      */

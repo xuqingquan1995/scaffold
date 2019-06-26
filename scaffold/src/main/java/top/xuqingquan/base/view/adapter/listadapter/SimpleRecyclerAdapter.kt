@@ -11,6 +11,7 @@ import top.xuqingquan.base.view.adapter.viewholder.BaseViewHolder
  * Created by 许清泉 on 2019/4/13 23:54
  * 简单的可持有数据的RecyclerViewAdapter
  */
+@Suppress("NON_FINAL_MEMBER_IN_FINAL_CLASS")
 class SimpleRecyclerAdapter<T>(private val list: MutableList<T>) :
     RecyclerView.Adapter<BaseViewHolder<T>>() {
     var listener: OnViewClickListener<T>? = null
@@ -69,9 +70,7 @@ class SimpleRecyclerAdapter<T>(private val list: MutableList<T>) :
     /**
      * 单击回调
      */
-    open fun onClick(view: View, position: Int, data: T, viewType: Int) {
-
-    }
+    open fun onClick(view: View, position: Int, data: T, viewType: Int) {}
 
     /**
      * 长按回调

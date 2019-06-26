@@ -4,8 +4,8 @@ import android.graphics.Bitmap
 import android.graphics.Matrix
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.StateListDrawable
-import android.media.ExifInterface
 import android.widget.TextView
+import androidx.exifinterface.media.ExifInterface
 
 import java.io.IOException
 

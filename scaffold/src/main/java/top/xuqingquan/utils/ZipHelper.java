@@ -101,9 +101,7 @@ public class ZipHelper {
      * @return
      */
     public static byte[] compressForZlib(String stringToCompress) {
-        byte[] returnValues = null;
-        returnValues = compressForZlib(stringToCompress.getBytes(StandardCharsets.UTF_8));
-        return returnValues;
+        return compressForZlib(stringToCompress.getBytes(StandardCharsets.UTF_8));
     }
 
     /**

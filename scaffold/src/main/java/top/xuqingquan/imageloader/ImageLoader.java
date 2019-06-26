@@ -15,13 +15,13 @@ public class ImageLoader {
     private static ImageLoader instance;
 
     private ImageLoader() {
-        mStrategy= ScaffoldConfig.getLoaderStrategy();
+        mStrategy = ScaffoldConfig.getLoaderStrategy();
     }
 
     public static ImageLoader getInstance() {
-        if (instance==null){
-            synchronized (ImageLoader.class){
-                instance=new ImageLoader();
+        if (instance == null) {
+            synchronized (ImageLoader.class) {
+                instance = new ImageLoader();
             }
         }
         return instance;

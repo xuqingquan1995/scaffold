@@ -3,7 +3,6 @@ package top.xuqingquan.delegate
 import android.app.Application
 import android.content.ComponentCallbacks2
 import android.content.Context
-import android.util.Log
 import top.xuqingquan.app.ScaffoldConfig
 import top.xuqingquan.cache.IntelligentCache
 import top.xuqingquan.integration.LifecycleConfig
@@ -62,9 +61,11 @@ class AppDelegate(context: Context) : AppLifecycles {
         for (lifecycle in mActivityLifecycles!!) {
             mApplication!!.registerActivityLifecycleCallbacks(lifecycle)
         }
-        mComponentCallback = AppComponentCallbacks(mApplication!!)
-        //注册回掉: 内存紧张时释放部分内存
-        mApplication!!.registerComponentCallbacks(mComponentCallback)
+        mComponentCallback = ScaffoldConfig.getComponentCallbacks2()
+        mComponentCallback?.let {
+            //注册回掉: 内存紧张时释放部分内存
+            mApplication!!.registerComponentCallbacks(it)
+        }
         //执行框架外部, 开发者扩展的 App onCreate 逻辑
         for (lifecycle in mAppLifecycles!!) {
             lifecycle.onCreate(mApplication!!)

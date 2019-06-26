@@ -12,7 +12,7 @@ import android.view.ViewGroup
  */
 interface FragmentDelegate {
 
-    companion object{
+    companion object {
 
         const val FRAGMENT_DELEGATE = "FRAGMENT_DELEGATE"
     }

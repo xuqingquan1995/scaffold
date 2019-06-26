@@ -35,7 +35,7 @@ abstract class SimpleFragment : Fragment(), IFragment, FragmentOnKeyListener {
     final override fun provideCache(): Cache<String, Any> {
         if (mCache == null) {
             @Suppress("UNCHECKED_CAST")
-            mCache =ScaffoldConfig.getCacheFactory()
+            mCache = ScaffoldConfig.getCacheFactory()
                 .build(CacheType.FRAGMENT_CACHE) as Cache<String, Any>
         }
         return mCache!!

@@ -63,6 +63,7 @@ dependencies {
     compileOnly rootProject.ext.deps.multidex
     //view
     api rootProject.ext.deps.recyclerview
+    api rootProject.ext.deps.exifinterface
     compileOnly rootProject.ext.deps.paging
     api rootProject.ext.deps.glide
     kapt rootProject.ext.deps.glide_compiler

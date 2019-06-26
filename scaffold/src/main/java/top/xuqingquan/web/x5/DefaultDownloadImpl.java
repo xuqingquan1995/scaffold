@@ -21,7 +21,6 @@ import top.xuqingquan.R;
 import top.xuqingquan.utils.NetUtils;
 import top.xuqingquan.utils.Timber;
 import top.xuqingquan.web.nokernel.*;
-import top.xuqingquan.web.nokernel.PermissionInterceptor;
 import top.xuqingquan.web.publics.AbsAgentWebUIController;
 import top.xuqingquan.web.publics.AgentWebConfig;
 import top.xuqingquan.web.publics.AgentWebUtils;

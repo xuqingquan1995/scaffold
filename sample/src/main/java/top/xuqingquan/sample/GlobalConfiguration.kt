@@ -5,7 +5,6 @@ import android.content.Context
 import androidx.fragment.app.FragmentManager
 import top.xuqingquan.delegate.AppLifecycles
 import top.xuqingquan.integration.LifecycleConfig
-import top.xuqingquan.lifecycle.ActivityLifecycleCallbacksImpl
 
 /**
  * Created by 许清泉 on 2019/4/15 00:33

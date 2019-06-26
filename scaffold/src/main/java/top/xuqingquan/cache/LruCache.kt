@@ -1,5 +1,7 @@
 package top.xuqingquan.cache
 
+import kotlin.math.roundToInt
+
 /**
  * Created by 许清泉 on 2019/4/14 17:59
  * @param initialMaxSize 这个缓存的最大 size,这个 size 所使用的单位必须和 {@link #getItemSize(Object)} 所使用的单位一致.
@@ -20,7 +22,7 @@ class LruCache<K, V>(private val initialMaxSize: Int) : Cache<K, V> {
         if (multiplier < 0) {
             throw IllegalArgumentException("Multiplier must be >= 0")
         }
-        maxSize = Math.round(initialMaxSize * multiplier)
+        maxSize = (initialMaxSize * multiplier).roundToInt()
         evict()
     }
 
@@ -70,7 +72,7 @@ class LruCache<K, V>(private val initialMaxSize: Int) : Cache<K, V> {
      * @return {@code value}
      */
     @Synchronized
-    override fun get(key: K)=cache[key]
+    override fun get(key: K) = cache[key]
 
     /**
      * 将 {@code key} 和 {@code value} 以条目的形式加入缓存,如果这个 {@code key} 在缓存中已经有对应的 {@code value}
@@ -132,7 +134,7 @@ class LruCache<K, V>(private val initialMaxSize: Int) : Cache<K, V> {
      * @return {@code keySet}
      */
     @Synchronized
-    override fun keySet()=cache.keys
+    override fun keySet() = cache.keys
 
     /**
      * 清除缓存中所有的内容

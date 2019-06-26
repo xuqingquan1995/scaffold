@@ -23,7 +23,7 @@ class AppLifecyclesImpl : AppLifecycles {
         try {
             Class.forName("androidx.multidex.MultiDex")
             MultiDex.install(base)
-        }catch (e:Exception){
+        } catch (e: Exception) {
         }
     }
 

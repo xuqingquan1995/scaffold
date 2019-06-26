@@ -23,7 +23,6 @@ import top.xuqingquan.web.nokernel.WebUtils;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
-import java.lang.reflect.Method;
 
 import static top.xuqingquan.web.nokernel.WebUtils.isUIThread;
 

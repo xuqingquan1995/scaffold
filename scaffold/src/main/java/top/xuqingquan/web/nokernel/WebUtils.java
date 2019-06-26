@@ -34,7 +34,8 @@ import static top.xuqingquan.web.nokernel.WebConfig.*;
  * Created by 许清泉 on 2019-06-19 21:55
  */
 public class WebUtils {
-    private WebUtils(){}
+    private WebUtils() {
+    }
 
     /**
      * @param context
@@ -52,6 +53,7 @@ public class WebUtils {
         File mFile = new File(dir, FILE_CACHE_PATH);
         try {
             if (!mFile.exists()) {
+                //noinspection ResultOfMethodCallIgnored
                 mFile.mkdirs();
             }
         } catch (Throwable throwable) {
@@ -145,6 +147,7 @@ public class WebUtils {
         }
         mToast.show();
     }
+
     @Deprecated
     static void getUIControllerAndShowMessage(Activity activity, String message, String from) {
         if (activity == null || activity.isFinishing()) {
@@ -187,9 +190,9 @@ public class WebUtils {
             return null;
         }
         List<String> deniedPermissions = new ArrayList<>();
-        for (int i = 0; i < permissions.length; i++) {
-            if (!hasPermission(activity, permissions[i])) {
-                deniedPermissions.add(permissions[i]);
+        for (String permission : permissions) {
+            if (!hasPermission(activity, permission)) {
+                deniedPermissions.add(permission);
             }
         }
         return deniedPermissions;

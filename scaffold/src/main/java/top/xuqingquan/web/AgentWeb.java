@@ -191,9 +191,9 @@ public final class AgentWeb {
     public JsAccessEntrace getJsAccessEntrace() {
         JsAccessEntrace mJsAccessEntrace = this.mJsAccessEntrace;
         if (mJsAccessEntrace == null) {
-            if (WebConfig.hasX5()){
+            if (WebConfig.hasX5()) {
                 this.mJsAccessEntrace = JsAccessEntraceImpl.getInstance(mWebCreator.getX5WebView());
-            }else {
+            } else {
                 this.mJsAccessEntrace = JsAccessEntraceImpl.getInstance(mWebCreator.getWebView());
             }
             mJsAccessEntrace = this.mJsAccessEntrace;
@@ -202,13 +202,13 @@ public final class AgentWeb {
     }
 
     public AgentWeb clearWebCache() {
-        if (WebConfig.hasX5()){
+        if (WebConfig.hasX5()) {
             if (this.getWebCreator().getX5WebView() != null) {
                 AgentWebUtils.clearWebViewAllCache(mActivity, this.getWebCreator().getX5WebView());
             } else {
                 AgentWebUtils.clearWebViewAllCache(mActivity);
             }
-        }else{
+        } else {
             if (this.getWebCreator().getWebView() != null) {
                 AgentWebUtils.clearWebViewAllCache(mActivity, this.getWebCreator().getWebView());
             } else {

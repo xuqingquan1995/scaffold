@@ -23,7 +23,8 @@ class ActivityLifecycle : Application.ActivityLifecycleCallbacks {
     private var mAppManager = ScaffoldConfig.getAppManager()
     private var mApplication = ScaffoldConfig.getApplication()
     private var mExtras = ScaffoldConfig.getExtras()
-    private var mFragmentLifecycle: FragmentManager.FragmentLifecycleCallbacks = ScaffoldConfig.getFragmentLifecycleCallbacks()
+    private var mFragmentLifecycle: FragmentManager.FragmentLifecycleCallbacks =
+        ScaffoldConfig.getFragmentLifecycleCallbacks()
     private var mFragmentLifecycles: MutableList<FragmentManager.FragmentLifecycleCallbacks> =
         ScaffoldConfig.getFragmentLifecycleCallbacksList()
 

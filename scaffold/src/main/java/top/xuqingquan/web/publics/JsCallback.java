@@ -39,11 +39,11 @@ public class JsCallback {
      * @throws JsCallbackException
      */
     public void apply(Object... args) throws JsCallbackException {
-        if (WebConfig.hasX5()){
-            if (mx5WebViewRef.get()==null){
+        if (WebConfig.hasX5()) {
+            if (mx5WebViewRef.get() == null) {
                 throw new JsCallbackException("the WebView related to the JsCallback has been recycled");
             }
-        }else {
+        } else {
             if (mWebViewRef.get() == null) {
                 throw new JsCallbackException("the WebView related to the JsCallback has been recycled");
             }
@@ -67,9 +67,9 @@ public class JsCallback {
         }
         String execJs = String.format(Locale.getDefault(), CALLBACK_JS_FORMAT, mInjectedName, mIndex, mIsPermanent, sb.toString());
         Timber.d(execJs);
-        if (WebConfig.hasX5()){
+        if (WebConfig.hasX5()) {
             mx5WebViewRef.get().loadUrl(execJs);
-        }else{
+        } else {
             mWebViewRef.get().loadUrl(execJs);
         }
         mCouldGoOn = mIsPermanent > 0;

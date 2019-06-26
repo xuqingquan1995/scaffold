@@ -15,7 +15,7 @@ object PermissionUtils {
 
     @JvmStatic
     fun hasPermission(context: Context, vararg permissions: String): Boolean {
-        return hasPermission(context.applicationContext, Arrays.asList(*permissions))
+        return hasPermission(context.applicationContext, listOf(*permissions))
     }
 
     @JvmStatic
