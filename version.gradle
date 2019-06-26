@@ -35,7 +35,7 @@ ext {
             roundedimageview      : "2.3.0",
             autosize              : "1.1.2",
             Downloader            : "v4.0.3",
-            multidex              : "1.0.3",
+            multidex              : "2.0.0",
             logger                : "2.2.0",
             progressmanager       : "1.5.0",
             retrofit_url_manager  : "1.4.0",
@@ -100,7 +100,7 @@ ext {
             //tools
             qrcode                    : "cn.bingoogolapple:bga-qrcode-zxing:${depsVer.qrcode}",
             Downloader                : "com.github.Justson:Downloader:${depsVer.Downloader}",
-            multidex                  : "com.android.support:multidex:${depsVer.multidex}",
+            multidex                  : "androidx.multidex:multidex:${depsVer.multidex}",
             anrwatchdog               : "com.github.anrwatchdog:anrwatchdog:${depsVer.anrwatchdog}"
     ]
 
