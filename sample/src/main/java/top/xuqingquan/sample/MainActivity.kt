@@ -38,6 +38,10 @@ class MainActivity : SimpleActivity() {
         list.adapter = adapter
         listing.pagedList.observe(this, Observer {
             adapter.submitList(it)
+            Timber.d("adapter.currentList?.size===>${adapter.currentList?.size}")
+            adapter.currentList?.forEach { sub ->
+                Timber.d("adapter.currentList$sub")
+            }
         })
         listing.empty.observe(this, Observer {
             toast("empty--$it")
