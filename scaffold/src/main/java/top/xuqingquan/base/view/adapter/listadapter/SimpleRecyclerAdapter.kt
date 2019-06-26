@@ -69,9 +69,7 @@ class SimpleRecyclerAdapter<T>(private val list: MutableList<T>) :
     /**
      * 单击回调
      */
-    open fun onClick(view: View, position: Int, data: T, viewType: Int) {
-
-    }
+    open fun onClick(view: View, position: Int, data: T, viewType: Int) {}
 
     /**
      * 长按回调

@@ -25,7 +25,7 @@ class OkHttpUrlLoader private constructor(private val client: Call.Factory) : Mo
 
     class Factory(private val client: Call.Factory = getInternalClient()) : ModelLoaderFactory<GlideUrl, InputStream> {
 
-        companion object{
+        companion object {
             @Volatile
             private var internalClient: Call.Factory? = null
 

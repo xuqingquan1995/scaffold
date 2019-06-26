@@ -22,7 +22,7 @@ interface ActivityDelegate {
 
     fun onSaveInstanceState(outState: Bundle?)
 
-    companion object{
+    companion object {
         const val ACTIVITY_DELEGATE = "ACTIVITY_DELEGATE"
     }
 }

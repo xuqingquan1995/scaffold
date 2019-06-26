@@ -115,6 +115,7 @@ public class CharacterUtils {
 
     /**
      * 判断字符串是否为json字符串
+     *
      * @param target
      * @return
      */

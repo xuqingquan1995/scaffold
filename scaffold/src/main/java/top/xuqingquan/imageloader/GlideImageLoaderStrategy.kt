@@ -82,13 +82,13 @@ class GlideImageLoaderStrategy : BaseImageLoaderStrategy<ImageConfigImpl>, Glide
         }
 
         if (config.isClearDiskCache) {//清除本地缓存
-            CoroutineScope(Dispatchers.IO).launch{
+            CoroutineScope(Dispatchers.IO).launch {
                 Glide.get(ctx!!).clearDiskCache()
             }
         }
 
         if (config.isClearMemory) {//清除内存缓存
-            CoroutineScope(Dispatchers.IO).launch{
+            CoroutineScope(Dispatchers.IO).launch {
                 Glide.get(ctx!!).clearMemory()
             }
         }

@@ -21,7 +21,7 @@ class NetworkStateViewHolder(view: View) :
     fun bind(data: NetworkStatus, listener: View.OnClickListener) {
         loading_failure.setOnClickListener(listener)
         loading_failure.isVisible = (data == NetworkStatus.FAILED)
-        loading.isVisible=(data == NetworkStatus.RUNNING)
-        loading_tv.isVisible=(data == NetworkStatus.RUNNING)
+        loading.isVisible = (data == NetworkStatus.RUNNING)
+        loading_tv.isVisible = (data == NetworkStatus.RUNNING)
     }
 }

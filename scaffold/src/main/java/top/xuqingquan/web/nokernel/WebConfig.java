@@ -10,7 +10,9 @@ import java.io.File;
  * Created by 许清泉 on 2019-06-19 20:00
  */
 public class WebConfig {
-    private WebConfig(){}
+    private WebConfig() {
+    }
+
     /**
      * 直接打开其他页面
      */

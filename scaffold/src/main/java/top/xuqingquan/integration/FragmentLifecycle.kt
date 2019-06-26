@@ -17,7 +17,7 @@ import top.xuqingquan.delegate.IFragment
  * [FragmentManager.FragmentLifecycleCallbacks] 默认实现类
  * 通过 [FragmentDelegate] 管理 [Fragment]
  */
-class FragmentLifecycle: FragmentManager.FragmentLifecycleCallbacks() {
+class FragmentLifecycle : FragmentManager.FragmentLifecycleCallbacks() {
 
     override fun onFragmentAttached(fm: FragmentManager, f: Fragment, context: Context) {
         super.onFragmentAttached(fm, f, context)

@@ -33,7 +33,7 @@ abstract class SimpleActivity : AppCompatActivity(), IActivity {
     final override fun provideCache(): Cache<String, Any> {
         if (mCache == null) {
             @Suppress("UNCHECKED_CAST")
-            mCache =ScaffoldConfig.getCacheFactory().build(CacheType.ACTIVITY_CACHE) as Cache<String, Any>
+            mCache = ScaffoldConfig.getCacheFactory().build(CacheType.ACTIVITY_CACHE) as Cache<String, Any>
         }
         return mCache!!
     }

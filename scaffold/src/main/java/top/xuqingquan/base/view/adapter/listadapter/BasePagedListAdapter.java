@@ -27,6 +27,7 @@ public abstract class BasePagedListAdapter<T> extends SimplePagedListAdapter<T> 
         this.retry = retry;
     }
 
+    @SuppressWarnings("unchecked")
     @NotNull
     @Override
     public BaseViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
@@ -41,6 +42,7 @@ public abstract class BasePagedListAdapter<T> extends SimplePagedListAdapter<T> 
         if (getItemViewType(position) == NETWORK_STATE) {
             ((NetworkStateViewHolder) holder).bind(networkStatus, v -> retry.invoke());
         } else {
+            //noinspection unchecked
             super.onBindViewHolder(holder, position);
         }
     }

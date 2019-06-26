@@ -68,10 +68,10 @@ public class DefaultChromeClient extends MiddlewareWebChromeBase {
     private IndicatorController mIndicatorController;
 
     public DefaultChromeClient(Activity activity,
-                        IndicatorController indicatorController,
-                        WebChromeClient chromeClient,
-                        @Nullable IVideo iVideo,
-                        PermissionInterceptor permissionInterceptor, WebView webView) {
+                               IndicatorController indicatorController,
+                               WebChromeClient chromeClient,
+                               @Nullable IVideo iVideo,
+                               PermissionInterceptor permissionInterceptor, WebView webView) {
         super(chromeClient);
         this.mIndicatorController = indicatorController;
         mIsWrapper = chromeClient != null;

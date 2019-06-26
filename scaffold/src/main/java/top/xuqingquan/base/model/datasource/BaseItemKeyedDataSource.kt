@@ -16,7 +16,7 @@ import kotlin.coroutines.CoroutineContext
  */
 abstract class BaseItemKeyedDataSource<Key, Value> : ItemKeyedDataSource<Key, Value>() {
 
-    protected val repositoryManager= ScaffoldConfig.getRepositoryManager()
+    protected val repositoryManager = ScaffoldConfig.getRepositoryManager()
 
     /**
      * 用于更新全过程的网络状态

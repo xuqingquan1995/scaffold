@@ -34,7 +34,8 @@ import static top.xuqingquan.web.nokernel.WebConfig.*;
  * Created by 许清泉 on 2019-06-19 21:55
  */
 public class WebUtils {
-    private WebUtils(){}
+    private WebUtils() {
+    }
 
     /**
      * @param context
@@ -145,6 +146,7 @@ public class WebUtils {
         }
         mToast.show();
     }
+
     @Deprecated
     static void getUIControllerAndShowMessage(Activity activity, String message, String from) {
         if (activity == null || activity.isFinishing()) {

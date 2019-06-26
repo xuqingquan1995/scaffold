@@ -19,9 +19,9 @@ open class BaseViewHolder<T>(val view: View) :
      * @param data 数据
      * @param position 在RecyclerView中的位置
      */
-    open fun setData(data: T, position: Int){}
+    open fun setData(data: T, position: Int) {}
 
-    inline fun <reified V : View> getView(@IdRes viewId: Int): V =view.find(viewId)
+    inline fun <reified V : View> getView(@IdRes viewId: Int): V = view.find(viewId)
 
     init {
         itemView.setOnClickListener {

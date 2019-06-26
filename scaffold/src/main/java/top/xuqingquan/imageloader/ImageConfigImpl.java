@@ -6,6 +6,7 @@ import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
 /**
  * Created by 许清泉 on 2019/4/16 00:52
  */
+@SuppressWarnings({"DeprecatedIsStillUsed", "deprecation"})
 public class ImageConfigImpl extends ImageConfig {
     private int cacheStrategy;//0对应DiskCacheStrategy.all,1对应DiskCacheStrategy.NONE,2对应DiskCacheStrategy.SOURCE,3对应DiskCacheStrategy.RESULT
     private int fallback; //请求 url 为空,则使用此图片作为占位符
@@ -94,6 +95,7 @@ public class ImageConfigImpl extends ImageConfig {
         return new Builder();
     }
 
+    @SuppressWarnings("unused")
     public static final class Builder {
         private String url;
         private ImageView imageView;
@@ -103,9 +105,6 @@ public class ImageConfigImpl extends ImageConfig {
         private int cacheStrategy;//0对应DiskCacheStrategy.all,1对应DiskCacheStrategy.NONE,2对应DiskCacheStrategy.SOURCE,3对应DiskCacheStrategy.RESULT
         private int imageRadius;//图片每个圆角的大小
         private int blurValue;//高斯模糊值, 值越大模糊效果越大
-        /**
-         * @see {@link Builder#transformation(BitmapTransformation)}
-         */
         @Deprecated
         private BitmapTransformation transformation;//glide用它来改变图形的形状
         private ImageView[] imageViews;

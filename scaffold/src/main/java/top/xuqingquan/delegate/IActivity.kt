@@ -3,6 +3,7 @@ package top.xuqingquan.delegate
 import android.app.Activity
 import android.os.Bundle
 import top.xuqingquan.cache.Cache
+import top.xuqingquan.cache.LruCache
 import top.xuqingquan.stack.DebugStackDelegate
 import top.xuqingquan.utils.FragmentOnKeyListener
 

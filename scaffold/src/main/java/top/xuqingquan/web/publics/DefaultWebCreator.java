@@ -41,13 +41,13 @@ public class DefaultWebCreator implements WebCreator {
      * 使用默认的进度条
      */
     public DefaultWebCreator(@NonNull Activity activity,
-                                @Nullable ViewGroup viewGroup,
-                                ViewGroup.LayoutParams lp,
-                                int index,
-                                int color,
-                                int mHeight,
-                                android.webkit.WebView webView,
-                                top.xuqingquan.web.system.IWebLayout webLayout) {
+                             @Nullable ViewGroup viewGroup,
+                             ViewGroup.LayoutParams lp,
+                             int index,
+                             int color,
+                             int mHeight,
+                             android.webkit.WebView webView,
+                             top.xuqingquan.web.system.IWebLayout webLayout) {
         this.mActivity = activity;
         this.mViewGroup = viewGroup;
         this.mIsNeedDefaultProgress = true;
@@ -60,13 +60,13 @@ public class DefaultWebCreator implements WebCreator {
     }
 
     public DefaultWebCreator(@NonNull Activity activity,
-                                @Nullable ViewGroup viewGroup,
-                                ViewGroup.LayoutParams lp,
-                                int index,
-                                int color,
-                                int mHeight,
-                                com.tencent.smtt.sdk.WebView webView,
-                                top.xuqingquan.web.x5.IWebLayout webLayout) {
+                             @Nullable ViewGroup viewGroup,
+                             ViewGroup.LayoutParams lp,
+                             int index,
+                             int color,
+                             int mHeight,
+                             com.tencent.smtt.sdk.WebView webView,
+                             top.xuqingquan.web.x5.IWebLayout webLayout) {
         this.mActivity = activity;
         this.mViewGroup = viewGroup;
         this.mIsNeedDefaultProgress = true;

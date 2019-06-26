@@ -3,7 +3,7 @@ package top.xuqingquan.http.log
 /**
  * Created by 许清泉 on 2019/4/14 21:08
  */
-enum class Level{
+enum class Level {
     /**
      * 不打印log
      */
