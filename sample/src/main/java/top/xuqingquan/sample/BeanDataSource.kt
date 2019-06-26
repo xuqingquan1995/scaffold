@@ -8,13 +8,11 @@ class BeanDataSource : BasePageKeyedDataSource<Int, Subjects>() {
 
     override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, Subjects>) {
         Timber.d("loadInitial-----params.requestedLoadSize===${params.requestedLoadSize}")
-        networkState.postValue(NetworkStatus.RUNNING)
         initialLoad.postValue(NetworkStatus.RUNNING)
         launch {
             val bean = repositoryManager.obtainRetrofitService(DoubanService::class.java)
                 .top250("0b2bdeda43b5688921839c8ecb20399b", 0, params.requestedLoadSize)
             callback.onResult(bean.subjects, 0, bean.total, 0, 1)
-            networkState.postValue(NetworkStatus.SUCCESS)
             initialLoad.postValue(NetworkStatus.SUCCESS)
         }
     }
@@ -31,6 +29,7 @@ class BeanDataSource : BasePageKeyedDataSource<Int, Subjects>() {
                     params.requestedLoadSize
                 )
             callback.onResult(bean.subjects, params.key + 1)
+            networkState.postValue(NetworkStatus.SUCCESS)
         }
     }
 }

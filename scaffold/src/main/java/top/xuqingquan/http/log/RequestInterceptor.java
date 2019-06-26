@@ -24,16 +24,16 @@ public class RequestInterceptor implements Interceptor {
     private static RequestInterceptor instance;
 
     private RequestInterceptor() {
-        mPrinter= ScaffoldConfig.getFormatPrinter();
-        mHandler=ScaffoldConfig.getGlobalHttpHandler();
-        printLevel=ScaffoldConfig.getLevel();
+        mPrinter = ScaffoldConfig.getFormatPrinter();
+        mHandler = ScaffoldConfig.getGlobalHttpHandler();
+        printLevel = ScaffoldConfig.getLevel();
     }
 
     public static RequestInterceptor getInstance() {
-        if (instance==null){
-            synchronized (RequestInterceptor.class){
-                if (instance==null){
-                    instance=new RequestInterceptor();
+        if (instance == null) {
+            synchronized (RequestInterceptor.class) {
+                if (instance == null) {
+                    instance = new RequestInterceptor();
                 }
             }
         }
