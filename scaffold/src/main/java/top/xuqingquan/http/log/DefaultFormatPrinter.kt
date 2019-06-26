@@ -232,10 +232,10 @@ class DefaultFormatPrinter : FormatPrinter {
             var tag = "─ "
             if (headers.size > 1) {
                 for (i in headers.indices) {
-                    when (i) {
-                        0 -> tag = CORNER_UP
-                        headers.size - 1 -> tag = CORNER_BOTTOM
-                        else -> tag = CENTER_LINE
+                    tag = when (i) {
+                        0 -> CORNER_UP
+                        headers.size - 1 -> CORNER_BOTTOM
+                        else -> CENTER_LINE
                     }
                     builder.append(tag).append(headers[i]).append("\n")
                 }

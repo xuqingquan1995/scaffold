@@ -14,9 +14,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.TintTypedArray;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
+import com.google.android.material.R;
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -25,8 +27,6 @@ import com.google.android.material.internal.ThemeEnforcement;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
-
-import com.google.android.material.R;
 
 /**
  * Created by 许清泉 on 2019-05-25 19:16
@@ -68,6 +68,7 @@ public class BottomNavigationViewInner extends BottomNavigationView {
         this(context, attrs, 0);
     }
 
+    @SuppressLint("PrivateResource")
     public BottomNavigationViewInner(Context context, AttributeSet set, int defStyleAttr) {
         super(context, set, defStyleAttr);
         TintTypedArray a = ThemeEnforcement.obtainTintedStyledAttributes(context, set,
@@ -123,12 +124,9 @@ public class BottomNavigationViewInner extends BottomNavigationView {
                 final ImageView mIcon = getField(button.getClass(), button, "icon");
 //                System.out.println("mIcon.getMeasuredHeight():" + mIcon.getMeasuredHeight());
                 if (null != mIcon) {
-                    mIcon.post(new Runnable() {
-                        @Override
-                        public void run() {
+                    mIcon.post(() -> {
 //                            System.out.println("mIcon.getMeasuredHeight():" + mIcon.getMeasuredHeight());
-                            setItemHeight(mItemHeight - mIcon.getMeasuredHeight());
-                        }
+                        setItemHeight(mItemHeight - mIcon.getMeasuredHeight());
                     });
                 }
             }
@@ -959,7 +957,7 @@ public class BottomNavigationViewInner extends BottomNavigationView {
         }
 
         @Override
-        public boolean onNavigationItemSelected(MenuItem item) {
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             int position = items.get(item.getItemId());
             // only set item when item changed
             if (previousPosition == position) {
@@ -1023,7 +1021,7 @@ public class BottomNavigationViewInner extends BottomNavigationView {
         }
 
         @Override
-        public boolean onNavigationItemSelected(MenuItem item) {
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             int position = items.get(item.getItemId());
             // only set item when item changed
             if (previousPosition == position) {

@@ -5,15 +5,14 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import androidx.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.FrameLayout;
+import androidx.annotation.Nullable;
 import top.xuqingquan.utils.Timber;
 import top.xuqingquan.utils.ViewUtils;
-import top.xuqingquan.web.publics.AgentWebUtils;
 
 public class WebIndicator extends BaseIndicatorView implements BaseIndicatorSpec {
     /**

@@ -115,7 +115,7 @@ public class BottomNavigationViewEx extends BottomNavigationViewInner {
     public void setOnNavigationItemSelectedListener(OnNavigationItemSelectedListener listener) {
         try {
             super.setOnNavigationItemSelectedListener(listener);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
     }
 

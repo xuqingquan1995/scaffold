@@ -53,6 +53,7 @@ public class WebUtils {
         File mFile = new File(dir, FILE_CACHE_PATH);
         try {
             if (!mFile.exists()) {
+                //noinspection ResultOfMethodCallIgnored
                 mFile.mkdirs();
             }
         } catch (Throwable throwable) {
@@ -189,9 +190,9 @@ public class WebUtils {
             return null;
         }
         List<String> deniedPermissions = new ArrayList<>();
-        for (int i = 0; i < permissions.length; i++) {
-            if (!hasPermission(activity, permissions[i])) {
-                deniedPermissions.add(permissions[i]);
+        for (String permission : permissions) {
+            if (!hasPermission(activity, permission)) {
+                deniedPermissions.add(permission);
             }
         }
         return deniedPermissions;

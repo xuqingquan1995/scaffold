@@ -72,7 +72,7 @@ public abstract class BaseJsAccessEntrace implements JsAccessEntrace {
     @Override
     public void quickCallJs(String method, android.webkit.ValueCallback<String> callback, String... params) {
         StringBuilder sb = new StringBuilder();
-        sb.append("javascript:" + method);
+        sb.append("javascript:").append(method);
         if (params == null || params.length == 0) {
             sb.append("()");
         } else {
@@ -84,7 +84,7 @@ public abstract class BaseJsAccessEntrace implements JsAccessEntrace {
     @Override
     public void quickCallJs(String method, com.tencent.smtt.sdk.ValueCallback<String> callback, String... params) {
         StringBuilder sb = new StringBuilder();
-        sb.append("javascript:" + method);
+        sb.append("javascript:").append(method);
         if (params == null || params.length == 0) {
             sb.append("()");
         } else {

@@ -1,7 +1,6 @@
 package top.xuqingquan.utils
 
 import android.content.res.Resources
-import android.util.DisplayMetrics
 import android.util.TypedValue
 
 /**

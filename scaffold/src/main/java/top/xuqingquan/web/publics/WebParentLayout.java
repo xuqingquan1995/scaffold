@@ -110,8 +110,8 @@ public class WebParentLayout extends FrameLayout implements Provider<AbsAgentWeb
     }
 
     public void hideErrorLayout() {
-        View mView = null;
-        if ((mView = this.findViewById(R.id.mainframe_error_container_id)) != null) {
+        View mView = this.findViewById(R.id.mainframe_error_container_id);
+        if (mView != null) {
             mView.setVisibility(View.GONE);
         }
     }

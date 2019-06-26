@@ -3,7 +3,6 @@ package top.xuqingquan.base.view.adapter.viewpageradapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import androidx.fragment.app.FragmentStatePagerAdapter
 
 /**
  * Created by 许清泉 on 2019/4/13 23:20

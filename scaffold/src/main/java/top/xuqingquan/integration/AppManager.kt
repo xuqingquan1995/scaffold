@@ -8,6 +8,7 @@ import android.app.Service
 import android.content.Intent
 import top.xuqingquan.utils.Timber
 import java.util.*
+import kotlin.system.exitProcess
 
 /**
  * Created by 许清泉 on 2019/4/14 15:28
@@ -286,7 +287,7 @@ class AppManager private constructor() {
      * @param excludeActivityClasses activity class
      */
     fun killAll(vararg excludeActivityClasses: Class<*>) {
-        val excludeList = Arrays.asList(*excludeActivityClasses)
+        val excludeList = listOf(*excludeActivityClasses)
         synchronized(AppManager::class.java) {
             val iterator = getActivityList().iterator()
             while (iterator.hasNext()) {
@@ -306,7 +307,7 @@ class AppManager private constructor() {
      * @param excludeActivityName [Activity] 的完整全路径
      */
     fun killAll(vararg excludeActivityName: String) {
-        val excludeList = Arrays.asList(*excludeActivityName)
+        val excludeList = listOf(*excludeActivityName)
         synchronized(AppManager::class.java) {
             val iterator = getActivityList().iterator()
             while (iterator.hasNext()) {
@@ -332,7 +333,7 @@ class AppManager private constructor() {
         try {
             killAll()
             android.os.Process.killProcess(android.os.Process.myPid())
-            System.exit(0)
+            exitProcess(0)
         } catch (e: Exception) {
             e.printStackTrace()
         }

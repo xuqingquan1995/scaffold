@@ -14,6 +14,7 @@ import top.xuqingquan.R
 import top.xuqingquan.app.ScaffoldConfig
 import top.xuqingquan.utils.Timber
 import java.lang.ref.WeakReference
+import kotlin.math.abs
 
 /**
  * Created by 许清泉 on 2019-04-24 22:49
@@ -132,7 +133,7 @@ class DebugStackDelegateImpl(private val mActivity: FragmentActivity) : DebugSta
                     dX = stackView.x - event.rawX
                     dY = stackView.y - event.rawY
                 }
-                MotionEvent.ACTION_MOVE -> if (Math.abs(x - downX) < clickLimitValue && Math.abs(y - downY) < clickLimitValue && isClickState) {
+                MotionEvent.ACTION_MOVE -> if (abs(x - downX) < clickLimitValue && abs(y - downY) < clickLimitValue && isClickState) {
                     isClickState = true
                 } else {
                     isClickState = false
