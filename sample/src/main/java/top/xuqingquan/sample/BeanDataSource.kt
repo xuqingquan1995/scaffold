@@ -6,12 +6,15 @@ import top.xuqingquan.utils.Timber
 
 class BeanDataSource : BasePageKeyedDataSource<Int, Subjects>() {
 
+    private var firstLoad = 0
+
     override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, Subjects>) {
-        Timber.d("loadInitial-----params.requestedLoadSize===${params.requestedLoadSize}")
+        firstLoad = params.requestedLoadSize
+        Timber.d("loadInitial-----params.requestedLoadSize===$firstLoad")
         initialLoad.postValue(NetworkStatus.RUNNING)
         launch {
             val bean = repositoryManager.obtainRetrofitService(DoubanService::class.java)
-                .top250("0b2bdeda43b5688921839c8ecb20399b", 0, params.requestedLoadSize)
+                .top250("0b2bdeda43b5688921839c8ecb20399b", 0, firstLoad)
             callback.onResult(bean.subjects, 0, bean.total, 0, 1)
             initialLoad.postValue(NetworkStatus.SUCCESS)
         }
@@ -25,7 +28,7 @@ class BeanDataSource : BasePageKeyedDataSource<Int, Subjects>() {
             val bean = repositoryManager.obtainRetrofitService(DoubanService::class.java)
                 .top250(
                     "0b2bdeda43b5688921839c8ecb20399b",
-                    params.key * params.requestedLoadSize,
+                    params.key * params.requestedLoadSize - firstLoad,
                     params.requestedLoadSize
                 )
             callback.onResult(bean.subjects, params.key + 1)
