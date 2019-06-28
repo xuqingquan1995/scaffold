@@ -16,7 +16,7 @@ open class BaseApplication : Application() {
 
     override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(base)
-        mAppDelegate = AppDelegate(base!!)
+        mAppDelegate = AppDelegate.getInstance(base!!)
     }
 
     override fun onCreate() {

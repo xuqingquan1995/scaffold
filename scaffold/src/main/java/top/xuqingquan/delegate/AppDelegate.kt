@@ -12,13 +12,30 @@ import top.xuqingquan.utils.ManifestParser
 /**
  * Created by 许清泉 on 2019/4/14 22:55
  */
-class AppDelegate(context: Context) : AppLifecycles {
+class AppDelegate private constructor(context: Context) : AppLifecycles {
     private var mApplication: Application? = null
     private var mActivityLifecycle: Application.ActivityLifecycleCallbacks? = null
     private var mModules: List<LifecycleConfig>? = null
     private var mAppLifecycles: MutableList<AppLifecycles>? = arrayListOf()
     private var mActivityLifecycles: MutableList<Application.ActivityLifecycleCallbacks>? = arrayListOf()
     private var mComponentCallback: ComponentCallbacks2? = null
+
+    companion object {
+        private var onCreate = false
+        private var attachBaseContext = false
+        private var instance: AppDelegate? = null
+        @JvmStatic
+        fun getInstance(context: Context): AppDelegate {
+            if (instance == null) {
+                synchronized(AppDelegate::class.java) {
+                    if (instance == null) {
+                        instance = AppDelegate(context)
+                    }
+                }
+            }
+            return instance!!
+        }
+    }
 
     init {
         mAppLifecycles!!.add(AppLifecyclesImpl())
@@ -35,6 +52,10 @@ class AppDelegate(context: Context) : AppLifecycles {
     }
 
     override fun attachBaseContext(base: Context?) {
+        if (attachBaseContext) {
+            return
+        }
+        attachBaseContext = true
         //遍历 mAppLifecycles, 执行所有已注册的 AppLifecycles 的 attachBaseContext() 方法 (框架外部, 开发者扩展的逻辑)
         for (lifecycle in mAppLifecycles!!) {
             lifecycle.attachBaseContext(base)
@@ -42,6 +63,10 @@ class AppDelegate(context: Context) : AppLifecycles {
     }
 
     override fun onCreate(application: Application) {
+        if (onCreate) {
+            return
+        }
+        onCreate = true
         this.mApplication = application
         ScaffoldConfig.getInstance(application)
         mActivityLifecycle = ScaffoldConfig.getActivityLifecycleCallbacks()
