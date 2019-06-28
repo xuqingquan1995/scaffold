@@ -18,8 +18,14 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            signingConfig signingConfigs.debug
+            debuggable false
+            jniDebuggable false
+            minifyEnabled true
+            zipAlignEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            multiDexKeepProguard file('multidex-config.pro')
         }
         debug {
             multiDexKeepProguard file('multidex-config.pro')
@@ -56,8 +62,6 @@ dependencies {
     testImplementation rootProject.ext.deps.junit
     androidTestImplementation rootProject.ext.deps.espresso_core
     implementation project(path: ':scaffold')
-    //download（需要用到web下载的时候需要依赖）
-    implementation rootProject.ext.deps.Downloader
     implementation rootProject.ext.deps.multidex
     implementation rootProject.ext.deps.paging
 }

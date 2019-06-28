@@ -95,6 +95,7 @@
 # 保留继承的
 -keep public class * extends android.support.v4.**
 -keep public class * extends android.support.v7.**
+-keep public class * extends android.support.annotation.**
 -keep public class * extends androidx.annotation.**
 
 # 保留R下面的资源
@@ -213,14 +214,6 @@
     <init>(java.lang.Throwable);
 }
 
-##dagger
--dontwarn dagger.internal.codegen.**
--keepclassmembers,allowobfuscation class * {
-    @javax.inject.* *;
-    @dagger.* *;
-    <init>();
-}
-
 #gson
 -keep class sun.misc.Unsafe { *; }
 -keep public class com.google.gson.**
@@ -230,3 +223,5 @@
 
 #x5
 -keep class com.tencent.smtt.** {*;}
+
+-keep class top.xuqingquan.sample.** {*;}

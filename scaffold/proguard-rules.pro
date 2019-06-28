@@ -214,14 +214,6 @@
     <init>(java.lang.Throwable);
 }
 
-##dagger
--dontwarn dagger.internal.codegen.**
--keepclassmembers,allowobfuscation class * {
-    @javax.inject.* *;
-    @dagger.* *;
-    <init>();
-}
-
 #gson
 -keep class sun.misc.Unsafe { *; }
 -keep public class com.google.gson.**

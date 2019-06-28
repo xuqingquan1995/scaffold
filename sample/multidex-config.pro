@@ -19,9 +19,6 @@
 -keep class top.xuqingquan.**{*;}
 -keep class * implements top.xuqingquan.integration.LifecycleConfig
 
-#dagger
--keep class dagger.internal.Preconditions
-
 #tbs
 -keep class com.tencent.smtt.**{*;}
 
