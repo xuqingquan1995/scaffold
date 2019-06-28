@@ -14,6 +14,11 @@ import top.xuqingquan.utils.Timber
 
 class MainActivity : SimpleActivity() {
 
+    init {
+        ScaffoldConfig.getInstance(application)
+            .setBaseUrl("https://api.douban.com")
+    }
+
     private val repositoryManager = ScaffoldConfig.getRepositoryManager()
     private lateinit var adapter: BeanAdapter
     private val subjectsList = arrayListOf<Subjects>()
