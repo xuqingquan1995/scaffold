@@ -30,7 +30,8 @@ object HttpParseUtils {
             val responseBody = response.newBuilder().build().body()
             val source = responseBody!!.source()
             source.request(Long.MAX_VALUE) // Buffer the entire body.
-            val buffer = source.buffer
+            //为兼容Android 4.4
+            val buffer = source.buffer()
             //获取content的压缩类型
             val encoding = response
                 .headers()["Content-Encoding"]
