@@ -12,7 +12,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application>
-        <!--如果有接入腾讯X5时候需要用这个做播放视频-->
+        <!-- 如果有接入腾讯X5时候需要用这个做播放视频 -->
         <activity
                 android:name="com.tencent.smtt.sdk.VideoActivity"
                 android:alwaysRetainTaskState="true"
@@ -24,7 +24,8 @@
 
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
-        </activity> <!-- AgentWebX5申请权限用到这个类 -->
+        </activity>
+        <!-- AgentWeb申请权限用到这个类 -->
         <activity
                 android:name=".web.nokernel.ActionActivity"
                 android:configChanges="keyboardHidden|orientation|screenSize"
@@ -32,7 +33,7 @@
                 android:launchMode="standard"
                 android:theme="@style/actionActivity"
                 android:windowSoftInputMode="stateHidden|stateAlwaysHidden"/>
-
+        <!-- Android 7.0 之后用到FileProvider -->
         <provider
                 android:name="androidx.core.content.FileProvider"
                 android:authorities="${applicationId}.ScaffoldFileProvider"
@@ -42,6 +43,12 @@
                     android:name="android.support.FILE_PROVIDER_PATHS"
                     android:resource="@xml/filepaths"/>
         </provider>
+
+        <provider
+                android:name=".app.ScaffoldInstaller"
+                android:authorities="ScaffoldInstaller"
+                android:enabled="true"
+                android:exported="false"/>
     </application>
 
 </manifest>
