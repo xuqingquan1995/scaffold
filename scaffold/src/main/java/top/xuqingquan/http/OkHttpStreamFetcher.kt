@@ -18,17 +18,17 @@ import java.io.InputStream
 class OkHttpStreamFetcher(private val client: Call.Factory, private val url: GlideUrl) : DataFetcher<InputStream>,
     Callback {
 
-    private lateinit var stream: InputStream
+    private var stream: InputStream? = null
     private var responseBody: ResponseBody? = null
     private var callback: DataFetcher.DataCallback<in InputStream>? = null
     @Volatile
-    private lateinit var call: Call
+    private var call: Call? = null
 
     override fun getDataClass() = InputStream::class.java
 
     override fun cleanup() {
         try {
-            stream.close()
+            stream?.close()
         } catch (e: IOException) {
         }
         responseBody?.apply { close() }
@@ -38,7 +38,7 @@ class OkHttpStreamFetcher(private val client: Call.Factory, private val url: Gli
     override fun getDataSource() = DataSource.REMOTE
 
     override fun cancel() {
-        call.cancel()
+        call?.cancel()
     }
 
     override fun loadData(priority: Priority, callback: DataFetcher.DataCallback<in InputStream>) {
@@ -49,7 +49,7 @@ class OkHttpStreamFetcher(private val client: Call.Factory, private val url: Gli
         val request = requestBuilder.build()
         this.callback = callback
         call = client.newCall(request)
-        call.enqueue(this)
+        call?.enqueue(this)
     }
 
     override fun onFailure(call: Call, e: IOException) {
