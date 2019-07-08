@@ -12,7 +12,7 @@ import top.xuqingquan.base.view.adapter.viewholder.BaseViewHolder
 /**
  * Created by 许清泉 on 2019/4/14 01:37
  */
-abstract class SimpleListAdapter<T>(diff: DiffUtil.ItemCallback<T>) : ListAdapter<T, BaseViewHolder<T>>(diff) {
+open class SimpleListAdapter<T>(diff: DiffUtil.ItemCallback<T>) : ListAdapter<T, BaseViewHolder<T>>(diff) {
 
     var listener: OnViewClickListener<T>? = null
 
