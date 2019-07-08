@@ -151,6 +151,7 @@ public final class ActionActivity extends Activity {
                 mChooserListener = null;
                 finish();
             }
+            @SuppressWarnings("ConstantConditions")
             Intent intent = WebUtils.getIntentCaptureCompat(this, mFile);
             // 指定开启系统相机的Action
             mUri = intent.getParcelableExtra(MediaStore.EXTRA_OUTPUT);
@@ -187,10 +188,5 @@ public final class ActionActivity extends Activity {
 
     public interface ChooserListener {
         void onChoiceResult(int requestCode, int resultCode, Intent data);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
     }
 }
