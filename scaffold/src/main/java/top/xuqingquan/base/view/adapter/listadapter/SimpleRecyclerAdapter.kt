@@ -12,7 +12,7 @@ import top.xuqingquan.base.view.adapter.viewholder.BaseViewHolder
  * 简单的可持有数据的RecyclerViewAdapter
  */
 @Suppress("NON_FINAL_MEMBER_IN_FINAL_CLASS")
-class SimpleRecyclerAdapter<T>(private val list: MutableList<T>) :
+open class SimpleRecyclerAdapter<T>(private val list: MutableList<T>) :
     RecyclerView.Adapter<BaseViewHolder<T>>() {
     var listener: OnViewClickListener<T>? = null
 
