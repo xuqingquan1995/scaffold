@@ -1,9 +1,12 @@
 package top.xuqingquan.web.publics;
 
+import android.annotation.SuppressLint;
 import android.os.Build;
+import androidx.annotation.Nullable;
 import top.xuqingquan.utils.CharacterUtils;
 import top.xuqingquan.web.nokernel.WebConfig;
 
+@SuppressLint("ObsoleteSdkInt")
 public abstract class BaseJsAccessEntrace implements JsAccessEntrace {
 
     private android.webkit.WebView mWebView;
@@ -18,7 +21,7 @@ public abstract class BaseJsAccessEntrace implements JsAccessEntrace {
     }
 
     @Override
-    public void callJs(String js, final android.webkit.ValueCallback<String> callback) {
+    public void callJs(String js, @Nullable android.webkit.ValueCallback<String> callback) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             this.evaluateJs(js, callback);
         } else {
@@ -27,7 +30,7 @@ public abstract class BaseJsAccessEntrace implements JsAccessEntrace {
     }
 
     @Override
-    public void callJs(String js, final com.tencent.smtt.sdk.ValueCallback<String> callback) {
+    public void callJs(String js, @Nullable com.tencent.smtt.sdk.ValueCallback<String> callback) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             this.evaluateJs(js, callback);
         } else {
@@ -53,7 +56,7 @@ public abstract class BaseJsAccessEntrace implements JsAccessEntrace {
         }
     }
 
-    private void evaluateJs(String js, final android.webkit.ValueCallback<String> callback) {
+    private void evaluateJs(String js, @Nullable android.webkit.ValueCallback<String> callback) {
         mWebView.evaluateJavascript(js, value -> {
             if (callback != null) {
                 callback.onReceiveValue(value);
@@ -61,7 +64,7 @@ public abstract class BaseJsAccessEntrace implements JsAccessEntrace {
         });
     }
 
-    private void evaluateJs(String js, final com.tencent.smtt.sdk.ValueCallback<String> callback) {
+    private void evaluateJs(String js, @Nullable com.tencent.smtt.sdk.ValueCallback<String> callback) {
         mx5WebView.evaluateJavascript(js, value -> {
             if (callback != null) {
                 callback.onReceiveValue(value);

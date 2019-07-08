@@ -172,7 +172,7 @@ public final class AgentWeb {
         this.mWebClientHelper = agentBuilder.mWebClientHelper;
         this.mIsInterceptUnkownUrl = agentBuilder.mIsInterceptUnkownUrl;
         if (agentBuilder.mOpenOtherPage != null) {
-            this.mUrlHandleWays = agentBuilder.mOpenOtherPage.code;
+            this.mUrlHandleWays = agentBuilder.mOpenOtherPage.getCode();
         }
         doCompat();
     }
@@ -318,6 +318,7 @@ public final class AgentWeb {
         this.getUrlLoader().loadUrl(url);
         IndicatorController mIndicatorController = getIndicatorController();
         if (!TextUtils.isEmpty(url) && mIndicatorController != null && mIndicatorController.offerIndicator() != null) {
+            //noinspection ConstantConditions
             getIndicatorController().offerIndicator().show();
         }
         return this;
@@ -345,6 +346,7 @@ public final class AgentWeb {
         return mIVideo;
     }
 
+    @SuppressWarnings("ConstantConditions")
     private android.webkit.WebViewClient getWebViewClient() {
         Timber.i("getDelegate:" + this.mMiddleWrareWebClientBaseHeader);
         top.xuqingquan.web.system.DefaultWebClient mDefaultWebClient = top.xuqingquan.web.system.DefaultWebClient
@@ -378,6 +380,7 @@ public final class AgentWeb {
         }
     }
 
+    @SuppressWarnings("ConstantConditions")
     private com.tencent.smtt.sdk.WebViewClient getX5WebViewClient() {
         Timber.i("getDelegate:" + this.mX5MiddleWrareWebClientBaseHeader);
         top.xuqingquan.web.x5.DefaultWebClient mDefaultWebClient = top.xuqingquan.web.x5.DefaultWebClient
@@ -468,6 +471,7 @@ public final class AgentWeb {
         return this;
     }
 
+    @SuppressWarnings("ConstantConditions")
     private android.webkit.WebChromeClient getChromeClient() {
         this.mIndicatorController = (this.mIndicatorController == null) ?
                 IndicatorHandler.getInstance().inJectIndicator(mWebCreator.offer())
@@ -501,6 +505,7 @@ public final class AgentWeb {
         }
     }
 
+    @SuppressWarnings("ConstantConditions")
     private com.tencent.smtt.sdk.WebChromeClient getX5ChromeClient() {
         this.mIndicatorController = (this.mIndicatorController == null) ?
                 IndicatorHandler.getInstance().inJectIndicator(mWebCreator.offer())
@@ -884,11 +889,11 @@ public final class AgentWeb {
         }
 
         @Override
-        public boolean intercept(String url, String[] permissions, String a) {
+        public boolean intercept(String url, @NonNull String[] permissions, @NonNull String action) {
             if (this.mWeakReference.get() == null) {
                 return false;
             }
-            return mWeakReference.get().intercept(url, permissions, a);
+            return mWeakReference.get().intercept(url, permissions, action);
         }
     }
 }
