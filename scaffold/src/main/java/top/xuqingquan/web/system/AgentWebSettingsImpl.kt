@@ -17,7 +17,10 @@ class AgentWebSettingsImpl : AbsAgentWebSettings() {
         this.mAgentWeb = agentWeb
     }
 
-    override fun setDownloader(webView: WebView, downloadListener: DownloadListener?): WebListenerManager {
+    override fun setDownloader(webView: WebView?, downloadListener: DownloadListener?): WebListenerManager {
+        if (webView == null) {
+            return super.setDownloader(webView, downloadListener)
+        }
         var listener = downloadListener
         try {
             Class.forName("com.download.library.DownloadTask")//如果有依赖下载库则使用下载库，否则使用系统的
