@@ -8,7 +8,7 @@ MVP使用示例:[ScaffoldMVP](https://github.com/xuqingquan1995/ScaffoldMVP.git)
 MVVM使用示例：[ScaffoldMVVM](https://github.com/xuqingquan1995/ScaffoldMVVM.git)
 
 #### 软件架构
-项目参照[ArmsMVP](https://github.com/JessYanCoding/MVPArms.git)进行大体框架的构建，去除其中的DaggerDagger，Rx 相关部分，降低学习成本
+项目参照[ArmsMVP](https://github.com/JessYanCoding/MVPArms.git)进行大体框架的构建，去除其中的Dagger，Rx 相关部分，降低学习成本
 
 从[Fragmentation](https://github.com/YoKeyword/Fragmentation.git)获得灵感，添加Fragment栈视图，可以大致的查看当前Fragment栈，适合单Activity多Fragment项目
 
