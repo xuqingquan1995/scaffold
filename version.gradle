@@ -4,7 +4,7 @@ ext {
             buildToolsVersion : '28.0.3',
             minSdkVersion     : 19,
             targetSdkVersion  : 26,
-            AndroidJUnitRunner: 'androidx.test.runner.AndroidJUnitRunner',
+            AndroidJUnitRunner: 'androidx.test.ext.junit.runners.AndroidJUnit4',
     ]
 
     depsVer = [
