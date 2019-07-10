@@ -1,4 +1,4 @@
-package top.xuqingquan.widget
+package top.xuqingquan.widget.text
 
 import android.content.Context
 import android.graphics.Rect

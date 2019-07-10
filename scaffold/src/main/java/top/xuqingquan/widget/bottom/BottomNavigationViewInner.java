@@ -1,4 +1,4 @@
-package top.xuqingquan.widget;
+package top.xuqingquan.widget.bottom;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
