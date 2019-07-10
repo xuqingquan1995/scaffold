@@ -70,7 +70,7 @@ dependencies {
     compileOnly rootProject.ext.deps.paging
     api rootProject.ext.deps.glide
     kapt rootProject.ext.deps.glide_compiler
-    compileOnly(rootProject.ext.deps.material) {
+    api(rootProject.ext.deps.material) {
         //material 会自动强制依赖1.0.0-alpha04的viewpager，
         exclude group: 'androidx.viewpager2', module: 'viewpager2'
     }
