@@ -1,4 +1,4 @@
-package top.xuqingquan.widget
+package top.xuqingquan.widget.text
 
 import android.text.Editable
 import android.text.Selection
@@ -98,7 +98,10 @@ class BankCardTextWatcher(private val editText: EditText, maxLength: Int) : Text
 
         @JvmStatic
         fun bind(editText: EditText) {
-            BankCardTextWatcher(editText, DEFAULT_MAX_LENGTH)
+            BankCardTextWatcher(
+                editText,
+                DEFAULT_MAX_LENGTH
+            )
         }
 
         @JvmStatic
