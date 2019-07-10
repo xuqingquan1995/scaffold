@@ -25,7 +25,7 @@ open class BaseViewPager2Adapter : FragmentStateAdapter {
         this.fragments = fragments
     }
 
-    override fun getItem(position: Int) = fragments[position]
+    override fun createFragment(position: Int) = fragments[position]
 
     override fun getItemCount() = fragments.size
 
