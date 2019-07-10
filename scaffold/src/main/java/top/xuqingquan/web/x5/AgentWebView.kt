@@ -13,10 +13,14 @@ import com.tencent.smtt.sdk.WebChromeClient
 import com.tencent.smtt.sdk.WebView
 import com.tencent.smtt.sdk.WebViewClient
 import top.xuqingquan.utils.Timber
+import top.xuqingquan.R
 
 class AgentWebView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : WebView(context, attrs) {
     private val mFixedOnReceivedTitle = FixedOnReceivedTitle()
-    private val mIsInited: Boolean = true
+
+    init {
+        id = R.id.agentweb_webview_id
+    }
 
     override fun setWebChromeClient(client: WebChromeClient) {
         val mAgentWebChrome = AgentWebChrome(this)
@@ -24,7 +28,6 @@ class AgentWebView @JvmOverloads constructor(context: Context, attrs: AttributeS
         mFixedOnReceivedTitle.setWebChromeClient(client)
         super.setWebChromeClient(mAgentWebChrome)
     }
-
 
     override fun setWebViewClient(client: WebViewClient) {
         val mAgentWebClient = AgentWebClient(this)
@@ -36,16 +39,8 @@ class AgentWebView @JvmOverloads constructor(context: Context, attrs: AttributeS
         visibility = View.GONE
         removeAllViewsInLayout()
         fixedStillAttached()
-        if (mIsInited) {
-            Timber.i("destroy web")
-            super.destroy()
-        }
-    }
-
-    override fun clearHistory() {
-        if (mIsInited) {
-            super.clearHistory()
-        }
+        Timber.i("destroy web")
+        super.destroy()
     }
 
     override fun setOverScrollMode(mode: Int) {
