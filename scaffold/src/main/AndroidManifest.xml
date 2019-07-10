@@ -46,7 +46,7 @@
 
         <provider
                 android:name=".app.ScaffoldInstaller"
-                android:authorities="ScaffoldInstaller"
+                android:authorities="${applicationId}.ScaffoldInstaller"
                 android:enabled="true"
                 android:exported="false"/>
     </application>
