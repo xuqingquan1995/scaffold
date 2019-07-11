@@ -44,12 +44,13 @@ import java.util.concurrent.TimeUnit;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class ScaffoldConfig {
+    private static boolean debug = BuildConfig.DEBUG;
     private static ScaffoldConfig instance;
     private static Application application;
     private static Gson gson;
     private static GsonConfiguration gsonConfiguration;
     private static HttpUrl httpUrl;
-    private static boolean showStack = BuildConfig.DEBUG;
+    private static boolean showStack = ScaffoldConfig.debug();
     private static Level level;
     private static PagedList.Config config;
     private static ExecutorService executorService;
@@ -79,6 +80,10 @@ public class ScaffoldConfig {
             }
         }
         return instance;
+    }
+
+    public static boolean debug() {
+        return debug || BuildConfig.DEBUG;
     }
 
     @NonNull
@@ -115,7 +120,7 @@ public class ScaffoldConfig {
     @NonNull
     public static Level getLevel() {
         if (level == null) {
-            level = BuildConfig.DEBUG ? Level.ALL : Level.NONE;
+            level = debug() ? Level.ALL : Level.NONE;
         }
         return level;
     }
@@ -235,6 +240,11 @@ public class ScaffoldConfig {
     @Nullable
     public static ComponentCallbacks2 getComponentCallbacks2() {
         return componentCallbacks2;
+    }
+
+    public ScaffoldConfig debug(boolean debug) {
+        ScaffoldConfig.debug = debug;
+        return this;
     }
 
     @NonNull

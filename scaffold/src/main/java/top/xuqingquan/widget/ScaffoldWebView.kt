@@ -11,11 +11,11 @@ import androidx.annotation.DimenRes
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import org.jetbrains.anko.px2dip
-import top.xuqingquan.BuildConfig
 import top.xuqingquan.R
 import top.xuqingquan.web.AgentWeb
 import top.xuqingquan.web.nokernel.WebConfig
 import top.xuqingquan.web.publics.AgentWebConfig
+import top.xuqingquan.app.ScaffoldConfig
 
 /**
  * Created by 许清泉 on 2019-05-22 21:00
@@ -38,11 +38,11 @@ class ScaffoldWebView : FrameLayout {
     var debug: Boolean = false
         set(value) {
             field = value
-            if (BuildConfig.DEBUG && field) {
+            if (ScaffoldConfig.debug() && field) {
                 AgentWebConfig.debug()
             }
         }
-        get() = BuildConfig.DEBUG && field
+        get() = ScaffoldConfig.debug() && field
 
     constructor(context: Context) : super(context)
 
