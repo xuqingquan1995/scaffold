@@ -8,7 +8,7 @@ import com.tencent.smtt.sdk.QbSdk
 import com.tencent.smtt.sdk.TbsListener
 import com.zxy.recovery.core.Recovery
 import me.jessyan.autosize.AutoSizeConfig
-import top.xuqingquan.BuildConfig
+import top.xuqingquan.app.ScaffoldConfig
 import top.xuqingquan.delegate.AppLifecycles
 import top.xuqingquan.error.RecoveryCrashCallback
 import top.xuqingquan.utils.Timber
@@ -28,7 +28,7 @@ class AppLifecyclesImpl : AppLifecycles {
     }
 
     override fun onCreate(application: Application) {
-        if (BuildConfig.DEBUG) {
+        if (ScaffoldConfig.debug()) {
             Timber.plant(Timber.DebugTree())
             //根据需要启用
 //            Logger.addLogAdapter(object : AndroidLogAdapter(
