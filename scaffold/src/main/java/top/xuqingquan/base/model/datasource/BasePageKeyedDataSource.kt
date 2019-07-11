@@ -2,8 +2,10 @@ package top.xuqingquan.base.model.datasource
 
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PageKeyedDataSource
-import kotlinx.coroutines.*
-import top.xuqingquan.BuildConfig
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import top.xuqingquan.app.ScaffoldConfig
 import top.xuqingquan.base.model.entity.NetworkStatus
 import kotlin.coroutines.CoroutineContext
@@ -58,7 +60,7 @@ abstract class BasePageKeyedDataSource<Key, Value> : PageKeyedDataSource<Key, Va
             try {
                 tryBlock()
             } catch (e: Throwable) {
-                if (BuildConfig.DEBUG) {
+                if (ScaffoldConfig.debug()) {
                     e.printStackTrace()
                 }
                 catchBlock(e)
