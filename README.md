@@ -1,4 +1,4 @@
-# ScaffoldPro
+# Scaffold
 
 #### 介绍
 快速搭建Android项目的基础框架，具体使用可以参考sample
