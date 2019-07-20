@@ -14,6 +14,7 @@ object UrlEncoderUtils {
      * @param str 需要解码的参数
      * @param enc 编码方式
      */
+    @JvmStatic
     fun decode(str: String, enc: String): String {
         return if (hasUrlEncoded(str)) {
             URLDecoder.decode(str, enc)
@@ -26,6 +27,7 @@ object UrlEncoderUtils {
      * url解码，默认utf-8编码
      * @param str 需要解码的参数
      */
+    @JvmStatic
     fun decode(str: String): String {
         return decode(str, StandardCharsets.UTF_8.name())
     }
@@ -36,6 +38,7 @@ object UrlEncoderUtils {
      * @param enc 编码方式
      * @param forceEncode 编码过的字符串是否强制编码
      */
+    @JvmStatic
     fun encode(str: String, enc: String, forceEncode: Boolean = false): String {
         return if (forceEncode && hasUrlEncoded(str)) {
             URLEncoder.encode(str, enc)
@@ -51,6 +54,7 @@ object UrlEncoderUtils {
      * @param str 需要编码的字符串,默认utf-8编码
      * @param forceEncode 编码过的字符串是否强制编码
      */
+    @JvmStatic
     fun encode(str: String, forceEncode: Boolean = false): String {
         return encode(str, StandardCharsets.UTF_8.name(), forceEncode)
     }
@@ -63,6 +67,7 @@ object UrlEncoderUtils {
      * @param str 需要判断的内容
      * @return 返回 `true` 为被 URLEncoder.encode() 过
      */
+    @JvmStatic
     fun hasUrlEncoded(str: String): Boolean {
         var encode = false
         for (i in 0 until str.length) {

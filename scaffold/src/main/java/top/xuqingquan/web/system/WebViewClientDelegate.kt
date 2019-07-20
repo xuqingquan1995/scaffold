@@ -13,7 +13,7 @@ open class WebViewClientDelegate internal constructor(client: WebViewClient?) : 
 
     open var delegate: WebViewClient? = client
 
-    override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
+    override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
         return if (delegate != null) {
             delegate!!.shouldOverrideUrlLoading(view, url)
         } else {
@@ -22,7 +22,7 @@ open class WebViewClientDelegate internal constructor(client: WebViewClient?) : 
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
+    override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
         return if (delegate != null) {
             delegate!!.shouldOverrideUrlLoading(view, request)
         } else {
@@ -30,7 +30,7 @@ open class WebViewClientDelegate internal constructor(client: WebViewClient?) : 
         }
     }
 
-    override fun onPageStarted(view: WebView, url: String, favicon: Bitmap) {
+    override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
         if (delegate != null) {
             delegate!!.onPageStarted(view, url, favicon)
             return
@@ -38,7 +38,7 @@ open class WebViewClientDelegate internal constructor(client: WebViewClient?) : 
         super.onPageStarted(view, url, favicon)
     }
 
-    override fun onPageFinished(view: WebView, url: String) {
+    override fun onPageFinished(view: WebView?, url: String?) {
         if (delegate != null) {
             delegate!!.onPageFinished(view, url)
             return
@@ -46,7 +46,7 @@ open class WebViewClientDelegate internal constructor(client: WebViewClient?) : 
         super.onPageFinished(view, url)
     }
 
-    override fun onLoadResource(view: WebView, url: String) {
+    override fun onLoadResource(view: WebView?, url: String?) {
         if (delegate != null) {
             delegate!!.onLoadResource(view, url)
             return
@@ -55,7 +55,7 @@ open class WebViewClientDelegate internal constructor(client: WebViewClient?) : 
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
-    override fun onPageCommitVisible(view: WebView, url: String) {
+    override fun onPageCommitVisible(view: WebView?, url: String?) {
         if (delegate != null) {
             delegate!!.onPageCommitVisible(view, url)
             return
@@ -63,10 +63,7 @@ open class WebViewClientDelegate internal constructor(client: WebViewClient?) : 
         super.onPageCommitVisible(view, url)
     }
 
-    override fun shouldInterceptRequest(
-        view: WebView,
-        url: String
-    ): WebResourceResponse? {
+    override fun shouldInterceptRequest(view: WebView?, url: String?): WebResourceResponse? {
         return if (delegate != null) {
             delegate!!.shouldInterceptRequest(view, url)
         } else {
@@ -75,10 +72,7 @@ open class WebViewClientDelegate internal constructor(client: WebViewClient?) : 
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    override fun shouldInterceptRequest(
-        view: WebView,
-        request: WebResourceRequest
-    ): WebResourceResponse? {
+    override fun shouldInterceptRequest(view: WebView?, request: WebResourceRequest?): WebResourceResponse? {
         return if (delegate != null) {
             delegate!!.shouldInterceptRequest(view, request)
         } else {
@@ -87,10 +81,7 @@ open class WebViewClientDelegate internal constructor(client: WebViewClient?) : 
     }
 
     @Deprecated("")
-    override fun onTooManyRedirects(
-        view: WebView, cancelMsg: Message,
-        continueMsg: Message
-    ) {
+    override fun onTooManyRedirects(view: WebView?, cancelMsg: Message?, continueMsg: Message?) {
         if (delegate != null) {
             delegate!!.onTooManyRedirects(view, cancelMsg, continueMsg)
             return
@@ -98,10 +89,18 @@ open class WebViewClientDelegate internal constructor(client: WebViewClient?) : 
         super.onTooManyRedirects(view, cancelMsg, continueMsg)
     }
 
-    @Deprecated("")
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onRenderProcessGone(view: WebView?, detail: RenderProcessGoneDetail?): Boolean {
+        if (delegate != null) {
+            return delegate!!.onRenderProcessGone(view, detail)
+
+        }
+        return super.onRenderProcessGone(view, detail)
+    }
+
     override fun onReceivedError(
-        view: WebView, errorCode: Int,
-        description: String, failingUrl: String
+        view: WebView?, errorCode: Int,
+        description: String?, failingUrl: String?
     ) {
         if (delegate != null) {
             delegate!!.onReceivedError(view, errorCode, description, failingUrl)
@@ -111,7 +110,7 @@ open class WebViewClientDelegate internal constructor(client: WebViewClient?) : 
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
-    override fun onReceivedError(view: WebView, request: WebResourceRequest, error: WebResourceError) {
+    override fun onReceivedError(view: WebView?, request: WebResourceRequest?, error: WebResourceError?) {
         if (delegate != null) {
             delegate!!.onReceivedError(view, request, error)
             return
@@ -121,7 +120,9 @@ open class WebViewClientDelegate internal constructor(client: WebViewClient?) : 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     override fun onReceivedHttpError(
-        view: WebView, request: WebResourceRequest, errorResponse: WebResourceResponse
+        view: WebView?,
+        request: WebResourceRequest?,
+        errorResponse: WebResourceResponse?
     ) {
         if (delegate != null) {
             delegate!!.onReceivedHttpError(view, request, errorResponse)
@@ -130,10 +131,7 @@ open class WebViewClientDelegate internal constructor(client: WebViewClient?) : 
         super.onReceivedHttpError(view, request, errorResponse)
     }
 
-    override fun onFormResubmission(
-        view: WebView, dontResend: Message,
-        resend: Message
-    ) {
+    override fun onFormResubmission(view: WebView?, dontResend: Message?, resend: Message?) {
         if (delegate != null) {
             delegate!!.onFormResubmission(view, dontResend, resend)
             return
@@ -141,11 +139,7 @@ open class WebViewClientDelegate internal constructor(client: WebViewClient?) : 
         super.onFormResubmission(view, dontResend, resend)
     }
 
-
-    override fun doUpdateVisitedHistory(
-        view: WebView, url: String,
-        isReload: Boolean
-    ) {
+    override fun doUpdateVisitedHistory(view: WebView?, url: String?, isReload: Boolean) {
         if (delegate != null) {
             delegate!!.doUpdateVisitedHistory(view, url, isReload)
             return
@@ -153,10 +147,7 @@ open class WebViewClientDelegate internal constructor(client: WebViewClient?) : 
         super.doUpdateVisitedHistory(view, url, isReload)
     }
 
-    override fun onReceivedSslError(
-        view: WebView, handler: SslErrorHandler,
-        error: SslError
-    ) {
+    override fun onReceivedSslError(view: WebView?, handler: SslErrorHandler?, error: SslError?) {
         if (delegate != null) {
             delegate!!.onReceivedSslError(view, handler, error)
             return
@@ -165,7 +156,7 @@ open class WebViewClientDelegate internal constructor(client: WebViewClient?) : 
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    override fun onReceivedClientCertRequest(view: WebView, request: ClientCertRequest) {
+    override fun onReceivedClientCertRequest(view: WebView?, request: ClientCertRequest?) {
         if (delegate != null) {
             delegate!!.onReceivedClientCertRequest(view, request)
             return
@@ -173,10 +164,7 @@ open class WebViewClientDelegate internal constructor(client: WebViewClient?) : 
         super.onReceivedClientCertRequest(view, request)
     }
 
-    override fun onReceivedHttpAuthRequest(
-        view: WebView,
-        handler: HttpAuthHandler, host: String, realm: String
-    ) {
+    override fun onReceivedHttpAuthRequest(view: WebView?, handler: HttpAuthHandler?, host: String, realm: String?) {
         if (delegate != null) {
             delegate!!.onReceivedHttpAuthRequest(view, handler, host, realm)
             return
@@ -184,13 +172,13 @@ open class WebViewClientDelegate internal constructor(client: WebViewClient?) : 
         super.onReceivedHttpAuthRequest(view, handler, host, realm)
     }
 
-    override fun shouldOverrideKeyEvent(view: WebView, event: KeyEvent): Boolean {
+    override fun shouldOverrideKeyEvent(view: WebView?, event: KeyEvent?): Boolean {
         return if (delegate != null) {
             delegate!!.shouldOverrideKeyEvent(view, event)
         } else super.shouldOverrideKeyEvent(view, event)
     }
 
-    override fun onUnhandledKeyEvent(view: WebView, event: KeyEvent) {
+    override fun onUnhandledKeyEvent(view: WebView?, event: KeyEvent?) {
         if (delegate != null) {
             delegate!!.onUnhandledKeyEvent(view, event)
             return
@@ -199,7 +187,7 @@ open class WebViewClientDelegate internal constructor(client: WebViewClient?) : 
     }
 
 
-    override fun onScaleChanged(view: WebView, oldScale: Float, newScale: Float) {
+    override fun onScaleChanged(view: WebView?, oldScale: Float, newScale: Float) {
         if (delegate != null) {
             delegate!!.onScaleChanged(view, oldScale, newScale)
             return
@@ -207,10 +195,7 @@ open class WebViewClientDelegate internal constructor(client: WebViewClient?) : 
         super.onScaleChanged(view, oldScale, newScale)
     }
 
-    override fun onReceivedLoginRequest(
-        view: WebView, realm: String,
-        account: String?, args: String
-    ) {
+    override fun onReceivedLoginRequest(view: WebView?, realm: String?, account: String?, args: String?) {
         if (delegate != null) {
             delegate!!.onReceivedLoginRequest(view, realm, account, args)
             return

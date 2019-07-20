@@ -60,15 +60,15 @@ class AgentWebView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     class AgentWebClient internal constructor(private val mAgentWebView: AgentWebView) : MiddlewareWebClientBase() {
 
-        override fun onPageStarted(view: WebView, url: String, favicon: Bitmap) {
+        override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
             super.onPageStarted(view, url, favicon)
             mAgentWebView.mFixedOnReceivedTitle.onPageStarted()
         }
 
-        override fun onPageFinished(view: WebView, url: String) {
+        override fun onPageFinished(view: WebView?, url: String?) {
             super.onPageFinished(view, url)
             mAgentWebView.mFixedOnReceivedTitle.onPageFinished(view)
-            Timber.d("onPageFinished.url = " + view.url)
+            Timber.d("onPageFinished.url = " + view?.url)
         }
 
 
@@ -97,11 +97,11 @@ class AgentWebView @JvmOverloads constructor(context: Context, attrs: AttributeS
             mIsOnReceivedTitle = false
         }
 
-        internal fun onPageFinished(view: WebView) {
+        internal fun onPageFinished(view: WebView?) {
             if (!mIsOnReceivedTitle && mWebChromeClient != null) {
                 var list: WebBackForwardList? = null
                 try {
-                    list = view.copyBackForwardList()
+                    list = view?.copyBackForwardList()
                 } catch (e: Throwable) {
                     Timber.e(e)
                 }

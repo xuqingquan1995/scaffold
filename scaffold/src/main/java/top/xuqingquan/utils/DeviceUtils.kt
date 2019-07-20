@@ -13,6 +13,26 @@ import androidx.core.content.ContextCompat
  */
 object DeviceUtils {
 
+
+    /**
+     * 获取版本号
+     *
+     * @param context
+     * @return
+     */
+    @JvmStatic
+    fun getVersionCode(context: Context): Long {
+        return try {
+            context.packageManager
+                .getPackageInfo(
+                    context.packageName,
+                    0
+                ).longVersionCode
+        } catch (ex: Throwable) {
+            0
+        }
+    }
+
     /**
      * 复制到剪贴板
      * @param context 上下文

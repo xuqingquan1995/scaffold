@@ -60,7 +60,7 @@ class AgentWebView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     class AgentWebClient internal constructor(private val mAgentWebView: AgentWebView) : MiddlewareWebClientBase() {
 
-        override fun onPageStarted(view: WebView, url: String, favicon: Bitmap) {
+        override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
             super.onPageStarted(view, url, favicon)
             mAgentWebView.mFixedOnReceivedTitle.onPageStarted()
         }
