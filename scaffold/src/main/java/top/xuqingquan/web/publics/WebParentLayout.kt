@@ -113,7 +113,7 @@ class WebParentLayout @JvmOverloads internal constructor(
         mView?.visibility = View.GONE
     }
 
-    fun setErrorView(errorView: View) {
+    fun setErrorView(errorView: View?) {
         this.mErrorView = errorView
     }
 
