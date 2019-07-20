@@ -14,7 +14,7 @@ class UrlLoaderImpl : IUrlLoader {
     private var mx5WebView: com.tencent.smtt.sdk.WebView? = null
     private var mHttpHeaders: HttpHeaders? = null
 
-    constructor(webView: android.webkit.WebView?, httpHeaders: HttpHeaders) {
+    constructor(webView: android.webkit.WebView?, httpHeaders: HttpHeaders?) {
         this.mWebView = webView
         if (this.mWebView == null) {
             throw NullPointerException("webview cannot be null .")
@@ -26,7 +26,7 @@ class UrlLoaderImpl : IUrlLoader {
         mHandler = Handler(Looper.getMainLooper())
     }
 
-    constructor(webView: com.tencent.smtt.sdk.WebView?, httpHeaders: HttpHeaders) {
+    constructor(webView: com.tencent.smtt.sdk.WebView?, httpHeaders: HttpHeaders?) {
         this.mx5WebView = webView
         if (this.mx5WebView == null) {
             throw NullPointerException("webview cannot be null .")

@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.util.AttributeSet
 import android.view.KeyEvent
-import android.webkit.WebView
 import android.widget.FrameLayout
 import androidx.annotation.ColorInt
 import androidx.annotation.DimenRes
@@ -12,10 +11,10 @@ import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import org.jetbrains.anko.px2dip
 import top.xuqingquan.R
+import top.xuqingquan.app.ScaffoldConfig
 import top.xuqingquan.web.AgentWeb
 import top.xuqingquan.web.nokernel.WebConfig
 import top.xuqingquan.web.publics.AgentWebConfig
-import top.xuqingquan.app.ScaffoldConfig
 
 /**
  * Created by 许清泉 on 2019-05-22 21:00
@@ -73,8 +72,8 @@ class ScaffoldWebView : FrameLayout {
     }
 
     fun initAgentWeb(aw: AgentWeb?) {
-        if (aw == null) {
-            agentWeb = AgentWeb.with(context as Activity)
+        agentWeb = if (aw == null) {
+            AgentWeb.with(context as Activity)
                 .setAgentWebParent(
                     this,
                     -1,
@@ -85,13 +84,13 @@ class ScaffoldWebView : FrameLayout {
                 .interceptUnkownUrl() //拦截找不到相关页面的Url AgentWeb 3.0.0 加入。
                 .createAgentWeb()//创建AgentWeb。
                 .get()
-            if (WebConfig.hasX5()) {
-                agentWeb!!.webCreator.getX5WebView()?.overScrollMode = WebView.OVER_SCROLL_NEVER
-            } else {
-                agentWeb!!.webCreator.getWebView()?.overScrollMode = WebView.OVER_SCROLL_NEVER
-            }
         } else {
-            agentWeb = aw
+            aw
+        }
+        if (WebConfig.hasX5()) {
+            agentWeb!!.webCreator.getX5WebView()?.overScrollMode = com.tencent.smtt.sdk.WebView.OVER_SCROLL_NEVER
+        } else {
+            agentWeb!!.webCreator.getWebView()?.overScrollMode = android.webkit.WebView.OVER_SCROLL_NEVER
         }
     }
 

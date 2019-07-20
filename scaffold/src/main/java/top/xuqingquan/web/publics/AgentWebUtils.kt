@@ -40,8 +40,8 @@ object AgentWebUtils {
             m.handler.removeCallbacksAndMessages(null)
         }
         m.removeAllViews()
-        val mViewGroup = m.parent as ViewGroup
-        mViewGroup.removeView(m)
+        val mViewGroup = m.parent as ViewGroup?
+        mViewGroup?.removeView(m)
         m.webChromeClient = null
         m.webViewClient = null
         m.tag = null
@@ -63,8 +63,8 @@ object AgentWebUtils {
             m.handler.removeCallbacksAndMessages(null)
         }
         m.removeAllViews()
-        val mViewGroup = m.parent as ViewGroup
-        mViewGroup.removeView(m)
+        val mViewGroup = m.parent as ViewGroup?
+        mViewGroup?.removeView(m)
         m.webChromeClient = null
         m.webViewClient = null
         m.tag = null
