@@ -41,13 +41,13 @@ public final class AgentWeb {
     /**
      * WebChromeClient
      */
-    private top.xuqingquan.web.system.MiddlewareWebChromeBase mWebChromeClient;
-    private top.xuqingquan.web.x5.MiddlewareWebChromeBase mX5WebChromeClient;
+    private android.webkit.WebChromeClient mWebChromeClient;
+    private com.tencent.smtt.sdk.WebChromeClient mX5WebChromeClient;
     /**
      * WebViewClient
      */
-    private top.xuqingquan.web.system.MiddlewareWebClientBase mWebViewClient;
-    private top.xuqingquan.web.x5.MiddlewareWebClientBase mX5WebViewClient;
+    private android.webkit.WebViewClient mWebViewClient;
+    private com.tencent.smtt.sdk.WebViewClient mX5WebViewClient;
     /**
      * is show indicator
      */
@@ -352,6 +352,7 @@ public final class AgentWeb {
         top.xuqingquan.web.system.DefaultWebClient mDefaultWebClient = top.xuqingquan.web.system.DefaultWebClient
                 .createBuilder()
                 .setActivity(this.mActivity)
+                .setClient(mWebViewClient)
                 .setWebClientHelper(this.mWebClientHelper)
                 .setPermissionInterceptor(this.mPermissionInterceptor)
                 .setWebView(this.mWebCreator.getWebView())
@@ -359,10 +360,6 @@ public final class AgentWeb {
                 .setUrlHandleWays(this.mUrlHandleWays)
                 .build();
         top.xuqingquan.web.system.MiddlewareWebClientBase header = this.mMiddleWrareWebClientBaseHeader;
-        if (this.mWebViewClient != null) {
-            this.mWebViewClient.enq(this.mMiddleWrareWebClientBaseHeader);
-            header = this.mWebViewClient;
-        }
         if (header != null) {
             top.xuqingquan.web.system.MiddlewareWebClientBase tail = header;
             int count = 1;
@@ -386,6 +383,7 @@ public final class AgentWeb {
         top.xuqingquan.web.x5.DefaultWebClient mDefaultWebClient = top.xuqingquan.web.x5.DefaultWebClient
                 .createBuilder()
                 .setActivity(this.mActivity)
+                .setClient(mX5WebViewClient)
                 .setWebClientHelper(this.mWebClientHelper)
                 .setPermissionInterceptor(this.mPermissionInterceptor)
                 .setWebView(this.mWebCreator.getX5WebView())
@@ -393,10 +391,6 @@ public final class AgentWeb {
                 .setUrlHandleWays(this.mUrlHandleWays)
                 .build();
         top.xuqingquan.web.x5.MiddlewareWebClientBase header = this.mX5MiddleWrareWebClientBaseHeader;
-        if (this.mX5WebViewClient != null) {
-            this.mX5WebViewClient.enq(this.mX5MiddleWrareWebClientBaseHeader);
-            header = this.mX5WebViewClient;
-        }
         if (header != null) {
             top.xuqingquan.web.x5.MiddlewareWebClientBase tail = header;
             int count = 1;
@@ -480,14 +474,10 @@ public final class AgentWeb {
         top.xuqingquan.web.system.DefaultChromeClient mDefaultChromeClient =
                 new top.xuqingquan.web.system.DefaultChromeClient(this.mActivity,
                         this.mIndicatorController,
-                        null, this.mIVideo,
+                        mWebChromeClient, this.mIVideo,
                         this.mPermissionInterceptor, mWebCreator.getWebView());
         Timber.i("WebChromeClient:" + this.mWebChromeClient);
         top.xuqingquan.web.system.MiddlewareWebChromeBase header = this.mMiddlewareWebChromeBaseHeader;
-        if (this.mWebChromeClient != null) {
-            this.mWebChromeClient.enq(header);
-            header = this.mWebChromeClient;
-        }
         if (header != null) {
             top.xuqingquan.web.system.MiddlewareWebChromeBase tail = header;
             int count = 1;
@@ -514,14 +504,10 @@ public final class AgentWeb {
         top.xuqingquan.web.x5.DefaultChromeClient mDefaultChromeClient =
                 new top.xuqingquan.web.x5.DefaultChromeClient(this.mActivity,
                         this.mIndicatorController,
-                        null, this.mIVideo,
+                        mX5WebChromeClient, this.mIVideo,
                         this.mPermissionInterceptor, mWebCreator.getX5WebView());
         Timber.i("WebChromeClient:" + this.mX5WebChromeClient);
         top.xuqingquan.web.x5.MiddlewareWebChromeBase header = this.mX5MiddlewareWebChromeBaseHeader;
-        if (this.mX5WebChromeClient != null) {
-            this.mX5WebChromeClient.enq(header);
-            header = this.mX5WebChromeClient;
-        }
         if (header != null) {
             top.xuqingquan.web.x5.MiddlewareWebChromeBase tail = header;
             int count = 1;
@@ -578,10 +564,10 @@ public final class AgentWeb {
         /*默认进度条是显示的*/
         private boolean mEnableIndicator = true;
         private ViewGroup.LayoutParams mLayoutParams = null;
-        private top.xuqingquan.web.system.MiddlewareWebClientBase mWebViewClient;
-        private top.xuqingquan.web.x5.MiddlewareWebClientBase mX5WebViewClient;
-        private top.xuqingquan.web.system.MiddlewareWebChromeBase mWebChromeClient;
-        private top.xuqingquan.web.x5.MiddlewareWebChromeBase mX5WebChromeClient;
+        private android.webkit.WebViewClient mWebViewClient;
+        private com.tencent.smtt.sdk.WebViewClient mX5WebViewClient;
+        private android.webkit.WebChromeClient mWebChromeClient;
+        private com.tencent.smtt.sdk.WebChromeClient mX5WebChromeClient;
         private int mIndicatorColor = -1;
         private top.xuqingquan.web.system.IAgentWebSettings mAgentWebSettings;
         private top.xuqingquan.web.x5.IAgentWebSettings mX5AgentWebSettings;
@@ -724,23 +710,23 @@ public final class AgentWeb {
             return this;
         }
 
-        public CommonBuilder setWebChromeClient(@Nullable top.xuqingquan.web.system.MiddlewareWebChromeBase webChromeClient) {
+        public CommonBuilder setWebChromeClient(@Nullable android.webkit.WebChromeClient webChromeClient) {
             this.mAgentBuilder.mWebChromeClient = webChromeClient;
             return this;
         }
 
-        public CommonBuilder setWebChromeClient(@Nullable top.xuqingquan.web.x5.MiddlewareWebChromeBase webChromeClient) {
+        public CommonBuilder setWebChromeClient(@Nullable com.tencent.smtt.sdk.WebChromeClient webChromeClient) {
             this.mAgentBuilder.mX5WebChromeClient = webChromeClient;
             return this;
         }
 
-        public CommonBuilder setWebViewClient(@Nullable top.xuqingquan.web.system.MiddlewareWebClientBase webChromeClient) {
-            this.mAgentBuilder.mWebViewClient = webChromeClient;
+        public CommonBuilder setWebViewClient(@Nullable android.webkit.WebViewClient webViewClient) {
+            this.mAgentBuilder.mWebViewClient = webViewClient;
             return this;
         }
 
-        public CommonBuilder setWebViewClient(@Nullable top.xuqingquan.web.x5.MiddlewareWebClientBase webChromeClient) {
-            this.mAgentBuilder.mX5WebViewClient = webChromeClient;
+        public CommonBuilder setWebViewClient(@Nullable com.tencent.smtt.sdk.WebViewClient webViewClient) {
+            this.mAgentBuilder.mX5WebViewClient = webViewClient;
             return this;
         }
 

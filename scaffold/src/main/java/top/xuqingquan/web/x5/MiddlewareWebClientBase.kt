@@ -16,7 +16,7 @@ open class MiddlewareWebClientBase : WebViewClientDelegate {
         this.mMiddleWrareWebClientBase = client
     }
 
-    constructor(client: WebViewClient) : super(client)
+    constructor(client: WebViewClient?) : super(client)
 
     constructor() : super(null)
 

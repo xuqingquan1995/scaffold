@@ -213,7 +213,6 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
         return super.shouldInterceptRequest(view, request);
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     @Deprecated
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -381,7 +380,6 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
     /**
      * MainFrame Error
      */
-    @SuppressWarnings("deprecation")
     @Override
     @Deprecated
     public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
