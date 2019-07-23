@@ -27,7 +27,7 @@ open class SimplePagedListAdapter<T>(diff: DiffUtil.ItemCallback<T>) :
         holder: BaseViewHolder<T>,
         viewType: Int
     ) {
-        holder.onViewClickListener = object : BaseViewHolder.OnViewClickListener {
+        holder.onViewClickListener = object : BaseViewHolder.OnViewClickListener() {
             override fun onClick(view: View, position: Int) {
                 if (listener == null) {
                     onClick(view, position, getItem(position), viewType)
@@ -80,10 +80,10 @@ open class SimplePagedListAdapter<T>(diff: DiffUtil.ItemCallback<T>) :
         return true
     }
 
-    interface OnViewClickListener<T> {
-        fun onClick(view: View, position: Int, data: T?, viewType: Int)
+    abstract class OnViewClickListener<T> {
+        abstract fun onClick(view: View, position: Int, data: T?, viewType: Int)
 
-        fun onLongClick(view: View, position: Int, data: T?, viewType: Int): Boolean
+        open fun onLongClick(view: View, position: Int, data: T?, viewType: Int) = true
     }
 
     companion object {
