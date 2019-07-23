@@ -20,8 +20,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * @author cginechen
- * @date 2016-08-11
+ * Created by 许清泉 on 2019-07-23 19:59
+ * 从QMUI提取
  */
 @SuppressLint("PrivateApi")
 public class DeviceHelper {
