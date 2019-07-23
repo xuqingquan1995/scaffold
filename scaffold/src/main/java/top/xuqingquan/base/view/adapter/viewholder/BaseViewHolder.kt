@@ -32,20 +32,20 @@ open class BaseViewHolder<T>(val view: View) :
         }
     }
 
-    interface OnViewClickListener {
+    abstract class OnViewClickListener {
         /**
          * 点击事件
          * @param view 被点击的视图
          * @param position 在RecyclerView中的位置
          */
-        fun onClick(view: View, position: Int)
+        abstract fun onClick(view: View, position: Int)
 
         /**
          * 长按事件
          * @param view 被点击的视图
          * @param position 在RecyclerView中的位置
          */
-        fun onLongClick(view: View, position: Int): Boolean
+        open fun onLongClick(view: View, position: Int) = true
     }
 
     /**

@@ -7,4 +7,8 @@
     <item name="agentweb_webview_id" type="id"/>
     <item name="mainframe_error_viewsub_id" type="id"/>
     <item name="mainframe_error_container_id" type="id"/>
+
+    <item name="statusbarutils_fake_status_bar_view" type="id"/>
+    <item name="statusbarutils_translucent_view" type="id"/>
+
 </resources>

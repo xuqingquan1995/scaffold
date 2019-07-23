@@ -26,7 +26,7 @@ open class SimpleRecyclerAdapter<T>(private val list: MutableList<T>) :
         holder: BaseViewHolder<T>,
         viewType: Int
     ) {
-        holder.onViewClickListener = object : BaseViewHolder.OnViewClickListener {
+        holder.onViewClickListener = object : BaseViewHolder.OnViewClickListener() {
             override fun onClick(view: View, position: Int) {
                 if (listener == null) {
                     onClick(view, position, getItem(position), viewType)
@@ -79,10 +79,10 @@ open class SimpleRecyclerAdapter<T>(private val list: MutableList<T>) :
         return true
     }
 
-    interface OnViewClickListener<T> {
-        fun onClick(view: View, position: Int, data: T, viewType: Int)
+    abstract class OnViewClickListener<T> {
+        abstract fun onClick(view: View, position: Int, data: T, viewType: Int)
 
-        fun onLongClick(view: View, position: Int, data: T, viewType: Int): Boolean
+        open fun onLongClick(view: View, position: Int, data: T, viewType: Int) = true
     }
 
     fun getBaseList() = list
