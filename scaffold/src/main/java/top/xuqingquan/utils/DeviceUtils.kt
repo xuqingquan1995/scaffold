@@ -13,7 +13,6 @@ import androidx.core.content.ContextCompat
  */
 object DeviceUtils {
 
-
     /**
      * 获取版本号
      *
