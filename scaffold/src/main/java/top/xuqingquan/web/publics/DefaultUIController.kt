@@ -58,10 +58,10 @@ open class DefaultUIController : AbsAgentWebUIController() {
                     )
                 )//
                 .setTitle(mResources!!.getString(R.string.agentweb_tips))
-                .setNegativeButton(android.R.string.cancel) { dialog, which ->
+                .setNegativeButton(android.R.string.cancel) { _, _ ->
                     callback?.handleMessage(Message.obtain(null, -1))
                 }//
-                .setPositiveButton(mResources!!.getString(R.string.agentweb_leave)) { dialog, which ->
+                .setPositiveButton(mResources!!.getString(R.string.agentweb_leave)) { _, _ ->
                     callback?.handleMessage(Message.obtain(null, 1))
                 }
                 .create()
@@ -118,11 +118,11 @@ open class DefaultUIController : AbsAgentWebUIController() {
             mAlertDialogForceDownload = AlertDialog.Builder(mActivity)
                 .setTitle(mResources!!.getString(R.string.agentweb_tips))
                 .setMessage(mResources!!.getString(R.string.agentweb_honeycomblow))
-                .setNegativeButton(mResources!!.getString(R.string.agentweb_download)) { dialog, which ->
+                .setNegativeButton(mResources!!.getString(R.string.agentweb_download)) { dialog, _ ->
                     dialog?.dismiss()
                     callback?.handleMessage(Message.obtain())
                 }//
-                .setPositiveButton(mResources!!.getString(R.string.agentweb_cancel)) { dialog, which ->
+                .setPositiveButton(mResources!!.getString(R.string.agentweb_cancel)) { dialog, _ ->
 
                     dialog?.dismiss()
                 }.create()
@@ -160,11 +160,11 @@ open class DefaultUIController : AbsAgentWebUIController() {
         if (mConfirmDialog == null) {
             mConfirmDialog = AlertDialog.Builder(mActivity)
                 .setMessage(message)
-                .setNegativeButton(android.R.string.cancel) { dialog, which ->
+                .setNegativeButton(android.R.string.cancel) { _, _ ->
                     toDismissDialog(mConfirmDialog)
                     toCancelJsresult(mJsResult)
                 }//
-                .setPositiveButton(android.R.string.ok) { dialog, which ->
+                .setPositiveButton(android.R.string.ok) { _, _ ->
                     toDismissDialog(mConfirmDialog)
                     if (mJsResult != null) {
                         mJsResult!!.confirm()
@@ -192,11 +192,11 @@ open class DefaultUIController : AbsAgentWebUIController() {
         if (mConfirmDialog == null) {
             mConfirmDialog = AlertDialog.Builder(mActivity)
                 .setMessage(message)
-                .setNegativeButton(android.R.string.cancel) { dialog, which ->
+                .setNegativeButton(android.R.string.cancel) { _, _ ->
                     toDismissDialog(mConfirmDialog)
                     toCancelJsresult(mX5JsResult)
                 }//
-                .setPositiveButton(android.R.string.ok) { dialog, which ->
+                .setPositiveButton(android.R.string.ok) { _, _ ->
                     toDismissDialog(mConfirmDialog)
                     if (mX5JsResult != null) {
                         mX5JsResult!!.confirm()
@@ -230,11 +230,11 @@ open class DefaultUIController : AbsAgentWebUIController() {
             mPromptDialog = AlertDialog.Builder(mActivity)
                 .setView(et)
                 .setTitle(message)
-                .setNegativeButton(android.R.string.cancel) { dialog, which ->
+                .setNegativeButton(android.R.string.cancel) { _, _ ->
                     toDismissDialog(mPromptDialog)
                     toCancelJsresult(mJsPromptResult)
                 }//
-                .setPositiveButton(android.R.string.ok) { dialog, which ->
+                .setPositiveButton(android.R.string.ok) { _, _ ->
                     toDismissDialog(mPromptDialog)
                     if (mJsPromptResult != null) {
                         mJsPromptResult!!.confirm(et.text.toString())
@@ -266,11 +266,11 @@ open class DefaultUIController : AbsAgentWebUIController() {
             mPromptDialog = AlertDialog.Builder(mActivity)
                 .setView(et)
                 .setTitle(message)
-                .setNegativeButton(android.R.string.cancel) { dialog, which ->
+                .setNegativeButton(android.R.string.cancel) { _, _ ->
                     toDismissDialog(mPromptDialog)
                     toCancelJsresult(mX5JsPromptResult)
                 }//
-                .setPositiveButton(android.R.string.ok) { dialog, which ->
+                .setPositiveButton(android.R.string.ok) { _, _ ->
                     toDismissDialog(mPromptDialog)
                     if (mX5JsPromptResult != null) {
                         mX5JsPromptResult!!.confirm(et.text.toString())

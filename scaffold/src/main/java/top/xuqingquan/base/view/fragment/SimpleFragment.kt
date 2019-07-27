@@ -10,12 +10,15 @@ import android.view.inputmethod.InputMethodManager
 import androidx.annotation.LayoutRes
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import kotlinx.coroutines.*
+import top.xuqingquan.BuildConfig
 import top.xuqingquan.app.ScaffoldConfig
 import top.xuqingquan.base.view.activity.SimpleActivity
 import top.xuqingquan.cache.Cache
 import top.xuqingquan.cache.CacheType
 import top.xuqingquan.delegate.IFragment
 import top.xuqingquan.utils.FragmentOnKeyListener
+import kotlin.coroutines.CoroutineContext
 
 /**
  * Created by 许清泉 on 2019-04-24 23:38
@@ -25,6 +28,7 @@ abstract class SimpleFragment : Fragment(), IFragment, FragmentOnKeyListener {
 
     private var mCache: Cache<String, Any>? = null
     var mContext: Context? = null
+    private val fragmentScope = CoroutineScope(Dispatchers.IO) + Job()
 
     /**
      * @return 布局id
@@ -124,5 +128,37 @@ abstract class SimpleFragment : Fragment(), IFragment, FragmentOnKeyListener {
                 }, time)
             }
         }
+    }
+
+    override fun onDestroyView() {
+        fragmentScope.cancel()
+        super.onDestroyView()
+    }
+
+    protected fun <T> launch(
+        context: CoroutineContext = fragmentScope.coroutineContext,
+        tryBlock: suspend CoroutineScope.() -> T,
+        catchBlock: suspend CoroutineScope.(Throwable) -> Unit = {},
+        finallyBlock: suspend CoroutineScope.() -> Unit = {}
+    ): Job {
+        return fragmentScope.launch(context) {
+            try {
+                tryBlock()
+            } catch (e: Throwable) {
+                if (BuildConfig.DEBUG) {
+                    e.printStackTrace()
+                }
+                catchBlock(e)
+            } finally {
+                finallyBlock()
+            }
+        }
+    }
+
+    protected fun <T> launch(
+        context: CoroutineContext = fragmentScope.coroutineContext,
+        tryBlock: suspend CoroutineScope.() -> T
+    ): Job {
+        return launch(context, tryBlock, {}, {})
     }
 }

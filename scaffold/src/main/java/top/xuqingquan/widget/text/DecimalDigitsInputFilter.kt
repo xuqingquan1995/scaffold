@@ -2,7 +2,6 @@ package top.xuqingquan.widget.text
 
 import android.text.InputFilter
 import android.text.Spanned
-import top.xuqingquan.utils.Timber
 
 /**
  * Created by 许清泉 on 2019-07-10 10:55

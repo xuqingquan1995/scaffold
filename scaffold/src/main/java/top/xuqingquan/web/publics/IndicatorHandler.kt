@@ -37,8 +37,8 @@ class IndicatorHandler : IndicatorController {
         mBaseIndicatorSpec?.hide()
     }
 
-    override fun setProgress(n: Int) {
-        mBaseIndicatorSpec?.setProgress(n)
+    override fun setProgress(newProgress: Int) {
+        mBaseIndicatorSpec?.setProgress(newProgress)
     }
 
     override fun showIndicator() {
