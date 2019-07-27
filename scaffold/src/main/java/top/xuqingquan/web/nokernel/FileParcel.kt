@@ -9,8 +9,8 @@ import android.os.Parcelable
 data class FileParcel(val id:Int,val contentPath:String,val fileBase64:String): Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readInt(),
-        parcel.readString(),
-        parcel.readString()
+        parcel.readString()?:"",
+        parcel.readString()?:""
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {

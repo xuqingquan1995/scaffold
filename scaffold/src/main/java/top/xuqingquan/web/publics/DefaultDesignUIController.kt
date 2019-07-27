@@ -108,7 +108,7 @@ class DefaultDesignUIController : DefaultUIController() {
             return
         }
         mRecyclerView.adapter = getAdapter(ways, callback)
-        mBottomSheetDialog!!.setOnCancelListener { dialog ->
+        mBottomSheetDialog!!.setOnCancelListener {
             callback?.handleMessage(Message.obtain(null, -1))
         }
         mBottomSheetDialog!!.show()
@@ -131,7 +131,7 @@ class DefaultDesignUIController : DefaultUIController() {
                 mActivity!!.theme.resolveAttribute(android.R.attr.selectableItemBackground, outValue, true)
                 bottomSheetHolder.mTextView.setBackgroundResource(outValue.resourceId)
                 bottomSheetHolder.mTextView.text = ways[i]
-                bottomSheetHolder.mTextView.setOnClickListener { v ->
+                bottomSheetHolder.mTextView.setOnClickListener {
                     if (mBottomSheetDialog != null && mBottomSheetDialog!!.isShowing) {
                         mBottomSheetDialog!!.dismiss()
                     }

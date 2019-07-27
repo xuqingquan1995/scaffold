@@ -107,24 +107,26 @@ public class FileChooser {
 
     private FileChooser(Builder builder) {
         this.mActivity = builder.mActivity;
-        this.sysUriValueCallback = builder.sysUriValueCallback;
-        this.sysUriValueCallbacks = builder.sysUriValueCallbacks;
         this.mIsAboveLollipop = builder.mIsAboveLollipop;
         this.mJsChannel = builder.mJsChannel;
-        this.sysFileChooserParams = builder.sysFileChooserParams;
-        if (this.mJsChannel) {
-            this.mJsChannelCallback = JsChannelCallback.create(builder.mJsChannelCallback);
-        }
-        this.sysWebView = builder.sysWebView;
-        this.mPermissionInterceptor = builder.mPermissionInterceptor;
-        this.mAcceptType = builder.mAcceptType;
-        this.mAgentWebUIController = new WeakReference<>(AgentWebUtils.getAgentWebUIControllerByWebView(this.sysWebView));
         if (WebConfig.hasX5()) {
             this.x5UriValueCallback = builder.x5UriValueCallback;
             this.x5UriValueCallbacks = builder.x5UriValueCallbacks;
             this.x5FileChooserParams = builder.x5FileChooserParams;
             this.x5WebView = builder.x5WebView;
+            this.mAgentWebUIController = new WeakReference<>(AgentWebUtils.getAgentWebUIControllerByWebView(this.x5WebView));
+        } else {
+            this.sysUriValueCallback = builder.sysUriValueCallback;
+            this.sysUriValueCallbacks = builder.sysUriValueCallbacks;
+            this.sysFileChooserParams = builder.sysFileChooserParams;
+            this.sysWebView = builder.sysWebView;
+            this.mAgentWebUIController = new WeakReference<>(AgentWebUtils.getAgentWebUIControllerByWebView(this.sysWebView));
         }
+        if (this.mJsChannel) {
+            this.mJsChannelCallback = JsChannelCallback.create(builder.mJsChannelCallback);
+        }
+        this.mPermissionInterceptor = builder.mPermissionInterceptor;
+        this.mAcceptType = builder.mAcceptType;
     }
 
 
