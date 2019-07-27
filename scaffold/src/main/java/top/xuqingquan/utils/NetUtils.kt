@@ -2,8 +2,11 @@ package top.xuqingquan.utils
 
 import android.content.Context
 import android.net.ConnectivityManager
+import android.net.Network
+import android.os.Build
 import android.telephony.TelephonyManager
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.MutableLiveData
 
 /**
  * Created by 许清泉 on 2019-05-27 00:54
@@ -34,11 +37,28 @@ object NetUtils {
         }
     }
 
+    @Suppress("DEPRECATION")
     @JvmStatic
-    fun networkIsConnect(ctx: Context): Boolean {
+    fun networkIsConnect(ctx: Context, callback: MutableLiveData<Boolean>? = null): Boolean {
         val context = ctx.applicationContext
         val connectivity = ContextCompat.getSystemService(context, ConnectivityManager::class.java)
         val info = connectivity?.activeNetworkInfo
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            connectivity?.registerDefaultNetworkCallback(
+                object : ConnectivityManager.NetworkCallback() {
+                    override fun onAvailable(network: Network) {
+                        super.onAvailable(network)
+                        callback?.postValue(true)
+                    }
+
+                    override fun onLost(network: Network) {
+                        super.onLost(network)
+                        callback?.postValue(false)
+                    }
+                })
+        } else {
+            callback?.postValue(info != null && info.isConnected)
+        }
         return info != null && info.isConnected
     }
 }

@@ -7,6 +7,7 @@ import top.xuqingquan.web.publics.Extra
 /**
  * Created by 许清泉 on 2019-06-19 23:24
  */
+@Suppress("UNUSED_PARAMETER")
 class DownloadListener {
     @MainThread
     fun onStart(

@@ -112,8 +112,8 @@ class AgentWebUIControllerImplBase : AbsAgentWebUIController() {
     }
 
 
-    override fun onShowMessage(message: String, from: String) {
-        delegate!!.onShowMessage(message, from)
+    override fun onShowMessage(message: String, intent: String) {
+        delegate!!.onShowMessage(message, intent)
     }
 
     override fun onPermissionsDeny(permissions: Array<String>, permissionType: String, action: String) {

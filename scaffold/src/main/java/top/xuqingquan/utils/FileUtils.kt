@@ -55,8 +55,7 @@ object FileUtils {
      * @return
      */
     fun getCacheFilePath(context: Context): String {
-        val packageName = context.packageName
-        return "${Environment.getExternalStorageDirectory().path}/$packageName"
+        return context.getExternalFilesDir("")?.path ?: ""
     }
 
     @JvmStatic
@@ -100,7 +99,7 @@ object FileUtils {
         }
         if (dir != null && dir.isDirectory) {
             try {
-                for (child in dir.listFiles()) {
+                for (child in dir.listFiles() ?: arrayOf<File>()) {
                     //first delete subdirectories recursively
                     if (child.isDirectory) {
                         deletedFiles += clearCacheFolder(child, numDays)
@@ -160,10 +159,9 @@ object FileUtils {
 
 
     @JvmStatic
-    fun getAvailableStorage(): Long {
+    fun getAvailableStorage(context: Context): Long {
         return try {
-            val stat = StatFs(Environment.getExternalStorageDirectory().toString())
-            stat.availableBlocksLong * stat.blockSizeLong
+            StatFs(context.cacheDir.path).availableBytes
         } catch (ex: RuntimeException) {
             0
         }

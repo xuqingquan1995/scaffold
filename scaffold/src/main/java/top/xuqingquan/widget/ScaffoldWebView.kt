@@ -13,6 +13,7 @@ import org.jetbrains.anko.px2dip
 import top.xuqingquan.R
 import top.xuqingquan.app.ScaffoldConfig
 import top.xuqingquan.web.AgentWeb
+import top.xuqingquan.web.nokernel.PermissionInterceptor
 import top.xuqingquan.web.nokernel.WebConfig
 import top.xuqingquan.web.publics.AgentWebConfig
 
@@ -47,15 +48,15 @@ class ScaffoldWebView : FrameLayout {
 
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.ScaffoldWebView)
-        typedArray.getString(R.styleable.ScaffoldWebView_x5_url)?.let {
+        typedArray.getString(R.styleable.ScaffoldWebView_url)?.let {
             url = it
         }
-        debug = typedArray.getBoolean(R.styleable.ScaffoldWebView_x5_debug, false)
-        indicatorColor = typedArray.getColor(R.styleable.ScaffoldWebView_x5_indicatorColor, -1)
-        indicatorHeight = typedArray.getDimension(R.styleable.ScaffoldWebView_x5_indicatorHeight, -1f).toInt()
-        error_layout = typedArray.getResourceId(R.styleable.ScaffoldWebView_x5_error_layout, -1)
+        debug = typedArray.getBoolean(R.styleable.ScaffoldWebView_debug, false)
+        indicatorColor = typedArray.getColor(R.styleable.ScaffoldWebView_indicatorColor, -1)
+        indicatorHeight = typedArray.getDimension(R.styleable.ScaffoldWebView_indicatorHeight, -1f).toInt()
+        error_layout = typedArray.getResourceId(R.styleable.ScaffoldWebView_error_layout, -1)
         if (error_layout != -1) {
-            refresh_error = typedArray.getResourceId(R.styleable.ScaffoldWebView_x5_refresh_error, -1)
+            refresh_error = typedArray.getResourceId(R.styleable.ScaffoldWebView_refresh_error, -1)
         }
         indicatorHeight = if (indicatorHeight == -1) {
             2
@@ -82,6 +83,9 @@ class ScaffoldWebView : FrameLayout {
                 .useDefaultIndicator(indicatorColor, indicatorHeight)
                 .setMainFrameErrorView(error_layout, refresh_error)//当使用X5时候这一句失效
                 .interceptUnkownUrl() //拦截找不到相关页面的Url AgentWeb 3.0.0 加入。
+                .setPermissionInterceptor(object : PermissionInterceptor {
+                    override fun intercept(url: String?, permissions: Array<String>, action: String) = false
+                })
                 .createAgentWeb()//创建AgentWeb。
                 .get()
         } else {

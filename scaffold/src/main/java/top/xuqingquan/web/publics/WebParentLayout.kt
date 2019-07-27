@@ -6,7 +6,6 @@ import android.graphics.Color
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.ViewStub
 import android.widget.FrameLayout
 import androidx.annotation.IdRes
@@ -89,7 +88,7 @@ class WebParentLayout @JvmOverloads internal constructor(
         if (mClickId != -1) {
             val clickView = mFrameLayout.findViewById<View>(mClickId)
             if (clickView != null) {
-                clickView.setOnClickListener { v ->
+                clickView.setOnClickListener {
                     if (webView != null) {
                         clickView.isClickable = false
                         webView!!.reload()
