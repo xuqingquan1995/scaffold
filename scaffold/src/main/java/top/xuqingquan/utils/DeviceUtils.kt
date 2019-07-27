@@ -38,12 +38,12 @@ object DeviceUtils {
      * @param string 要复制到内容
      */
     @JvmStatic
-    fun copyTextToBoard(context: Context, string: String) {
+    fun copyTextToBoard(context: Context, string: String, lable: String? = null) {
         if (TextUtils.isEmpty(string)) {
             return
         }
         val clip = ContextCompat.getSystemService(context.applicationContext, ClipboardManager::class.java)
-        clip?.primaryClip = ClipData.newPlainText(null, string)
+        clip?.setPrimaryClip(ClipData.newPlainText(lable, string))
     }
 
     /**

@@ -21,6 +21,7 @@ object RealPath {
                 val split = docId.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
                 val type = split[0]
                 if ("primary".equals(type, ignoreCase = true)) {
+                    @Suppress("DEPRECATION")
                     return "${Environment.getExternalStorageDirectory()}/${split[1]}"
                 }
             } else if (isDownloadsDocument(uri)) {
@@ -59,7 +60,7 @@ object RealPath {
     }
 
     private fun getDataColumn(context: Context, uri: Uri, selection: String?, selectionArgs: Array<String>?): String? {
-        val column = MediaStore.Images.Media.DATA
+        @Suppress("DEPRECATION") val column = MediaStore.Images.Media.DATA
         val projection = arrayOf(column)
         val cursor = context.contentResolver.query(uri, projection, selection, selectionArgs, null)
         if (cursor != null && cursor.moveToFirst()) {

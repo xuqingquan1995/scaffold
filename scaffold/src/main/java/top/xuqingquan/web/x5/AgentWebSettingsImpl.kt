@@ -44,7 +44,6 @@ class AgentWebSettingsImpl : AbsAgentWebSettings() {
                             FileUtils.getCacheFile(webView.context).absolutePath,
                             url.substring(url.lastIndexOf("/") + 1)
                         )
-                        request.setVisibleInDownloadsUi(true)
                         downloadManager.enqueue(request)
                     }
                 }

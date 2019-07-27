@@ -7,12 +7,15 @@ import android.view.inputmethod.InputMethodManager
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import kotlinx.coroutines.*
+import top.xuqingquan.BuildConfig
 import top.xuqingquan.app.ScaffoldConfig
 import top.xuqingquan.cache.Cache
 import top.xuqingquan.cache.CacheType
 import top.xuqingquan.delegate.IActivity
 import top.xuqingquan.stack.DebugStackDelegate
 import top.xuqingquan.utils.FragmentOnKeyListener
+import kotlin.coroutines.CoroutineContext
 
 /**
  * Created by 许清泉 on 2019-04-24 23:32
@@ -23,6 +26,7 @@ abstract class SimpleActivity : AppCompatActivity(), IActivity {
     private var mCache: Cache<String, Any>? = null
     private var debugStackDelegate: DebugStackDelegate? = null
     private var listener: FragmentOnKeyListener? = null
+    private val activityScope = CoroutineScope(Dispatchers.IO) + Job()
 
     /**
      * @return 布局id
@@ -102,5 +106,37 @@ abstract class SimpleActivity : AppCompatActivity(), IActivity {
             }
         }
         return super.onKeyDown(keyCode, event)
+    }
+
+    override fun onDestroy() {
+        activityScope.cancel()
+        super.onDestroy()
+    }
+
+    protected fun <T> launch(
+        context: CoroutineContext = activityScope.coroutineContext,
+        tryBlock: suspend CoroutineScope.() -> T,
+        catchBlock: suspend CoroutineScope.(Throwable) -> Unit = {},
+        finallyBlock: suspend CoroutineScope.() -> Unit = {}
+    ): Job {
+        return activityScope.launch(context) {
+            try {
+                tryBlock()
+            } catch (e: Throwable) {
+                if (BuildConfig.DEBUG) {
+                    e.printStackTrace()
+                }
+                catchBlock(e)
+            } finally {
+                finallyBlock()
+            }
+        }
+    }
+
+    protected fun <T> launch(
+        context: CoroutineContext = activityScope.coroutineContext,
+        tryBlock: suspend CoroutineScope.() -> T
+    ): Job {
+        return launch(context, tryBlock, {}, {})
     }
 }
