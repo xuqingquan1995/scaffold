@@ -45,7 +45,6 @@ public class StatusBarUtils {
     private final static int STATUS_BAR_DEFAULT_HEIGHT_DP = 25; // 大部分状态栏都是25dp
     public static final int DEFAULT_STATUS_BAR_ALPHA = 0;//默认状态栏透明度
     private static final int FAKE_STATUS_BAR_VIEW_ID = R.id.statusbarutils_fake_status_bar_view;
-    private static final int FAKE_TRANSLUCENT_VIEW_ID = R.id.statusbarutils_translucent_view;
     private static int sStatusbarHeight = -1;
     private static @StatusBarType
     int mStatuBarType = STATUSBAR_TYPE_DEFAULT;
