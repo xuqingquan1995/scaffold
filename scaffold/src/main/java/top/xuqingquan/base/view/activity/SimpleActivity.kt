@@ -119,6 +119,7 @@ abstract class SimpleActivity : AppCompatActivity(), IActivity {
         catchBlock: suspend CoroutineScope.(Throwable) -> Unit = {},
         finallyBlock: suspend CoroutineScope.() -> Unit = {}
     ): Job {
+        hideSoftKeyboard()
         return activityScope.launch(context) {
             try {
                 tryBlock()

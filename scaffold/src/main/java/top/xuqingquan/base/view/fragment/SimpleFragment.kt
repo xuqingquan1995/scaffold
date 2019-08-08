@@ -141,6 +141,7 @@ abstract class SimpleFragment : Fragment(), IFragment, FragmentOnKeyListener {
         catchBlock: suspend CoroutineScope.(Throwable) -> Unit = {},
         finallyBlock: suspend CoroutineScope.() -> Unit = {}
     ): Job {
+        hideSoftKeyboard()
         return fragmentScope.launch(context) {
             try {
                 tryBlock()
