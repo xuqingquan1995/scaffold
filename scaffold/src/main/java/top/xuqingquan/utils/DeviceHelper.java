@@ -27,13 +27,14 @@ import java.util.regex.Pattern;
 public class DeviceHelper {
     private final static String KEY_MIUI_VERSION_NAME = "ro.miui.ui.version.name";
     private static final String KEY_FLYME_VERSION_NAME = "ro.build.display.id";
+    private static final String KEY_EMUI_VERSION_NAME = "ro.build.version.emui";
     private final static String FLYME = "flyme";
     private final static String ZTEC2016 = "zte c2016";
     private final static String ZUKZ1 = "zuk z1";
-    private final static String ESSENTIAL = "essential";
     private final static String MEIZUBOARD[] = {"m9", "M9", "mx", "MX"};
     private static String sMiuiVersionName;
     private static String sFlymeVersionName;
+    private static String sEmuiVersionName;
     private static boolean sIsTabletChecked = false;
     private static boolean sIsTabletValue = false;
     private static final String BRAND = Build.BRAND.toLowerCase();
@@ -68,6 +69,8 @@ public class DeviceHelper {
             sMiuiVersionName = getLowerCaseName(properties, getMethod, KEY_MIUI_VERSION_NAME);
             //flyme
             sFlymeVersionName = getLowerCaseName(properties, getMethod, KEY_FLYME_VERSION_NAME);
+            //emui
+            sEmuiVersionName = getLowerCaseName(properties, getMethod, KEY_EMUI_VERSION_NAME);
         } catch (Exception e) {
             Timber.e(e, "read SystemProperties error");
         }
@@ -124,42 +127,6 @@ public class DeviceHelper {
         return "v9".equals(sMiuiVersionName);
     }
 
-    public static boolean isFlymeVersionHigher5_2_4() {
-        //查不到默认高于5.2.4
-        boolean isHigher = true;
-        if (sFlymeVersionName != null && !sFlymeVersionName.equals("")) {
-            Pattern pattern = Pattern.compile("(\\d+\\.){2}\\d");
-            Matcher matcher = pattern.matcher(sFlymeVersionName);
-            if (matcher.find()) {
-                String versionString = matcher.group();
-                if (versionString != null && !versionString.equals("")) {
-                    String[] version = versionString.split("\\.");
-                    if (version.length == 3) {
-                        if (Integer.valueOf(version[0]) < 5) {
-                            isHigher = false;
-                        } else if (Integer.valueOf(version[0]) > 5) {
-                            isHigher = true;
-                        } else {
-                            if (Integer.valueOf(version[1]) < 2) {
-                                isHigher = false;
-                            } else if (Integer.valueOf(version[1]) > 2) {
-                                isHigher = true;
-                            } else {
-                                if (Integer.valueOf(version[2]) < 4) {
-                                    isHigher = false;
-                                } else if (Integer.valueOf(version[2]) >= 5) {
-                                    isHigher = true;
-                                }
-                            }
-                        }
-                    }
-
-                }
-            }
-        }
-        return isMeizu() && isHigher;
-    }
-
     public static boolean isMeizu() {
         return isPhone(MEIZUBOARD) || isFlyme();
     }
@@ -188,6 +155,38 @@ public class DeviceHelper {
         return BRAND.contains("essential");
     }
 
+    public static String getFlymeVersionName() {
+        return sFlymeVersionName;
+    }
+
+    @Nullable
+    public static String getFlymeVersion() {
+        return getVersion(sFlymeVersionName);
+    }
+
+    public static String getEmuiVersionName() {
+        return sEmuiVersionName;
+    }
+
+    public static String getEmuiVersion() {
+        return getVersion(sEmuiVersionName);
+    }
+
+    /**
+     *
+     * @param versionName 版本全称
+     * @return 获得版本号 x.x.x形式
+     */
+    private static String getVersion(String versionName){
+        if (versionName != null && !versionName.equals("")) {
+            Pattern pattern = Pattern.compile("(\\d+\\.){2}\\d");
+            Matcher matcher = pattern.matcher(versionName);
+            if (matcher.find()) {
+                return matcher.group();
+            }
+        }
+        return "";
+    }
 
     /**
      * 判断是否为 ZUK Z1 和 ZTK C2016。
