@@ -3,12 +3,14 @@ package top.xuqingquan.utils;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Build;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
+import android.provider.Settings;
+import android.util.DisplayMetrics;
+import android.view.*;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import androidx.annotation.ColorInt;
 import androidx.annotation.IntDef;
@@ -30,6 +32,9 @@ import java.lang.reflect.Method;
  * {@link #isFullScreen 判断是否全屏}
  * {@link #getStatusbarHeight 获取状态栏高度}
  * {@link #setStatusBarBackgroundColor 可以设置状态栏颜色}
+ * {@link #setNavigationBackgroundColor 可以设置导航栏颜色}
+ * {@link #showhideBar 控制导航栏和状态栏的显示和隐藏}
+ * {@link #setNavigationIconDark 设置导航栏图标是否为暗色}
  */
 public class StatusBarUtils {
 
@@ -43,11 +48,32 @@ public class StatusBarUtils {
     private final static int STATUSBAR_TYPE_FLYME = 2;
     private final static int STATUSBAR_TYPE_ANDROID6 = 3; // Android 6.0
     private final static int STATUS_BAR_DEFAULT_HEIGHT_DP = 25; // 大部分状态栏都是25dp
-    public static final int DEFAULT_STATUS_BAR_ALPHA = 0;//默认状态栏透明度
+    private static final int DEFAULT_STATUS_BAR_ALPHA = 0;//默认状态栏透明度
     private static final int FAKE_STATUS_BAR_VIEW_ID = R.id.statusbarutils_fake_status_bar_view;
+    private static final int STATUSBARUTILS_NAVIGATION_BAR_VIEW = R.id.statusbarutils_navigation_bar_view;
     private static int sStatusbarHeight = -1;
-    private static @StatusBarType
-    int mStatuBarType = STATUSBAR_TYPE_DEFAULT;
+    @StatusBarType
+    private static int mStatuBarType = STATUSBAR_TYPE_DEFAULT;
+    /**
+     * 导航栏竖屏高度标识位
+     */
+    private static final String IMMERSION_NAVIGATION_BAR_HEIGHT = "navigation_bar_height";
+    /**
+     * 导航栏宽度标识位位
+     */
+    private static final String IMMERSION_NAVIGATION_BAR_WIDTH = "navigation_bar_width";
+    /**
+     * 导航栏横屏高度标识位
+     */
+    private static final String IMMERSION_NAVIGATION_BAR_HEIGHT_LANDSCAPE = "navigation_bar_height_landscape";
+    /**
+     * MIUI导航栏显示隐藏标识位
+     */
+    private static final String IMMERSION_MIUI_NAVIGATION_BAR_HIDE_SHOW = "force_fsg_nav_bar";
+    /**
+     * EMUI导航栏显示隐藏标识位
+     */
+    private static final String IMMERSION_EMUI_NAVIGATION_BAR_HIDE_SHOW = "navigationbar_is_min";
 
     public static void translucent(Activity activity) {
         translucent(activity.getWindow());
@@ -520,6 +546,196 @@ public class StatusBarUtils {
         green = (int) (green * a + 0.5);
         blue = (int) (blue * a + 0.5);
         return 0xff << 24 | red << 16 | green << 8 | blue;
+    }
+
+    /**
+     * 判断是否有导航栏
+     *
+     * @param activity 当前Activity
+     * @return 是否有导航栏
+     */
+    public static boolean hasNavigationBar(Activity activity) {
+        return getNavigationBarHeight(activity) > 0;
+    }
+
+    /**
+     * 是否竖屏
+     */
+    private static boolean inPortrait(Context context) {
+        Resources res = context.getResources();
+        return (res.getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT);
+    }
+
+    /**
+     * 获取导航栏高度
+     */
+    private static int getNavigationBarHeight(Activity activity) {
+        int result = 0;
+        if (hasNavBar(activity)) {
+            String key;
+            if (inPortrait(activity)) {
+                key = IMMERSION_NAVIGATION_BAR_HEIGHT;
+            } else {
+                key = IMMERSION_NAVIGATION_BAR_HEIGHT_LANDSCAPE;
+            }
+            return getInternalDimensionSize(activity, key);
+        }
+        return result;
+    }
+
+    /**
+     * 获取导航栏宽度
+     */
+    private static int getNavigationBarWidth(Activity activity) {
+        int result = 0;
+        if (hasNavBar(activity)) {
+            return getInternalDimensionSize(activity, IMMERSION_NAVIGATION_BAR_WIDTH);
+        }
+        return result;
+    }
+
+    private static boolean hasNavBar(Activity activity) {
+        //判断小米手机是否开启了全面屏，开启了，直接返回false
+        if (Settings.Global.getInt(activity.getContentResolver(), IMMERSION_MIUI_NAVIGATION_BAR_HIDE_SHOW, 0) != 0) {
+            return false;
+        }
+        //判断华为手机是否隐藏了导航栏，隐藏了，直接返回false
+        if (DeviceHelper.isHuawei()) {
+            if (DeviceHelper.getEmuiVersion().startsWith("3") || Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                if (Settings.System.getInt(activity.getContentResolver(), IMMERSION_EMUI_NAVIGATION_BAR_HIDE_SHOW, 0) != 0) {
+                    return false;
+                }
+            } else {
+                if (Settings.Global.getInt(activity.getContentResolver(), IMMERSION_EMUI_NAVIGATION_BAR_HIDE_SHOW, 0) != 0) {
+                    return false;
+                }
+            }
+        }
+        //其他手机根据屏幕真实高度与显示高度是否相同来判断
+        WindowManager windowManager = activity.getWindowManager();
+        Display d = windowManager.getDefaultDisplay();
+        DisplayMetrics realDisplayMetrics = new DisplayMetrics();
+        d.getRealMetrics(realDisplayMetrics);
+        int realHeight = realDisplayMetrics.heightPixels;
+        int realWidth = realDisplayMetrics.widthPixels;
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        d.getMetrics(displayMetrics);
+        int displayHeight = displayMetrics.heightPixels;
+        int displayWidth = displayMetrics.widthPixels;
+        return (realWidth - displayWidth) > 0 || (realHeight - displayHeight) > 0;
+    }
+
+    private static int getInternalDimensionSize(Context context, String key) {
+        int result = 0;
+        try {
+            int resourceId = Resources.getSystem().getIdentifier(key, "dimen", "android");
+            if (resourceId > 0) {
+                int sizeOne = context.getResources().getDimensionPixelSize(resourceId);
+                int sizeTwo = Resources.getSystem().getDimensionPixelSize(resourceId);
+
+                if (sizeTwo >= sizeOne) {
+                    return sizeTwo;
+                } else {
+                    float densityOne = context.getResources().getDisplayMetrics().density;
+                    float densityTwo = Resources.getSystem().getDisplayMetrics().density;
+                    float f = sizeOne * densityTwo / densityOne;
+                    return (int) ((f >= 0) ? (f + 0.5f) : (f - 0.5f));
+                }
+            }
+        } catch (Resources.NotFoundException ignored) {
+            return 0;
+        }
+        return result;
+    }
+
+
+    public static void setNavigationBackgroundColor(Activity activity, @ColorInt int color) {
+        setNavigationBackgroundColor(activity, color, DEFAULT_STATUS_BAR_ALPHA);
+    }
+
+    /**
+     * 设置一个可以自定义颜色的导航栏
+     */
+    public static void setNavigationBackgroundColor(Activity activity, @ColorInt int color, @IntRange(from = 0, to = 255) int alpha) {
+        if (!hasNavBar(activity)) {
+            return;
+        }
+        Window window = activity.getWindow();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setNavigationBarColor(color);
+        } else {
+            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            ViewGroup mDecorView = (ViewGroup) window.getDecorView();
+            View navigationBarView = mDecorView.findViewById(STATUSBARUTILS_NAVIGATION_BAR_VIEW);
+            if (navigationBarView == null) {
+                navigationBarView = new View(activity);
+                navigationBarView.setId(STATUSBARUTILS_NAVIGATION_BAR_VIEW);
+                mDecorView.addView(navigationBarView);
+            }
+            FrameLayout.LayoutParams params;
+            if (getSmallestWidthDp(activity) >= 600 || inPortrait(activity)) {
+                params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, getNavigationBarHeight(activity));
+                params.gravity = Gravity.BOTTOM;
+            } else {
+                params = new FrameLayout.LayoutParams(getNavigationBarWidth(activity), FrameLayout.LayoutParams.MATCH_PARENT);
+                params.gravity = Gravity.END;
+            }
+            navigationBarView.setLayoutParams(params);
+            navigationBarView.setBackgroundColor(calculateStatusColor(color, alpha));
+            navigationBarView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private static float getSmallestWidthDp(Activity activity) {
+        DisplayMetrics metrics = new DisplayMetrics();
+        activity.getWindowManager().getDefaultDisplay().getRealMetrics(metrics);
+        float widthDp = metrics.widthPixels / metrics.density;
+        float heightDp = metrics.heightPixels / metrics.density;
+        return Math.min(widthDp, heightDp);
+    }
+
+    /**
+     * @param activity      当前Acitivty
+     * @param statusBar     是否显示statusbar
+     * @param navigationBar 是否显示navigationBar
+     */
+    @SuppressWarnings("ConstantConditions")
+    public static void showhideBar(Activity activity, boolean statusBar, boolean navigationBar) {
+        ViewGroup mDecorView = (ViewGroup) activity.getWindow().getDecorView();
+        int flag = View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+        if (!statusBar && !navigationBar) {//全部隐藏
+            flag |= View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                    | View.INVISIBLE;
+        } else if (statusBar && navigationBar) {//全部显示
+            flag |= View.SYSTEM_UI_FLAG_VISIBLE;
+        } else if (!navigationBar) {//如果有导航栏且隐藏导航栏
+            flag |= View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+        } else if (!statusBar) {//隐藏状态栏
+            flag |= View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.INVISIBLE;
+        }
+        flag |= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+        mDecorView.setSystemUiVisibility(flag);
+    }
+
+    /**
+     * 将导航栏图标设为暗色
+     *
+     * @param activity 当前Activity
+     * @param dark     是否设置暗色
+     */
+    public static void setNavigationIconDark(Activity activity, boolean dark) {
+        ViewGroup mDecorView = (ViewGroup) activity.getWindow().getDecorView();
+        int flag = View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+        if (dark) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                flag |= View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
+            }
+        }
+        mDecorView.setSystemUiVisibility(flag);
     }
 
 }
