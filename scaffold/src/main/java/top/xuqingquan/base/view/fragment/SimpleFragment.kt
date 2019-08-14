@@ -28,7 +28,7 @@ abstract class SimpleFragment : Fragment(), IFragment, FragmentOnKeyListener {
 
     private var mCache: Cache<String, Any>? = null
     var mContext: Context? = null
-    private val fragmentScope = CoroutineScope(Dispatchers.IO) + Job()
+    private val fragmentScope = CoroutineScope(Dispatchers.IO + Job())
 
     /**
      * @return 布局id

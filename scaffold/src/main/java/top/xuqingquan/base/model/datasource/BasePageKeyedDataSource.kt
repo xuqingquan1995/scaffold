@@ -51,7 +51,7 @@ abstract class BasePageKeyedDataSource<Key, Value> : PageKeyedDataSource<Key, Va
     }
 
     protected fun <T> launch(
-        context: CoroutineContext = Dispatchers.Default,
+        context: CoroutineContext = Dispatchers.IO,
         tryBlock: suspend CoroutineScope.() -> T,
         catchBlock: suspend CoroutineScope.(Throwable) -> Unit = {},
         finallyBlock: suspend CoroutineScope.() -> Unit = {}
@@ -65,6 +65,8 @@ abstract class BasePageKeyedDataSource<Key, Value> : PageKeyedDataSource<Key, Va
                 }
                 catchBlock(e)
                 exception.postValue(e)
+                initialLoad.postValue(NetworkStatus.FAILED)
+                networkState.postValue(NetworkStatus.FAILED)
             } finally {
                 finallyBlock()
             }
@@ -72,7 +74,7 @@ abstract class BasePageKeyedDataSource<Key, Value> : PageKeyedDataSource<Key, Va
     }
 
     protected fun <T> launch(
-        context: CoroutineContext = Dispatchers.Default,
+        context: CoroutineContext = Dispatchers.IO,
         tryBlock: suspend CoroutineScope.() -> T
     ): Job {
         return launch(context, tryBlock, {}, {})
