@@ -26,7 +26,7 @@ abstract class SimpleActivity : AppCompatActivity(), IActivity {
     private var mCache: Cache<String, Any>? = null
     private var debugStackDelegate: DebugStackDelegate? = null
     private var listener: FragmentOnKeyListener? = null
-    private val activityScope = CoroutineScope(Dispatchers.IO) + Job()
+    private val activityScope = CoroutineScope(Dispatchers.IO + Job())
 
     /**
      * @return 布局id
