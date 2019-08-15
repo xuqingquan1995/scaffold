@@ -48,8 +48,8 @@ open class SimpleRecyclerAdapter<T>(private val list: MutableList<T>) :
     override fun getItemCount() = list.size
 
     override fun onBindViewHolder(holder: BaseViewHolder<T>, position: Int) {
-        holder.setData(list[position], position)
-        setData(holder, getItem(position)!!, position)
+        holder.setData(getItem(position), position)
+        setData(holder, getItem(position), position)
     }
 
     /**
@@ -65,29 +65,38 @@ open class SimpleRecyclerAdapter<T>(private val list: MutableList<T>) :
     @LayoutRes
     open fun getLayoutRes(viewType: Int) = 0
 
-    open fun setData(holder: BaseViewHolder<T>, data: T, position: Int) {}
+    open fun setData(holder: BaseViewHolder<T>, data: T?, position: Int) {}
 
     /**
      * 单击回调
      */
-    open fun onClick(view: View, position: Int, data: T, viewType: Int) {}
+    open fun onClick(view: View, position: Int, data: T?, viewType: Int) {}
 
     /**
      * 长按回调
      */
-    open fun onLongClick(view: View, position: Int, data: T, viewType: Int): Boolean {
+    open fun onLongClick(view: View, position: Int, data: T?, viewType: Int): Boolean {
         return true
     }
 
     abstract class OnViewClickListener<T> {
-        abstract fun onClick(view: View, position: Int, data: T, viewType: Int)
+        abstract fun onClick(view: View, position: Int, data: T?, viewType: Int)
 
-        open fun onLongClick(view: View, position: Int, data: T, viewType: Int) = true
+        open fun onLongClick(view: View, position: Int, data: T?, viewType: Int) = true
     }
 
     fun getBaseList() = list
 
-    fun getItem(position: Int) = list[position]
+    fun getItem(position: Int): T? {
+        try {
+            if (position >= itemCount) {
+                return null
+            }
+            return list[position]
+        } catch (t: Throwable) {
+            return null
+        }
+    }
 
     fun addList(data: List<T>) {
         list.addAll(data)
