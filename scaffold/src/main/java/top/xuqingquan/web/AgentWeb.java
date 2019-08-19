@@ -143,16 +143,16 @@ public final class AgentWeb {
             this.mX5AgentWebSettings = agentBuilder.mX5AgentWebSettings;
             this.mX5MiddleWrareWebClientBaseHeader = agentBuilder.mX5MiddlewareWebClientBaseHeader;
             this.mX5MiddlewareWebChromeBaseHeader = agentBuilder.mX5ChromeMiddleWareHeader;
-            this.mIUrlLoader = new UrlLoaderImpl(mWebCreator.create().getX5WebView(), agentBuilder.mHttpHeaders);
-            this.mWebLifeCycle = new DefaultWebLifeCycleImpl(mWebCreator.getX5WebView());
+            this.mIUrlLoader = new UrlLoaderImpl(getWebCreator().create().getX5WebView(), agentBuilder.mHttpHeaders);
+            this.mWebLifeCycle = new DefaultWebLifeCycleImpl(getWebCreator().getX5WebView());
         } else {
             this.mWebChromeClient = agentBuilder.mWebChromeClient;
             this.mWebViewClient = agentBuilder.mWebViewClient;
             this.mAgentWebSettings = agentBuilder.mAgentWebSettings;
             this.mMiddleWrareWebClientBaseHeader = agentBuilder.mMiddlewareWebClientBaseHeader;
             this.mMiddlewareWebChromeBaseHeader = agentBuilder.mChromeMiddleWareHeader;
-            this.mIUrlLoader = new UrlLoaderImpl(mWebCreator.create().getWebView(), agentBuilder.mHttpHeaders);
-            this.mWebLifeCycle = new DefaultWebLifeCycleImpl(mWebCreator.getWebView());
+            this.mIUrlLoader = new UrlLoaderImpl(getWebCreator().create().getWebView(), agentBuilder.mHttpHeaders);
+            this.mWebLifeCycle = new DefaultWebLifeCycleImpl(getWebCreator().getWebView());
         }
         if (agentBuilder.mJavaObject != null && !agentBuilder.mJavaObject.isEmpty()) {
             this.mJavaObjects.putAll((Map<? extends String, ?>) agentBuilder.mJavaObject);
@@ -163,8 +163,8 @@ public final class AgentWeb {
         } else {
             this.mPermissionInterceptor = new PermissionInterceptorWrapper(agentBuilder.mPermissionInterceptor);
         }
-        if (this.mWebCreator.getWebParentLayout() instanceof WebParentLayout) {
-            WebParentLayout mWebParentLayout = (WebParentLayout) this.mWebCreator.getWebParentLayout();
+        if (getWebCreator().getWebParentLayout() instanceof WebParentLayout) {
+            WebParentLayout mWebParentLayout = (WebParentLayout) getWebCreator().getWebParentLayout();
             mWebParentLayout.bindController(agentBuilder.mAgentWebUIController == null ? AgentWebUIControllerImplBase.build() : agentBuilder.mAgentWebUIController);
             mWebParentLayout.setErrorLayoutRes(agentBuilder.mErrorLayout, agentBuilder.mReloadId);
             mWebParentLayout.setErrorView(agentBuilder.mErrorView);
@@ -192,9 +192,9 @@ public final class AgentWeb {
         JsAccessEntrace mJsAccessEntrace = this.mJsAccessEntrace;
         if (mJsAccessEntrace == null) {
             if (WebConfig.hasX5()) {
-                this.mJsAccessEntrace = JsAccessEntraceImpl.getInstance(mWebCreator.getX5WebView());
+                this.mJsAccessEntrace = JsAccessEntraceImpl.getInstance(getWebCreator().getX5WebView());
             } else {
-                this.mJsAccessEntrace = JsAccessEntraceImpl.getInstance(mWebCreator.getWebView());
+                this.mJsAccessEntrace = JsAccessEntraceImpl.getInstance(getWebCreator().getWebView());
             }
             mJsAccessEntrace = this.mJsAccessEntrace;
         }
@@ -203,14 +203,14 @@ public final class AgentWeb {
 
     public AgentWeb clearWebCache() {
         if (WebConfig.hasX5()) {
-            if (this.getWebCreator().getX5WebView() != null) {
-                AgentWebUtils.clearWebViewAllCache(mActivity, this.getWebCreator().getX5WebView());
+            if (getWebCreator().getX5WebView() != null) {
+                AgentWebUtils.clearWebViewAllCache(mActivity, getWebCreator().getX5WebView());
             } else {
                 AgentWebUtils.clearWebViewAllCache(mActivity);
             }
         } else {
-            if (this.getWebCreator().getWebView() != null) {
-                AgentWebUtils.clearWebViewAllCache(mActivity, this.getWebCreator().getWebView());
+            if (getWebCreator().getWebView() != null) {
+                AgentWebUtils.clearWebViewAllCache(mActivity, getWebCreator().getWebView());
             } else {
                 AgentWebUtils.clearWebViewAllCache(mActivity);
             }
@@ -233,19 +233,21 @@ public final class AgentWeb {
     public boolean handleKeyEvent(int keyCode, KeyEvent keyEvent) {
         if (mIEventHandler == null) {
             if (WebConfig.hasX5()) {
-                mIEventHandler = EventHandlerImpl.getInstantce(mWebCreator.getX5WebView(), getInterceptor());
+                mIEventHandler = EventHandlerImpl.getInstantce(getWebCreator().getX5WebView(), getInterceptor());
             } else {
-                mIEventHandler = EventHandlerImpl.getInstantce(mWebCreator.getWebView(), getInterceptor());
+                mIEventHandler = EventHandlerImpl.getInstantce(getWebCreator().getWebView(), getInterceptor());
             }
         }
         return mIEventHandler.onKeyDown(keyCode, keyEvent);
     }
 
     public boolean back() {
-        if (WebConfig.hasX5()) {
-            mIEventHandler = EventHandlerImpl.getInstantce(mWebCreator.getX5WebView(), getInterceptor());
-        } else {
-            mIEventHandler = EventHandlerImpl.getInstantce(mWebCreator.getWebView(), getInterceptor());
+        if (mIEventHandler == null) {
+            if (WebConfig.hasX5()) {
+                mIEventHandler = EventHandlerImpl.getInstantce(getWebCreator().getX5WebView(), getInterceptor());
+            } else {
+                mIEventHandler = EventHandlerImpl.getInstantce(getWebCreator().getWebView(), getInterceptor());
+            }
         }
         return mIEventHandler.back();
     }
@@ -257,9 +259,9 @@ public final class AgentWeb {
     public IEventHandler getIEventHandler() {
         if (this.mIEventHandler == null) {
             if (WebConfig.hasX5()) {
-                mIEventHandler = EventHandlerImpl.getInstantce(mWebCreator.getX5WebView(), getInterceptor());
+                mIEventHandler = EventHandlerImpl.getInstantce(getWebCreator().getX5WebView(), getInterceptor());
             } else {
-                mIEventHandler = EventHandlerImpl.getInstantce(mWebCreator.getWebView(), getInterceptor());
+                mIEventHandler = EventHandlerImpl.getInstantce(getWebCreator().getWebView(), getInterceptor());
             }
         }
         return this.mIEventHandler;
@@ -338,9 +340,9 @@ public final class AgentWeb {
     private IVideo getIVideo() {
         if (mIVideo == null) {
             if (WebConfig.hasX5()) {
-                mIVideo = new VideoImpl(mActivity, mWebCreator.getX5WebView());
+                mIVideo = new VideoImpl(mActivity, getWebCreator().getX5WebView());
             } else {
-                mIVideo = new VideoImpl(mActivity, mWebCreator.getWebView());
+                mIVideo = new VideoImpl(mActivity, getWebCreator().getWebView());
             }
         }
         return mIVideo;
@@ -355,7 +357,7 @@ public final class AgentWeb {
                 .setClient(mWebViewClient)
                 .setWebClientHelper(this.mWebClientHelper)
                 .setPermissionInterceptor(this.mPermissionInterceptor)
-                .setWebView(this.mWebCreator.getWebView())
+                .setWebView(getWebCreator().getWebView())
                 .setInterceptUnkownUrl(this.mIsInterceptUnkownUrl)
                 .setUrlHandleWays(this.mUrlHandleWays)
                 .build();
@@ -386,7 +388,7 @@ public final class AgentWeb {
                 .setClient(mX5WebViewClient)
                 .setWebClientHelper(this.mWebClientHelper)
                 .setPermissionInterceptor(this.mPermissionInterceptor)
-                .setWebView(this.mWebCreator.getX5WebView())
+                .setWebView(getWebCreator().getX5WebView())
                 .setInterceptUnkownUrl(this.mIsInterceptUnkownUrl)
                 .setUrlHandleWays(this.mUrlHandleWays)
                 .build();
@@ -423,18 +425,18 @@ public final class AgentWeb {
             if (mX5WebListenerManager == null && mAgentWebSettings instanceof top.xuqingquan.web.x5.AbsAgentWebSettings) {
                 mX5WebListenerManager = (top.xuqingquan.web.x5.WebListenerManager) mAgentWebSettings;
             }
-            mAgentWebSettings.toSetting(mWebCreator.getX5WebView());
+            mAgentWebSettings.toSetting(getWebCreator().getX5WebView());
             if (mJsInterfaceHolder == null) {
-                mJsInterfaceHolder = JsInterfaceHolderImpl.getJsInterfaceHolder(mWebCreator.getX5WebView());
+                mJsInterfaceHolder = JsInterfaceHolderImpl.getJsInterfaceHolder(getWebCreator().getX5WebView());
             }
             Timber.i("mJavaObjects:" + mJavaObjects.size());
             if (mJavaObjects != null && !mJavaObjects.isEmpty()) {
                 mJsInterfaceHolder.addJavaObjects(mJavaObjects);
             }
             if (mX5WebListenerManager != null) {
-                mX5WebListenerManager.setDownloader(mWebCreator.getX5WebView(), null);
-                mX5WebListenerManager.setWebChromeClient(mWebCreator.getX5WebView(), getX5ChromeClient());
-                mX5WebListenerManager.setWebViewClient(mWebCreator.getX5WebView(), getX5WebViewClient());
+                mX5WebListenerManager.setDownloader(getWebCreator().getX5WebView(), null);
+                mX5WebListenerManager.setWebChromeClient(getWebCreator().getX5WebView(), getX5ChromeClient());
+                mX5WebListenerManager.setWebViewClient(getWebCreator().getX5WebView(), getX5WebViewClient());
             }
         } else {
             top.xuqingquan.web.system.IAgentWebSettings mAgentWebSettings = this.mAgentWebSettings;
@@ -448,18 +450,18 @@ public final class AgentWeb {
             if (mWebListenerManager == null && mAgentWebSettings instanceof top.xuqingquan.web.system.AbsAgentWebSettings) {
                 mWebListenerManager = (top.xuqingquan.web.system.WebListenerManager) mAgentWebSettings;
             }
-            mAgentWebSettings.toSetting(mWebCreator.getWebView());
+            mAgentWebSettings.toSetting(getWebCreator().getWebView());
             if (mJsInterfaceHolder == null) {
-                mJsInterfaceHolder = JsInterfaceHolderImpl.getJsInterfaceHolder(mWebCreator.getWebView());
+                mJsInterfaceHolder = JsInterfaceHolderImpl.getJsInterfaceHolder(getWebCreator().getWebView());
             }
             Timber.i("mJavaObjects:" + mJavaObjects.size());
             if (mJavaObjects != null && !mJavaObjects.isEmpty()) {
                 mJsInterfaceHolder.addJavaObjects(mJavaObjects);
             }
             if (mWebListenerManager != null) {
-                mWebListenerManager.setDownloader(mWebCreator.getWebView(), null);
-                mWebListenerManager.setWebChromeClient(mWebCreator.getWebView(), getChromeClient());
-                mWebListenerManager.setWebViewClient(mWebCreator.getWebView(), getWebViewClient());
+                mWebListenerManager.setDownloader(getWebCreator().getWebView(), null);
+                mWebListenerManager.setWebChromeClient(getWebCreator().getWebView(), getChromeClient());
+                mWebListenerManager.setWebViewClient(getWebCreator().getWebView(), getWebViewClient());
             }
         }
         return this;
@@ -468,14 +470,14 @@ public final class AgentWeb {
     @SuppressWarnings("ConstantConditions")
     private android.webkit.WebChromeClient getChromeClient() {
         this.mIndicatorController = (this.mIndicatorController == null) ?
-                IndicatorHandler.getInstance().inJectIndicator(mWebCreator.offer())
+                IndicatorHandler.getInstance().inJectIndicator(getWebCreator().offer())
                 : this.mIndicatorController;
         this.mIVideo = getIVideo();
         top.xuqingquan.web.system.DefaultChromeClient mDefaultChromeClient =
                 new top.xuqingquan.web.system.DefaultChromeClient(this.mActivity,
                         this.mIndicatorController,
                         mWebChromeClient, this.mIVideo,
-                        this.mPermissionInterceptor, mWebCreator.getWebView());
+                        this.mPermissionInterceptor, getWebCreator().getWebView());
         Timber.i("WebChromeClient:" + this.mWebChromeClient);
         top.xuqingquan.web.system.MiddlewareWebChromeBase header = this.mMiddlewareWebChromeBaseHeader;
         if (header != null) {
@@ -498,14 +500,14 @@ public final class AgentWeb {
     @SuppressWarnings("ConstantConditions")
     private com.tencent.smtt.sdk.WebChromeClient getX5ChromeClient() {
         this.mIndicatorController = (this.mIndicatorController == null) ?
-                IndicatorHandler.getInstance().inJectIndicator(mWebCreator.offer())
+                IndicatorHandler.getInstance().inJectIndicator(getWebCreator().offer())
                 : this.mIndicatorController;
         this.mIVideo = getIVideo();
         top.xuqingquan.web.x5.DefaultChromeClient mDefaultChromeClient =
                 new top.xuqingquan.web.x5.DefaultChromeClient(this.mActivity,
                         this.mIndicatorController,
                         mX5WebChromeClient, this.mIVideo,
-                        this.mPermissionInterceptor, mWebCreator.getX5WebView());
+                        this.mPermissionInterceptor, getWebCreator().getX5WebView());
         Timber.i("WebChromeClient:" + this.mX5WebChromeClient);
         top.xuqingquan.web.x5.MiddlewareWebChromeBase header = this.mX5MiddlewareWebChromeBaseHeader;
         if (header != null) {
