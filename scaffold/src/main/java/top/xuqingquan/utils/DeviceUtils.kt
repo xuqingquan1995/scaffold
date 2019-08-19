@@ -3,10 +3,11 @@ package top.xuqingquan.utils
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
+import android.os.Build
 import android.text.TextUtils
 import androidx.core.content.ContextCompat
+import org.jetbrains.anko.share
 
 /**
  * Created by 许清泉 on 2019-04-29 23:28
@@ -22,11 +23,16 @@ object DeviceUtils {
     @JvmStatic
     fun getVersionCode(context: Context): Long {
         return try {
-            context.packageManager
+            val packageInfo = context.packageManager
                 .getPackageInfo(
                     context.packageName,
                     0
-                ).longVersionCode
+                )
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                packageInfo.longVersionCode
+            } else {
+                packageInfo.versionCode.toLong()
+            }
         } catch (ex: Throwable) {
             0
         }
@@ -55,11 +61,7 @@ object DeviceUtils {
      */
     @JvmStatic
     fun showSystemShareOption(context: Context, title: String, url: String) {
-        val intent = Intent(Intent.ACTION_SEND)
-        intent.type = "text/plain"
-        intent.putExtra(Intent.EXTRA_SUBJECT, title)
-        intent.putExtra(Intent.EXTRA_TEXT, "$title $url")
-        context.applicationContext.startActivity(Intent.createChooser(intent, "选择分享"))
+        context.share("$title $url",title)
     }
 
     //获取应用的名称
