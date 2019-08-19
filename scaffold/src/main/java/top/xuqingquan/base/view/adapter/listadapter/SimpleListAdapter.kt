@@ -47,7 +47,7 @@ open class SimpleListAdapter<T>(diff: DiffUtil.ItemCallback<T>) : ListAdapter<T,
 
     override fun onBindViewHolder(holder: BaseViewHolder<T>, position: Int) {
         holder.setData(getItem(position), position)
-        setData(holder, getItem(position)!!, position)
+        setData(holder, getItem(position), position)
     }
 
     /**
@@ -63,26 +63,37 @@ open class SimpleListAdapter<T>(diff: DiffUtil.ItemCallback<T>) : ListAdapter<T,
     @LayoutRes
     open fun getLayoutRes(viewType: Int) = 0
 
-    open fun setData(holder: BaseViewHolder<T>, data: T, position: Int) {}
+    open fun setData(holder: BaseViewHolder<T>, data: T?, position: Int) {}
 
     /**
      * 在Adapter内部实现单击回调
      */
-    open fun onClick(view: View, position: Int, data: T, viewType: Int) {
+    open fun onClick(view: View, position: Int, data: T?, viewType: Int) {
 
     }
 
     /**
      * 在Adapter内部实现长按回调
      */
-    open fun onLongClick(view: View, position: Int, data: T, viewType: Int): Boolean {
+    open fun onLongClick(view: View, position: Int, data: T?, viewType: Int): Boolean {
         return true
     }
 
     abstract class OnViewClickListener<T> {
-        abstract fun onClick(view: View, position: Int, data: T, viewType: Int)
+        abstract fun onClick(view: View, position: Int, data: T?, viewType: Int)
 
-        open fun onLongClick(view: View, position: Int, data: T, viewType: Int) = true
+        open fun onLongClick(view: View, position: Int, data: T?, viewType: Int) = true
+    }
+
+    override fun getItem(position: Int): T? {
+        try {
+            if (position >= itemCount) {
+                return null
+            }
+            return super.getItem(position)
+        } catch (t: Throwable) {
+            return null
+        }
     }
 
 

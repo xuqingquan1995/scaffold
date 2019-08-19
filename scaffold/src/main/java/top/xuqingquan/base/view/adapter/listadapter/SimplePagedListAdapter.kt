@@ -47,8 +47,8 @@ open class SimplePagedListAdapter<T>(diff: DiffUtil.ItemCallback<T>) :
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder<T>, position: Int) {
-        holder.setData(getItem(position)!!, position)
-        setData(holder, getItem(position)!!, position)
+        holder.setData(getItem(position), position)
+        setData(holder, getItem(position), position)
     }
 
     /**
@@ -64,7 +64,7 @@ open class SimplePagedListAdapter<T>(diff: DiffUtil.ItemCallback<T>) :
     @LayoutRes
     open fun getLayoutRes(viewType: Int) = 0
 
-    open fun setData(holder: BaseViewHolder<T>, data: T, position: Int) {}
+    open fun setData(holder: BaseViewHolder<T>, data: T?, position: Int) {}
 
     /**
      * 在Adapter内部实现单击回调
@@ -84,6 +84,17 @@ open class SimplePagedListAdapter<T>(diff: DiffUtil.ItemCallback<T>) :
         abstract fun onClick(view: View, position: Int, data: T?, viewType: Int)
 
         open fun onLongClick(view: View, position: Int, data: T?, viewType: Int) = true
+    }
+
+    override fun getItem(position: Int): T? {
+        try {
+            if (position >= itemCount) {
+                return null
+            }
+            return super.getItem(position)
+        } catch (t: Throwable) {
+            return null
+        }
     }
 
     companion object {

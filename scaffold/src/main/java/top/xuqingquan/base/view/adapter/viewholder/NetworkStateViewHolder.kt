@@ -15,8 +15,6 @@ class NetworkStateViewHolder(view: View) :
     private val loading_failure = getView<TextView>(R.id.loading_failure)
     private val loading = getView<ProgressBar>(R.id.loading)
     private val loading_tv = getView<TextView>(R.id.loading_tv)
-    override fun setData(data: NetworkStatus, position: Int) {
-    }
 
     fun bind(data: NetworkStatus, listener: View.OnClickListener) {
         loading_failure.setOnClickListener(listener)
