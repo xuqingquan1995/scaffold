@@ -12,6 +12,7 @@ import top.xuqingquan.utils.ZipHelper
 import top.xuqingquan.utils.decode
 import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets
+import java.util.*
 
 /**
  * Created by 许清泉 on 2019/4/14 20:57
@@ -115,19 +116,19 @@ fun isParseable(mediaType: MediaType?) =
 fun isText(mediaType: MediaType?) = if (mediaType?.type == null) false else mediaType.type == "text"
 
 fun isPlain(mediaType: MediaType?) =
-    if (mediaType?.subtype == null) false else mediaType.subtype.toLowerCase().contains("plain")
+    if (mediaType?.subtype == null) false else mediaType.subtype.toLowerCase(Locale.getDefault()).contains("plain")
 
 fun isJson(mediaType: MediaType?) =
-    if (mediaType?.subtype == null) false else mediaType.subtype.toLowerCase().contains("json")
+    if (mediaType?.subtype == null) false else mediaType.subtype.toLowerCase(Locale.getDefault()).contains("json")
 
 fun isXml(mediaType: MediaType?) =
-    if (mediaType?.subtype == null) false else mediaType.subtype.toLowerCase().contains("xml")
+    if (mediaType?.subtype == null) false else mediaType.subtype.toLowerCase(Locale.getDefault()).contains("xml")
 
 fun isHtml(mediaType: MediaType?) =
-    if (mediaType?.subtype == null) false else mediaType.subtype.toLowerCase().contains("html")
+    if (mediaType?.subtype == null) false else mediaType.subtype.toLowerCase(Locale.getDefault()).contains("html")
 
 fun isForm(mediaType: MediaType?) =
-    if (mediaType?.subtype == null) false else mediaType.subtype.toLowerCase().contains("x-www-form-urlencoded")
+    if (mediaType?.subtype == null) false else mediaType.subtype.toLowerCase(Locale.getDefault()).contains("x-www-form-urlencoded")
 
 fun convertCharset(charset: Charset): String {
     val s = charset.toString()
