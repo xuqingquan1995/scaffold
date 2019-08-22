@@ -73,7 +73,7 @@ class DebugHierarchyViewContainer : ScrollView {
         return (dp * scale + 0.5f).toInt()
     }
 
-    fun bindFragmentRecords(fragmentRecords: List<DebugFragmentRecord>?) {
+    internal fun bindFragmentRecords(fragmentRecords: List<DebugFragmentRecord>?) {
         mLinearLayout!!.removeAllViews()
         val ll = titleLayout
         mLinearLayout!!.addView(ll)

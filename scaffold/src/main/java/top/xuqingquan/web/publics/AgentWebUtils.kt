@@ -15,8 +15,8 @@ import androidx.annotation.ColorInt
 import androidx.annotation.RequiresApi
 import com.google.android.material.snackbar.Snackbar
 import top.xuqingquan.R
-import top.xuqingquan.utils.FileUtils
 import top.xuqingquan.utils.Timber
+import top.xuqingquan.utils.clearCacheFolder
 import top.xuqingquan.web.nokernel.PermissionInterceptor
 import top.xuqingquan.web.nokernel.WebConfig
 import top.xuqingquan.web.nokernel.WebUtils
@@ -106,7 +106,7 @@ object AgentWebUtils {
             webView.clearCache(true)
             webView.clearHistory()
             webView.clearFormData()
-            FileUtils.clearCacheFolder(File(WebUtils.getCachePath(context)), 0)
+            clearCacheFolder(File(WebUtils.getCachePath(context)), 0)
         } catch (t: Throwable) {
             Timber.e(t)
         }
@@ -123,7 +123,7 @@ object AgentWebUtils {
             webView.clearCache(true)
             webView.clearHistory()
             webView.clearFormData()
-            FileUtils.clearCacheFolder(File(WebUtils.getCachePath(context)), 0)
+            clearCacheFolder(File(WebUtils.getCachePath(context)), 0)
         } catch (t: Throwable) {
             Timber.e(t)
         }

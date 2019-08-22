@@ -1,3 +1,5 @@
+@file:JvmName("PermissionUtils")
+
 package top.xuqingquan.utils
 
 import android.content.Context
@@ -11,49 +13,44 @@ import java.util.*
 /**
  * Created by 许清泉 on 2019-05-27 01:18
  */
-object PermissionUtils {
 
-    @JvmStatic
-    fun hasPermission(context: Context, vararg permissions: String): Boolean {
-        return hasPermission(context.applicationContext, listOf(*permissions))
-    }
+fun hasPermission(context: Context, vararg permissions: String): Boolean {
+    return hasPermission(context.applicationContext, listOf(*permissions))
+}
 
-    @JvmStatic
-    fun hasPermission(ctx: Context, permissions: List<String>): Boolean {
-        val context = ctx.applicationContext
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            return true
-        }
-        for (permission in permissions) {
-            var result = ContextCompat.checkSelfPermission(context, permission)
-            if (result == PackageManager.PERMISSION_DENIED) {
-                return false
-            }
-            val op = AppOpsManagerCompat.permissionToOp(permission)
-            if (TextUtils.isEmpty(op)) {
-                continue
-            }
-            result = AppOpsManagerCompat.noteProxyOp(context, op!!, context.packageName)
-            if (result != AppOpsManagerCompat.MODE_ALLOWED) {
-                return false
-            }
-        }
+
+fun hasPermission(ctx: Context, permissions: List<String>): Boolean {
+    val context = ctx.applicationContext
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
         return true
     }
-
-    @JvmStatic
-    fun getDeniedPermissions(context: Context, permissions: Array<String>?): List<String> {
-        if (permissions.isNullOrEmpty()) {
-            return emptyList()
+    for (permission in permissions) {
+        var result = ContextCompat.checkSelfPermission(context, permission)
+        if (result == PackageManager.PERMISSION_DENIED) {
+            return false
         }
-        val deniedPermissions = ArrayList<String>()
-        for (permission in permissions) {
-            if (!hasPermission(context, permission)) {
-                deniedPermissions.add(permission)
-            }
+        val op = AppOpsManagerCompat.permissionToOp(permission)
+        if (TextUtils.isEmpty(op)) {
+            continue
         }
-        return deniedPermissions
+        result = AppOpsManagerCompat.noteProxyOp(context, op!!, context.packageName)
+        if (result != AppOpsManagerCompat.MODE_ALLOWED) {
+            return false
+        }
     }
+    return true
+}
 
 
+fun getDeniedPermissions(context: Context, permissions: Array<String>?): List<String> {
+    if (permissions.isNullOrEmpty()) {
+        return emptyList()
+    }
+    val deniedPermissions = ArrayList<String>()
+    for (permission in permissions) {
+        if (!hasPermission(context, permission)) {
+            deniedPermissions.add(permission)
+        }
+    }
+    return deniedPermissions
 }

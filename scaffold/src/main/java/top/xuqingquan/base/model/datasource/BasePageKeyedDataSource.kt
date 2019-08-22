@@ -32,7 +32,7 @@ abstract class BasePageKeyedDataSource<Key, Value> : PageKeyedDataSource<Key, Va
     /**
      * 重试的方法
      */
-    var retry: (() -> Any)? = null
+    private var retry: (() -> Any)? = null
 
     /**
      * error监听

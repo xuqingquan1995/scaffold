@@ -8,10 +8,10 @@ ext {
     ]
 
     depsVer = [
-            kotlin                : '1.3.41',
+            kotlin                : '1.3.50',
             kotlinx_coroutines    : '1.2.1',
             appcompat             : '1.1.0-rc01',
-            core_ktx              : '1.2.0-alpha02',
+            core_ktx              : '1.2.0-alpha03',
             constraintlayout      : '2.0.0-beta2',
             junit                 : '4.13-beta-3',
             test_rules            : '1.3.0-alpha02',
@@ -19,11 +19,11 @@ ext {
             test_ext              : '1.1.2-alpha02',
             retrofit              : '2.6.1',
             gson                  : '2.8.5',
-            okhttp                : '4.0.1',
+            okhttp                : '4.1.0',
             leakcanary            : '2.0-alpha-1',
             eventbus              : '3.1.1',
-            lifecycle             : '2.2.0-alpha02',
-            recyclerview          : '1.1.0-beta01',
+            lifecycle             : '2.2.0-alpha03',
+            recyclerview          : '1.1.0-beta03',
             paging                : '2.1.0',
             room                  : '2.0.0',
             navigation            : '2.1.0-alpha02',
@@ -45,7 +45,7 @@ ext {
             recovery              : '1.0.0',
             anrwatchdog           : '1.4.0',
             anko                  : '0.10.8',
-            viewpager2            : '1.0.0-beta02',
+            viewpager2            : '1.0.0-beta03',
             exifinterface         : '1.1.0-beta01'
     ]
     deps = [
@@ -81,6 +81,7 @@ ext {
             //lifecycle
             lifecycle                 : "androidx.lifecycle:lifecycle-extensions:${depsVer.lifecycle}",
             lifecycle_viewmodel_ktx   : "androidx.lifecycle:lifecycle-viewmodel-ktx:${depsVer.lifecycle}",
+            lifecycle_runtime_ktx     : "androidx.lifecycle:lifecycle-runtime-ktx:${depsVer.lifecycle}",
             //view
             exifinterface             : "androidx.exifinterface:exifinterface:${depsVer.exifinterface}",
             recyclerview              : "androidx.recyclerview:recyclerview:${depsVer.recyclerview}",

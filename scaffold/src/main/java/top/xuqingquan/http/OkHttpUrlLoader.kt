@@ -23,7 +23,7 @@ class OkHttpUrlLoader private constructor(private val client: Call.Factory) : Mo
 
     override fun handles(model: GlideUrl) = true
 
-    class Factory(private val client: Call.Factory = getInternalClient()) : ModelLoaderFactory<GlideUrl, InputStream> {
+    internal class Factory(private val client: Call.Factory = getInternalClient()) : ModelLoaderFactory<GlideUrl, InputStream> {
 
         companion object {
             @Volatile

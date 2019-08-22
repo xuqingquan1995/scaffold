@@ -64,8 +64,8 @@ class DefaultFormatPrinter : FormatPrinter {
     ) {
         var bodyString = bs
         bodyString = when {
-            HttpParseUtils.isJson(contentType) -> CharacterUtils.jsonFormat(bodyString)
-            HttpParseUtils.isXml(contentType) -> CharacterUtils.xmlFormat(bodyString)
+            isJson(contentType) -> CharacterUtils.jsonFormat(bodyString)
+            isXml(contentType) -> CharacterUtils.xmlFormat(bodyString)
             else -> bodyString
         }
         val responseBody = LINE_SEPARATOR + BODY_TAG + LINE_SEPARATOR + bodyString
