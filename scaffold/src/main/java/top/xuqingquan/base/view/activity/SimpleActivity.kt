@@ -7,6 +7,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.*
 import top.xuqingquan.BuildConfig
 import top.xuqingquan.app.ScaffoldConfig
@@ -26,7 +27,6 @@ abstract class SimpleActivity : AppCompatActivity(), IActivity {
     private var mCache: Cache<String, Any>? = null
     private var debugStackDelegate: DebugStackDelegate? = null
     private var listener: FragmentOnKeyListener? = null
-    private val activityScope = CoroutineScope(Dispatchers.IO + Job())
 
     /**
      * @return 布局id
@@ -37,7 +37,8 @@ abstract class SimpleActivity : AppCompatActivity(), IActivity {
     final override fun provideCache(): Cache<String, Any> {
         if (mCache == null) {
             @Suppress("UNCHECKED_CAST")
-            mCache = ScaffoldConfig.getCacheFactory().build(CacheType.ACTIVITY_CACHE) as Cache<String, Any>
+            mCache =
+                ScaffoldConfig.getCacheFactory().build(CacheType.ACTIVITY_CACHE) as Cache<String, Any>
         }
         return mCache!!
     }
@@ -108,19 +109,17 @@ abstract class SimpleActivity : AppCompatActivity(), IActivity {
         return super.onKeyDown(keyCode, event)
     }
 
-    override fun onDestroy() {
-        activityScope.cancel()
-        super.onDestroy()
-    }
-
     protected fun <T> launch(
-        context: CoroutineContext = activityScope.coroutineContext,
+        context: CoroutineContext = lifecycleScope.coroutineContext,
         tryBlock: suspend CoroutineScope.() -> T,
         catchBlock: suspend CoroutineScope.(Throwable) -> Unit = {},
-        finallyBlock: suspend CoroutineScope.() -> Unit = {}
+        finallyBlock: suspend CoroutineScope.() -> Unit = {},
+        hideKeyboard: Boolean = true
     ): Job {
-        hideSoftKeyboard()
-        return activityScope.launch(context) {
+        if (hideKeyboard) {
+            hideSoftKeyboard()
+        }
+        return lifecycleScope.launch(context) {
             try {
                 tryBlock()
             } catch (e: Throwable) {
@@ -135,9 +134,10 @@ abstract class SimpleActivity : AppCompatActivity(), IActivity {
     }
 
     protected fun <T> launch(
-        context: CoroutineContext = activityScope.coroutineContext,
+        hideKeyboard: Boolean = true,
+        context: CoroutineContext = lifecycleScope.coroutineContext,
         tryBlock: suspend CoroutineScope.() -> T
     ): Job {
-        return launch(context, tryBlock, {}, {})
+        return launch(context, tryBlock, {}, {}, hideKeyboard)
     }
 }

@@ -17,8 +17,9 @@ import androidx.core.app.AppOpsManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.os.EnvironmentCompat
 import top.xuqingquan.R
-import top.xuqingquan.utils.FileUtils
 import top.xuqingquan.utils.Timber
+import top.xuqingquan.utils.getMIMEType
+import top.xuqingquan.utils.getUriFromFile
 import top.xuqingquan.web.nokernel.WebConfig.AGENTWEB_CACHE_PATCH
 import top.xuqingquan.web.nokernel.WebConfig.AGENTWEB_FILE_PATH
 import top.xuqingquan.web.nokernel.WebConfig.FILE_CACHE_PATH
@@ -112,7 +113,7 @@ object WebUtils {
     @JvmStatic
     fun getIntentCaptureCompat(context: Context, file: File): Intent {
         val mIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        val mUri = FileUtils.getUriFromFile(context, file)
+        val mUri = getUriFromFile(context, file)
         mIntent.addCategory(Intent.CATEGORY_DEFAULT)
         mIntent.putExtra(MediaStore.EXTRA_OUTPUT, mUri)
         return mIntent
@@ -121,7 +122,7 @@ object WebUtils {
     @JvmStatic
     fun getCommonFileIntentCompat(context: Context, file: File): Intent {
         val mIntent = Intent().setAction(Intent.ACTION_VIEW)
-        setIntentDataAndType(context, mIntent, FileUtils.getMIMEType(file), file, false)
+        setIntentDataAndType(context, mIntent, getMIMEType(file), file, false)
         return mIntent
     }
 
@@ -133,7 +134,7 @@ object WebUtils {
         writeAble: Boolean
     ) {
         if (Build.VERSION.SDK_INT >= 24) {
-            intent.setDataAndType(FileUtils.getUriFromFile(context, file), type)
+            intent.setDataAndType(getUriFromFile(context, file), type)
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             if (writeAble) {
                 intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)

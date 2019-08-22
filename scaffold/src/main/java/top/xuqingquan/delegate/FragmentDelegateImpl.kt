@@ -8,13 +8,16 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import org.greenrobot.eventbus.EventBus
-import top.xuqingquan.utils.EventBusHelper
+import top.xuqingquan.utils.haveAnnotation
 
 /**
  * Created by 许清泉 on 2019/4/14 13:54
  * FragmentDelegate 默认实现类
  */
-class FragmentDelegateImpl(private var mFragmentManager: FragmentManager?, private var mFragment: Fragment?) :
+class FragmentDelegateImpl(
+    private var mFragmentManager: FragmentManager?,
+    private var mFragment: Fragment?
+) :
     FragmentDelegate {
 
     private var iFragment: IFragment? = mFragment as IFragment
@@ -23,12 +26,16 @@ class FragmentDelegateImpl(private var mFragmentManager: FragmentManager?, priva
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        if (iFragment?.useEventBus() == true && EventBusHelper.haveAnnotation(mFragment!!)) {
+        if (iFragment?.useEventBus() == true && haveAnnotation(mFragment!!)) {
             EventBus.getDefault().register(mFragment)
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -54,7 +61,7 @@ class FragmentDelegateImpl(private var mFragmentManager: FragmentManager?, priva
     }
 
     override fun onDestroy() {
-        if (iFragment?.useEventBus() == true) {
+        if (iFragment?.useEventBus() == true && haveAnnotation(mFragment!!)) {
             EventBus.getDefault().unregister(mFragment)
         }
         iFragment = null

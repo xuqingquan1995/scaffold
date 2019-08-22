@@ -20,7 +20,7 @@ object StackList {
             return field!!
         }
 
-    fun addFragmet(fragment: Fragment) {
+    internal fun addFragmet(fragment: Fragment) {
         val tag = createTag(fragment)
         val map = HashMap<String, Fragment>()
         map[tag] = fragment
@@ -57,7 +57,7 @@ object StackList {
         }
     }
 
-    fun removeFragment(fragment: Fragment) {
+    internal fun removeFragment(fragment: Fragment) {
         val tag = createTag(fragment)
         val map = HashMap<String, Fragment>()
         map[tag] = fragment
