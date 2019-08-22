@@ -10,6 +10,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.annotation.LayoutRes
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.*
 import top.xuqingquan.BuildConfig
 import top.xuqingquan.app.ScaffoldConfig
@@ -28,7 +29,6 @@ abstract class SimpleFragment : Fragment(), IFragment, FragmentOnKeyListener {
 
     private var mCache: Cache<String, Any>? = null
     var mContext: Context? = null
-    private val fragmentScope = CoroutineScope(Dispatchers.IO + Job())
 
     /**
      * @return 布局id
@@ -53,7 +53,11 @@ abstract class SimpleFragment : Fragment(), IFragment, FragmentOnKeyListener {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val view = initView(inflater, container)
         initView(view)
         return view
@@ -130,19 +134,17 @@ abstract class SimpleFragment : Fragment(), IFragment, FragmentOnKeyListener {
         }
     }
 
-    override fun onDestroyView() {
-        fragmentScope.cancel()
-        super.onDestroyView()
-    }
-
     protected fun <T> launch(
-        context: CoroutineContext = fragmentScope.coroutineContext,
+        context: CoroutineContext = lifecycleScope.coroutineContext,
         tryBlock: suspend CoroutineScope.() -> T,
         catchBlock: suspend CoroutineScope.(Throwable) -> Unit = {},
-        finallyBlock: suspend CoroutineScope.() -> Unit = {}
+        finallyBlock: suspend CoroutineScope.() -> Unit = {},
+        hideKeyboard: Boolean = true
     ): Job {
-        hideSoftKeyboard()
-        return fragmentScope.launch(context) {
+        if (hideKeyboard) {
+            hideSoftKeyboard()
+        }
+        return lifecycleScope.launch(context) {
             try {
                 tryBlock()
             } catch (e: Throwable) {
@@ -157,9 +159,10 @@ abstract class SimpleFragment : Fragment(), IFragment, FragmentOnKeyListener {
     }
 
     protected fun <T> launch(
-        context: CoroutineContext = fragmentScope.coroutineContext,
+        hideKeyboard: Boolean = true,
+        context: CoroutineContext = lifecycleScope.coroutineContext,
         tryBlock: suspend CoroutineScope.() -> T
     ): Job {
-        return launch(context, tryBlock, {}, {})
+        return launch(context, tryBlock, {}, {}, hideKeyboard)
     }
 }

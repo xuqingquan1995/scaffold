@@ -59,10 +59,8 @@ dependencies {
     api rootProject.ext.deps.constraintlayout
     api rootProject.ext.deps.core_ktx
     api rootProject.ext.deps.lifecycle
-    api(rootProject.ext.deps.anko) {
-        //material依赖了高版本1.0.0-alpha01了,anko 会自动强制依赖1.0.0的viewpager，
-        exclude group: 'androidx.coordinatorlayout', module: 'coordinatorlayout'
-    }
+    api rootProject.ext.deps.lifecycle_runtime_ktx
+    api rootProject.ext.deps.anko
     compileOnly rootProject.ext.deps.multidex
     //view
     api rootProject.ext.deps.recyclerview
@@ -70,11 +68,7 @@ dependencies {
     compileOnly rootProject.ext.deps.paging
     api rootProject.ext.deps.glide
     kapt rootProject.ext.deps.glide_compiler
-    api(rootProject.ext.deps.material) {
-        //material 会自动强制依赖1.0.0-alpha04的viewpager，
-        exclude group: 'androidx.viewpager2', module: 'viewpager2'
-    }
-    compileOnly rootProject.ext.deps.viewpager2
+    api rootProject.ext.deps.material
     compileOnly rootProject.ext.deps.autosize
     //retorfit
     api rootProject.ext.deps.retrofit

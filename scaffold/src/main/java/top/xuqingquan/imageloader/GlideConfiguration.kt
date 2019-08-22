@@ -13,7 +13,7 @@ import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.module.AppGlideModule
 import top.xuqingquan.app.ScaffoldConfig
 import top.xuqingquan.http.OkHttpUrlLoader
-import top.xuqingquan.utils.FileUtils
+import top.xuqingquan.utils.makeDirs
 import java.io.File
 import java.io.InputStream
 
@@ -27,7 +27,7 @@ class GlideConfiguration : AppGlideModule() {
     override fun applyOptions(context: Context, builder: GlideBuilder) {
         builder.setDiskCache {
             DiskLruCacheWrapper.create(
-                FileUtils.makeDirs(File(ScaffoldConfig.getCacheFile(), "Glide")),
+                makeDirs(File(ScaffoldConfig.getCacheFile(), "Glide")),
                 IMAGE_DISK_CACHE_MAX_SIZE
             )
         }

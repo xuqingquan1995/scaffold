@@ -7,7 +7,7 @@ import androidx.fragment.app.FragmentActivity
 import org.greenrobot.eventbus.EventBus
 import top.xuqingquan.stack.DebugStackDelegate
 import top.xuqingquan.stack.DebugStackDelegateImpl
-import top.xuqingquan.utils.EventBusHelper
+import top.xuqingquan.utils.haveAnnotation
 
 /**
  * Created by 许清泉 on 2019/4/14 15:24
@@ -27,7 +27,7 @@ class ActivityDelegateImpl(private var mActivity: Activity?) : ActivityDelegate 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         //如果要使用 EventBus 请将此方法返回 true
-        if (iActivity!!.useEventBus() && EventBusHelper.haveAnnotation(mActivity!!)) {
+        if (iActivity!!.useEventBus() && haveAnnotation(mActivity!!)) {
             //注册到事件主线
             EventBus.getDefault().register(mActivity!!)
         }
@@ -56,7 +56,7 @@ class ActivityDelegateImpl(private var mActivity: Activity?) : ActivityDelegate 
 
     override fun onDestroy() {
         //如果要使用 EventBus 请将此方法返回 true
-        if (iActivity != null && iActivity!!.useEventBus() && EventBusHelper.haveAnnotation(mActivity!!)) {
+        if (iActivity != null && iActivity!!.useEventBus() && haveAnnotation(mActivity!!)) {
             EventBus.getDefault().unregister(mActivity)
         }
         this.delegate = null

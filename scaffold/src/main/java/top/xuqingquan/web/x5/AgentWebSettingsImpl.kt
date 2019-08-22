@@ -6,8 +6,8 @@ import android.net.Uri
 import androidx.core.content.ContextCompat
 import com.tencent.smtt.sdk.DownloadListener
 import com.tencent.smtt.sdk.WebView
-import top.xuqingquan.utils.FileUtils
 import top.xuqingquan.utils.Timber
+import top.xuqingquan.utils.getCacheFile
 import top.xuqingquan.web.AgentWeb
 
 class AgentWebSettingsImpl : AbsAgentWebSettings() {
@@ -41,7 +41,7 @@ class AgentWebSettingsImpl : AbsAgentWebSettings() {
                         val request = DownloadManager.Request(Uri.parse(url))
                         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
                         request.setDestinationInExternalPublicDir(
-                            FileUtils.getCacheFile(webView.context).absolutePath,
+                            getCacheFile(webView.context).absolutePath,
                             url.substring(url.lastIndexOf("/") + 1)
                         )
                         downloadManager.enqueue(request)

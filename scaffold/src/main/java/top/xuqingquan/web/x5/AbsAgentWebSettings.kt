@@ -4,8 +4,8 @@ import android.annotation.SuppressLint
 import android.os.Build
 import android.view.View
 import com.tencent.smtt.sdk.*
-import top.xuqingquan.utils.NetUtils
 import top.xuqingquan.utils.Timber
+import top.xuqingquan.utils.networkIsConnect
 import top.xuqingquan.web.AgentWeb
 import top.xuqingquan.web.nokernel.WebConfig
 import top.xuqingquan.web.nokernel.WebUtils
@@ -36,7 +36,7 @@ abstract class AbsAgentWebSettings internal constructor() : IAgentWebSettings<We
         mWebSettings!!.builtInZoomControls = true
         mWebSettings!!.displayZoomControls = false
         mWebSettings!!.savePassword = false
-        if (NetUtils.networkIsConnect(webView.context)) {
+        if (networkIsConnect(webView.context)) {
             //根据cache-control获取数据。
             mWebSettings!!.cacheMode = WebSettings.LOAD_DEFAULT
         } else {

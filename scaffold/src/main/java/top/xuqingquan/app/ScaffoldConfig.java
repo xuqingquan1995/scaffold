@@ -434,20 +434,9 @@ public class ScaffoldConfig {
     }
 
     /*********************************************************************/
-
-    @SuppressLint("StaticFieldLeak")
-    private static AppManager appManager;
     private static Application.ActivityLifecycleCallbacks activityLifecycleCallbacks;
     private static FragmentManager.FragmentLifecycleCallbacks fragmentLifecycleCallbacks;
     private static List<FragmentManager.FragmentLifecycleCallbacks> fragmentLifecycleCallbacksList;
-
-    @NonNull
-    public static AppManager getAppManager() {
-        if (appManager == null) {
-            appManager = AppManager.getAppManager().init(application);
-        }
-        return appManager;
-    }
 
     @NonNull
     public static Application.ActivityLifecycleCallbacks getActivityLifecycleCallbacks() {

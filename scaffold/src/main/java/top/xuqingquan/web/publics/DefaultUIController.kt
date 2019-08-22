@@ -11,8 +11,8 @@ import android.text.TextUtils
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import top.xuqingquan.R
-import top.xuqingquan.utils.DeviceUtils
 import top.xuqingquan.utils.Timber
+import top.xuqingquan.utils.getApplicationName
 import top.xuqingquan.web.nokernel.WebUtils
 
 open class DefaultUIController : AbsAgentWebUIController() {
@@ -54,7 +54,7 @@ open class DefaultUIController : AbsAgentWebUIController() {
                 .setMessage(
                     mResources!!.getString(
                         R.string.agentweb_leave_app_and_go_other_page,
-                        DeviceUtils.getApplicationName(mActivity!!)
+                        getApplicationName(mActivity!!)
                     )
                 )//
                 .setTitle(mResources!!.getString(R.string.agentweb_tips))
