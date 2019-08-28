@@ -32,7 +32,7 @@ abstract class BaseItemKeyedDataSource<Key, Value> : ItemKeyedDataSource<Key, Va
     /**
      * 重试的方法
      */
-    private var retry: (() -> Any)? = null
+    protected var retry: (() -> Any)? = null
 
     /**
      * error监听
