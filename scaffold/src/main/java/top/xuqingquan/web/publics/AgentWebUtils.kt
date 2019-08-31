@@ -159,23 +159,20 @@ object AgentWebUtils {
     @JvmStatic
     fun getWebParentLayoutByWebView(webView: android.webkit.WebView): WebParentLayout {
         var mViewGroup: ViewGroup?
-        if (webView.parent !is ViewGroup) {
-            throw IllegalStateException("please check webcreator's create method was be called ?")
-        }
+        check(webView.parent is ViewGroup) { "please check webcreator's create method was be called ?" }
         mViewGroup = webView.parent as ViewGroup
         while (mViewGroup != null) {
-
             Timber.i("ViewGroup:$mViewGroup")
-            if (mViewGroup.id == R.id.web_parent_layout_id) {
+            mViewGroup = if (mViewGroup.id == R.id.web_parent_layout_id) {
                 val mWebParentLayout = mViewGroup as WebParentLayout?
                 Timber.i("found WebParentLayout")
                 return mWebParentLayout!!
             } else {
                 val mViewParent = mViewGroup.parent
                 if (mViewParent is ViewGroup) {
-                    mViewGroup = mViewParent
+                    mViewParent
                 } else {
-                    mViewGroup = null
+                    null
                 }
             }
         }
@@ -185,22 +182,20 @@ object AgentWebUtils {
     @JvmStatic
     fun getWebParentLayoutByWebView(webView: com.tencent.smtt.sdk.WebView): WebParentLayout {
         var mViewGroup: ViewGroup?
-        if (webView.parent !is ViewGroup) {
-            throw IllegalStateException("please check webcreator's create method was be called ?")
-        }
+        check(webView.parent is ViewGroup) { "please check webcreator's create method was be called ?" }
         mViewGroup = webView.parent as ViewGroup
         while (mViewGroup != null) {
             Timber.i("ViewGroup:$mViewGroup")
-            if (mViewGroup.id == R.id.web_parent_layout_id) {
+            mViewGroup = if (mViewGroup.id == R.id.web_parent_layout_id) {
                 val mWebParentLayout = mViewGroup as WebParentLayout?
                 Timber.i("found WebParentLayout")
                 return mWebParentLayout!!
             } else {
                 val mViewParent = mViewGroup.parent
                 if (mViewParent is ViewGroup) {
-                    mViewGroup = mViewParent
+                    mViewParent
                 } else {
-                    mViewGroup = null
+                    null
                 }
             }
         }

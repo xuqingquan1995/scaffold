@@ -90,17 +90,6 @@ open class WebViewClientDelegate internal constructor(client: WebViewClient?) : 
         super.onTooManyRedirects(view, cancelMsg, continueMsg)
     }
 
-    override fun onReceivedError(
-        view: WebView?, errorCode: Int,
-        description: String?, failingUrl: String?
-    ) {
-        //        if (mDelegate != null) {
-        //            mDelegate.onReceivedError(view, errorCode, description, failingUrl);
-        //            return;
-        //        }
-        super.onReceivedError(view, errorCode, description, failingUrl)
-    }
-
     @RequiresApi(api = Build.VERSION_CODES.M)
     override fun onReceivedError(view: WebView?, request: WebResourceRequest?, error: WebResourceError?) {
         //        if (mDelegate != null) {

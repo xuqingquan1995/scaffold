@@ -49,7 +49,7 @@ fun copyTextToBoard(context: Context, string: String, lable: String? = null) {
     }
     val clip =
         ContextCompat.getSystemService(context.applicationContext, ClipboardManager::class.java)
-    clip?.setPrimaryClip(ClipData.newPlainText(lable, string))
+    clip?.primaryClip = ClipData.newPlainText(lable, string)
 }
 
 /**

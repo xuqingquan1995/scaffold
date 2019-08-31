@@ -19,9 +19,7 @@ class LruCache<K, V>(private val initialMaxSize: Int) : Cache<K, V> {
      */
     @Synchronized
     fun setSizeMultiplier(multiplier: Float) {
-        if (multiplier < 0) {
-            throw IllegalArgumentException("Multiplier must be >= 0")
-        }
+        require(multiplier >= 0) { "Multiplier must be >= 0" }
         maxSize = (initialMaxSize * multiplier).roundToInt()
         evict()
     }

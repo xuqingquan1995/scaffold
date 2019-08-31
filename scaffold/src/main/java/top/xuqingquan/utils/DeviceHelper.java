@@ -31,7 +31,7 @@ public class DeviceHelper {
     private final static String FLYME = "flyme";
     private final static String ZTEC2016 = "zte c2016";
     private final static String ZUKZ1 = "zuk z1";
-    private final static String MEIZUBOARD[] = {"m9", "M9", "mx", "MX"};
+    private final static String[] MEIZUBOARD = {"m9", "M9", "mx", "MX"};
     private static String sMiuiVersionName;
     private static String sFlymeVersionName;
     private static String sEmuiVersionName;

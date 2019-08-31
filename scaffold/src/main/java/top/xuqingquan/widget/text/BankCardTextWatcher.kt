@@ -31,8 +31,8 @@ class BankCardTextWatcher(private val editText: EditText, maxLength: Int) : Text
             buffer.delete(0, buffer.length)
         }
         space = 0
-        for (i in 0 until s.length) {
-            if (s[i] == ' ') {
+        for (element in s) {
+            if (element == ' ') {
                 space++
             }
         }
