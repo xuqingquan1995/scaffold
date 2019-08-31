@@ -1,5 +1,6 @@
 package top.xuqingquan.utils;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
@@ -12,10 +13,12 @@ import android.util.DisplayMetrics;
 import android.view.*;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+
 import androidx.annotation.ColorInt;
 import androidx.annotation.IntDef;
 import androidx.annotation.IntRange;
 import androidx.core.view.ViewCompat;
+
 import top.xuqingquan.R;
 
 import java.lang.annotation.Retention;
@@ -36,6 +39,7 @@ import java.lang.reflect.Method;
  * {@link #showhideBar 控制导航栏和状态栏的显示和隐藏}
  * {@link #setNavigationIconDark 设置导航栏图标是否为暗色}
  */
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class StatusBarUtils {
 
     @IntDef({STATUSBAR_TYPE_DEFAULT, STATUSBAR_TYPE_MIUI, STATUSBAR_TYPE_FLYME, STATUSBAR_TYPE_ANDROID6})
@@ -83,6 +87,7 @@ public class StatusBarUtils {
         translucent(window, 0x40000000);
     }
 
+    @SuppressLint("ObsoleteSdkInt")
     private static boolean supportTranslucent() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
                 // Essential Phone 在 Android 8 之前沉浸式做得不全，系统不从状态栏顶部开始布局却会下发 WindowInsets
@@ -154,6 +159,7 @@ public class StatusBarUtils {
     @TargetApi(28)
     private static void handleDisplayCutoutMode(final Window window) {
         View decorView = window.getDecorView();
+        //noinspection ConstantConditions
         if (decorView != null) {
             if (ViewCompat.isAttachedToWindow(decorView)) {
                 realHandleDisplayCutoutMode(window, decorView);
@@ -191,6 +197,7 @@ public class StatusBarUtils {
      *
      * @param activity 需要被处理的 Activity
      */
+    @SuppressLint("ObsoleteSdkInt")
     public static boolean setStatusBarTextBlack(Activity activity) {
         if (activity == null) return false;
         // 无语系列：ZTK C2016只能时间和电池图标变色。。。。
@@ -309,10 +316,10 @@ public class StatusBarUtils {
             Class clazz = window.getClass();
             try {
                 int darkModeFlag;
-                Class layoutParams = Class.forName("android.view.MiuiWindowManager$LayoutParams");
+                @SuppressLint("PrivateApi") Class layoutParams = Class.forName("android.view.MiuiWindowManager$LayoutParams");
                 Field field = layoutParams.getField("EXTRA_FLAG_STATUS_BAR_DARK_MODE");
                 darkModeFlag = field.getInt(layoutParams);
-                Method extraFlagField = clazz.getMethod("setExtraFlags", int.class, int.class);
+                @SuppressWarnings("unchecked") Method extraFlagField = clazz.getMethod("setExtraFlags", int.class, int.class);
                 if (light) {
                     extraFlagField.invoke(window, darkModeFlag, darkModeFlag);//状态栏透明且黑色字体
                 } else {
@@ -354,8 +361,10 @@ public class StatusBarUtils {
 
             try {
                 WindowManager.LayoutParams lp = window.getAttributes();
+                //noinspection JavaReflectionMemberAccess
                 Field darkFlag = WindowManager.LayoutParams.class
                         .getDeclaredField("MEIZU_FLAG_DARK_STATUS_BAR_ICON");
+                //noinspection JavaReflectionMemberAccess
                 Field meizuFlags = WindowManager.LayoutParams.class
                         .getDeclaredField("meizuFlags");
                 darkFlag.setAccessible(true);
@@ -410,6 +419,7 @@ public class StatusBarUtils {
         return sStatusbarHeight;
     }
 
+    @SuppressLint("PrivateApi")
     private static void initStatusBarHeight(Context context) {
         Class<?> clazz;
         Object obj = null;
@@ -430,6 +440,7 @@ public class StatusBarUtils {
         } catch (Throwable t) {
             t.printStackTrace();
         }
+        //noinspection ConstantConditions
         if (field != null && obj != null) {
             try {
                 int id = Integer.parseInt(field.get(obj).toString());
@@ -471,6 +482,7 @@ public class StatusBarUtils {
      * @param statusBarAlpha 状态栏透明度
      */
 
+    @SuppressLint("ObsoleteSdkInt")
     public static void setStatusBarBackgroundColor(Activity activity, @ColorInt int color, @IntRange(from = 0, to = 255) int statusBarAlpha) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -594,6 +606,7 @@ public class StatusBarUtils {
         return result;
     }
 
+    @SuppressLint("ObsoleteSdkInt")
     private static boolean hasNavBar(Activity activity) {
         //判断小米手机是否开启了全面屏，开启了，直接返回false
         if (Settings.Global.getInt(activity.getContentResolver(), IMMERSION_MIUI_NAVIGATION_BAR_HIDE_SHOW, 0) != 0) {

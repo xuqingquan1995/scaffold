@@ -36,9 +36,7 @@ class WebParentLayout @JvmOverloads internal constructor(
     }
 
     init {
-        if (context !is Activity) {
-            throw IllegalArgumentException("WebParentLayout context must be activity or activity sub class .")
-        }
+        require(context is Activity) { "WebParentLayout context must be activity or activity sub class ." }
         this.mErrorLayoutRes = R.layout.agentweb_error_page
     }
 

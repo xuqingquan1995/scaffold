@@ -4,14 +4,14 @@ import android.content.Context
 import android.graphics.Rect
 import android.text.TextUtils
 import android.util.AttributeSet
-import android.widget.TextView
+import androidx.appcompat.widget.AppCompatTextView
 
 /**
  * Created by 许清泉 on 2018/12/28 23:51
  * 跑马灯效果
  */
 class MarqueeTextView constructor(context: Context, attrs: AttributeSet? = null) :
-    TextView(context, attrs) {
+    AppCompatTextView(context, attrs) {
 
     init {
         //设置单行

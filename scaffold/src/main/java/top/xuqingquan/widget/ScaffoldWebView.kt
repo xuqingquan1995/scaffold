@@ -73,8 +73,8 @@ class ScaffoldWebView : FrameLayout {
     }
 
     fun initAgentWeb(aw: AgentWeb?) {
-        agentWeb = if (aw == null) {
-            AgentWeb.with(context as Activity)
+        agentWeb = aw
+            ?: AgentWeb.with(context as Activity)
                 .setAgentWebParent(
                     this,
                     -1,
@@ -88,9 +88,6 @@ class ScaffoldWebView : FrameLayout {
                 })
                 .createAgentWeb()//创建AgentWeb。
                 .get()
-        } else {
-            aw
-        }
         if (WebConfig.hasX5()) {
             agentWeb!!.webCreator.getX5WebView()?.overScrollMode = com.tencent.smtt.sdk.WebView.OVER_SCROLL_NEVER
         } else {

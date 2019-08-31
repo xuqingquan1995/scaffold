@@ -168,7 +168,7 @@ object WebUtils {
 
     @JvmStatic
     fun hasPermission(context: Context, vararg permissions: String): Boolean {
-        return hasPermission(context, Arrays.asList(*permissions))
+        return hasPermission(context, listOf(*permissions))
     }
 
     @JvmStatic
