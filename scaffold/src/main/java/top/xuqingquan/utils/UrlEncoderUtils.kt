@@ -65,7 +65,7 @@ fun encode(str: String, forceEncode: Boolean = false): String {
  */
 fun hasUrlEncoded(str: String): Boolean {
     var encode = false
-    for (i in 0 until str.length) {
+    for (i in str.indices) {
         val c = str[i]
         if (c == '%' && i + 2 < str.length) {
             // 判断是否符合urlEncode规范

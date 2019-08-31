@@ -62,7 +62,7 @@ fun getMIMEType(f: File): String {
     val type: String
     val fName = f.name
     /* 取得扩展名 */
-    val end = fName.substring(fName.lastIndexOf(".") + 1).toLowerCase()
+    val end = fName.substring(fName.lastIndexOf(".") + 1).toLowerCase(Locale.getDefault())
     /* 依扩展名的类型决定MimeType */
     type = when (end) {
         "pdf" -> "application/pdf"//

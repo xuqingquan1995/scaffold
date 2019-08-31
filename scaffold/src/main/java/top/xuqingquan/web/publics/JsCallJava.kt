@@ -103,23 +103,28 @@ class JsCallJava(interfaceObj: Any, interfaceName: String) {
 
                 for (k in 0 until len) {
                     currType = argsTypes.optString(k)
-                    if ("string" == currType) {
-                        sign.append("_S")
-                        values[k] = if (argsVals.isNull(k)) null else argsVals.getString(k)
-                    } else if ("number" == currType) {
-                        sign.append("_N")
-                        numIndex = numIndex * 10 + k + 1
-                    } else if ("boolean" == currType) {
-                        sign.append("_B")
-                        values[k] = argsVals.getBoolean(k)
-                    } else if ("object" == currType) {
-                        sign.append("_O")
-                        values[k] = if (argsVals.isNull(k)) null else argsVals.getJSONObject(k)
-                    } else if ("function" == currType) {
-                        sign.append("_F")
-                        values[k] = JsCallback(webView, mInterfacedName!!, argsVals.getInt(k))
-                    } else {
-                        sign.append("_P")
+                    when (currType) {
+                        "string" -> {
+                            sign.append("_S")
+                            values[k] = if (argsVals.isNull(k)) null else argsVals.getString(k)
+                        }
+                        "number" -> {
+                            sign.append("_N")
+                            numIndex = numIndex * 10 + k + 1
+                        }
+                        "boolean" -> {
+                            sign.append("_B")
+                            values[k] = argsVals.getBoolean(k)
+                        }
+                        "object" -> {
+                            sign.append("_O")
+                            values[k] = if (argsVals.isNull(k)) null else argsVals.getJSONObject(k)
+                        }
+                        "function" -> {
+                            sign.append("_F")
+                            values[k] = JsCallback(webView, mInterfacedName!!, argsVals.getInt(k))
+                        }
+                        else -> sign.append("_P")
                     }
                 }
 
@@ -178,23 +183,28 @@ class JsCallJava(interfaceObj: Any, interfaceName: String) {
 
                 for (k in 0 until len) {
                     currType = argsTypes.optString(k)
-                    if ("string" == currType) {
-                        sign.append("_S")
-                        values[k] = if (argsVals.isNull(k)) null else argsVals.getString(k)
-                    } else if ("number" == currType) {
-                        sign.append("_N")
-                        numIndex = numIndex * 10 + k + 1
-                    } else if ("boolean" == currType) {
-                        sign.append("_B")
-                        values[k] = argsVals.getBoolean(k)
-                    } else if ("object" == currType) {
-                        sign.append("_O")
-                        values[k] = if (argsVals.isNull(k)) null else argsVals.getJSONObject(k)
-                    } else if ("function" == currType) {
-                        sign.append("_F")
-                        values[k] = JsCallback(webView, mInterfacedName!!, argsVals.getInt(k))
-                    } else {
-                        sign.append("_P")
+                    when (currType) {
+                        "string" -> {
+                            sign.append("_S")
+                            values[k] = if (argsVals.isNull(k)) null else argsVals.getString(k)
+                        }
+                        "number" -> {
+                            sign.append("_N")
+                            numIndex = numIndex * 10 + k + 1
+                        }
+                        "boolean" -> {
+                            sign.append("_B")
+                            values[k] = argsVals.getBoolean(k)
+                        }
+                        "object" -> {
+                            sign.append("_O")
+                            values[k] = if (argsVals.isNull(k)) null else argsVals.getJSONObject(k)
+                        }
+                        "function" -> {
+                            sign.append("_F")
+                            values[k] = JsCallback(webView, mInterfacedName!!, argsVals.getInt(k))
+                        }
+                        else -> sign.append("_P")
                     }
                 }
 
@@ -214,13 +224,11 @@ class JsCallJava(interfaceObj: Any, interfaceName: String) {
                     while (numIndex > 0) {
                         currIndex = numIndex - numIndex / 10 * 10 - 1
                         currCls = methodTypes[currIndex]
-                        if (currCls == Int::class.javaPrimitiveType) {
-                            values[currIndex] = argsVals.getInt(currIndex)
-                        } else if (currCls == Long::class.javaPrimitiveType) {
-                            //WARN: argsJson.getLong(k + defValue) will return a bigger incorrect number
-                            values[currIndex] = java.lang.Long.parseLong(argsVals.getString(currIndex))
-                        } else {
-                            values[currIndex] = argsVals.getDouble(currIndex)
+                        when (currCls) {
+                            Int::class.javaPrimitiveType -> values[currIndex] = argsVals.getInt(currIndex)
+                            Long::class.javaPrimitiveType -> //WARN: argsJson.getLong(k + defValue) will return a bigger incorrect number
+                                values[currIndex] = java.lang.Long.parseLong(argsVals.getString(currIndex))
+                            else -> values[currIndex] = argsVals.getDouble(currIndex)
                         }
                         numIndex /= 10
                     }
