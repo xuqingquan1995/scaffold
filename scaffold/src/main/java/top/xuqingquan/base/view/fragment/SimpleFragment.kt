@@ -10,6 +10,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.annotation.LayoutRes
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.*
 import top.xuqingquan.BuildConfig
@@ -29,6 +30,7 @@ abstract class SimpleFragment : Fragment(), IFragment, FragmentOnKeyListener {
 
     private var mCache: Cache<String, Any>? = null
     var mContext: Context? = null
+    protected val launchError = MutableLiveData<Throwable>()
 
     /**
      * @return 布局id
@@ -152,6 +154,7 @@ abstract class SimpleFragment : Fragment(), IFragment, FragmentOnKeyListener {
                     e.printStackTrace()
                 }
                 catchBlock(e)
+                launchError.postValue(e)
             } finally {
                 finallyBlock()
             }
