@@ -1,15 +1,25 @@
 package top.xuqingquan.app;
 
-import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.ComponentCallbacks2;
 import android.content.Context;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
 import androidx.paging.PagedList;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+
 import okhttp3.Dispatcher;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
@@ -30,17 +40,12 @@ import top.xuqingquan.http.log.RequestInterceptor;
 import top.xuqingquan.imageloader.BaseImageLoaderStrategy;
 import top.xuqingquan.imageloader.GlideImageLoaderStrategy;
 import top.xuqingquan.imageloader.ImageLoader;
-import top.xuqingquan.integration.*;
+import top.xuqingquan.integration.ActivityLifecycle;
+import top.xuqingquan.integration.FragmentLifecycle;
+import top.xuqingquan.integration.IRepositoryManager;
+import top.xuqingquan.integration.RepositoryManager;
 import top.xuqingquan.lifecycle.FragmentLifecycleCallbacksImpl;
 import top.xuqingquan.utils.FileUtils;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.SynchronousQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class ScaffoldConfig {
