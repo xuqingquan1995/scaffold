@@ -7,6 +7,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.*
 import top.xuqingquan.BuildConfig
@@ -27,6 +28,7 @@ abstract class SimpleActivity : AppCompatActivity(), IActivity {
     private var mCache: Cache<String, Any>? = null
     private var debugStackDelegate: DebugStackDelegate? = null
     private var listener: FragmentOnKeyListener? = null
+    protected val launchError = MutableLiveData<Throwable>()
 
     /**
      * @return 布局id
@@ -59,6 +61,11 @@ abstract class SimpleActivity : AppCompatActivity(), IActivity {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initView(savedInstanceState)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        hideSoftKeyboard()
     }
 
     /**
@@ -127,6 +134,7 @@ abstract class SimpleActivity : AppCompatActivity(), IActivity {
                     e.printStackTrace()
                 }
                 catchBlock(e)
+                launchError.postValue(e)
             } finally {
                 finallyBlock()
             }
