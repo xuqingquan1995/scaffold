@@ -63,6 +63,11 @@ abstract class SimpleActivity : AppCompatActivity(), IActivity {
         initView(savedInstanceState)
     }
 
+    override fun onPause() {
+        super.onPause()
+        hideSoftKeyboard()
+    }
+
     /**
      * 方便给子类继承选择是否使用这种方式填充布局
      * @param savedInstanceState
