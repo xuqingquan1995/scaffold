@@ -657,7 +657,7 @@ public class FileChooser {
     }
 
     // 必须执行在子线程, 会阻塞直到文件转换完成;
-    private static Queue<FileParcel> convertFile(String[] paths) throws Exception {
+    private static Queue<FileParcel> convertFile(String[] paths) throws Throwable {
         if (paths == null || paths.length == 0) {
             return null;
         }
@@ -772,7 +772,7 @@ public class FileChooser {
                     mJsChannelCallback.get().call(result);
                 }
 
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 e.printStackTrace();
             }
         }

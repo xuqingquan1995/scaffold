@@ -48,7 +48,7 @@ public class DeviceHelper {
             try {
                 fileInputStream = new FileInputStream(new File(Environment.getRootDirectory(), "build.prop"));
                 properties.load(fileInputStream);
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 Timber.e(e, "read file error");
             } finally {
                 if (fileInputStream != null) {
@@ -71,7 +71,7 @@ public class DeviceHelper {
             sFlymeVersionName = getLowerCaseName(properties, getMethod, KEY_FLYME_VERSION_NAME);
             //emui
             sEmuiVersionName = getLowerCaseName(properties, getMethod, KEY_EMUI_VERSION_NAME);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             Timber.e(e, "read SystemProperties error");
         }
     }
@@ -225,7 +225,7 @@ public class DeviceHelper {
         } else {
             try {
                 return (context.getApplicationInfo().flags & 1 << 27) == 1 << 27;
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 e.printStackTrace();
                 return false;
             }
@@ -242,7 +242,7 @@ public class DeviceHelper {
                 int property = (Integer) method.invoke(manager, op,
                         Binder.getCallingUid(), context.getPackageName());
                 return AppOpsManager.MODE_ALLOWED == property;
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 e.printStackTrace();
             }
         }
@@ -255,7 +255,7 @@ public class DeviceHelper {
         if (name == null) {
             try {
                 name = (String) get.invoke(null, key);
-            } catch (Exception ignored) {
+            } catch (Throwable ignored) {
             }
         }
         if (name != null) name = name.toLowerCase();

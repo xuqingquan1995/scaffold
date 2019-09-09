@@ -59,7 +59,7 @@ public class RequestInterceptor implements Interceptor {
         Response originalResponse;
         try {
             originalResponse = chain.proceed(request);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             Timber.w("Http Error: " + e);
             throw e;
         }

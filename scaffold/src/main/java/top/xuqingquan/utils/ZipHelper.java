@@ -173,7 +173,7 @@ public class ZipHelper {
                 closeable.close();
             } catch (RuntimeException rethrown) {
                 throw rethrown;
-            } catch (Exception ignored) {
+            } catch (Throwable ignored) {
             }
         }
     }

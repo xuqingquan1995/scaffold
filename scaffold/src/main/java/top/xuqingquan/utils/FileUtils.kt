@@ -113,7 +113,7 @@ fun clearCacheFolder(dir: File?, numDays: Int): Int {
                     }
                 }
             }
-        } catch (e: Exception) {
+        } catch (e: Throwable) {
             Timber.e(e, "Failed to clean the cache, result %s", e.message)
         }
 
@@ -149,7 +149,7 @@ fun uriToPath(context: Context?, uris: Array<Uri>?): Array<String?>? {
 fun closeIO(closeable: Closeable?) {
     try {
         closeable?.close()
-    } catch (e: Exception) {
+    } catch (e: Throwable) {
         e.printStackTrace()
     }
 
