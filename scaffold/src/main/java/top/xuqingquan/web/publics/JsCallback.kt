@@ -112,7 +112,7 @@ class JsCallback {
         mIsPermanent = if (value) 1 else 0
     }
 
-    class JsCallbackException internal constructor(msg: String) : Exception(msg)
+    class JsCallbackException internal constructor(msg: String) : Throwable(msg)
 
     companion object {
 

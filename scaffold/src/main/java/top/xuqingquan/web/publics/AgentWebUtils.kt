@@ -138,7 +138,7 @@ object AgentWebUtils {
             } else {
                 clearWebViewAllCache(context, android.webkit.WebView(context.applicationContext))
             }
-        } catch (e: Exception) {
+        } catch (e: Throwable) {
             e.printStackTrace()
         }
 

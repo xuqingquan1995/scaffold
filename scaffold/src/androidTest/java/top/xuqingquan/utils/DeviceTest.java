@@ -36,7 +36,7 @@ public class DeviceTest {
             try {
                 fileInputStream = new FileInputStream(new File(Environment.getRootDirectory(), "build.prop"));
                 properties.load(fileInputStream);
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 Timber.e(e, "read file error");
             } finally {
                 if (fileInputStream != null) {
@@ -63,7 +63,7 @@ public class DeviceTest {
             String sEmuiVersionName = getLowerCaseName(properties, getMethod, KEY_EMUI_VERSION_NAME);
             System.out.println("DeviceTest::sEmuiVersionName===>"+sEmuiVersionName);
             getFlymeVersion(sEmuiVersionName);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             Timber.e(e, "read SystemProperties error");
         }
     }
@@ -87,7 +87,7 @@ public class DeviceTest {
         if (name == null) {
             try {
                 name = (String) get.invoke(null, key);
-            } catch (Exception ignored) {
+            } catch (Throwable ignored) {
             }
         }
         if (name != null) name = name.toLowerCase();

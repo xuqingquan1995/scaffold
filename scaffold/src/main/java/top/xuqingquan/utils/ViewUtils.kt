@@ -69,13 +69,13 @@ fun bitmap2File(context: Context, bmp: Bitmap): File {
         //将bitmap（数值100表示不压缩）存储到out输出流中去，图片格式为JPEG
         bmp.compress(Bitmap.CompressFormat.JPEG, 100, out)
         //bmp.compress(Bitmap.CompressFormat.PNG, 100, out);
-    } catch (e: Exception) {
+    } catch (e: Throwable) {
         e.printStackTrace()
     }
     try {
         out!!.flush()
         out.close()
-    } catch (e: Exception) {
+    } catch (e: Throwable) {
         e.printStackTrace()
     }
     return file

@@ -114,7 +114,7 @@ fun getReSizeBitmap(bitmap: Bitmap, targetWidth: Float, targetheight: Float): Bi
     matrix.postScale(targetWidth / width, targetheight / height) //长和宽放大缩小的比例
     try {
         returnBm = Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, true)
-    } catch (e: Exception) {
+    } catch (e: Throwable) {
         e.printStackTrace()
     }
 
