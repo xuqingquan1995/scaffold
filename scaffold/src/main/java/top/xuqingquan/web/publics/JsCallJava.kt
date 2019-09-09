@@ -19,7 +19,7 @@ class JsCallJava(interfaceObj: Any, interfaceName: String) {
     init {
         try {
             if (TextUtils.isEmpty(interfaceName)) {
-                throw Exception("injected name can not be null")
+                throw Throwable("injected name can not be null")
             }
             mInterfaceObj = interfaceObj
             mInterfacedName = interfaceName
@@ -155,7 +155,7 @@ class JsCallJava(interfaceObj: Any, interfaceName: String) {
                 }
 
                 getReturn(jsonObject, 200, currMethod.invoke(mInterfaceObj, *values), time)
-            } catch (e: Exception) {
+            } catch (e: Throwable) {
                 //优先返回详细的错误信息
                 if (e.cause != null) {
                     return getReturn(jsonObject, 500, "method execute result:" + e.cause!!.message, time)
@@ -235,7 +235,7 @@ class JsCallJava(interfaceObj: Any, interfaceName: String) {
                 }
 
                 getReturn(jsonObject, 200, currMethod.invoke(mInterfaceObj, *values), time)
-            } catch (e: Exception) {
+            } catch (e: Throwable) {
                 //优先返回详细的错误信息
                 if (e.cause != null) {
                     return getReturn(jsonObject, 500, "method execute result:" + e.cause!!.message, time)

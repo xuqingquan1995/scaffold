@@ -80,7 +80,7 @@ object WebConfig {
         x5 = try {
             Class.forName("com.tencent.smtt.sdk.WebView")
             QbSdk.isTbsCoreInited()
-        } catch (e: Exception) {
+        } catch (e: Throwable) {
             Timber.e(e)
             false
         }

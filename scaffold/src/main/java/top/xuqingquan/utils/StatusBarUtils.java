@@ -326,7 +326,7 @@ public class StatusBarUtils {
                     extraFlagField.invoke(window, 0, darkModeFlag);//清除黑色字体
                 }
                 result = true;
-            } catch (Exception ignored) {
+            } catch (Throwable ignored) {
 
             }
         }
@@ -379,7 +379,7 @@ public class StatusBarUtils {
                 meizuFlags.setInt(lp, value);
                 window.setAttributes(lp);
                 result = true;
-            } catch (Exception ignored) {
+            } catch (Throwable ignored) {
 
             }
         }
@@ -396,7 +396,7 @@ public class StatusBarUtils {
         try {
             WindowManager.LayoutParams attrs = activity.getWindow().getAttributes();
             ret = (attrs.flags & WindowManager.LayoutParams.FLAG_FULLSCREEN) != 0;
-        } catch (Exception e) {
+        } catch (Throwable e) {
             e.printStackTrace();
         }
         return ret;
