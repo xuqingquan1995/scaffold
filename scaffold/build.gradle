@@ -80,6 +80,7 @@ dependencies {
     api rootProject.ext.deps.eventbus
     //download（需要用到web下载的时候需要依赖）
     compileOnly rootProject.ext.deps.Downloader
+    compileOnly rootProject.ext.deps.tbs
     //debug
     debugApi rootProject.ext.deps.leakcanary
     debugApi rootProject.ext.deps.recovery
