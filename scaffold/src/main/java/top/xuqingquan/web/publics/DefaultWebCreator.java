@@ -7,8 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.widget.FrameLayout;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import top.xuqingquan.R;
 import top.xuqingquan.utils.Timber;
 import top.xuqingquan.utils.ViewUtils;
@@ -135,6 +137,7 @@ public class DefaultWebCreator implements WebCreator {
         mX5WebView = webView;
     }
 
+    @NonNull
     @Override
     public DefaultWebCreator create() {
         if (mIsCreated) {
@@ -167,6 +170,7 @@ public class DefaultWebCreator implements WebCreator {
     }
 
     @Override
+    @NonNull
     public FrameLayout getWebParentLayout() {
         return mFrameLayout;
     }
@@ -211,7 +215,8 @@ public class DefaultWebCreator implements WebCreator {
                 mWebIndicator.setColor(mColor);
             }
             lp.gravity = Gravity.TOP;
-            mFrameLayout.addView((View) (this.mBaseIndicatorSpec = mWebIndicator), lp);
+            this.mBaseIndicatorSpec = mWebIndicator;
+            mFrameLayout.addView((View) this.mBaseIndicatorSpec, lp);
             mWebIndicator.setVisibility(View.GONE);
         } else if (mProgressView != null) {
             this.mBaseIndicatorSpec = mProgressView;
@@ -278,6 +283,7 @@ public class DefaultWebCreator implements WebCreator {
     }
 
     @Override
+    @NonNull
     public BaseIndicatorSpec offer() {
         return mBaseIndicatorSpec;
     }

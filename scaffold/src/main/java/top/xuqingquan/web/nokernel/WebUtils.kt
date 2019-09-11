@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
@@ -13,8 +12,6 @@ import android.os.Looper
 import android.provider.MediaStore
 import android.text.TextUtils
 import android.widget.Toast
-import androidx.core.app.AppOpsManagerCompat
-import androidx.core.content.ContextCompat
 import androidx.core.os.EnvironmentCompat
 import top.xuqingquan.R
 import top.xuqingquan.utils.Timber
@@ -81,7 +78,7 @@ object WebUtils {
     @Throws(IOException::class)
     fun createFileByName(context: Context, name: String, cover: Boolean): File? {
         val path = getAgentWebFilePath(context)
-        if (TextUtils.isEmpty(path)) {
+        if (path.isNullOrEmpty()) {
             return null
         }
         val mFile = File(path, name)
@@ -101,7 +98,7 @@ object WebUtils {
         var mFile: File? = null
         try {
             val timeStamp = SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault()).format(Date())
-            val imageName = String.format("aw_%s.jpg", timeStamp)
+            val imageName = "aw_$timeStamp.jpg"
             mFile = createFileByName(context, imageName, true)
         } catch (e: Throwable) {
             e.printStackTrace()
@@ -111,8 +108,32 @@ object WebUtils {
     }
 
     @JvmStatic
+    fun createVideoFile(context: Context): File? {
+        var mFile: File? = null
+        try {
+            val timeStamp: String? =
+                SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault())
+                    .format(Date())
+            val imageName = "aw_$timeStamp.mp4"  //默认生成mp4
+            mFile = createFileByName(context, imageName, true)
+        } catch (e: Throwable) {
+            e.printStackTrace()
+        }
+        return mFile
+    }
+
+    @JvmStatic
     fun getIntentCaptureCompat(context: Context, file: File): Intent {
         val mIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        val mUri = getUriFromFile(context, file)
+        mIntent.addCategory(Intent.CATEGORY_DEFAULT)
+        mIntent.putExtra(MediaStore.EXTRA_OUTPUT, mUri)
+        return mIntent
+    }
+
+    @JvmStatic
+    fun getIntentVideoCompat(context: Context, file: File): Intent {
+        val mIntent = Intent(MediaStore.ACTION_VIDEO_CAPTURE)
         val mUri = getUriFromFile(context, file)
         mIntent.addCategory(Intent.CATEGORY_DEFAULT)
         mIntent.putExtra(MediaStore.EXTRA_OUTPUT, mUri)
@@ -167,47 +188,6 @@ object WebUtils {
     }
 
     @JvmStatic
-    fun hasPermission(context: Context, vararg permissions: String): Boolean {
-        return hasPermission(context, listOf(*permissions))
-    }
-
-    @JvmStatic
-    fun hasPermission(context: Context, permissions: List<String>): Boolean {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            return true
-        }
-        for (permission in permissions) {
-            var result = ContextCompat.checkSelfPermission(context, permission)
-            if (result == PackageManager.PERMISSION_DENIED) {
-                return false
-            }
-            val op = AppOpsManagerCompat.permissionToOp(permission)
-            if (TextUtils.isEmpty(op)) {
-                continue
-            }
-            result = AppOpsManagerCompat.noteProxyOp(context, op!!, context.packageName)
-            if (result != AppOpsManagerCompat.MODE_ALLOWED) {
-                return false
-            }
-        }
-        return true
-    }
-
-    @JvmStatic
-    fun getDeniedPermissions(activity: Activity, permissions: Array<String>?): List<String>? {
-        if (permissions.isNullOrEmpty()) {
-            return null
-        }
-        val deniedPermissions = ArrayList<String>()
-        for (permission in permissions) {
-            if (!hasPermission(activity, permission)) {
-                deniedPermissions.add(permission)
-            }
-        }
-        return deniedPermissions
-    }
-
-    @JvmStatic
     fun isUIThread(): Boolean {
         return Looper.myLooper() == Looper.getMainLooper()
     }
@@ -233,8 +213,6 @@ object WebUtils {
         } catch (throwable: Throwable) {
             Timber.e(throwable)
         }
-
         return null
-
     }
 }

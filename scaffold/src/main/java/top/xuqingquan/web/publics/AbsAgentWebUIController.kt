@@ -9,18 +9,17 @@ abstract class AbsAgentWebUIController {
     private var mIsBindWebParent = false
     private var mAgentWebUIControllerDelegate: AbsAgentWebUIController? = null
 
-    protected val delegate: AbsAgentWebUIController?
-        get() {
-            var mAgentWebUIController = this.mAgentWebUIControllerDelegate
-            if (mAgentWebUIController == null) {
-                mAgentWebUIController = create()
-                this.mAgentWebUIControllerDelegate = mAgentWebUIController
-            }
-            return mAgentWebUIController
-        }
-
     protected fun create(): AbsAgentWebUIController {
         return if (HAS_DESIGN_LIB) DefaultDesignUIController() else DefaultUIController()
+    }
+
+    protected fun getDelegate(): AbsAgentWebUIController {
+        var mAgentWebUIController = this.mAgentWebUIControllerDelegate
+        if (mAgentWebUIController == null) {
+            mAgentWebUIController = create()
+            this.mAgentWebUIControllerDelegate = mAgentWebUIController
+        }
+        return mAgentWebUIController
     }
 
     @Synchronized
@@ -63,9 +62,17 @@ abstract class AbsAgentWebUIController {
      * @param url
      * @param callback
      */
-    abstract fun onOpenPagePrompt(view: android.webkit.WebView, url: String, callback: Handler.Callback)
+    abstract fun onOpenPagePrompt(
+        view: android.webkit.WebView,
+        url: String,
+        callback: Handler.Callback
+    )
 
-    abstract fun onOpenPagePrompt(view: com.tencent.smtt.sdk.WebView, url: String, callback: Handler.Callback)
+    abstract fun onOpenPagePrompt(
+        view: com.tencent.smtt.sdk.WebView,
+        url: String,
+        callback: Handler.Callback
+    )
 
     /**
      * WebChromeClient#onJsConfirm
@@ -144,7 +151,12 @@ abstract class AbsAgentWebUIController {
      * @param description
      * @param failingUrl
      */
-    abstract fun onMainFrameError(view: android.webkit.WebView, errorCode: Int, description: String, failingUrl: String)
+    abstract fun onMainFrameError(
+        view: android.webkit.WebView,
+        errorCode: Int,
+        description: String,
+        failingUrl: String
+    )
 
     abstract fun onMainFrameError(
         view: com.tencent.smtt.sdk.WebView,
@@ -183,7 +195,11 @@ abstract class AbsAgentWebUIController {
      * @param permissionType
      * @param action
      */
-    abstract fun onPermissionsDeny(permissions: Array<String>, permissionType: String, action: String)
+    abstract fun onPermissionsDeny(
+        permissions: Array<String>,
+        permissionType: String,
+        action: String
+    )
 
     companion object {
 

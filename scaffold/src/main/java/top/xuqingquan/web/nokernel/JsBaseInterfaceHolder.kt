@@ -1,7 +1,6 @@
 package top.xuqingquan.web.nokernel
 
 import android.webkit.JavascriptInterface
-import java.lang.reflect.Method
 
 abstract class JsBaseInterfaceHolder : JsInterfaceHolder {
 

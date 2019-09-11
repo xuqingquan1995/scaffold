@@ -34,8 +34,7 @@ class DefaultDesignUIController : DefaultUIController() {
     }
 
     private fun onJsAlertInternal(view: android.webkit.WebView, message: String) {
-        val mActivity = this.mActivity
-        if (mActivity == null || mActivity.isFinishing) {
+        if (this.mActivity == null || this.mActivity!!.isFinishing||this.mActivity!!.isDestroyed) {
             return
         }
         try {
@@ -44,7 +43,7 @@ class DefaultDesignUIController : DefaultUIController() {
                 message,
                 Snackbar.LENGTH_SHORT,
                 Color.WHITE,
-                ContextCompat.getColor(mActivity, android.R.color.black),
+                ContextCompat.getColor(this.mActivity!!, android.R.color.black),
                 null,
                 -1, null
             )
@@ -55,8 +54,7 @@ class DefaultDesignUIController : DefaultUIController() {
     }
 
     private fun onJsAlertInternal(view: com.tencent.smtt.sdk.WebView, message: String) {
-        val mActivity = this.mActivity
-        if (mActivity == null || mActivity.isFinishing) {
+        if (this.mActivity == null || this.mActivity!!.isFinishing||this.mActivity!!.isDestroyed) {
             return
         }
         try {
@@ -65,7 +63,7 @@ class DefaultDesignUIController : DefaultUIController() {
                 message,
                 Snackbar.LENGTH_SHORT,
                 Color.WHITE,
-                ContextCompat.getColor(mActivity, android.R.color.black),
+                ContextCompat.getColor(this.mActivity!!, android.R.color.black),
                 null,
                 -1, null
             )
@@ -94,6 +92,9 @@ class DefaultDesignUIController : DefaultUIController() {
     }
 
     private fun showChooserInternal(url: String, ways: Array<String>, callback: Handler.Callback?) {
+        if (this.mActivity == null || this.mActivity!!.isFinishing||this.mActivity!!.isDestroyed) {
+            return
+        }
         Timber.i("url:" + url + "  ways:" + ways[0])
         var mRecyclerView: RecyclerView?
         if (mBottomSheetDialog == null) {
@@ -104,10 +105,7 @@ class DefaultDesignUIController : DefaultUIController() {
             mBottomSheetDialog!!.setContentView(mRecyclerView)
         }
         mRecyclerView = mBottomSheetDialog!!.delegate.findViewById(RECYCLERVIEW_ID)
-        if (mRecyclerView == null) {
-            return
-        }
-        mRecyclerView.adapter = getAdapter(ways, callback)
+        mRecyclerView?.adapter = getAdapter(ways, callback)
         mBottomSheetDialog!!.setOnCancelListener {
             callback?.handleMessage(Message.obtain(null, -1))
         }
@@ -159,6 +157,9 @@ class DefaultDesignUIController : DefaultUIController() {
     }
 
     override fun onShowMessage(message: String, intent: String) {
+        if (this.mActivity == null || this.mActivity!!.isFinishing||this.mActivity!!.isDestroyed) {
+            return
+        }
         if (!TextUtils.isEmpty(intent) && intent.contains("performDownload")) {
             return
         }

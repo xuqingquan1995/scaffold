@@ -12,10 +12,10 @@ import androidx.annotation.LayoutRes
 import org.jetbrains.anko.px2dip
 import top.xuqingquan.R
 import top.xuqingquan.app.ScaffoldConfig
-import top.xuqingquan.web.AgentWeb
-import top.xuqingquan.web.nokernel.PermissionInterceptor
-import top.xuqingquan.web.nokernel.WebConfig
-import top.xuqingquan.web.publics.AgentWebConfig
+import top.xuqingquan.webbak.AgentWeb
+import top.xuqingquan.webbak.nokernel.PermissionInterceptor
+import top.xuqingquan.webbak.nokernel.WebConfig
+import top.xuqingquan.webbak.publics.AgentWebConfig
 
 /**
  * Created by 许清泉 on 2019-05-22 21:00
