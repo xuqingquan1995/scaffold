@@ -28,48 +28,54 @@ object AgentWebUtils {
 
     @JvmStatic
     fun clearWebView(m: android.webkit.WebView?) {
-        if (m == null) {
-            return
+        try {
+            if (m == null) {
+                return
+            }
+            if (!isUIThread()) {
+                return
+            }
+            m.loadUrl("about:blank")
+            m.stopLoading()
+            if (m.handler != null) {
+                m.handler.removeCallbacksAndMessages(null)
+            }
+            m.removeAllViews()
+            val mViewGroup = m.parent as ViewGroup?
+            mViewGroup?.removeView(m)
+            m.webChromeClient = null
+            m.webViewClient = null
+            m.tag = null
+            m.clearHistory()
+            m.destroy()
+        } catch (t: Throwable) {
         }
-        if (!isUIThread()) {
-            return
-        }
-        m.loadUrl("about:blank")
-        m.stopLoading()
-        if (m.handler != null) {
-            m.handler.removeCallbacksAndMessages(null)
-        }
-        m.removeAllViews()
-        val mViewGroup = m.parent as ViewGroup?
-        mViewGroup?.removeView(m)
-        m.webChromeClient = null
-        m.webViewClient = null
-        m.tag = null
-        m.clearHistory()
-        m.destroy()
     }
 
     @JvmStatic
     fun clearWebView(m: com.tencent.smtt.sdk.WebView?) {
-        if (m == null) {
-            return
+        try {
+            if (m == null) {
+                return
+            }
+            if (!isUIThread()) {
+                return
+            }
+            m.loadUrl("about:blank")
+            m.stopLoading()
+            if (m.handler != null) {
+                m.handler.removeCallbacksAndMessages(null)
+            }
+            m.removeAllViews()
+            val mViewGroup = m.parent as ViewGroup?
+            mViewGroup?.removeView(m)
+            m.webChromeClient = null
+            m.webViewClient = null
+            m.tag = null
+            m.clearHistory()
+            m.destroy()
+        } catch (t: Throwable) {
         }
-        if (!isUIThread()) {
-            return
-        }
-        m.loadUrl("about:blank")
-        m.stopLoading()
-        if (m.handler != null) {
-            m.handler.removeCallbacksAndMessages(null)
-        }
-        m.removeAllViews()
-        val mViewGroup = m.parent as ViewGroup?
-        mViewGroup?.removeView(m)
-        m.webChromeClient = null
-        m.webViewClient = null
-        m.tag = null
-        m.clearHistory()
-        m.destroy()
     }
 
     @JvmStatic
@@ -85,7 +91,12 @@ object AgentWebUtils {
     ) {
         val spannableString = SpannableString(text)
         val colorSpan = ForegroundColorSpan(textColor)
-        spannableString.setSpan(colorSpan, 0, spannableString.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        spannableString.setSpan(
+            colorSpan,
+            0,
+            spannableString.length,
+            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
         val snackbarWeakReference = WeakReference(Snackbar.make(parent, spannableString, duration))
         val snackbar = snackbarWeakReference.get() ?: return
         snackbar.view.setBackgroundColor(bgColor)
@@ -134,7 +145,10 @@ object AgentWebUtils {
     fun clearWebViewAllCache(context: Context) {
         try {
             if (WebConfig.hasX5()) {
-                clearWebViewAllCache(context, com.tencent.smtt.sdk.WebView(context.applicationContext))
+                clearWebViewAllCache(
+                    context,
+                    com.tencent.smtt.sdk.WebView(context.applicationContext)
+                )
             } else {
                 clearWebViewAllCache(context, android.webkit.WebView(context.applicationContext))
             }
