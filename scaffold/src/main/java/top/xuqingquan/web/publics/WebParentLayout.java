@@ -31,7 +31,7 @@ public class WebParentLayout extends FrameLayout implements Provider<AbsAgentWeb
     private com.tencent.smtt.sdk.WebView x5WebView;
     private FrameLayout mErrorLayout = null;
 
-    WebParentLayout(@NonNull Context context) {
+    public WebParentLayout(@NonNull Context context) {
         this(context, null);
         Timber.i("WebParentLayout");
     }
@@ -48,7 +48,7 @@ public class WebParentLayout extends FrameLayout implements Provider<AbsAgentWeb
         this.mErrorLayoutRes = R.layout.agentweb_error_page;
     }
 
-    void bindController(AbsAgentWebUIController agentWebUIController) {
+    public void bindController(AbsAgentWebUIController agentWebUIController) {
         this.mAgentWebUIController = agentWebUIController;
         this.mAgentWebUIController.bindWebParent(this, (Activity) getContext());
     }
@@ -138,11 +138,11 @@ public class WebParentLayout extends FrameLayout implements Provider<AbsAgentWeb
         }
     }
 
-    void setErrorView(@NonNull View errorView) {
+    public void setErrorView(@NonNull View errorView) {
         this.mErrorView = errorView;
     }
 
-    void setErrorLayoutRes(@LayoutRes int resLayout, @IdRes int id) {
+    public void setErrorLayoutRes(@LayoutRes int resLayout, @IdRes int id) {
         this.mClickId = id;
         if (this.mClickId <= 0) {
             this.mClickId = -1;
@@ -159,13 +159,13 @@ public class WebParentLayout extends FrameLayout implements Provider<AbsAgentWeb
     }
 
 
-    void bindWebView(android.webkit.WebView view) {
+    public void bindWebView(android.webkit.WebView view) {
         if (this.mWebView == null) {
             this.mWebView = view;
         }
     }
 
-    void bindWebView(com.tencent.smtt.sdk.WebView view) {
+    public void bindWebView(com.tencent.smtt.sdk.WebView view) {
         if (this.x5WebView == null) {
             this.x5WebView = view;
         }

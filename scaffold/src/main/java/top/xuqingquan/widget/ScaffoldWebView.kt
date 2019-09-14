@@ -12,10 +12,10 @@ import androidx.annotation.LayoutRes
 import org.jetbrains.anko.px2dip
 import top.xuqingquan.R
 import top.xuqingquan.app.ScaffoldConfig
-import top.xuqingquan.webbak.AgentWeb
-import top.xuqingquan.webbak.nokernel.PermissionInterceptor
-import top.xuqingquan.webbak.nokernel.WebConfig
-import top.xuqingquan.webbak.publics.AgentWebConfig
+import top.xuqingquan.web.AgentWeb
+import top.xuqingquan.web.nokernel.PermissionInterceptor
+import top.xuqingquan.web.nokernel.WebConfig
+import top.xuqingquan.web.publics.AgentWebConfig
 
 /**
  * Created by 许清泉 on 2019-05-22 21:00
@@ -89,7 +89,7 @@ class ScaffoldWebView : FrameLayout {
                 .createAgentWeb()//创建AgentWeb。
                 .get()
         if (WebConfig.hasX5()) {
-            agentWeb!!.webCreator.getX5WebView()?.overScrollMode = com.tencent.smtt.sdk.WebView.OVER_SCROLL_NEVER
+            agentWeb!!.x5WebCreator.getWebView()?.overScrollMode = com.tencent.smtt.sdk.WebView.OVER_SCROLL_NEVER
         } else {
             agentWeb!!.webCreator.getWebView()?.overScrollMode = android.webkit.WebView.OVER_SCROLL_NEVER
         }
@@ -134,7 +134,7 @@ class ScaffoldWebView : FrameLayout {
 
     fun getCurrentUrl(): String? {
         return if (WebConfig.hasX5()) {
-            agentWeb?.webCreator?.getX5WebView()?.url
+            agentWeb?.x5WebCreator?.getWebView()?.url
         } else {
             agentWeb?.webCreator?.getWebView()?.url
         }

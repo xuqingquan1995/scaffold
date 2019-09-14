@@ -23,7 +23,7 @@ class AgentWebJsInterfaceCompat(agentWeb: AgentWeb, activity: Activity) {
         if (mActivityWeakReference.get() != null && mReference.get() != null) {
             if (WebConfig.hasX5()) {
                 AgentWebUtils.showFileChooserCompat(mActivityWeakReference.get()!!,
-                    mReference.get()!!.webCreator.getX5WebView()!!, null, null,
+                    mReference.get()!!.x5WebCreator.getWebView()!!, null, null,
                     mReference.get()!!.permissionInterceptor, null,
                     acceptType,
                     Handler.Callback {
