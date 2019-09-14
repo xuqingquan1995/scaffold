@@ -4,27 +4,53 @@ import android.app.Activity;
 import android.content.ClipData;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.*;
+import android.os.AsyncTask;
+import android.os.Build;
+import android.os.Handler;
+import android.os.Message;
+import android.os.SystemClock;
 import android.text.TextUtils;
 import android.util.Base64;
-import androidx.annotation.NonNull;
+
 import androidx.annotation.RequiresApi;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
-import top.xuqingquan.R;
-import top.xuqingquan.utils.FileUtils;
-import top.xuqingquan.utils.Timber;
-import top.xuqingquan.web.nokernel.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
-import java.util.*;
-import java.util.concurrent.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Queue;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
 
-import static top.xuqingquan.web.nokernel.ActionActivity.*;
+import top.xuqingquan.R;
+import top.xuqingquan.utils.FileUtils;
+import top.xuqingquan.utils.Timber;
+import top.xuqingquan.web.nokernel.Action;
+import top.xuqingquan.web.nokernel.ActionActivity;
+import top.xuqingquan.web.nokernel.AgentWebPermissions;
+import top.xuqingquan.web.nokernel.FileParcel;
+import top.xuqingquan.web.nokernel.PermissionInterceptor;
+import top.xuqingquan.web.nokernel.WebConfig;
+import top.xuqingquan.web.nokernel.WebUtils;
+
+import static top.xuqingquan.utils.PermissionUtils.getDeniedPermissions;
+import static top.xuqingquan.utils.PermissionUtils.hasPermission;
+import static top.xuqingquan.web.nokernel.ActionActivity.KEY_ACTION;
+import static top.xuqingquan.web.nokernel.ActionActivity.KEY_FILE_CHOOSER_INTENT;
+import static top.xuqingquan.web.nokernel.ActionActivity.KEY_FROM_INTENTION;
+import static top.xuqingquan.web.nokernel.ActionActivity.KEY_URI;
 
 public class FileChooser {
     /**
@@ -85,6 +111,10 @@ public class FileChooser {
      */
     private boolean mCameraState = false;
     /**
+     * 是否调用摄像头后  调用的是摄像模式  默认是拍照
+     */
+    private boolean mVideoState = false;
+    /**
      * 权限拦截
      */
     private PermissionInterceptor mPermissionInterceptor;
@@ -142,7 +172,7 @@ public class FileChooser {
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void fileChooser() {
-        if (WebUtils.getDeniedPermissions(mActivity, AgentWebPermissions.STORAGE).isEmpty()) {
+        if (getDeniedPermissions(mActivity, AgentWebPermissions.STORAGE).isEmpty()) {
             touchOffFileChooserAction();
         } else {
             Action mAction = Action.createPermissionsAction(AgentWebPermissions.STORAGE);
@@ -164,18 +194,26 @@ public class FileChooser {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private Intent getFileChooserIntent() {
         if (WebConfig.hasX5()) {
-            Intent mIntent = x5FileChooserParams.createIntent();
-            if (mIsAboveLollipop && x5FileChooserParams != null && mIntent != null) {
-                return mIntent;
+            if (mIsAboveLollipop && x5FileChooserParams != null) {
+                Intent mIntent = x5FileChooserParams.createIntent();
+                if (mIntent != null) {
+                    return mIntent;
+                }
             }
         } else {
-            Intent mIntent = sysFileChooserParams.createIntent();
-            if (mIsAboveLollipop && sysFileChooserParams != null && mIntent != null) {
-                return mIntent;
+            if (mIsAboveLollipop && sysFileChooserParams != null) {
+                Intent mIntent = sysFileChooserParams.createIntent();
+                if (mIntent != null) {
+                    return mIntent;
+                }
             }
         }
         Intent i = new Intent();
-        i.setAction(Intent.ACTION_GET_CONTENT);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            i.setAction(Intent.ACTION_OPEN_DOCUMENT);
+        } else {
+            i.setAction(Intent.ACTION_GET_CONTENT);
+        }
         i.addCategory(Intent.CATEGORY_OPENABLE);
         if (TextUtils.isEmpty(this.mAcceptType)) {
             i.setType("*/*");
@@ -196,6 +234,7 @@ public class FileChooser {
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void openFileChooserInternal() {
+        boolean needVideo = false;
         // 是否直接打开文件选择器
         if (WebConfig.hasX5()) {
             if (this.mIsAboveLollipop && this.x5FileChooserParams != null && this.x5FileChooserParams.getAcceptTypes() != null) {
@@ -210,8 +249,13 @@ public class FileChooser {
                         needCamera = true;
                         break;
                     }
+                    if (typeTmp.contains("video/")) {  //调用摄像机拍摄  这是录像模式
+                        needCamera = true;
+                        mVideoState = true;
+                    }
                 }
-                if (!needCamera) {
+                //noinspection ConstantConditions
+                if (!needCamera && !needVideo) {
                     touchOffFileChooserAction();
                     return;
                 }
@@ -229,8 +273,13 @@ public class FileChooser {
                         needCamera = true;
                         break;
                     }
+                    if (typeTmp.contains("video/")) {  //调用摄像机拍摄  这是录像模式
+                        needCamera = true;
+                        mVideoState = true;
+                    }
                 }
-                if (!needCamera) {
+                //noinspection ConstantConditions
+                if (!needCamera && !needVideo) {
                     touchOffFileChooserAction();
                     return;
                 }
@@ -241,26 +290,22 @@ public class FileChooser {
             return;
         }
         Timber.i("controller:" + this.mAgentWebUIController.get() + "   mAcceptType:" + mAcceptType);
-        if (WebConfig.hasX5()) {
-            if (this.mAgentWebUIController.get() != null) {
+        if (this.mAgentWebUIController.get() != null) {
+            if (WebConfig.hasX5()) {
                 this.mAgentWebUIController
                         .get()
                         .onSelectItemsPrompt(this.x5WebView, x5WebView.getUrl(),
                                 new String[]{mActivity.getString(R.string.agentweb_camera),
                                         mActivity.getString(R.string.agentweb_file_chooser)}, getCallBack());
-                Timber.i("open");
-            }
-        } else {
-            if (this.mAgentWebUIController.get() != null) {
+            } else {
                 this.mAgentWebUIController
                         .get()
                         .onSelectItemsPrompt(this.sysWebView, sysWebView.getUrl(),
                                 new String[]{mActivity.getString(R.string.agentweb_camera),
                                         mActivity.getString(R.string.agentweb_file_chooser)}, getCallBack());
-                Timber.i("open");
             }
+            Timber.i("open");
         }
-
     }
 
 
@@ -303,13 +348,17 @@ public class FileChooser {
             }
         }
         Action mAction = new Action();
-        List<String> deniedPermissions = checkNeedPermission();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !deniedPermissions.isEmpty()) {
-            mAction.setAction(Action.ACTION_PERMISSION);
-            mAction.setPermissions(deniedPermissions.toArray(new String[]{}));
-            mAction.setFromIntention(FROM_INTENTION_CODE >> 3);
-            ActionActivity.setPermissionListener(this.mPermissionListener);
-            start(mActivity, mAction);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            List<String> deniedPermissions = checkNeedPermission();
+            if (!deniedPermissions.isEmpty()) {
+                mAction.setAction(Action.ACTION_PERMISSION);
+                mAction.setPermissions(deniedPermissions.toArray(new String[]{}));
+                mAction.setFromIntention(FROM_INTENTION_CODE >> 3);
+                ActionActivity.setPermissionListener(this.mPermissionListener);
+                ActionActivity.start(mActivity, mAction);
+            } else {
+                openCameraAction();
+            }
         } else {
             openCameraAction();
         }
@@ -318,10 +367,10 @@ public class FileChooser {
 
     private List<String> checkNeedPermission() {
         List<String> deniedPermissions = new ArrayList<>();
-        if (!WebUtils.hasPermission(mActivity, AgentWebPermissions.CAMERA)) {
+        if (!hasPermission(mActivity, AgentWebPermissions.CAMERA)) {
             deniedPermissions.add(AgentWebPermissions.CAMERA[0]);
         }
-        if (!WebUtils.hasPermission(mActivity, AgentWebPermissions.STORAGE)) {
+        if (!hasPermission(mActivity, AgentWebPermissions.STORAGE)) {
             deniedPermissions.addAll(Arrays.asList(AgentWebPermissions.STORAGE));
         }
         return deniedPermissions;
@@ -329,17 +378,18 @@ public class FileChooser {
 
     private void openCameraAction() {
         Action mAction = new Action();
-        mAction.setAction(Action.ACTION_CAMERA);
+        if (mVideoState) {  //调用摄像
+            mAction.setAction(Action.ACTION_VIDEO);
+        } else {
+            mAction.setAction(Action.ACTION_CAMERA);
+        }
         ActionActivity.setChooserListener(this.getChooserListener());
         ActionActivity.start(mActivity, mAction);
     }
 
-    private ActionActivity.PermissionListener mPermissionListener = new ActionActivity.PermissionListener() {
-
-        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-        @Override
-        public void onRequestPermissionsResult(@NonNull String[] permissions, @NonNull int[] grantResults, Bundle extras) {
-            boolean tag = WebUtils.hasPermission(mActivity, Arrays.asList(permissions));
+    private ActionActivity.PermissionListener mPermissionListener = (permissions, grantResults, extras) -> {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            boolean tag = hasPermission(mActivity, permissions);
             permissionResult(tag, extras.getInt(KEY_FROM_INTENTION));
         }
     };
@@ -403,13 +453,13 @@ public class FileChooser {
             aboveLollipopCheckFilesAndCallback(mCameraState ? new Uri[]{data.getParcelableExtra(KEY_URI)} : processData(data), mCameraState);
             return;
         }
+        //4.4以下系统通过input标签获取文件
         if (WebConfig.hasX5()) {
             if (x5UriValueCallback == null) {
                 cancel();
                 return;
             }
         } else {
-            //4.4以下系统通过input标签获取文件
             if (sysUriValueCallback == null) {
                 cancel();
                 return;
@@ -431,12 +481,6 @@ public class FileChooser {
             mJsChannelCallback.call(null);
             return;
         }
-        if (sysUriValueCallback != null) {
-            sysUriValueCallback.onReceiveValue(null);
-        }
-        if (sysUriValueCallbacks != null) {
-            sysUriValueCallbacks.onReceiveValue(null);
-        }
         if (WebConfig.hasX5()) {
             if (x5UriValueCallback != null) {
                 x5UriValueCallback.onReceiveValue(null);
@@ -444,30 +488,43 @@ public class FileChooser {
             if (x5UriValueCallbacks != null) {
                 x5UriValueCallbacks.onReceiveValue(null);
             }
+        } else {
+            if (sysUriValueCallback != null) {
+                sysUriValueCallback.onReceiveValue(null);
+            }
+            if (sysUriValueCallbacks != null) {
+                sysUriValueCallbacks.onReceiveValue(null);
+            }
         }
     }
 
 
     private void belowLollipopUriCallback(Intent data) {
         if (data == null) {
-            if (sysUriValueCallback != null) {
-                sysUriValueCallback.onReceiveValue(Uri.EMPTY);
-            }
             if (WebConfig.hasX5()) {
                 if (x5UriValueCallback != null) {
                     x5UriValueCallback.onReceiveValue(Uri.EMPTY);
+                }
+            } else {
+                if (sysUriValueCallback != null) {
+                    sysUriValueCallback.onReceiveValue(Uri.EMPTY);
                 }
             }
             return;
         }
         Uri mUri = data.getData();
-        Timber.i("belowLollipopUriCallback  -- >uri:" + mUri + "  sysUriValueCallback:" + sysUriValueCallback);
-        if (sysUriValueCallback != null) {
-            sysUriValueCallback.onReceiveValue(mUri);
+        if (WebConfig.hasX5()) {
+            Timber.i("belowLollipopUriCallback  -- >uri:" + mUri + "  sysUriValueCallback:" + sysUriValueCallback);
+        } else {
+            Timber.i("belowLollipopUriCallback  -- >uri:" + mUri + "  x5UriValueCallback:" + x5UriValueCallback);
         }
         if (WebConfig.hasX5()) {
             if (x5UriValueCallback != null) {
                 x5UriValueCallback.onReceiveValue(mUri);
+            }
+        } else {
+            if (sysUriValueCallback != null) {
+                sysUriValueCallback.onReceiveValue(mUri);
             }
         }
     }
@@ -496,8 +553,12 @@ public class FileChooser {
     }
 
     private void convertFileAndCallback(final Uri[] uris) {
+        if (uris == null || uris.length == 0) {
+            mJsChannelCallback.call(null);
+            return;
+        }
         String[] paths = FileUtils.uriToPath(mActivity, uris);
-        if (uris == null || uris.length == 0 || paths == null || paths.length == 0) {
+        if (paths == null || paths.length == 0) {
             mJsChannelCallback.call(null);
             return;
         }
@@ -537,7 +598,6 @@ public class FileChooser {
                 x5UriValueCallbacks.onReceiveValue(datas == null ? new Uri[]{} : datas);
                 return;
             }
-
             if (mAgentWebUIController.get() == null) {
                 x5UriValueCallbacks.onReceiveValue(null);
                 return;
@@ -705,6 +765,10 @@ public class FileChooser {
                 File mFile = new File(filePath);
                 if (mFile.exists()) {
                     is = new FileInputStream(mFile);
+                    //noinspection ConstantConditions
+                    if (is == null) {
+                        return;
+                    }
                     os = new ByteArrayOutputStream();
                     byte[] b = new byte[1024];
                     int len;
@@ -743,7 +807,7 @@ public class FileChooser {
                 FileParcel mFileParcel = mFileParcels.next();
                 jo.put("contentPath", mFileParcel.getContentPath());
                 jo.put("fileBase64", mFileParcel.getFileBase64());
-                jo.put("mId", mFileParcel.getId());
+                jo.put("id", mFileParcel.getId());
                 mJSONArray.put(jo);
             }
         } catch (Throwable throwable) {

@@ -7,6 +7,8 @@ import android.view.View
 import android.webkit.*
 import androidx.annotation.RequiresApi
 import top.xuqingquan.utils.Timber
+import top.xuqingquan.utils.getDeniedPermissions
+import top.xuqingquan.utils.hasPermission
 import top.xuqingquan.web.nokernel.*
 import top.xuqingquan.web.nokernel.ActionActivity.KEY_FROM_INTENTION
 import top.xuqingquan.web.publics.AgentWebUtils
@@ -60,7 +62,7 @@ class DefaultChromeClient(
 
     private val mPermissionListener = ActionActivity.PermissionListener { permissions, _, extras ->
         if (extras.getInt(KEY_FROM_INTENTION) == FROM_CODE_INTENTION_LOCATION) {
-            val hasPermission = WebUtils.hasPermission(mActivityWeakReference.get()!!, *permissions)
+            val hasPermission = hasPermission(mActivityWeakReference.get()!!, *permissions)
             if (mCallback != null) {
                 if (hasPermission) {
                     mCallback!!.invoke(mOrigin, true, false)
@@ -116,7 +118,7 @@ class DefaultChromeClient(
             callback.invoke(origin, false, false)
             return
         }
-        val deniedPermissions = WebUtils.getDeniedPermissions(mActivity, AgentWebPermissions.LOCATION)
+        val deniedPermissions = getDeniedPermissions(mActivity, AgentWebPermissions.LOCATION)
         if (deniedPermissions.isNullOrEmpty()) {
             Timber.i("onGeolocationPermissionsShowPromptInternal:true")
             callback.invoke(origin, true, false)

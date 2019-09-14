@@ -17,7 +17,10 @@ class AgentWebSettingsImpl : AbsAgentWebSettings() {
         this.mAgentWeb = agentWeb
     }
 
-    override fun setDownloader(webView: WebView?, downloadListener: DownloadListener?): WebListenerManager {
+    override fun setDownloader(
+        webView: WebView?,
+        downloadListener: DownloadListener?
+    ): WebListenerManager {
         if (webView == null) {
             return super.setDownloader(webView, downloadListener)
         }
@@ -28,7 +31,6 @@ class AgentWebSettingsImpl : AbsAgentWebSettings() {
                 listener = DefaultDownloadImpl.create(
                     webView.context as Activity,
                     webView,
-                    null,
                     mAgentWeb!!.permissionInterceptor
                 )
             }
@@ -36,7 +38,8 @@ class AgentWebSettingsImpl : AbsAgentWebSettings() {
             Timber.e(t)
             try {
                 listener = DownloadListener { url, _, _, _, _ ->
-                    val downloadManager = ContextCompat.getSystemService(webView.context, DownloadManager::class.java)
+                    val downloadManager =
+                        ContextCompat.getSystemService(webView.context, DownloadManager::class.java)
                     if (downloadManager != null) {
                         val request = DownloadManager.Request(Uri.parse(url))
                         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
@@ -50,9 +53,7 @@ class AgentWebSettingsImpl : AbsAgentWebSettings() {
             } catch (tt: Throwable) {
                 Timber.e(tt)
             }
-
         }
-
         return super.setDownloader(webView, listener)
     }
 }

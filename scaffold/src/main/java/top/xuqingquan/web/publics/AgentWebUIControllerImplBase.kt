@@ -6,19 +6,19 @@ import android.os.Handler
 class AgentWebUIControllerImplBase : AbsAgentWebUIController() {
 
     override fun onJsAlert(view: android.webkit.WebView, url: String, message: String) {
-        delegate!!.onJsAlert(view, url, message)
+        getDelegate().onJsAlert(view, url, message)
     }
 
     override fun onJsAlert(view: com.tencent.smtt.sdk.WebView, url: String, message: String) {
-        delegate!!.onJsAlert(view, url, message)
+        getDelegate().onJsAlert(view, url, message)
     }
 
     override fun onOpenPagePrompt(view: android.webkit.WebView, url: String, callback: Handler.Callback) {
-        delegate!!.onOpenPagePrompt(view, url, callback)
+        getDelegate().onOpenPagePrompt(view, url, callback)
     }
 
     override fun onOpenPagePrompt(view: com.tencent.smtt.sdk.WebView, url: String, callback: Handler.Callback) {
-        delegate!!.onOpenPagePrompt(view, url, callback)
+        getDelegate().onOpenPagePrompt(view, url, callback)
     }
 
     override fun onJsConfirm(
@@ -27,7 +27,7 @@ class AgentWebUIControllerImplBase : AbsAgentWebUIController() {
         message: String,
         jsResult: android.webkit.JsResult
     ) {
-        delegate!!.onJsConfirm(view, url, message, jsResult)
+        getDelegate().onJsConfirm(view, url, message, jsResult)
     }
 
     override fun onJsConfirm(
@@ -36,7 +36,7 @@ class AgentWebUIControllerImplBase : AbsAgentWebUIController() {
         message: String,
         jsResult: com.tencent.smtt.export.external.interfaces.JsResult
     ) {
-        delegate!!.onJsConfirm(view, url, message, jsResult)
+        getDelegate().onJsConfirm(view, url, message, jsResult)
     }
 
     override fun onSelectItemsPrompt(
@@ -45,7 +45,7 @@ class AgentWebUIControllerImplBase : AbsAgentWebUIController() {
         ways: Array<String>,
         callback: Handler.Callback
     ) {
-        delegate!!.onSelectItemsPrompt(view, url, ways, callback)
+        getDelegate().onSelectItemsPrompt(view, url, ways, callback)
     }
 
     override fun onSelectItemsPrompt(
@@ -54,11 +54,11 @@ class AgentWebUIControllerImplBase : AbsAgentWebUIController() {
         ways: Array<String>,
         callback: Handler.Callback
     ) {
-        delegate!!.onSelectItemsPrompt(view, url, ways, callback)
+        getDelegate().onSelectItemsPrompt(view, url, ways, callback)
     }
 
     override fun onForceDownloadAlert(url: String, callback: Handler.Callback) {
-        delegate!!.onForceDownloadAlert(url, callback)
+        getDelegate().onForceDownloadAlert(url, callback)
     }
 
     override fun onJsPrompt(
@@ -68,7 +68,7 @@ class AgentWebUIControllerImplBase : AbsAgentWebUIController() {
         defaultValue: String,
         jsPromptResult: android.webkit.JsPromptResult
     ) {
-        delegate!!.onJsPrompt(view, url, message, defaultValue, jsPromptResult)
+        getDelegate().onJsPrompt(view, url, message, defaultValue, jsPromptResult)
     }
 
     override fun onJsPrompt(
@@ -78,7 +78,7 @@ class AgentWebUIControllerImplBase : AbsAgentWebUIController() {
         defaultValue: String,
         jsPromptResult: com.tencent.smtt.export.external.interfaces.JsPromptResult
     ) {
-        delegate!!.onJsPrompt(view, url, message, defaultValue, jsPromptResult)
+        getDelegate().onJsPrompt(view, url, message, defaultValue, jsPromptResult)
     }
 
     override fun onMainFrameError(
@@ -87,7 +87,7 @@ class AgentWebUIControllerImplBase : AbsAgentWebUIController() {
         description: String,
         failingUrl: String
     ) {
-        delegate!!.onMainFrameError(view, errorCode, description, failingUrl)
+        getDelegate().onMainFrameError(view, errorCode, description, failingUrl)
     }
 
     override fun onMainFrameError(
@@ -96,32 +96,32 @@ class AgentWebUIControllerImplBase : AbsAgentWebUIController() {
         description: String,
         failingUrl: String
     ) {
-        delegate!!.onMainFrameError(view, errorCode, description, failingUrl)
+        getDelegate().onMainFrameError(view, errorCode, description, failingUrl)
     }
 
     override fun onShowMainFrame() {
-        delegate!!.onShowMainFrame()
+        getDelegate().onShowMainFrame()
     }
 
     override fun onLoading(msg: String) {
-        delegate!!.onLoading(msg)
+        getDelegate().onLoading(msg)
     }
 
     override fun onCancelLoading() {
-        delegate!!.onCancelLoading()
+        getDelegate().onCancelLoading()
     }
 
 
     override fun onShowMessage(message: String, intent: String) {
-        delegate!!.onShowMessage(message, intent)
+        getDelegate().onShowMessage(message, intent)
     }
 
     override fun onPermissionsDeny(permissions: Array<String>, permissionType: String, action: String) {
-        delegate!!.onPermissionsDeny(permissions, permissionType, action)
+        getDelegate().onPermissionsDeny(permissions, permissionType, action)
     }
 
     override fun bindSupportWebParent(webParentLayout: WebParentLayout, activity: Activity) {
-        delegate!!.bindSupportWebParent(webParentLayout, activity)
+        getDelegate().bindSupportWebParent(webParentLayout, activity)
     }
 
     companion object {

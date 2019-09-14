@@ -39,7 +39,7 @@ class UrlLoaderImpl : IUrlLoader {
     }
 
     override fun loadUrl(url: String) {
-        this.loadUrl(url, this.mHttpHeaders!!.getHeaders(url)!!)
+        this.loadUrl(url, this.mHttpHeaders?.getHeaders(url)!!)
     }
 
     override fun loadUrl(url: String, headers: Map<String, String>?) {

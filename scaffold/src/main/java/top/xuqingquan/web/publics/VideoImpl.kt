@@ -5,15 +5,13 @@ import android.content.pm.ActivityInfo
 import android.graphics.Color
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
 import android.view.WindowManager
 import android.widget.FrameLayout
 import androidx.core.util.Pair
 import com.tencent.smtt.export.external.interfaces.IX5WebChromeClient
 import top.xuqingquan.web.nokernel.EventInterceptor
 import top.xuqingquan.web.nokernel.WebConfig
-
-import java.util.HashSet
+import java.util.*
 
 class VideoImpl : IVideo, EventInterceptor {
 
@@ -25,9 +23,6 @@ class VideoImpl : IVideo, EventInterceptor {
     private var mMoiveParentView: ViewGroup? = null
     private var mCallback: android.webkit.WebChromeClient.CustomViewCallback? = null
     private var mx5Callback: IX5WebChromeClient.CustomViewCallback? = null
-
-    override val isVideoState: Boolean
-        get() = mMoiveView != null
 
     constructor(mActivity: Activity, webView: android.webkit.WebView?) {
         this.mActivity = mActivity
@@ -43,7 +38,7 @@ class VideoImpl : IVideo, EventInterceptor {
 
     override fun onShowCustomView(view: View, callback: android.webkit.WebChromeClient.CustomViewCallback) {
         val mActivity = this.mActivity
-        if (mActivity == null || mActivity.isFinishing) {
+        if (mActivity == null || mActivity.isFinishing||mActivity.isDestroyed) {
             return
         }
         mActivity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
@@ -85,7 +80,7 @@ class VideoImpl : IVideo, EventInterceptor {
 
     override fun onShowCustomView(view: View, callback: IX5WebChromeClient.CustomViewCallback) {
         val mActivity = this.mActivity
-        if (mActivity == null || mActivity.isFinishing) {
+        if (mActivity == null || mActivity.isFinishing||mActivity.isDestroyed) {
             return
         }
         mActivity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
@@ -156,8 +151,10 @@ class VideoImpl : IVideo, EventInterceptor {
         }
     }
 
+    override fun isVideoState() = mMoiveView != null
+
     override fun event(): Boolean {
-        return if (isVideoState) {
+        return if (isVideoState()) {
             onHideCustomView()
             true
         } else {

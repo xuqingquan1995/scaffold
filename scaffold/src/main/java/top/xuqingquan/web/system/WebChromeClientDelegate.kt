@@ -9,7 +9,8 @@ import android.webkit.*
 import androidx.annotation.RequiresApi
 
 @Suppress("DEPRECATION")
-open class WebChromeClientDelegate internal constructor(webChromeClient: WebChromeClient?) : WebChromeClient() {
+open class WebChromeClientDelegate constructor(webChromeClient: WebChromeClient?) :
+    WebChromeClient() {
     open var delegate: WebChromeClient? = webChromeClient
 
     override fun onProgressChanged(view: WebView, newProgress: Int) {
@@ -159,7 +160,14 @@ open class WebChromeClientDelegate internal constructor(webChromeClient: WebChro
             )
             return
         }
-        super.onExceededDatabaseQuota(url, databaseIdentifier, quota, estimatedDatabaseSize, totalQuota, quotaUpdater)
+        super.onExceededDatabaseQuota(
+            url,
+            databaseIdentifier,
+            quota,
+            estimatedDatabaseSize,
+            totalQuota,
+            quotaUpdater
+        )
 
     }
 

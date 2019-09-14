@@ -9,7 +9,7 @@ ext {
 
     depsVer = [
             kotlin                : '1.3.50',
-            kotlinx_coroutines    : '1.2.1',
+            kotlinx_coroutines    : '1.3.0',
             appcompat             : '1.1.0-rc01',
             core_ktx              : '1.2.0-alpha04',
             constraintlayout      : '2.0.0-beta2',
@@ -35,7 +35,7 @@ ext {
             banner                : '1.4.10',
             roundedimageview      : '2.3.0',
             autosize              : '1.1.2',
-            Downloader            : 'v4.0.3',
+            Downloader            : '4.1.2',
             multidex              : '2.0.1',
             logger                : '2.2.0',
             progressmanager       : '1.5.0',
@@ -105,7 +105,7 @@ ext {
             flexbox                   : "com.google.android:flexbox:${depsVer.flexbox}",//流式布局
             //tools
             qrcode                    : "cn.bingoogolapple:bga-qrcode-zxing:${depsVer.qrcode}",
-            Downloader                : "com.github.Justson:Downloader:${depsVer.Downloader}",
+            Downloader                : "com.download.library:Downloader:${depsVer.Downloader}",
             multidex                  : "androidx.multidex:multidex:${depsVer.multidex}",
             anrwatchdog               : "com.github.anrwatchdog:anrwatchdog:${depsVer.anrwatchdog}",
             tbs                       : "com.tencent.tbs.tbssdk:sdk:${depsVer.tbs}"

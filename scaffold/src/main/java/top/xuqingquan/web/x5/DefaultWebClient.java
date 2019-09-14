@@ -12,25 +12,25 @@ import android.os.Handler;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
+
 import androidx.annotation.RequiresApi;
+
 import com.alipay.sdk.app.PayTask;
-import com.tencent.smtt.export.external.interfaces.WebResourceError;
-import com.tencent.smtt.export.external.interfaces.WebResourceRequest;
-import com.tencent.smtt.export.external.interfaces.WebResourceResponse;
-import com.tencent.smtt.sdk.WebView;
-import com.tencent.smtt.sdk.WebViewClient;
-import top.xuqingquan.utils.Timber;
-import top.xuqingquan.web.nokernel.PermissionInterceptor;
-import top.xuqingquan.web.nokernel.WebConfig;
-import top.xuqingquan.web.nokernel.WebUtils;
-import top.xuqingquan.web.publics.AbsAgentWebUIController;
-import top.xuqingquan.web.publics.AgentWebUtils;
+import com.tencent.smtt.export.external.interfaces.*;
+import com.tencent.smtt.sdk.*;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import top.xuqingquan.utils.Timber;
+import top.xuqingquan.web.nokernel.PermissionInterceptor;
+import top.xuqingquan.web.nokernel.WebConfig;
+import top.xuqingquan.web.nokernel.WebUtils;
+import top.xuqingquan.web.publics.AbsAgentWebUIController;
+import top.xuqingquan.web.publics.AgentWebUtils;
 
 public class DefaultWebClient extends MiddlewareWebClientBase {
     /**
@@ -257,7 +257,6 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
         return super.shouldOverrideUrlLoading(view, url);
     }
 
-
     private int queryActiviesNumber(String url) {
         try {
             if (mWeakReference.get() == null) {
@@ -389,21 +388,20 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
     @Deprecated
     public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
         Timber.i("onReceivedError：" + description + "  CODE:" + errorCode);
-//        onMainFrameError(view, errorCode, description, failingUrl);
+        onMainFrameError(view, errorCode, description, failingUrl);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
-//        if (request.isForMainFrame()) {
-//            onMainFrameError(view,
-//                    error.getErrorCode(), error.getDescription().toString(),
-//                    request.getUrl().toString());
-//        }
+        if (request.isForMainFrame()) {
+            onMainFrameError(view,
+                    error.getErrorCode(), error.getDescription().toString(),
+                    request.getUrl().toString());
+        }
         Timber.i("onReceivedError:" + error.getDescription() + " code:" + error.getErrorCode());
     }
 
-    @SuppressWarnings("unused")
     private void onMainFrameError(WebView view, int errorCode, String description, String failingUrl) {
         mErrorUrlsSet.add(failingUrl);
         // 下面逻辑判断开发者是否重写了 onMainFrameError 方法 ， 优先交给开发者处理

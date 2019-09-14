@@ -12,21 +12,28 @@ import android.os.Handler;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
-import android.webkit.*;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+
 import androidx.annotation.RequiresApi;
+
 import com.alipay.sdk.app.PayTask;
-import top.xuqingquan.utils.Timber;
-import top.xuqingquan.web.nokernel.PermissionInterceptor;
-import top.xuqingquan.web.nokernel.WebConfig;
-import top.xuqingquan.web.nokernel.WebUtils;
-import top.xuqingquan.web.publics.AbsAgentWebUIController;
-import top.xuqingquan.web.publics.AgentWebUtils;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import top.xuqingquan.utils.Timber;
+import top.xuqingquan.web.nokernel.PermissionInterceptor;
+import top.xuqingquan.web.nokernel.WebConfig;
+import top.xuqingquan.web.nokernel.WebUtils;
+import top.xuqingquan.web.publics.AbsAgentWebUIController;
+import top.xuqingquan.web.publics.AgentWebUtils;
 
 public class DefaultWebClient extends MiddlewareWebClientBase {
     /**

@@ -16,16 +16,16 @@ open class MiddlewareWebClientBase : WebViewClientDelegate {
         this.mMiddleWrareWebClientBase = client
     }
 
-    constructor(client: WebViewClient?) : super(client)
+    protected constructor(client: WebViewClient?) : super(client)
 
-    constructor() : super(null)
+    protected constructor() : super(null)
 
     operator fun next(): MiddlewareWebClientBase? {
         return this.mMiddleWrareWebClientBase
     }
 
     fun enq(middleWrareWebClientBase: MiddlewareWebClientBase): MiddlewareWebClientBase {
-        delegate = middleWrareWebClientBase
+        super.delegate = middleWrareWebClientBase
         this.mMiddleWrareWebClientBase = middleWrareWebClientBase
         return middleWrareWebClientBase
     }
