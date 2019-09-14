@@ -6,13 +6,17 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import top.xuqingquan.utils.Timber;
 
 import java.io.File;
 import java.util.List;
+
+import top.xuqingquan.utils.Timber;
+
+import static android.provider.MediaStore.EXTRA_OUTPUT;
 
 public final class ActionActivity extends Activity {
 
@@ -65,6 +69,8 @@ public final class ActionActivity extends Activity {
             permission(mAction);
         } else if (mAction.getAction() == Action.ACTION_CAMERA) {
             realOpenCamera();
+        } else if (mAction.getAction() == Action.ACTION_VIDEO){
+            realOpenVideo();
         } else {
             fetchFile();
         }
@@ -155,6 +161,32 @@ public final class ActionActivity extends Activity {
             Intent intent = WebUtils.getIntentCaptureCompat(this, mFile);
             // 指定开启系统相机的Action
             mUri = intent.getParcelableExtra(MediaStore.EXTRA_OUTPUT);
+            this.startActivityForResult(intent, REQUEST_CODE);
+        } catch (Throwable t) {
+            Timber.i("找不到系统相机");
+            if (mChooserListener != null) {
+                mChooserListener.onChoiceResult(REQUEST_CODE, Activity.RESULT_CANCELED, null);
+            }
+            mChooserListener = null;
+            Timber.e(t);
+        }
+    }
+
+    private void realOpenVideo(){
+        try {
+            if (mChooserListener == null){
+                finish();
+            }
+            File mFile = WebUtils.createVideoFile(this);
+            if (mFile == null) {
+                mChooserListener.onChoiceResult(REQUEST_CODE, Activity.RESULT_CANCELED, null);
+                mChooserListener = null;
+                finish();
+            }
+            @SuppressWarnings("ConstantConditions")
+            Intent intent = WebUtils.getIntentVideoCompat(this, mFile);
+            // 指定开启系统相机的Action
+            mUri = intent.getParcelableExtra(EXTRA_OUTPUT);
             this.startActivityForResult(intent, REQUEST_CODE);
         } catch (Throwable t) {
             Timber.i("找不到系统相机");

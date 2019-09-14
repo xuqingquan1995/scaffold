@@ -5,9 +5,11 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+
 import androidx.annotation.*;
 import androidx.collection.ArrayMap;
 import androidx.fragment.app.Fragment;
+
 import top.xuqingquan.utils.Timber;
 import top.xuqingquan.web.nokernel.*;
 import top.xuqingquan.web.publics.*;
@@ -28,7 +30,8 @@ public final class AgentWeb {
     /**
      * 负责创建布局 WebView ，WebParentLayout  Indicator等。
      */
-    private WebCreator mWebCreator;
+    private top.xuqingquan.web.system.WebCreator mWebCreator;
+    private top.xuqingquan.web.x5.WebCreator mX5WebCreator;
     /**
      * 管理 WebSettings
      */
@@ -127,14 +130,18 @@ public final class AgentWeb {
         this.mViewGroup = agentBuilder.mViewGroup;
         this.mIEventHandler = agentBuilder.mIEventHandler;
         this.mEnableIndicator = agentBuilder.mEnableIndicator;
-        if (agentBuilder.mWebCreator == null) {
-            if (WebConfig.hasX5()) {
-                mWebCreator = configWebCreator(agentBuilder.mBaseIndicatorView, agentBuilder.mIndex, agentBuilder.mLayoutParams, agentBuilder.mIndicatorColor, agentBuilder.mHeight, agentBuilder.mX5WebView, agentBuilder.mX5WebLayout);
+        if (WebConfig.hasX5()) {
+            if (agentBuilder.mX5WebCreator == null) {
+                mX5WebCreator = configWebCreator(agentBuilder.mBaseIndicatorView, agentBuilder.mIndex, agentBuilder.mLayoutParams, agentBuilder.mIndicatorColor, agentBuilder.mHeight, agentBuilder.mX5WebView, agentBuilder.mX5WebLayout);
             } else {
-                mWebCreator = configWebCreator(agentBuilder.mBaseIndicatorView, agentBuilder.mIndex, agentBuilder.mLayoutParams, agentBuilder.mIndicatorColor, agentBuilder.mHeight, agentBuilder.mWebView, agentBuilder.mWebLayout);
+                mX5WebCreator = agentBuilder.mX5WebCreator;
             }
         } else {
-            mWebCreator = agentBuilder.mWebCreator;
+            if (agentBuilder.mWebCreator == null) {
+                mWebCreator = configWebCreator(agentBuilder.mBaseIndicatorView, agentBuilder.mIndex, agentBuilder.mLayoutParams, agentBuilder.mIndicatorColor, agentBuilder.mHeight, agentBuilder.mWebView, agentBuilder.mWebLayout);
+            } else {
+                mWebCreator = agentBuilder.mWebCreator;
+            }
         }
         mIndicatorController = agentBuilder.mIndicatorController;
         if (WebConfig.hasX5()) {
@@ -143,8 +150,14 @@ public final class AgentWeb {
             this.mX5AgentWebSettings = agentBuilder.mX5AgentWebSettings;
             this.mX5MiddleWrareWebClientBaseHeader = agentBuilder.mX5MiddlewareWebClientBaseHeader;
             this.mX5MiddlewareWebChromeBaseHeader = agentBuilder.mX5ChromeMiddleWareHeader;
-            this.mIUrlLoader = new UrlLoaderImpl(getWebCreator().create().getX5WebView(), agentBuilder.mHttpHeaders);
-            this.mWebLifeCycle = new DefaultWebLifeCycleImpl(getWebCreator().getX5WebView());
+            this.mIUrlLoader = new UrlLoaderImpl(getX5WebCreator().create().getWebView(), agentBuilder.mHttpHeaders);
+            this.mWebLifeCycle = new DefaultWebLifeCycleImpl(getX5WebCreator().getWebView());
+            if (getX5WebCreator().getWebParentLayout() instanceof WebParentLayout) {
+                WebParentLayout mWebParentLayout = (WebParentLayout) getX5WebCreator().getWebParentLayout();
+                mWebParentLayout.bindController(agentBuilder.mAgentWebUIController == null ? AgentWebUIControllerImplBase.build() : agentBuilder.mAgentWebUIController);
+                mWebParentLayout.setErrorLayoutRes(agentBuilder.mErrorLayout, agentBuilder.mReloadId);
+                mWebParentLayout.setErrorView(agentBuilder.mErrorView);
+            }
         } else {
             this.mWebChromeClient = agentBuilder.mWebChromeClient;
             this.mWebViewClient = agentBuilder.mWebViewClient;
@@ -153,6 +166,12 @@ public final class AgentWeb {
             this.mMiddlewareWebChromeBaseHeader = agentBuilder.mChromeMiddleWareHeader;
             this.mIUrlLoader = new UrlLoaderImpl(getWebCreator().create().getWebView(), agentBuilder.mHttpHeaders);
             this.mWebLifeCycle = new DefaultWebLifeCycleImpl(getWebCreator().getWebView());
+            if (getWebCreator().getWebParentLayout() instanceof WebParentLayout) {
+                WebParentLayout mWebParentLayout = (WebParentLayout) getWebCreator().getWebParentLayout();
+                mWebParentLayout.bindController(agentBuilder.mAgentWebUIController == null ? AgentWebUIControllerImplBase.build() : agentBuilder.mAgentWebUIController);
+                mWebParentLayout.setErrorLayoutRes(agentBuilder.mErrorLayout, agentBuilder.mReloadId);
+                mWebParentLayout.setErrorView(agentBuilder.mErrorView);
+            }
         }
         if (agentBuilder.mJavaObject != null && !agentBuilder.mJavaObject.isEmpty()) {
             this.mJavaObjects.putAll((Map<? extends String, ?>) agentBuilder.mJavaObject);
@@ -162,12 +181,6 @@ public final class AgentWeb {
             this.mPermissionInterceptor = null;
         } else {
             this.mPermissionInterceptor = new PermissionInterceptorWrapper(agentBuilder.mPermissionInterceptor);
-        }
-        if (getWebCreator().getWebParentLayout() instanceof WebParentLayout) {
-            WebParentLayout mWebParentLayout = (WebParentLayout) getWebCreator().getWebParentLayout();
-            mWebParentLayout.bindController(agentBuilder.mAgentWebUIController == null ? AgentWebUIControllerImplBase.build() : agentBuilder.mAgentWebUIController);
-            mWebParentLayout.setErrorLayoutRes(agentBuilder.mErrorLayout, agentBuilder.mReloadId);
-            mWebParentLayout.setErrorView(agentBuilder.mErrorView);
         }
         this.mWebClientHelper = agentBuilder.mWebClientHelper;
         this.mIsInterceptUnkownUrl = agentBuilder.mIsInterceptUnkownUrl;
@@ -192,7 +205,7 @@ public final class AgentWeb {
         JsAccessEntrace mJsAccessEntrace = this.mJsAccessEntrace;
         if (mJsAccessEntrace == null) {
             if (WebConfig.hasX5()) {
-                this.mJsAccessEntrace = JsAccessEntraceImpl.getInstance(getWebCreator().getX5WebView());
+                this.mJsAccessEntrace = JsAccessEntraceImpl.getInstance(getX5WebCreator().getWebView());
             } else {
                 this.mJsAccessEntrace = JsAccessEntraceImpl.getInstance(getWebCreator().getWebView());
             }
@@ -203,8 +216,8 @@ public final class AgentWeb {
 
     public AgentWeb clearWebCache() {
         if (WebConfig.hasX5()) {
-            if (getWebCreator().getX5WebView() != null) {
-                AgentWebUtils.clearWebViewAllCache(mActivity, getWebCreator().getX5WebView());
+            if (getX5WebCreator().getWebView() != null) {
+                AgentWebUtils.clearWebViewAllCache(mActivity, getX5WebCreator().getWebView());
             } else {
                 AgentWebUtils.clearWebViewAllCache(mActivity);
             }
@@ -233,7 +246,7 @@ public final class AgentWeb {
     public boolean handleKeyEvent(int keyCode, KeyEvent keyEvent) {
         if (mIEventHandler == null) {
             if (WebConfig.hasX5()) {
-                mIEventHandler = EventHandlerImpl.getInstantce(getWebCreator().getX5WebView(), getInterceptor());
+                mIEventHandler = EventHandlerImpl.getInstantce(getX5WebCreator().getWebView(), getInterceptor());
             } else {
                 mIEventHandler = EventHandlerImpl.getInstantce(getWebCreator().getWebView(), getInterceptor());
             }
@@ -244,7 +257,7 @@ public final class AgentWeb {
     public boolean back() {
         if (mIEventHandler == null) {
             if (WebConfig.hasX5()) {
-                mIEventHandler = EventHandlerImpl.getInstantce(getWebCreator().getX5WebView(), getInterceptor());
+                mIEventHandler = EventHandlerImpl.getInstantce(getX5WebCreator().getWebView(), getInterceptor());
             } else {
                 mIEventHandler = EventHandlerImpl.getInstantce(getWebCreator().getWebView(), getInterceptor());
             }
@@ -252,14 +265,18 @@ public final class AgentWeb {
         return mIEventHandler.back();
     }
 
-    public WebCreator getWebCreator() {
+    public top.xuqingquan.web.system.WebCreator getWebCreator() {
         return this.mWebCreator;
+    }
+
+    public top.xuqingquan.web.x5.WebCreator getX5WebCreator() {
+        return this.mX5WebCreator;
     }
 
     public IEventHandler getIEventHandler() {
         if (this.mIEventHandler == null) {
             if (WebConfig.hasX5()) {
-                mIEventHandler = EventHandlerImpl.getInstantce(getWebCreator().getX5WebView(), getInterceptor());
+                mIEventHandler = EventHandlerImpl.getInstantce(getX5WebCreator().getWebView(), getInterceptor());
             } else {
                 mIEventHandler = EventHandlerImpl.getInstantce(getWebCreator().getWebView(), getInterceptor());
             }
@@ -296,23 +313,23 @@ public final class AgentWeb {
         mJavaObjects.put("agentWeb", new AgentWebJsInterfaceCompat(this, mActivity));
     }
 
-    private WebCreator configWebCreator(BaseIndicatorView progressView, int index, ViewGroup.LayoutParams lp, int indicatorColor, int height_dp, android.webkit.WebView webView, top.xuqingquan.web.system.IWebLayout webLayout) {
+    private top.xuqingquan.web.system.WebCreator configWebCreator(BaseIndicatorView progressView, int index, ViewGroup.LayoutParams lp, int indicatorColor, int height_dp, android.webkit.WebView webView, top.xuqingquan.web.system.IWebLayout webLayout) {
         if (progressView != null && mEnableIndicator) {
-            return new DefaultWebCreator(mActivity, mViewGroup, lp, index, progressView, webView, webLayout);
+            return new top.xuqingquan.web.system.DefaultWebCreator(mActivity, mViewGroup, lp, index, progressView, webView, webLayout);
         } else {
             return mEnableIndicator ?
-                    new DefaultWebCreator(mActivity, mViewGroup, lp, index, indicatorColor, height_dp, webView, webLayout)
-                    : new DefaultWebCreator(mActivity, mViewGroup, lp, index, webView, webLayout);
+                    new top.xuqingquan.web.system.DefaultWebCreator(mActivity, mViewGroup, lp, index, indicatorColor, height_dp, webView, webLayout)
+                    : new top.xuqingquan.web.system.DefaultWebCreator(mActivity, mViewGroup, lp, index, webView, webLayout);
         }
     }
 
-    private WebCreator configWebCreator(BaseIndicatorView progressView, int index, ViewGroup.LayoutParams lp, int indicatorColor, int height_dp, com.tencent.smtt.sdk.WebView webView, top.xuqingquan.web.x5.IWebLayout webLayout) {
+    private top.xuqingquan.web.x5.WebCreator configWebCreator(BaseIndicatorView progressView, int index, ViewGroup.LayoutParams lp, int indicatorColor, int height_dp, com.tencent.smtt.sdk.WebView webView, top.xuqingquan.web.x5.IWebLayout webLayout) {
         if (progressView != null && mEnableIndicator) {
-            return new DefaultWebCreator(mActivity, mViewGroup, lp, index, progressView, webView, webLayout);
+            return new top.xuqingquan.web.x5.DefaultWebCreator(mActivity, mViewGroup, lp, index, progressView, webView, webLayout);
         } else {
             return mEnableIndicator ?
-                    new DefaultWebCreator(mActivity, mViewGroup, lp, index, indicatorColor, height_dp, webView, webLayout)
-                    : new DefaultWebCreator(mActivity, mViewGroup, lp, index, webView, webLayout);
+                    new top.xuqingquan.web.x5.DefaultWebCreator(mActivity, mViewGroup, lp, index, indicatorColor, height_dp, webView, webLayout)
+                    : new top.xuqingquan.web.x5.DefaultWebCreator(mActivity, mViewGroup, lp, index, webView, webLayout);
         }
     }
 
@@ -340,7 +357,7 @@ public final class AgentWeb {
     private IVideo getIVideo() {
         if (mIVideo == null) {
             if (WebConfig.hasX5()) {
-                mIVideo = new VideoImpl(mActivity, getWebCreator().getX5WebView());
+                mIVideo = new VideoImpl(mActivity, getX5WebCreator().getWebView());
             } else {
                 mIVideo = new VideoImpl(mActivity, getWebCreator().getWebView());
             }
@@ -388,7 +405,7 @@ public final class AgentWeb {
                 .setClient(mX5WebViewClient)
                 .setWebClientHelper(this.mWebClientHelper)
                 .setPermissionInterceptor(this.mPermissionInterceptor)
-                .setWebView(getWebCreator().getX5WebView())
+                .setWebView(getX5WebCreator().getWebView())
                 .setInterceptUnkownUrl(this.mIsInterceptUnkownUrl)
                 .setUrlHandleWays(this.mUrlHandleWays)
                 .build();
@@ -425,18 +442,18 @@ public final class AgentWeb {
             if (mX5WebListenerManager == null && mAgentWebSettings instanceof top.xuqingquan.web.x5.AbsAgentWebSettings) {
                 mX5WebListenerManager = (top.xuqingquan.web.x5.WebListenerManager) mAgentWebSettings;
             }
-            mAgentWebSettings.toSetting(getWebCreator().getX5WebView());
+            mAgentWebSettings.toSetting(getX5WebCreator().getWebView());
             if (mJsInterfaceHolder == null) {
-                mJsInterfaceHolder = JsInterfaceHolderImpl.getJsInterfaceHolder(getWebCreator().getX5WebView());
+                mJsInterfaceHolder = JsInterfaceHolderImpl.getJsInterfaceHolder(getX5WebCreator().getWebView());
             }
             Timber.i("mJavaObjects:" + mJavaObjects.size());
             if (mJavaObjects != null && !mJavaObjects.isEmpty()) {
                 mJsInterfaceHolder.addJavaObjects(mJavaObjects);
             }
             if (mX5WebListenerManager != null) {
-                mX5WebListenerManager.setDownloader(getWebCreator().getX5WebView(), null);
-                mX5WebListenerManager.setWebChromeClient(getWebCreator().getX5WebView(), getX5ChromeClient());
-                mX5WebListenerManager.setWebViewClient(getWebCreator().getX5WebView(), getX5WebViewClient());
+                mX5WebListenerManager.setDownloader(getX5WebCreator().getWebView(), null);
+                mX5WebListenerManager.setWebChromeClient(getX5WebCreator().getWebView(), getX5ChromeClient());
+                mX5WebListenerManager.setWebViewClient(getX5WebCreator().getWebView(), getX5WebViewClient());
             }
         } else {
             top.xuqingquan.web.system.IAgentWebSettings mAgentWebSettings = this.mAgentWebSettings;
@@ -500,14 +517,14 @@ public final class AgentWeb {
     @SuppressWarnings("ConstantConditions")
     private com.tencent.smtt.sdk.WebChromeClient getX5ChromeClient() {
         this.mIndicatorController = (this.mIndicatorController == null) ?
-                IndicatorHandler.getInstance().inJectIndicator(getWebCreator().offer())
+                IndicatorHandler.getInstance().inJectIndicator(getX5WebCreator().offer())
                 : this.mIndicatorController;
         this.mIVideo = getIVideo();
         top.xuqingquan.web.x5.DefaultChromeClient mDefaultChromeClient =
                 new top.xuqingquan.web.x5.DefaultChromeClient(this.mActivity,
                         this.mIndicatorController,
                         mX5WebChromeClient, this.mIVideo,
-                        this.mPermissionInterceptor, getWebCreator().getX5WebView());
+                        this.mPermissionInterceptor, getX5WebCreator().getWebView());
         Timber.i("WebChromeClient:" + this.mX5WebChromeClient);
         top.xuqingquan.web.x5.MiddlewareWebChromeBase header = this.mX5MiddlewareWebChromeBaseHeader;
         if (header != null) {
@@ -573,7 +590,8 @@ public final class AgentWeb {
         private int mIndicatorColor = -1;
         private top.xuqingquan.web.system.IAgentWebSettings mAgentWebSettings;
         private top.xuqingquan.web.x5.IAgentWebSettings mX5AgentWebSettings;
-        private WebCreator mWebCreator;
+        private top.xuqingquan.web.system.WebCreator mWebCreator;
+        private top.xuqingquan.web.x5.WebCreator mX5WebCreator;
         private HttpHeaders mHttpHeaders = null;
         private IEventHandler mIEventHandler;
         private int mHeight = -1;

@@ -10,7 +10,7 @@ import top.xuqingquan.web.AgentWeb
 import top.xuqingquan.web.nokernel.WebConfig
 import top.xuqingquan.web.nokernel.WebUtils
 
-abstract class AbsAgentWebSettings internal constructor() : IAgentWebSettings<WebSettings>, WebListenerManager {
+abstract class AbsAgentWebSettings : IAgentWebSettings<WebSettings>, WebListenerManager {
     private var mWebSettings: WebSettings? = null
 
     fun bindAgentWeb(agentWeb: AgentWeb) {
@@ -46,7 +46,8 @@ abstract class AbsAgentWebSettings internal constructor() : IAgentWebSettings<We
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             //适配5.0不允许http和https混合使用情况
             mWebSettings!!.mixedContentMode = android.webkit.WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
-            webView.setLayerType(View.LAYER_TYPE_HARDWARE, null)
+            //使用LAYER_TYPE_HARDWARE可能导致视频白屏
+            webView.setLayerType(View.LAYER_TYPE_SOFTWARE, null)
         }/* else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             //加上这一句可能导致Android4.4手机出现加载网页白屏
             // webView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
@@ -82,7 +83,6 @@ abstract class AbsAgentWebSettings internal constructor() : IAgentWebSettings<We
         Timber.i("dir:" + dir + "   appcache:" + WebUtils.getCachePath(webView.context))
         //设置数据库路径  api19 已经废弃,这里只针对 webkit 起作用
         mWebSettings!!.setGeolocationDatabasePath(dir)
-
         mWebSettings!!.databasePath = dir
         mWebSettings!!.setAppCachePath(dir)
         //缓存文件最大值

@@ -4,9 +4,6 @@ import android.view.View
 
 interface IVideo {
 
-
-    val isVideoState: Boolean
-
     fun onShowCustomView(view: View, callback: android.webkit.WebChromeClient.CustomViewCallback)
 
     fun onShowCustomView(
@@ -15,5 +12,7 @@ interface IVideo {
     )
 
     fun onHideCustomView()
+
+    fun isVideoState(): Boolean
 
 }

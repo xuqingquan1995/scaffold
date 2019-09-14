@@ -89,7 +89,7 @@ class ScaffoldWebView : FrameLayout {
                 .createAgentWeb()//创建AgentWeb。
                 .get()
         if (WebConfig.hasX5()) {
-            agentWeb!!.webCreator.getX5WebView()?.overScrollMode = com.tencent.smtt.sdk.WebView.OVER_SCROLL_NEVER
+            agentWeb!!.x5WebCreator.getWebView()?.overScrollMode = com.tencent.smtt.sdk.WebView.OVER_SCROLL_NEVER
         } else {
             agentWeb!!.webCreator.getWebView()?.overScrollMode = android.webkit.WebView.OVER_SCROLL_NEVER
         }
@@ -134,7 +134,7 @@ class ScaffoldWebView : FrameLayout {
 
     fun getCurrentUrl(): String? {
         return if (WebConfig.hasX5()) {
-            agentWeb?.webCreator?.getX5WebView()?.url
+            agentWeb?.x5WebCreator?.getWebView()?.url
         } else {
             agentWeb?.webCreator?.getWebView()?.url
         }

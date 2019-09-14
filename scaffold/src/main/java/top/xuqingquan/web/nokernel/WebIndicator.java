@@ -1,6 +1,10 @@
 package top.xuqingquan.web.nokernel;
 
-import android.animation.*;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -9,8 +13,9 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
-import android.widget.FrameLayout;
+
 import androidx.annotation.Nullable;
+
 import top.xuqingquan.utils.Timber;
 import top.xuqingquan.utils.ViewUtils;
 
@@ -101,14 +106,14 @@ public class WebIndicator extends BaseIndicatorView implements BaseIndicatorSpec
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        int wMode = View.MeasureSpec.getMode(widthMeasureSpec);
-        int w = View.MeasureSpec.getSize(widthMeasureSpec);
-        int hMode = View.MeasureSpec.getMode(heightMeasureSpec);
-        int h = View.MeasureSpec.getSize(heightMeasureSpec);
-        if (wMode == View.MeasureSpec.AT_MOST) {
+        int wMode = MeasureSpec.getMode(widthMeasureSpec);
+        int w = MeasureSpec.getSize(widthMeasureSpec);
+        int hMode = MeasureSpec.getMode(heightMeasureSpec);
+        int h = MeasureSpec.getSize(heightMeasureSpec);
+        if (wMode == MeasureSpec.AT_MOST) {
             w = w <= getContext().getResources().getDisplayMetrics().widthPixels ? w : getContext().getResources().getDisplayMetrics().widthPixels;
         }
-        if (hMode == View.MeasureSpec.AT_MOST) {
+        if (hMode == MeasureSpec.AT_MOST) {
             h = WEB_INDICATOR_DEFAULT_HEIGHT;
         }
         this.setMeasuredDimension(w, h);
@@ -256,7 +261,7 @@ public class WebIndicator extends BaseIndicatorView implements BaseIndicatorSpec
 
 
     @Override
-    public FrameLayout.LayoutParams offerLayoutParams() {
-        return new FrameLayout.LayoutParams(-1, WEB_INDICATOR_DEFAULT_HEIGHT);
+    public LayoutParams offerLayoutParams() {
+        return new LayoutParams(-1, WEB_INDICATOR_DEFAULT_HEIGHT);
     }
 }

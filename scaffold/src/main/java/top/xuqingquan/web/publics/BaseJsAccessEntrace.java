@@ -2,7 +2,9 @@ package top.xuqingquan.web.publics;
 
 import android.annotation.SuppressLint;
 import android.os.Build;
+
 import androidx.annotation.Nullable;
+
 import top.xuqingquan.utils.CharacterUtils;
 import top.xuqingquan.web.nokernel.WebConfig;
 
@@ -21,7 +23,7 @@ public abstract class BaseJsAccessEntrace implements JsAccessEntrace {
     }
 
     @Override
-    public void callJs(String js, @Nullable android.webkit.ValueCallback<String> callback) {
+    public void callJs(@Nullable String js, @Nullable android.webkit.ValueCallback<String> callback) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             this.evaluateJs(js, callback);
         } else {
@@ -30,7 +32,7 @@ public abstract class BaseJsAccessEntrace implements JsAccessEntrace {
     }
 
     @Override
-    public void callJs(String js, @Nullable com.tencent.smtt.sdk.ValueCallback<String> callback) {
+    public void callJs(@Nullable String js, @Nullable com.tencent.smtt.sdk.ValueCallback<String> callback) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             this.evaluateJs(js, callback);
         } else {
@@ -39,7 +41,7 @@ public abstract class BaseJsAccessEntrace implements JsAccessEntrace {
     }
 
     @Override
-    public void callJs(String js) {
+    public void callJs(@Nullable String js) {
         if (WebConfig.hasX5()) {
             //noinspection RedundantCast
             this.callJs(js, (com.tencent.smtt.sdk.ValueCallback<String>) null);
@@ -48,7 +50,7 @@ public abstract class BaseJsAccessEntrace implements JsAccessEntrace {
         }
     }
 
-    private void loadJs(String js) {
+    private void loadJs(@Nullable String js) {
         if (WebConfig.hasX5()) {
             mx5WebView.loadUrl(js);
         } else {
@@ -56,7 +58,7 @@ public abstract class BaseJsAccessEntrace implements JsAccessEntrace {
         }
     }
 
-    private void evaluateJs(String js, @Nullable android.webkit.ValueCallback<String> callback) {
+    private void evaluateJs(@Nullable String js, @Nullable android.webkit.ValueCallback<String> callback) {
         mWebView.evaluateJavascript(js, value -> {
             if (callback != null) {
                 callback.onReceiveValue(value);
@@ -64,7 +66,7 @@ public abstract class BaseJsAccessEntrace implements JsAccessEntrace {
         });
     }
 
-    private void evaluateJs(String js, @Nullable com.tencent.smtt.sdk.ValueCallback<String> callback) {
+    private void evaluateJs(@Nullable String js, @Nullable com.tencent.smtt.sdk.ValueCallback<String> callback) {
         mx5WebView.evaluateJavascript(js, value -> {
             if (callback != null) {
                 callback.onReceiveValue(value);
@@ -73,7 +75,7 @@ public abstract class BaseJsAccessEntrace implements JsAccessEntrace {
     }
 
     @Override
-    public void quickCallJs(String method, android.webkit.ValueCallback<String> callback, String... params) {
+    public void quickCallJs(@Nullable String method, @Nullable android.webkit.ValueCallback<String> callback, @Nullable String... params) {
         StringBuilder sb = new StringBuilder();
         sb.append("javascript:").append(method);
         if (params == null || params.length == 0) {
@@ -85,7 +87,7 @@ public abstract class BaseJsAccessEntrace implements JsAccessEntrace {
     }
 
     @Override
-    public void quickCallJs(String method, com.tencent.smtt.sdk.ValueCallback<String> callback, String... params) {
+    public void quickCallJs(@Nullable String method, @Nullable com.tencent.smtt.sdk.ValueCallback<String> callback, @Nullable String... params) {
         StringBuilder sb = new StringBuilder();
         sb.append("javascript:").append(method);
         if (params == null || params.length == 0) {
@@ -113,7 +115,7 @@ public abstract class BaseJsAccessEntrace implements JsAccessEntrace {
     }
 
     @Override
-    public void quickCallJs(String method, String... params) {
+    public void quickCallJs(@Nullable String method, @Nullable String... params) {
         if (WebConfig.hasX5()) {
             //noinspection RedundantCast
             this.quickCallJs(method, (com.tencent.smtt.sdk.ValueCallback<String>) null, params);
@@ -123,7 +125,7 @@ public abstract class BaseJsAccessEntrace implements JsAccessEntrace {
     }
 
     @Override
-    public void quickCallJs(String method) {
+    public void quickCallJs(@Nullable String method) {
         this.quickCallJs(method, (String[]) null);
     }
 }

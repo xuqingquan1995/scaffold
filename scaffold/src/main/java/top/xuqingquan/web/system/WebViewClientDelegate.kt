@@ -72,7 +72,10 @@ open class WebViewClientDelegate internal constructor(client: WebViewClient?) : 
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    override fun shouldInterceptRequest(view: WebView?, request: WebResourceRequest?): WebResourceResponse? {
+    override fun shouldInterceptRequest(
+        view: WebView?,
+        request: WebResourceRequest?
+    ): WebResourceResponse? {
         return if (delegate != null) {
             delegate!!.shouldInterceptRequest(view, request)
         } else {
@@ -110,7 +113,11 @@ open class WebViewClientDelegate internal constructor(client: WebViewClient?) : 
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
-    override fun onReceivedError(view: WebView?, request: WebResourceRequest?, error: WebResourceError?) {
+    override fun onReceivedError(
+        view: WebView?,
+        request: WebResourceRequest?,
+        error: WebResourceError?
+    ) {
         if (delegate != null) {
             delegate!!.onReceivedError(view, request, error)
             return
@@ -164,7 +171,12 @@ open class WebViewClientDelegate internal constructor(client: WebViewClient?) : 
         super.onReceivedClientCertRequest(view, request)
     }
 
-    override fun onReceivedHttpAuthRequest(view: WebView?, handler: HttpAuthHandler?, host: String, realm: String?) {
+    override fun onReceivedHttpAuthRequest(
+        view: WebView?,
+        handler: HttpAuthHandler?,
+        host: String,
+        realm: String?
+    ) {
         if (delegate != null) {
             delegate!!.onReceivedHttpAuthRequest(view, handler, host, realm)
             return
@@ -195,11 +207,30 @@ open class WebViewClientDelegate internal constructor(client: WebViewClient?) : 
         super.onScaleChanged(view, oldScale, newScale)
     }
 
-    override fun onReceivedLoginRequest(view: WebView?, realm: String?, account: String?, args: String?) {
+    override fun onReceivedLoginRequest(
+        view: WebView?,
+        realm: String?,
+        account: String?,
+        args: String?
+    ) {
         if (delegate != null) {
             delegate!!.onReceivedLoginRequest(view, realm, account, args)
             return
         }
         super.onReceivedLoginRequest(view, realm, account, args)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O_MR1)
+    override fun onSafeBrowsingHit(
+        view: WebView?,
+        request: WebResourceRequest?,
+        threatType: Int,
+        callback: SafeBrowsingResponse?
+    ) {
+        if (delegate != null) {
+            delegate!!.onSafeBrowsingHit(view, request, threatType, callback)
+            return
+        }
+        super.onSafeBrowsingHit(view, request, threatType, callback)
     }
 }

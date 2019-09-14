@@ -11,6 +11,8 @@ import com.tencent.smtt.sdk.WebChromeClient
 import com.tencent.smtt.sdk.WebStorage
 import com.tencent.smtt.sdk.WebView
 import top.xuqingquan.utils.Timber
+import top.xuqingquan.utils.getDeniedPermissions
+import top.xuqingquan.utils.hasPermission
 import top.xuqingquan.web.nokernel.*
 import top.xuqingquan.web.nokernel.ActionActivity.KEY_FROM_INTENTION
 import top.xuqingquan.web.publics.AgentWebUtils
@@ -19,7 +21,7 @@ import top.xuqingquan.web.publics.IndicatorController
 import java.lang.ref.WeakReference
 import java.util.*
 
-@Suppress("DEPRECATION")
+@Suppress("DEPRECATION", "OverridingDeprecatedMember")
 class DefaultChromeClient(
     activity: Activity,
     /**
@@ -47,7 +49,7 @@ class DefaultChromeClient(
     /**
      * 包装Flag
      */
-    private val mIsWrapper: Boolean = chromeClient != null
+    private val mIsWrapper = chromeClient != null
     /**
      * Web端触发的定位 mOrigin
      */
@@ -59,11 +61,12 @@ class DefaultChromeClient(
     /**
      * AbsAgentWebUIController
      */
-    private val mAgentWebUIController = WeakReference(AgentWebUtils.getAgentWebUIControllerByWebView(mWebView))
+    private val mAgentWebUIController =
+        WeakReference(AgentWebUtils.getAgentWebUIControllerByWebView(mWebView))
 
     private val mPermissionListener = ActionActivity.PermissionListener { permissions, _, extras ->
         if (extras.getInt(KEY_FROM_INTENTION) == FROM_CODE_INTENTION_LOCATION) {
-            val hasPermission = WebUtils.hasPermission(mActivityWeakReference.get()!!, *permissions)
+            val hasPermission = hasPermission(mActivityWeakReference.get()!!, *permissions)
             if (mCallback != null) {
                 if (hasPermission) {
                     mCallback!!.invoke(mOrigin, true, false)
@@ -85,20 +88,20 @@ class DefaultChromeClient(
     }
 
 
-    override fun onProgressChanged(view: WebView?, newProgress: Int) {
+    override fun onProgressChanged(view: WebView, newProgress: Int) {
         super.onProgressChanged(view, newProgress)
-        mIndicatorController?.progress(view!!, newProgress)
+        mIndicatorController?.progress(view, newProgress)
     }
 
-    override fun onReceivedTitle(view: WebView?, title: String?) {
+    override fun onReceivedTitle(view: WebView, title: String) {
         if (mIsWrapper) {
             super.onReceivedTitle(view, title)
         }
     }
 
-    override fun onJsAlert(view: WebView?, url: String?, message: String?, result: JsResult?): Boolean {
-        mAgentWebUIController.get()?.onJsAlert(view!!, url!!, message!!)
-        result!!.confirm()
+    override fun onJsAlert(view: WebView, url: String, message: String, result: JsResult): Boolean {
+        mAgentWebUIController.get()?.onJsAlert(view, url, message)
+        result.confirm()
         return true
     }
 
@@ -119,9 +122,9 @@ class DefaultChromeClient(
             callback.invoke(origin, false, false)
             return
         }
-        val deniedPermissions = WebUtils.getDeniedPermissions(mActivity, AgentWebPermissions.LOCATION)
+        val deniedPermissions = getDeniedPermissions(mActivity, AgentWebPermissions.LOCATION)
         if (deniedPermissions.isNullOrEmpty()) {
-            Timber.i("onGeolocationPermissionsShowPromptInternal:" + true)
+            Timber.i("onGeolocationPermissionsShowPromptInternal:true")
             callback.invoke(origin, true, false)
         } else {
             val mAction = Action.createPermissionsAction(deniedPermissions.toTypedArray())
@@ -134,14 +137,14 @@ class DefaultChromeClient(
     }
 
     override fun onJsPrompt(
-        view: WebView?,
-        url: String?,
-        message: String?,
-        defaultValue: String?,
-        result: JsPromptResult?
+        view: WebView,
+        url: String,
+        message: String,
+        defaultValue: String,
+        result: JsPromptResult
     ): Boolean {
         try {
-            this.mAgentWebUIController.get()?.onJsPrompt(mWebView, url!!, message!!, defaultValue!!, result!!)
+            this.mAgentWebUIController.get()?.onJsPrompt(mWebView, url, message, defaultValue, result)
         } catch (throwable: Throwable) {
             Timber.e(throwable)
         }
@@ -149,14 +152,15 @@ class DefaultChromeClient(
         return true
     }
 
-    override fun onJsConfirm(view: WebView?, url: String?, message: String?, result: JsResult?): Boolean {
-        mAgentWebUIController.get()?.onJsConfirm(view!!, url!!, message!!, result!!)
+    override fun onJsConfirm(view: WebView, url: String, message: String, result: JsResult): Boolean {
+        mAgentWebUIController.get()?.onJsConfirm(view, url, message, result)
         return true
     }
 
+
     override fun onExceededDatabaseQuota(
-        url: String?,
-        databaseIdentifier: String?,
+        url: String,
+        databaseIdentifier: String,
         quota: Long,
         estimatedDatabaseSize: Long,
         totalQuota: Long,
@@ -165,24 +169,23 @@ class DefaultChromeClient(
         quotaUpdater.updateQuota(totalQuota * 2)
     }
 
-
     override fun onReachedMaxAppCacheSize(requiredStorage: Long, quota: Long, quotaUpdater: WebStorage.QuotaUpdater) {
         quotaUpdater.updateQuota(requiredStorage * 2)
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     override fun onShowFileChooser(
-        webView: WebView?,
-        filePathCallback: ValueCallback<Array<Uri>>?,
-        fileChooserParams: FileChooserParams?
+        webView: WebView,
+        filePathCallback: ValueCallback<Array<Uri>>,
+        fileChooserParams: FileChooserParams
     ): Boolean {
         Timber.i("openFileChooser>=5.0")
-        return openFileChooserAboveL(filePathCallback, fileChooserParams!!)
+        return openFileChooserAboveL(filePathCallback, fileChooserParams)
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private fun openFileChooserAboveL(
-        valueCallbacks: ValueCallback<Array<Uri>>?,
+        valueCallbacks: ValueCallback<Array<Uri>>,
         fileChooserParams: FileChooserParams
     ): Boolean {
         Timber.i(
@@ -202,13 +205,13 @@ class DefaultChromeClient(
         )
     }
 
-    override fun onConsoleMessage(consoleMessage: ConsoleMessage?): Boolean {
+    override fun onConsoleMessage(consoleMessage: ConsoleMessage): Boolean {
         super.onConsoleMessage(consoleMessage)
         return true
     }
 
-    override fun onShowCustomView(view: View?, callback: IX5WebChromeClient.CustomViewCallback?) {
-        mIVideo?.onShowCustomView(view!!, callback!!)
+    override fun onShowCustomView(view: View, callback: IX5WebChromeClient.CustomViewCallback) {
+        mIVideo?.onShowCustomView(view, callback)
     }
 
     override fun onHideCustomView() {

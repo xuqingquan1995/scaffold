@@ -25,7 +25,7 @@ open class MiddlewareWebClientBase : WebViewClientDelegate {
     }
 
     fun enq(middleWrareWebClientBase: MiddlewareWebClientBase): MiddlewareWebClientBase {
-        delegate = middleWrareWebClientBase
+        super.delegate = middleWrareWebClientBase
         this.mMiddleWrareWebClientBase = middleWrareWebClientBase
         return middleWrareWebClientBase
     }

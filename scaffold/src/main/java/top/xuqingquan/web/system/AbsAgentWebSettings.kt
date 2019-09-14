@@ -47,10 +47,10 @@ abstract class AbsAgentWebSettings : IAgentWebSettings<WebSettings>, WebListener
             //适配5.0不允许http和https混合使用情况
             mWebSettings!!.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
             webView.setLayerType(View.LAYER_TYPE_HARDWARE, null)
-        }/* else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             //加上这一句可能导致Android4.4手机出现加载网页白屏
-            // webView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
-        }*/
+             webView.setLayerType(View.LAYER_TYPE_HARDWARE, null)
+        }
         mWebSettings!!.textZoom = 100
         mWebSettings!!.databaseEnabled = true
         mWebSettings!!.setAppCacheEnabled(true)

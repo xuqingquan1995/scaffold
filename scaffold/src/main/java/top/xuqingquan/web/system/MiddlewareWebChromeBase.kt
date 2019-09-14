@@ -14,11 +14,10 @@ open class MiddlewareWebChromeBase(webChromeClient: WebChromeClient? = null) :
         }
 
     fun enq(middlewareWebChromeBase: MiddlewareWebChromeBase): MiddlewareWebChromeBase? {
-        delegate = middlewareWebChromeBase
+        super.delegate = middlewareWebChromeBase
         this.mMiddlewareWebChromeBase = middlewareWebChromeBase
         return this.mMiddlewareWebChromeBase
     }
-
 
     operator fun next(): MiddlewareWebChromeBase? {
         return this.mMiddlewareWebChromeBase

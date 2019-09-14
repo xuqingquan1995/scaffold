@@ -15,6 +15,7 @@ import com.tencent.smtt.sdk.WebViewClient
 import top.xuqingquan.utils.Timber
 import top.xuqingquan.R
 
+
 class AgentWebView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : WebView(context, attrs) {
     private val mFixedOnReceivedTitle = FixedOnReceivedTitle()
 
@@ -39,7 +40,6 @@ class AgentWebView @JvmOverloads constructor(context: Context, attrs: AttributeS
         visibility = View.GONE
         removeAllViewsInLayout()
         fixedStillAttached()
-        Timber.i("destroy web")
         super.destroy()
     }
 
@@ -68,7 +68,7 @@ class AgentWebView @JvmOverloads constructor(context: Context, attrs: AttributeS
         override fun onPageFinished(view: WebView?, url: String?) {
             super.onPageFinished(view, url)
             mAgentWebView.mFixedOnReceivedTitle.onPageFinished(view)
-            Timber.d("onPageFinished.url = " + view!!.url)
+            Timber.d("onPageFinished.url = " + view?.url)
         }
 
 
@@ -76,7 +76,7 @@ class AgentWebView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     class AgentWebChrome internal constructor(private val mAgentWebView: AgentWebView) : MiddlewareWebChromeBase() {
 
-        override fun onReceivedTitle(view: WebView?, title: String?) {
+        override fun onReceivedTitle(view: WebView, title: String) {
             this.mAgentWebView.mFixedOnReceivedTitle.onReceivedTitle()
             super.onReceivedTitle(view, title)
         }
@@ -101,7 +101,7 @@ class AgentWebView @JvmOverloads constructor(context: Context, attrs: AttributeS
             if (!mIsOnReceivedTitle && mWebChromeClient != null) {
                 var list: WebBackForwardList? = null
                 try {
-                    list = view!!.copyBackForwardList()
+                    list = view?.copyBackForwardList()
                 } catch (e: Throwable) {
                     Timber.e(e)
                 }
@@ -136,6 +136,7 @@ class AgentWebView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     companion object {
 
+        @JvmStatic
         fun isWebViewPackageException(e: Throwable): Pair<Boolean, String> {
             val messageCause = if (e.cause == null) e.toString() else e.cause.toString()
             val trace = Log.getStackTraceString(e)

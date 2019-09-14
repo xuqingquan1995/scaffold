@@ -21,7 +21,8 @@ open class DefaultUIController : AbsAgentWebUIController() {
     private var mConfirmDialog: AlertDialog? = null
     private var mJsPromptResult: android.webkit.JsPromptResult? = null
     private var mJsResult: android.webkit.JsResult? = null
-    private var mX5JsPromptResult: com.tencent.smtt.export.external.interfaces.JsPromptResult? = null
+    private var mX5JsPromptResult: com.tencent.smtt.export.external.interfaces.JsPromptResult? =
+        null
     private var mX5JsResult: com.tencent.smtt.export.external.interfaces.JsResult? = null
     private var mPromptDialog: AlertDialog? = null
     private var mActivity: Activity? = null
@@ -39,18 +40,29 @@ open class DefaultUIController : AbsAgentWebUIController() {
         WebUtils.toastShowShort(view.context.applicationContext, message)
     }
 
-    override fun onOpenPagePrompt(view: android.webkit.WebView, url: String, callback: Handler.Callback) {
+    override fun onOpenPagePrompt(
+        view: android.webkit.WebView,
+        url: String,
+        callback: Handler.Callback
+    ) {
         onOpenPagePrompt(callback)
     }
 
-    override fun onOpenPagePrompt(view: com.tencent.smtt.sdk.WebView, url: String, callback: Handler.Callback) {
+    override fun onOpenPagePrompt(
+        view: com.tencent.smtt.sdk.WebView,
+        url: String,
+        callback: Handler.Callback
+    ) {
         onOpenPagePrompt(callback)
     }
 
     private fun onOpenPagePrompt(callback: Handler.Callback?) {
         Timber.i("onOpenPagePrompt")
+        if (this.mActivity == null || this.mActivity!!.isFinishing || this.mActivity!!.isDestroyed) {
+            return
+        }
         if (mAskOpenOtherAppDialog == null) {
-            mAskOpenOtherAppDialog = AlertDialog.Builder(mActivity!!)
+            mAskOpenOtherAppDialog = AlertDialog.Builder(this.mActivity!!)
                 .setMessage(
                     mResources!!.getString(
                         R.string.agentweb_leave_app_and_go_other_page,
@@ -110,12 +122,11 @@ open class DefaultUIController : AbsAgentWebUIController() {
     }
 
     private fun onForceDownloadAlertInternal(callback: Handler.Callback?) {
-        val mActivity = this.mActivity
-        if (mActivity == null || mActivity.isFinishing) {
+        if (this.mActivity == null || this.mActivity!!.isFinishing || this.mActivity!!.isDestroyed) {
             return
         }
         if (mAlertDialogForceDownload == null) {
-            mAlertDialogForceDownload = AlertDialog.Builder(mActivity)
+            mAlertDialogForceDownload = AlertDialog.Builder(this.mActivity!!)
                 .setTitle(mResources!!.getString(R.string.agentweb_tips))
                 .setMessage(mResources!!.getString(R.string.agentweb_honeycomblow))
                 .setNegativeButton(mResources!!.getString(R.string.agentweb_download)) { dialog, _ ->
@@ -123,7 +134,6 @@ open class DefaultUIController : AbsAgentWebUIController() {
                     callback?.handleMessage(Message.obtain())
                 }//
                 .setPositiveButton(mResources!!.getString(R.string.agentweb_cancel)) { dialog, _ ->
-
                     dialog?.dismiss()
                 }.create()
         }
@@ -131,8 +141,11 @@ open class DefaultUIController : AbsAgentWebUIController() {
     }
 
     private fun showChooserInternal(ways: Array<String>, callback: Handler.Callback?) {
+        if (this.mActivity == null || this.mActivity!!.isFinishing || this.mActivity!!.isDestroyed) {
+            return
+        }
         if (mAlertDialog == null) {
-            mAlertDialog = AlertDialog.Builder(mActivity!!)
+            mAlertDialog = AlertDialog.Builder(this.mActivity!!)
                 .setSingleChoiceItems(ways, -1) { dialog, which ->
                     dialog.dismiss()
                     Timber.i("which:$which")
@@ -151,14 +164,13 @@ open class DefaultUIController : AbsAgentWebUIController() {
     }
 
     private fun onJsConfirmInternal(message: String, jsResult: android.webkit.JsResult) {
-        Timber.i("activity:" + mActivity!!.hashCode() + "  ")
-        val mActivity = this.mActivity
-        if (mActivity == null || mActivity.isFinishing) {
+        if (this.mActivity == null || this.mActivity!!.isFinishing || this.mActivity!!.isDestroyed) {
             toCancelJsresult(jsResult)
             return
         }
+        Timber.i("activity:" + mActivity!!.hashCode() + "  ")
         if (mConfirmDialog == null) {
-            mConfirmDialog = AlertDialog.Builder(mActivity)
+            mConfirmDialog = AlertDialog.Builder(this.mActivity!!)
                 .setMessage(message)
                 .setNegativeButton(android.R.string.cancel) { _, _ ->
                     toDismissDialog(mConfirmDialog)
@@ -166,9 +178,7 @@ open class DefaultUIController : AbsAgentWebUIController() {
                 }//
                 .setPositiveButton(android.R.string.ok) { _, _ ->
                     toDismissDialog(mConfirmDialog)
-                    if (mJsResult != null) {
-                        mJsResult!!.confirm()
-                    }
+                    mJsResult?.confirm()
                 }
                 .setOnCancelListener { dialog ->
                     dialog.dismiss()
@@ -182,29 +192,29 @@ open class DefaultUIController : AbsAgentWebUIController() {
         mConfirmDialog!!.show()
     }
 
-    private fun onJsConfirmInternal(message: String, jsResult: com.tencent.smtt.export.external.interfaces.JsResult) {
-        Timber.i("activity:" + mActivity!!.hashCode() + "  ")
-        val mActivity = this.mActivity
-        if (mActivity == null || mActivity.isFinishing) {
+    private fun onJsConfirmInternal(
+        message: String,
+        jsResult: com.tencent.smtt.export.external.interfaces.JsResult
+    ) {
+        if (this.mActivity == null || this.mActivity!!.isFinishing || this.mActivity!!.isDestroyed) {
             toCancelJsresult(jsResult)
             return
         }
+        Timber.i("activity:" + mActivity!!.hashCode() + "  ")
         if (mConfirmDialog == null) {
-            mConfirmDialog = AlertDialog.Builder(mActivity)
+            mConfirmDialog = AlertDialog.Builder(this.mActivity!!)
                 .setMessage(message)
                 .setNegativeButton(android.R.string.cancel) { _, _ ->
                     toDismissDialog(mConfirmDialog)
-                    toCancelJsresult(mX5JsResult)
+                    toCancelJsresult(mJsResult)
                 }//
                 .setPositiveButton(android.R.string.ok) { _, _ ->
                     toDismissDialog(mConfirmDialog)
-                    if (mX5JsResult != null) {
-                        mX5JsResult!!.confirm()
-                    }
+                    mJsResult?.confirm()
                 }
                 .setOnCancelListener { dialog ->
                     dialog.dismiss()
-                    toCancelJsresult(mX5JsResult)
+                    toCancelJsresult(mJsResult)
                 }
                 .create()
 
@@ -219,15 +229,14 @@ open class DefaultUIController : AbsAgentWebUIController() {
         defaultValue: String,
         jsPromptResult: android.webkit.JsPromptResult
     ) {
-        val mActivity = this.mActivity
-        if (mActivity == null || mActivity.isFinishing) {
+        if (this.mActivity == null || this.mActivity!!.isFinishing || this.mActivity!!.isDestroyed) {
             jsPromptResult.cancel()
             return
         }
         if (mPromptDialog == null) {
             val et = EditText(mActivity)
             et.setText(defaultValue)
-            mPromptDialog = AlertDialog.Builder(mActivity)
+            mPromptDialog = AlertDialog.Builder(this.mActivity!!)
                 .setView(et)
                 .setTitle(message)
                 .setNegativeButton(android.R.string.cancel) { _, _ ->
@@ -236,9 +245,7 @@ open class DefaultUIController : AbsAgentWebUIController() {
                 }//
                 .setPositiveButton(android.R.string.ok) { _, _ ->
                     toDismissDialog(mPromptDialog)
-                    if (mJsPromptResult != null) {
-                        mJsPromptResult!!.confirm(et.text.toString())
-                    }
+                    mJsPromptResult?.confirm(et.text.toString())
                 }
                 .setOnCancelListener { dialog ->
                     dialog.dismiss()
@@ -255,30 +262,27 @@ open class DefaultUIController : AbsAgentWebUIController() {
         defaultValue: String,
         jsPromptResult: com.tencent.smtt.export.external.interfaces.JsPromptResult
     ) {
-        val mActivity = this.mActivity
-        if (mActivity == null || mActivity.isFinishing) {
+        if (this.mActivity == null || this.mActivity!!.isFinishing || this.mActivity!!.isDestroyed) {
             jsPromptResult.cancel()
             return
         }
         if (mPromptDialog == null) {
             val et = EditText(mActivity)
             et.setText(defaultValue)
-            mPromptDialog = AlertDialog.Builder(mActivity)
+            mPromptDialog = AlertDialog.Builder(this.mActivity!!)
                 .setView(et)
                 .setTitle(message)
                 .setNegativeButton(android.R.string.cancel) { _, _ ->
                     toDismissDialog(mPromptDialog)
-                    toCancelJsresult(mX5JsPromptResult)
+                    toCancelJsresult(mJsPromptResult)
                 }//
                 .setPositiveButton(android.R.string.ok) { _, _ ->
                     toDismissDialog(mPromptDialog)
-                    if (mX5JsPromptResult != null) {
-                        mX5JsPromptResult!!.confirm(et.text.toString())
-                    }
+                    mJsPromptResult?.confirm(et.text.toString())
                 }
                 .setOnCancelListener { dialog ->
                     dialog.dismiss()
-                    toCancelJsresult(mX5JsPromptResult)
+                    toCancelJsresult(mJsPromptResult)
                 }
                 .create()
         }
@@ -313,9 +317,7 @@ open class DefaultUIController : AbsAgentWebUIController() {
         failingUrl: String
     ) {
         Timber.i("mWebParentLayout onMainFrameError:" + mWebParentLayout!!)
-        if (mWebParentLayout != null) {
-            mWebParentLayout!!.showPageMainFrameError()
-        }
+        mWebParentLayout?.showPageMainFrameError()
     }
 
     override fun onMainFrameError(
@@ -325,18 +327,17 @@ open class DefaultUIController : AbsAgentWebUIController() {
         failingUrl: String
     ) {
         Timber.i("mWebParentLayout onMainFrameError:" + mWebParentLayout!!)
-        if (mWebParentLayout != null) {
-            mWebParentLayout!!.showPageMainFrameError()
-        }
+        mWebParentLayout?.showPageMainFrameError()
     }
 
     override fun onShowMainFrame() {
-        if (mWebParentLayout != null) {
-            mWebParentLayout!!.hideErrorLayout()
-        }
+        mWebParentLayout?.hideErrorLayout()
     }
 
     override fun onLoading(msg: String) {
+        if (this.mActivity == null || this.mActivity!!.isFinishing || this.mActivity!!.isDestroyed) {
+            return
+        }
         if (mProgressDialog == null) {
             mProgressDialog = ProgressDialog(mActivity)
         }
@@ -348,6 +349,9 @@ open class DefaultUIController : AbsAgentWebUIController() {
     }
 
     override fun onCancelLoading() {
+        if (this.mActivity == null || this.mActivity!!.isFinishing || this.mActivity!!.isDestroyed) {
+            return
+        }
         if (mProgressDialog != null && mProgressDialog!!.isShowing) {
             mProgressDialog!!.dismiss()
         }
@@ -361,7 +365,11 @@ open class DefaultUIController : AbsAgentWebUIController() {
         WebUtils.toastShowShort(mActivity!!.applicationContext, message)
     }
 
-    override fun onPermissionsDeny(permissions: Array<String>, permissionType: String, action: String) {
+    override fun onPermissionsDeny(
+        permissions: Array<String>,
+        permissionType: String,
+        action: String
+    ) {
         //		AgentWebUtils.toastShowShort(mActivity.getApplicationContext(), "权限被冻结");
     }
 
@@ -376,6 +384,6 @@ open class DefaultUIController : AbsAgentWebUIController() {
     override fun bindSupportWebParent(webParentLayout: WebParentLayout, activity: Activity) {
         this.mActivity = activity
         this.mWebParentLayout = webParentLayout
-        mResources = this.mActivity!!.resources
+        mResources = this.mActivity?.resources
     }
 }

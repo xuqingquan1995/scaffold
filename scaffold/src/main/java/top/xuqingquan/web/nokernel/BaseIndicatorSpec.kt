@@ -9,5 +9,4 @@ interface BaseIndicatorSpec {
     fun reset()
 
     fun setProgress(newProgress: Int)
-
 }
