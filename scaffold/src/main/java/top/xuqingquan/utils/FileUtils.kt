@@ -7,7 +7,7 @@ import android.os.Build
 import android.os.Environment
 import android.os.StatFs
 import android.text.format.DateUtils
-import androidx.core.content.FileProvider
+import top.xuqingquan.app.ScaffoldFileProvider
 import java.io.Closeable
 import java.io.File
 import java.util.*
@@ -83,7 +83,7 @@ fun getMIMEType(f: File): String {
  */
 fun getUriFromFile(context: Context, file: File): Uri {
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-        FileProvider.getUriForFile(context, context.packageName + ".ScaffoldFileProvider", file)
+        ScaffoldFileProvider.getUriForFile(context, context.packageName + ".ScaffoldFileProvider", file)
     } else {
         Uri.fromFile(file)
     }

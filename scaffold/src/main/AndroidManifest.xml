@@ -36,7 +36,7 @@
                 android:windowSoftInputMode="stateHidden|stateAlwaysHidden"/>
         <!-- Android 7.0 之后用到FileProvider -->
         <provider
-                android:name="androidx.core.content.FileProvider"
+                android:name="top.xuqingquan.app.ScaffoldFileProvider"
                 android:authorities="${applicationId}.ScaffoldFileProvider"
                 android:exported="false"
                 android:grantUriPermissions="true">
