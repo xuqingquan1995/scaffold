@@ -55,15 +55,6 @@ open class WebViewClientDelegate internal constructor(client: WebViewClient?) : 
         super.onLoadResource(view, url)
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    override fun onPageCommitVisible(view: WebView?, url: String?) {
-        if (delegate != null) {
-            delegate!!.onPageCommitVisible(view, url)
-            return
-        }
-        super.onPageCommitVisible(view, url)
-    }
-
     override fun shouldInterceptRequest(view: WebView?, url: String?): WebResourceResponse? {
         return if (delegate != null) {
             delegate!!.shouldInterceptRequest(view, url)
