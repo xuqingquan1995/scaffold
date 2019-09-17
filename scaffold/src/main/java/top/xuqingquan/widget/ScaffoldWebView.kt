@@ -124,10 +124,7 @@ class ScaffoldWebView : FrameLayout {
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        if (agentWeb?.handleKeyEvent(keyCode, event) == true) {
-            return true
-        }
-        return super.onKeyDown(keyCode, event)
+        return agentWeb?.handleKeyEvent(keyCode, event) ?: super.onKeyDown(keyCode, event)
     }
 
     fun reload() = agentWeb?.urlLoader?.reload()
