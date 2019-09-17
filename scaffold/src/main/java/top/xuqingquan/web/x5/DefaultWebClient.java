@@ -20,7 +20,6 @@ import com.tencent.smtt.export.external.interfaces.*;
 import com.tencent.smtt.sdk.*;
 
 import java.lang.ref.WeakReference;
-import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -379,51 +378,6 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
         super.onPageStarted(view, url, favicon);
 
     }
-
-
-    /**
-     * MainFrame Error
-     */
-    @Override
-    @Deprecated
-    public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-        Timber.i("onReceivedError：" + description + "  CODE:" + errorCode);
-        onMainFrameError(view, errorCode, description, failingUrl);
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    @Override
-    public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
-        if (request.isForMainFrame()) {
-            onMainFrameError(view,
-                    error.getErrorCode(), error.getDescription().toString(),
-                    request.getUrl().toString());
-        }
-        Timber.i("onReceivedError:" + error.getDescription() + " code:" + error.getErrorCode());
-    }
-
-    private void onMainFrameError(WebView view, int errorCode, String description, String failingUrl) {
-        mErrorUrlsSet.add(failingUrl);
-        // 下面逻辑判断开发者是否重写了 onMainFrameError 方法 ， 优先交给开发者处理
-        if (this.mWebViewClient != null && webClientHelper) {
-            /*
-             * MainFrameErrorMethod
-             */
-            Method mMethod = WebUtils.isExistMethod(mWebViewClient, "onMainFrameError", AbsAgentWebUIController.class, WebView.class, int.class, String.class, String.class);
-            if (mMethod != null) {
-                try {
-                    mMethod.invoke(this.mWebViewClient, mAgentWebUIController.get(), view, errorCode, description, failingUrl);
-                } catch (Throwable throwable) {
-                    Timber.e(throwable);
-                }
-                return;
-            }
-        }
-        if (mAgentWebUIController.get() != null) {
-            mAgentWebUIController.get().onMainFrameError(view, errorCode, description, failingUrl);
-        }
-    }
-
 
     @Override
     public void onPageFinished(WebView view, String url) {
