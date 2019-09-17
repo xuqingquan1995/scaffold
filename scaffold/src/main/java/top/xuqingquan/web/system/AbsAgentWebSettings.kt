@@ -70,8 +70,8 @@ abstract class AbsAgentWebSettings : IAgentWebSettings<WebSettings>, WebListener
         } else {
             mWebSettings!!.layoutAlgorithm = WebSettings.LayoutAlgorithm.NORMAL
         }
-        mWebSettings!!.loadWithOverviewMode = false
-        mWebSettings!!.useWideViewPort = false
+        mWebSettings!!.loadWithOverviewMode = true
+        mWebSettings!!.useWideViewPort = true
         mWebSettings!!.domStorageEnabled = true
         mWebSettings!!.setNeedInitialFocus(true)
         mWebSettings!!.defaultTextEncodingName = "utf-8"//设置编码格式
