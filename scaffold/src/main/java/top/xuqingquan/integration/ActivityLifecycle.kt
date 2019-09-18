@@ -20,6 +20,7 @@ import top.xuqingquan.delegate.IActivity
  */
 class ActivityLifecycle : Application.ActivityLifecycleCallbacks {
 
+    private var mAppManager = ScaffoldConfig.getAppManager()
     private var mApplication = ScaffoldConfig.getApplication()
     private var mExtras = ScaffoldConfig.getExtras()
     private var mFragmentLifecycle: FragmentManager.FragmentLifecycleCallbacks =
@@ -28,6 +29,7 @@ class ActivityLifecycle : Application.ActivityLifecycleCallbacks {
         ScaffoldConfig.getFragmentLifecycleCallbacksList()
 
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
+        mAppManager.addActivity(activity)
         //配置ActivityDelegate
         if (activity is IActivity) {
             var activityDelegate = fetchActivityDelegate(activity)
@@ -49,6 +51,7 @@ class ActivityLifecycle : Application.ActivityLifecycleCallbacks {
     }
 
     override fun onActivityResumed(activity: Activity) {
+        mAppManager.setCurrentActivity(activity)
         val activityDelegate = fetchActivityDelegate(activity)
         activityDelegate?.onResume()
     }
@@ -59,6 +62,9 @@ class ActivityLifecycle : Application.ActivityLifecycleCallbacks {
     }
 
     override fun onActivityStopped(activity: Activity) {
+        if (mAppManager.getCurrentActivity() === activity) {
+            mAppManager.setCurrentActivity(null)
+        }
         val activityDelegate = fetchActivityDelegate(activity)
         activityDelegate?.onStop()
     }
@@ -69,6 +75,7 @@ class ActivityLifecycle : Application.ActivityLifecycleCallbacks {
     }
 
     override fun onActivityDestroyed(activity: Activity) {
+        mAppManager.removeActivity(activity)
         val activityDelegate = fetchActivityDelegate(activity)
         if (activityDelegate != null) {
             activityDelegate.onDestroy()

@@ -1,5 +1,6 @@
 package top.xuqingquan.app;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.ComponentCallbacks2;
 import android.content.Context;
@@ -41,6 +42,7 @@ import top.xuqingquan.imageloader.BaseImageLoaderStrategy;
 import top.xuqingquan.imageloader.GlideImageLoaderStrategy;
 import top.xuqingquan.imageloader.ImageLoader;
 import top.xuqingquan.integration.ActivityLifecycle;
+import top.xuqingquan.integration.AppManager;
 import top.xuqingquan.integration.FragmentLifecycle;
 import top.xuqingquan.integration.IRepositoryManager;
 import top.xuqingquan.integration.RepositoryManager;
@@ -439,9 +441,19 @@ public class ScaffoldConfig {
     }
 
     /*********************************************************************/
+
+    @SuppressLint("StaticFieldLeak")
+    private static AppManager appManager;
     private static Application.ActivityLifecycleCallbacks activityLifecycleCallbacks;
     private static FragmentManager.FragmentLifecycleCallbacks fragmentLifecycleCallbacks;
     private static List<FragmentManager.FragmentLifecycleCallbacks> fragmentLifecycleCallbacksList;
+    @NonNull
+    public static AppManager getAppManager() {
+        if (appManager == null) {
+            appManager = AppManager.getAppManager().init(application);
+        }
+        return appManager;
+    }
 
     @NonNull
     public static Application.ActivityLifecycleCallbacks getActivityLifecycleCallbacks() {
