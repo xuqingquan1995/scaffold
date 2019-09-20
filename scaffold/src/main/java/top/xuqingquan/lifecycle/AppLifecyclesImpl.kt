@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import androidx.multidex.MultiDex
 import com.github.anrwatchdog.ANRWatchDog
+import com.tencent.smtt.export.external.TbsCoreSettings
 import com.tencent.smtt.sdk.QbSdk
 import com.tencent.smtt.sdk.TbsListener
 import com.zxy.recovery.core.Recovery
@@ -68,6 +69,13 @@ class AppLifecyclesImpl : AppLifecycles {
             Class.forName("com.tencent.smtt.sdk.QbSdk")
             thread {
                 Timber.d("QbSdk----Thread.currentThread()===${Thread.currentThread()}")
+                // 在调用TBS初始化、创建WebView之前进行如下配置，以开启优化方案
+                QbSdk.initTbsSettings(
+                    mapOf(
+                        TbsCoreSettings.TBS_SETTINGS_USE_SPEEDY_CLASSLOADER to true,
+                        TbsCoreSettings.TBS_SETTINGS_USE_DEXLOADER_SERVICE to false
+                    )
+                )
                 QbSdk.setDownloadWithoutWifi(true)
                 QbSdk.setTbsListener(object : TbsListener {
                     override fun onInstallFinish(p0: Int) {
