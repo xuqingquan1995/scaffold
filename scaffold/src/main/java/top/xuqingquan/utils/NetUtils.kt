@@ -2,13 +2,25 @@
 
 package top.xuqingquan.utils
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.Network
+import android.net.wifi.WifiInfo
+import android.net.wifi.WifiManager
 import android.os.Build
 import android.telephony.TelephonyManager
+import android.text.TextUtils
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
+import java.io.BufferedReader
+import java.io.File
+import java.io.FileReader
+import java.net.InetAddress
+import java.net.NetworkInterface
+import java.net.SocketException
+import java.util.*
+
 
 /**
  * Created by 许清泉 on 2019-05-27 00:54
@@ -60,3 +72,128 @@ fun networkIsConnect(ctx: Context, callback: MutableLiveData<Boolean>? = null): 
     }
     return info != null && info.isConnected
 }
+
+/**
+ * 获取当前ip地址
+ */
+fun getIPAddress(useIPv4: Boolean): String {
+    try {
+        val nis: Enumeration<NetworkInterface?> = NetworkInterface.getNetworkInterfaces()
+        val adds: LinkedList<InetAddress?> = LinkedList()
+        while (nis.hasMoreElements()) {
+            val ni = nis.nextElement() ?: continue
+            // To prevent phone of xiaomi return "10.0.2.15"
+            if (!ni.isUp || ni.isLoopback) continue
+            val addresses = ni.inetAddresses
+            while (addresses.hasMoreElements()) {
+                adds.addFirst(addresses.nextElement())
+            }
+        }
+        for (add in adds) {
+            if (add == null) {
+                continue
+            }
+            if (!add.isLoopbackAddress) {
+                val hostAddress: String = add.hostAddress
+                val isIPv4 = hostAddress.indexOf(':') < 0
+                if (useIPv4) {
+                    if (isIPv4) return hostAddress
+                } else {
+                    if (!isIPv4) {
+                        val index = hostAddress.indexOf('%')
+                        return if (index < 0) {
+                            hostAddress.toUpperCase(Locale.getDefault())
+                        } else {
+                            hostAddress.substring(0, index).toUpperCase(Locale.getDefault())
+                        }
+                    }
+                }
+            }
+        }
+    } catch (e: SocketException) {
+        e.printStackTrace()
+    }
+    return ""
+}
+
+/**
+ * 获取MAC地址
+ *
+ * @param context
+ * @return
+ */
+fun getMacAddress(context: Context): String {
+
+    var mac = "02:00:00:00:00:00"
+
+    /**
+     * Android  6.0 之前（不包括6.0）
+     * @param context
+     * @return
+     */
+    fun getMacDefault(context: Context): String {
+        val wifi = ContextCompat.getSystemService(context, WifiManager::class.java) ?: return mac
+        var info: WifiInfo? = null
+        try {
+            info = wifi.connectionInfo
+        } catch (e: Exception) {
+        }
+        if (info == null) {
+            return mac
+        }
+        @SuppressLint("HardwareIds")
+        mac = info.macAddress
+        if (!TextUtils.isEmpty(mac)) {
+            mac = mac.toUpperCase(Locale.getDefault())
+        }
+        return mac
+    }
+
+    /**
+     * Android 6.0（包括） - Android 7.0（不包括）
+     * @return
+     */
+    fun getMacFromFile(): String {
+        try {
+            mac = BufferedReader(FileReader(File("/sys/class/net/wlan0/address"))).readLine()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return mac
+    }
+
+    /**
+     * 遍历循环所有的网络接口，找到接口是 wlan0
+     * 必须的权限 <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+     * @return
+     */
+    fun getMacFromHardware(): String {
+        try {
+            val all = NetworkInterface.getNetworkInterfaces()
+            for (nif in all) {
+                if (!nif.name.equals("wlan0", ignoreCase = true)) continue
+                val macBytes = nif.hardwareAddress ?: return ""
+                val res1 = StringBuilder()
+                for (b in macBytes) {
+                    res1.append(String.format("%02X:", b))
+                }
+                if (res1.isNotEmpty()) {
+                    res1.deleteCharAt(res1.length - 1)
+                }
+                return res1.toString()
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return mac
+    }
+
+    when {
+        Build.VERSION.SDK_INT < Build.VERSION_CODES.M -> mac = getMacDefault(context)
+        Build.VERSION.SDK_INT < Build.VERSION_CODES.N -> mac = getMacFromFile()
+        Build.VERSION.SDK_INT >= Build.VERSION_CODES.N -> mac = getMacFromHardware()
+    }
+    return mac
+}
+
+
