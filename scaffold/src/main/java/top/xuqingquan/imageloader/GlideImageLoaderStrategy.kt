@@ -28,11 +28,11 @@ class GlideImageLoaderStrategy : BaseImageLoaderStrategy<ImageConfigImpl>, Glide
         val glideRequest = requests.load(config.getUrl())
         when (config.cacheStrategy) {
             //缓存策略
-            0 -> glideRequest.diskCacheStrategy(DiskCacheStrategy.ALL)
-            1 -> glideRequest.diskCacheStrategy(DiskCacheStrategy.NONE)
-            2 -> glideRequest.diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-            3 -> glideRequest.diskCacheStrategy(DiskCacheStrategy.DATA)
-            4 -> glideRequest.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+            CacheStrategy.ALL -> glideRequest.diskCacheStrategy(DiskCacheStrategy.ALL)
+            CacheStrategy.NONE -> glideRequest.diskCacheStrategy(DiskCacheStrategy.NONE)
+            CacheStrategy.RESOURCE -> glideRequest.diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+            CacheStrategy.DATA -> glideRequest.diskCacheStrategy(DiskCacheStrategy.DATA)
+            CacheStrategy.AUTOMATIC -> glideRequest.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
             else -> glideRequest.diskCacheStrategy(DiskCacheStrategy.ALL)
         }
         if (config.isCrossFade) {
