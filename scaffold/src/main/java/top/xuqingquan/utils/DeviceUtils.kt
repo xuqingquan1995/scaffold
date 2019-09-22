@@ -1,14 +1,20 @@
 @file:JvmName("DeviceUtils")
+
 package top.xuqingquan.utils
 
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
+import android.Manifest
+import android.content.*
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
+import android.telephony.TelephonyManager
 import android.text.TextUtils
+import android.util.DisplayMetrics
+import android.view.WindowManager
+import androidx.annotation.RequiresPermission
 import androidx.core.content.ContextCompat
 import org.jetbrains.anko.share
+import java.io.File
 
 /**
  * Created by 许清泉 on 2019-04-29 23:28
@@ -72,5 +78,95 @@ fun getApplicationName(context: Context): String? {
         packageManager.getApplicationLabel(applicationInfo).toString()
     } catch (e: PackageManager.NameNotFoundException) {
         ""
+    }
+}
+
+//获取屏幕相关参数
+fun getDisplayMetrics(context: Context): DisplayMetrics {
+    val displaymetrics = DisplayMetrics()
+    (context.getSystemService(
+        Context.WINDOW_SERVICE
+    ) as WindowManager).defaultDisplay.getMetrics(
+        displaymetrics
+    )
+    return displaymetrics
+}
+
+/**
+ * 屏幕高度
+ *
+ * @param context
+ * @return
+ */
+fun getScreenHeight(context: Context): Int {
+    return getDisplayMetrics(context).heightPixels
+}
+
+/**
+ * 屏幕宽度
+ *
+ * @param context
+ * @return
+ */
+fun getScreenWidth(context: Context): Int {
+    return getDisplayMetrics(context).widthPixels
+}
+
+/**
+ * 安装应用
+ *
+ * @param context
+ * @param file
+ */
+fun installAPK(context: Context, file: File?) {
+    if (file == null || !file.exists()) return
+    val intent = Intent()
+    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+    intent.action = Intent.ACTION_VIEW
+    intent.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive")
+    context.startActivity(intent)
+}
+
+/**
+ * 获取IMEI
+ */
+@RequiresPermission(Manifest.permission.READ_PHONE_STATE)
+fun getIMEI(context: Context): String? {
+    return if (hasPermission(context, Manifest.permission.READ_PHONE_STATE)) {
+        val tel = ContextCompat.getSystemService(context, TelephonyManager::class.java)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            tel?.imei
+        } else {
+            tel?.deviceId
+        }
+    } else {
+        null
+    }
+}
+
+/**
+ * 打开某个App
+ */
+fun openApp(context: Context, packageName: String) {
+    var mainIntent = context.packageManager.getLaunchIntentForPackage(packageName)
+    if (mainIntent == null) {
+        mainIntent = Intent(packageName)
+    }
+    context.startActivity(mainIntent)
+}
+
+/**
+ * 打开某个App的某个Activity
+ */
+fun openAppActivity(context: Context, packageName: String, activityName: String): Boolean {
+    val intent = Intent(Intent.ACTION_MAIN)
+    intent.addCategory(Intent.CATEGORY_LAUNCHER)
+    val cn = ComponentName(packageName, activityName)
+    intent.component = cn
+    return try {
+        context.startActivity(intent)
+        true
+    } catch (e: Exception) {
+        false
     }
 }
