@@ -164,7 +164,17 @@ fun getAvailableStorage(context: Context): Long {
     } catch (ex: RuntimeException) {
         0
     }
+}
 
+/**
+ * 获取总存储空间
+ */
+fun getTotalStorage(context: Context): Long {
+    return try {
+        StatFs(context.cacheDir.path).totalBytes
+    } catch (ex: RuntimeException) {
+        0
+    }
 }
 
 private val units = arrayOf("B", "KB", "MB", "GB", "TB")
