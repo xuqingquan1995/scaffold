@@ -9,6 +9,12 @@
         <attr name="refresh_error" format="reference"/>
     </declare-styleable>
 
+    <declare-styleable name="ProgressBarWithText">
+        <attr name="textColor" format="color"/>
+        <attr name="textSize" format="dimension"/>
+        <attr name="text" format="string"/>
+    </declare-styleable>
+
     <style name="actionActivity" parent="@android:style/Theme.Translucent.NoTitleBar">
         <item name="android:statusBarColor" tools:targetApi="lollipop">@android:color/transparent</item>
     </style>
