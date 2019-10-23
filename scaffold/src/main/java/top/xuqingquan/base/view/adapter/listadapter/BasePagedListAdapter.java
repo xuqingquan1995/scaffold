@@ -18,8 +18,8 @@ import top.xuqingquan.base.view.adapter.viewholder.NetworkStateViewHolder;
 public abstract class BasePagedListAdapter<T> extends SimplePagedListAdapter<T> {
 
     private NetworkStatus networkStatus;
-    private static final int NETWORK_STATE = -1;
-    private static final int ITEM = 1;
+    private static final int NETWORK_STATE = -0x799;
+    private static final int ITEM = -0x977;
     private Function0 retry;
 
     public BasePagedListAdapter(@NotNull Function0 retry, @NotNull DiffUtil.ItemCallback<T> diff) {
