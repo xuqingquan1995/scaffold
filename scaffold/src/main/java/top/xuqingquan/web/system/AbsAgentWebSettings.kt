@@ -5,6 +5,7 @@ import android.os.Build
 import android.view.View
 import android.webkit.*
 import top.xuqingquan.utils.Timber
+import top.xuqingquan.utils.getCurrentProcessName
 import top.xuqingquan.utils.networkIsConnect
 import top.xuqingquan.web.AgentWeb
 import top.xuqingquan.web.nokernel.WebConfig
@@ -49,7 +50,7 @@ abstract class AbsAgentWebSettings : IAgentWebSettings<WebSettings>, WebListener
             webView.setLayerType(View.LAYER_TYPE_HARDWARE, null)
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             //加上这一句可能导致Android4.4手机出现加载网页白屏
-             webView.setLayerType(View.LAYER_TYPE_HARDWARE, null)
+            webView.setLayerType(View.LAYER_TYPE_HARDWARE, null)
         }
         mWebSettings!!.textZoom = 100
         mWebSettings!!.databaseEnabled = true
@@ -89,23 +90,38 @@ abstract class AbsAgentWebSettings : IAgentWebSettings<WebSettings>, WebListener
         mWebSettings!!.userAgentString = getWebSettings()!!
             .userAgentString + USERAGENT_AGENTWEB + USERAGENT_UC + USERAGENT_QQ_BROWSER
         Timber.i("UserAgentString : " + mWebSettings!!.userAgentString)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            // 安卓9.0后不允许多进程使用同一个数据目录，需设置前缀来区分
+            // 参阅 https://blog.csdn.net/lvshuchangyin/article/details/89446629
+            val context = webView.context
+            val processName = getCurrentProcessName(context)
+            if (context.applicationContext.packageName != processName) {
+                WebView.setDataDirectorySuffix(processName)
+            }
+        }
     }
 
     override fun getWebSettings(): WebSettings? {
         return mWebSettings
     }
 
-    override fun setWebChromeClient(webview: WebView?, webChromeClient: WebChromeClient): WebListenerManager {
+    override fun setWebChromeClient(
+        webview: WebView?, webChromeClient: WebChromeClient
+    ): WebListenerManager {
         webview?.webChromeClient = webChromeClient
         return this
     }
 
-    override fun setWebViewClient(webView: WebView?, webViewClient: WebViewClient): WebListenerManager {
+    override fun setWebViewClient(
+        webView: WebView?, webViewClient: WebViewClient
+    ): WebListenerManager {
         webView?.webViewClient = webViewClient
         return this
     }
 
-    override fun setDownloader(webView: WebView?, downloadListener: DownloadListener?): WebListenerManager {
+    override fun setDownloader(
+        webView: WebView?, downloadListener: DownloadListener?
+    ): WebListenerManager {
         webView?.setDownloadListener(downloadListener)
         return this
     }

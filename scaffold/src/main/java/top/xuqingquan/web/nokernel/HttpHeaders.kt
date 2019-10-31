@@ -1,5 +1,7 @@
 package top.xuqingquan.web.nokernel
 
+import android.net.Uri
+
 /**
  * Created by 许清泉 on 2019-07-08 20:53
  */
@@ -68,12 +70,8 @@ class HttpHeaders private constructor() {
         if (originUrl.isEmpty()) {
             return originUrl
         }
-        val index = originUrl.indexOf("?")
-        return if (index <= 0) {
-            originUrl
-        } else {
-            originUrl.substring(0, index)
-        }
+        val originUri = Uri.parse(originUrl)
+        return "${originUri.scheme}://${originUri.authority}"
     }
 
 }

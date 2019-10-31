@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+    <Button
+            android:id="@+id/copy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:text="复制源码" />
+
+    <EditText
+            android:id="@+id/url"
+            android:layout_width="match_parent"
+            android:imeOptions="actionDone"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@id/copy" />
+
+
+    <top.xuqingquan.widget.ScaffoldWebView
+            android:id="@+id/webView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/url" />
+
+</RelativeLayout>

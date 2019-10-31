@@ -186,7 +186,7 @@ public class DefaultWebCreator implements WebCreator {
             mWebView = new AgentWebView(mActivity);
             WebConfig.WEBVIEW_TYPE = WebConfig.WEBVIEW_AGENTWEB_SAFE_TYPE;
         } else {
-            mWebView = new com.tencent.smtt.sdk.WebView(mActivity);
+            mWebView = new LollipopFixedWebView(mActivity);
             WebConfig.WEBVIEW_TYPE = WebConfig.WEBVIEW_DEFAULT_TYPE;
         }
         return mWebView;

@@ -1,12 +1,12 @@
 package top.xuqingquan.web.system
 
-import android.app.Activity
 import android.app.DownloadManager
 import android.net.Uri
 import android.webkit.DownloadListener
 import android.webkit.WebView
 import androidx.core.content.ContextCompat
 import top.xuqingquan.utils.Timber
+import top.xuqingquan.utils.getActivityByContext
 import top.xuqingquan.utils.getCacheFile
 import top.xuqingquan.web.AgentWeb
 
@@ -18,8 +18,7 @@ class AgentWebSettingsImpl : AbsAgentWebSettings() {
     }
 
     override fun setDownloader(
-        webView: WebView?,
-        downloadListener: DownloadListener?
+        webView: WebView?, downloadListener: DownloadListener?
     ): WebListenerManager {
         if (webView == null) {
             return super.setDownloader(webView, downloadListener)
@@ -28,10 +27,10 @@ class AgentWebSettingsImpl : AbsAgentWebSettings() {
         try {
             Class.forName("com.download.library.DownloadTask")//如果有依赖下载库则使用下载库，否则使用系统的
             if (mAgentWeb != null) {
+                // Fix Android 5.1 crashing: ClassCastException: android.app.ContextImpl cannot be cast to android.app.Activity
+                val activity = getActivityByContext(webView.context)
                 listener = DefaultDownloadImpl.create(
-                    webView.context as Activity,
-                    webView,
-                    mAgentWeb!!.permissionInterceptor
+                    activity!!, webView, mAgentWeb!!.permissionInterceptor
                 )
             }
         } catch (t: Throwable) {

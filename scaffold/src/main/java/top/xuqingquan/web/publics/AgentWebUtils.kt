@@ -148,10 +148,10 @@ object AgentWebUtils {
             if (WebConfig.hasX5()) {
                 clearWebViewAllCache(
                     context,
-                    com.tencent.smtt.sdk.WebView(context.applicationContext)
+                    top.xuqingquan.web.x5.LollipopFixedWebView(context.applicationContext)
                 )
             } else {
-                clearWebViewAllCache(context, android.webkit.WebView(context.applicationContext))
+                clearWebViewAllCache(context, top.xuqingquan.web.system.LollipopFixedWebView(context.applicationContext))
             }
         } catch (e: Throwable) {
             e.printStackTrace()
