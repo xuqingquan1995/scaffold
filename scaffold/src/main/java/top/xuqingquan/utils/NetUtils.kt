@@ -196,19 +196,8 @@ fun getMacAddress(context: Context): String {
     return mac
 }
 
-
 fun getSSID(context: Context): String {
-    var ssid = ""
-    if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.O || Build.VERSION.SDK_INT == Build.VERSION_CODES.P) {
-        val manager = ContextCompat.getSystemService(context, WifiManager::class.java)
-        val info = manager?.connectionInfo
-        ssid = info?.ssid ?: ""
-    } else if (Build.VERSION.SDK_INT == Build.VERSION_CODES.O_MR1) {
-        val manager = ContextCompat.getSystemService(context, ConnectivityManager::class.java)
-        val info = manager?.activeNetworkInfo
-        if (info != null && info.isConnected) {
-            ssid = info.extraInfo.replace("\"", "")
-        }
-    }
-    return ssid
+    val manager = ContextCompat.getSystemService(context, WifiManager::class.java)
+    val info = manager?.connectionInfo
+    return info?.ssid?.replace("\"", "") ?: "<unknown ssid>"
 }
