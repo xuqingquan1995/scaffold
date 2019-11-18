@@ -196,4 +196,8 @@ fun getMacAddress(context: Context): String {
     return mac
 }
 
-
+fun getSSID(context: Context): String {
+    val manager = ContextCompat.getSystemService(context, WifiManager::class.java)
+    val info = manager?.connectionInfo
+    return info?.ssid?.replace("\"", "") ?: "<unknown ssid>"
+}
