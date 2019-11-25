@@ -188,5 +188,5 @@ fun getSizeUnit(size: Double): String {
         sizeUnit /= 1024.0
         index++
     }
-    return String.format(Locale.getDefault(), " %.2f %s", sizeUnit, units[index])
+    return String.format(Locale.getDefault(), "%.2f %s", sizeUnit, units[index])
 }
