@@ -8,10 +8,10 @@ ext {
     ]
 
     depsVer = [
-            kotlin                : '1.3.60',
+            kotlin                : '1.3.61',
             kotlinx_coroutines    : '1.3.0',
             appcompat             : '1.1.0',
-            core_ktx              : '1.2.0-beta02',
+            core_ktx              : '1.2.0-rc01',
             constraintlayout      : '2.0.0-beta3',
             junit                 : '4.13-rc-1',
             test_rules            : '1.3.0-alpha02',
@@ -23,11 +23,11 @@ ext {
             leakcanary            : '2.0-alpha-1',
             eventbus              : '3.1.1',
             lifecycle             : '2.2.0-rc02',
-            recyclerview          : '1.1.0-rc01',
+            recyclerview          : '1.1.0',
             paging                : '2.1.0',
-            room                  : '2.0.0',
+            room                  : '2.2.0-rc01',
             navigation            : '2.1.0-alpha02',
-            material              : '1.1.0-alpha10',
+            material              : '1.2.0-alpha02',
             glide                 : '4.10.0',
             qrcode                : '1.3.6',
             pickerView            : '4.1.8',
@@ -46,7 +46,7 @@ ext {
             anrwatchdog           : '1.4.0',
             anko                  : '0.10.8',
             viewpager2            : '1.0.0-beta03',
-            exifinterface         : '1.1.0-rc01',
+            exifinterface         : '1.1.0',
             flexbox               : '1.1.0',
             tbs                   : '43697'
     ]
@@ -90,6 +90,7 @@ ext {
             paging                    : "androidx.paging:paging-runtime-ktx:${depsVer.paging}",
             room                      : "androidx.room:room-runtime:${depsVer.room}",
             room_compiler             : "androidx.room:room-compiler:${depsVer.room}",
+            room_ktx             : "androidx.room:room-ktx:${depsVer.room}",
             navigation_fragment_ktx   : "androidx.navigation:navigation-fragment-ktx:${depsVer.navigation}",
             navigation_ui_ktx         : "androidx.navigation:navigation-ui-ktx:${depsVer.navigation}",
             material                  : "com.google.android.material:material:${depsVer.material}",
