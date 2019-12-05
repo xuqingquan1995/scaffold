@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView
+<top.xuqingquan.widget.text.MarqueeTextView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/text"
         android:text="@string/app_name"

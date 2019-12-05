@@ -8,6 +8,7 @@ import top.xuqingquan.base.view.adapter.listadapter.BasePagedListAdapter
 import top.xuqingquan.base.view.adapter.listadapter.SimpleRecyclerAdapter
 import top.xuqingquan.base.view.adapter.viewholder.BaseViewHolder
 import top.xuqingquan.utils.Timber
+import top.xuqingquan.widget.text.MarqueeTextView
 
 class BeanAdapter(retry:()->Unit) : BasePagedListAdapter<Subjects>(retry,BaseDiffCallBack<Subjects>()) {
 
@@ -15,7 +16,7 @@ class BeanAdapter(retry:()->Unit) : BasePagedListAdapter<Subjects>(retry,BaseDif
 
     @SuppressLint("SetTextI18n")
     override fun setData(holder: BaseViewHolder<Subjects>, data: Subjects?, position: Int) {
-        holder.getView<TextView>(R.id.text).text = "$position---${data?.title}"
+        holder.getView<MarqueeTextView>(R.id.text).text = "$position---${data?.title}"
     }
 
     override fun onClick(view: View, position: Int, data: Subjects?, viewType: Int) {
