@@ -27,7 +27,7 @@ abstract class SimpleActivity : AppCompatActivity(), IActivity {
 
     private var mCache: Cache<String, Any>? = null
     private var debugStackDelegate: DebugStackDelegate? = null
-    private var listener: FragmentOnKeyListener? = null
+    protected var onKeyListener: FragmentOnKeyListener? = null
     protected val launchError = MutableLiveData<Throwable>()
 
     /**
@@ -103,12 +103,12 @@ abstract class SimpleActivity : AppCompatActivity(), IActivity {
     }
 
     override fun setFragmentOnKeyListener(listener: FragmentOnKeyListener?) {
-        this.listener = listener
+        this.onKeyListener = listener
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        if (listener != null) {
-            val onKeyDown = listener!!.onKeyDown(keyCode, event)
+        if (onKeyListener != null) {
+            val onKeyDown = onKeyListener!!.onKeyDown(keyCode, event)
             if (onKeyDown != null) {
                 return onKeyDown
             }

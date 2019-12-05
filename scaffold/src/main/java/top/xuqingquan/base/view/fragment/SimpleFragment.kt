@@ -50,9 +50,6 @@ abstract class SimpleFragment : Fragment(), IFragment, FragmentOnKeyListener {
     override fun onAttach(context: Context) {
         this.mContext = context
         super.onAttach(context)
-        if (activity is SimpleActivity && activity != null) {
-            (activity as SimpleActivity).setFragmentOnKeyListener(this)
-        }
     }
 
     override fun onCreateView(
@@ -66,11 +63,24 @@ abstract class SimpleFragment : Fragment(), IFragment, FragmentOnKeyListener {
     }
 
     /**
+     * 进入页面之后监听
+     */
+    override fun onResume() {
+        super.onResume()
+        if (activity is SimpleActivity && activity != null) {
+            (activity as SimpleActivity).setFragmentOnKeyListener(this)
+        }
+    }
+
+    /**
      * 当离开页面当时候自动关闭软键盘
      */
     override fun onPause() {
         super.onPause()
         hideSoftKeyboard()
+        if (activity is SimpleActivity && activity != null) {
+            (activity as SimpleActivity).setFragmentOnKeyListener(null)
+        }
     }
 
     /**
