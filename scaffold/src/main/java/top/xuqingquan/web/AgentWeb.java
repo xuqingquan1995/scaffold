@@ -356,11 +356,7 @@ public final class AgentWeb {
 
     private IVideo getIVideo() {
         if (mIVideo == null) {
-            if (WebConfig.hasX5()) {
-                mIVideo = new VideoImpl(mActivity, getX5WebCreator().getWebView());
-            } else {
-                mIVideo = new VideoImpl(mActivity, getWebCreator().getWebView());
-            }
+            mIVideo = new VideoImpl(mActivity, getWebCreator().getWebView());
         }
         return mIVideo;
     }
@@ -523,7 +519,7 @@ public final class AgentWeb {
         top.xuqingquan.web.x5.DefaultChromeClient mDefaultChromeClient =
                 new top.xuqingquan.web.x5.DefaultChromeClient(this.mActivity,
                         this.mIndicatorController,
-                        mX5WebChromeClient, this.mIVideo,
+                        mX5WebChromeClient,
                         this.mPermissionInterceptor, getX5WebCreator().getWebView());
         Timber.i("WebChromeClient:" + this.mX5WebChromeClient);
         top.xuqingquan.web.x5.MiddlewareWebChromeBase header = this.mX5MiddlewareWebChromeBaseHeader;
