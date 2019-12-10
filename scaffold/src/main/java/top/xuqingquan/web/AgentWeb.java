@@ -515,7 +515,6 @@ public final class AgentWeb {
         this.mIndicatorController = (this.mIndicatorController == null) ?
                 IndicatorHandler.getInstance().inJectIndicator(getX5WebCreator().offer())
                 : this.mIndicatorController;
-        this.mIVideo = getIVideo();
         top.xuqingquan.web.x5.DefaultChromeClient mDefaultChromeClient =
                 new top.xuqingquan.web.x5.DefaultChromeClient(this.mActivity,
                         this.mIndicatorController,
