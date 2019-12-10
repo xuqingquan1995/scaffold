@@ -2,7 +2,6 @@ package top.xuqingquan.web.x5
 
 import android.annotation.SuppressLint
 import android.os.Build
-import android.view.View
 import com.tencent.smtt.sdk.*
 import top.xuqingquan.utils.Timber
 import top.xuqingquan.utils.networkIsConnect
@@ -46,7 +45,7 @@ abstract class AbsAgentWebSettings : IAgentWebSettings<WebSettings>, WebListener
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             //适配5.0不允许http和https混合使用情况
             mWebSettings!!.mixedContentMode = android.webkit.WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
-            webView.setLayerType(View.LAYER_TYPE_HARDWARE, null)
+            // webView.setLayerType(View.LAYER_TYPE_HARDWARE, null)
         }/* else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             //加上这一句可能导致Android4.4手机出现加载网页白屏
             // webView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
@@ -95,17 +94,23 @@ abstract class AbsAgentWebSettings : IAgentWebSettings<WebSettings>, WebListener
         return mWebSettings
     }
 
-    override fun setWebChromeClient(webview: WebView?, webChromeClient: WebChromeClient): WebListenerManager {
+    override fun setWebChromeClient(
+        webview: WebView?, webChromeClient: WebChromeClient
+    ): WebListenerManager {
         webview?.webChromeClient = webChromeClient
         return this
     }
 
-    override fun setWebViewClient(webView: WebView?, webViewClient: WebViewClient): WebListenerManager {
+    override fun setWebViewClient(
+        webView: WebView?, webViewClient: WebViewClient
+    ): WebListenerManager {
         webView?.webViewClient = webViewClient
         return this
     }
 
-    override fun setDownloader(webView: WebView?, downloadListener: DownloadListener?): WebListenerManager {
+    override fun setDownloader(
+        webView: WebView?, downloadListener: DownloadListener?
+    ): WebListenerManager {
         webView?.setDownloadListener(downloadListener)
         return this
     }
