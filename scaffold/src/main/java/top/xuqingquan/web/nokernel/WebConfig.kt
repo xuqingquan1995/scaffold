@@ -3,6 +3,7 @@ package top.xuqingquan.web.nokernel
 import android.annotation.SuppressLint
 import android.os.Build
 import com.tencent.smtt.sdk.QbSdk
+import top.xuqingquan.app.ScaffoldConfig
 import top.xuqingquan.utils.Timber
 
 import java.io.File
@@ -79,7 +80,7 @@ object WebConfig {
         }
         x5 = try {
             Class.forName("com.tencent.smtt.sdk.WebView")
-            QbSdk.isTbsCoreInited()
+            QbSdk.canLoadX5(ScaffoldConfig.getApplication())
         } catch (e: Throwable) {
             Timber.e(e)
             false

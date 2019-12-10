@@ -107,7 +107,11 @@ class VideoImpl : IVideo, EventInterceptor {
             callback.onCustomViewHidden()
             return
         }
-        mx5WebView?.visibility = View.GONE
+        try {
+            //当x5加载失败当时候有出错当可能
+            mx5WebView?.visibility = View.GONE
+        } catch (e: Throwable) {
+        }
         if (mMoiveParentView == null) {
             val mDecorView = mActivity.window.decorView as FrameLayout
             mMoiveParentView = FrameLayout(mActivity)
