@@ -10,7 +10,7 @@ import top.xuqingquan.delegate.AppLifecycles
  * Created by 许清泉 on 2019/4/14 00:53
  * 开发者的[Application]可直接继承这个类
  */
-open class BaseApplication : Application() {
+open class ScaffoldApplication : Application() {
 
     private lateinit var mAppDelegate: AppLifecycles
 
