@@ -9,28 +9,28 @@ ext {
 
     depsVer = [
             kotlin                : '1.3.61',
-            kotlinx_coroutines    : '1.3.0',
+            kotlinx_coroutines    : '1.3.3',
             appcompat             : '1.1.0',
             core_ktx              : '1.2.0-rc01',
-            constraintlayout      : '2.0.0-beta3',
-            junit                 : '4.13-rc-1',
-            test_rules            : '1.3.0-alpha02',
-            espresso_core         : '3.3.0-alpha02',
-            test_ext              : '1.1.2-alpha02',
-            retrofit              : '2.6.2',
+            constraintlayout      : '2.0.0-beta4',
+            junit                 : '4.13-rc-2',
+            test_rules            : '1.3.0-alpha03',
+            espresso_core         : '3.3.0-alpha03',
+            test_ext              : '1.1.2-alpha03',
+            retrofit              : '2.7.0',
             gson                  : '2.8.6',
             okhttp                : '4.2.2',
-            leakcanary            : '2.0-alpha-1',
+            leakcanary            : '2.0',
             eventbus              : '3.1.1',
-            lifecycle             : '2.2.0-rc02',
+            lifecycle             : '2.2.0-rc03',
             recyclerview          : '1.1.0',
-            paging                : '2.1.0',
+            paging                : '2.1.1',
             room                  : '2.2.0-rc01',
             navigation            : '2.1.0-alpha02',
-            material              : '1.2.0-alpha02',
+            material              : '1.2.0-alpha03',
             glide                 : '4.10.0',
-            qrcode                : '1.3.6',
-            pickerView            : '4.1.8',
+            qrcode                : '1.3.7',
+            pickerView            : '4.1.9',
             couponView            : '1.0.4',
             banner                : '1.4.10',
             roundedimageview      : '2.3.0',
@@ -40,14 +40,13 @@ ext {
             logger                : '2.2.0',
             progressmanager       : '1.5.0',
             retrofit_url_manager  : '1.4.0',
-            BRVAH                 : '2.9.46',
-            BottomNavigationViewEx: '2.0.4',
+            BRVAH                 : '3.0.0-beta2',
             recovery              : '1.0.0',
             anrwatchdog           : '1.4.0',
             anko                  : '0.10.8',
             viewpager2            : '1.0.0-beta03',
             exifinterface         : '1.1.0',
-            flexbox               : '1.1.0',
+            flexbox               : '2.0.0',
             tbs                   : '43697'
     ]
     deps = [
@@ -102,7 +101,6 @@ ext {
             roundedimageview          : "com.makeramen:roundedimageview:${depsVer.roundedimageview}",//圆角
             autosize                  : "me.jessyan:autosize:${depsVer.autosize}",//屏幕自适应
             BRVAH                     : "com.github.CymChad:BaseRecyclerViewAdapterHelper:${depsVer.BRVAH}",//强大的RecyclerViewAdapter
-            BottomNavigationViewEx    : "com.github.ittianyu:BottomNavigationViewEx:${depsVer.BottomNavigationViewEx}",//底部栏
             flexbox                   : "com.google.android:flexbox:${depsVer.flexbox}",//流式布局
             //tools
             qrcode                    : "cn.bingoogolapple:bga-qrcode-zxing:${depsVer.qrcode}",
