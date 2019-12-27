@@ -1,7 +1,5 @@
 package top.xuqingquan.integration
 
-import android.content.Context
-
 /**
  * Created by 许清泉 on 2019/4/14 16:42
  * 用来管理网络请求层,以及数据缓存层
@@ -17,10 +15,4 @@ interface IRepositoryManager {
     </T> */
     fun <T> obtainRetrofitService(service: Class<T>): T
 
-    /**
-     * 获取 [Context]
-     *
-     * @return [Context]
-     */
-    fun getContext(): Context
 }
