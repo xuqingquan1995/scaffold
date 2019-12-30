@@ -78,7 +78,7 @@ public class Action implements Parcelable {
 		Action mAction = new Action();
 		mAction.setAction(Action.ACTION_PERMISSION);
 		List<String> mList = Arrays.asList(permissions);
-		mAction.setPermissions(new ArrayList<String>(mList));
+		mAction.setPermissions(new ArrayList<>(mList));
 		return mAction;
 	}
 

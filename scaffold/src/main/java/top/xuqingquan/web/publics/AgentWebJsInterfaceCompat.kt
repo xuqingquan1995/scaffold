@@ -31,7 +31,11 @@ class AgentWebJsInterfaceCompat(agentWeb: AgentWeb, activity: Activity) {
                             mReference.get()!!.jsAccessEntrace
                                 .quickCallJs(
                                     "uploadFileResult",
-                                    if (it.obj is String) it.obj as String else null
+                                    if (it.obj is String) {
+                                        it.obj as String
+                                    } else {
+                                        null
+                                    }
                                 )
                         }
                         true
@@ -47,7 +51,11 @@ class AgentWebJsInterfaceCompat(agentWeb: AgentWeb, activity: Activity) {
                             mReference.get()!!.jsAccessEntrace
                                 .quickCallJs(
                                     "uploadFileResult",
-                                    if (it.obj is String) it.obj as String else null
+                                    if (it.obj is String) {
+                                        it.obj as String
+                                    } else {
+                                        null
+                                    }
                                 )
                         }
                         true

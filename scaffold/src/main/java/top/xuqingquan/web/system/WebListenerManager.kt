@@ -7,7 +7,7 @@ import android.webkit.WebViewClient
 
 interface WebListenerManager {
 
-    fun setWebChromeClient(webview: WebView?, webChromeClient: WebChromeClient): WebListenerManager
+    fun setWebChromeClient(webView: WebView?, webChromeClient: WebChromeClient): WebListenerManager
 
     fun setWebViewClient(webView: WebView?, webViewClient: WebViewClient): WebListenerManager
 
