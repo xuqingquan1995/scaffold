@@ -244,25 +244,11 @@ public final class AgentWeb {
     }
 
     public boolean handleKeyEvent(int keyCode, KeyEvent keyEvent) {
-        if (mIEventHandler == null) {
-            if (WebConfig.hasX5()) {
-                mIEventHandler = EventHandlerImpl.getInstantce(getX5WebCreator().getWebView(), getInterceptor());
-            } else {
-                mIEventHandler = EventHandlerImpl.getInstantce(getWebCreator().getWebView(), getInterceptor());
-            }
-        }
-        return mIEventHandler.onKeyDown(keyCode, keyEvent);
+        return getIEventHandler().onKeyDown(keyCode, keyEvent);
     }
 
     public boolean back() {
-        if (mIEventHandler == null) {
-            if (WebConfig.hasX5()) {
-                mIEventHandler = EventHandlerImpl.getInstantce(getX5WebCreator().getWebView(), getInterceptor());
-            } else {
-                mIEventHandler = EventHandlerImpl.getInstantce(getWebCreator().getWebView(), getInterceptor());
-            }
-        }
-        return mIEventHandler.back();
+        return getIEventHandler().back();
     }
 
     public top.xuqingquan.web.system.WebCreator getWebCreator() {
@@ -273,12 +259,13 @@ public final class AgentWeb {
         return this.mX5WebCreator;
     }
 
+    @SuppressWarnings("WeakerAccess")
     public IEventHandler getIEventHandler() {
         if (this.mIEventHandler == null) {
             if (WebConfig.hasX5()) {
-                mIEventHandler = EventHandlerImpl.getInstantce(getX5WebCreator().getWebView(), getInterceptor());
+                mIEventHandler = EventHandlerImpl.getInstance(getX5WebCreator().getWebView(), getInterceptor());
             } else {
-                mIEventHandler = EventHandlerImpl.getInstantce(getWebCreator().getWebView(), getInterceptor());
+                mIEventHandler = EventHandlerImpl.getInstance(getWebCreator().getWebView(), getInterceptor());
             }
         }
         return this.mIEventHandler;

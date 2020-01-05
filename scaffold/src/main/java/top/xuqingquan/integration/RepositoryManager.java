@@ -1,29 +1,26 @@
 package top.xuqingquan.integration;
 
-import android.app.Application;
-import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.core.util.Preconditions;
+
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
+
 import retrofit2.Retrofit;
 import top.xuqingquan.app.ScaffoldConfig;
 import top.xuqingquan.cache.Cache;
 import top.xuqingquan.cache.CacheType;
-
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
 
 /**
  * Created by 许清泉 on 2019/4/14 17:23
  */
 public class RepositoryManager implements IRepositoryManager {
     private Retrofit mRetrofit;
-    private Application mApplication;
     private Cache.Factory mCachefactory;
     private Cache<String, Object> mRetrofitServiceCache;
     private static RepositoryManager instance;
 
     private RepositoryManager() {
-        mApplication = ScaffoldConfig.getApplication();
         mCachefactory = ScaffoldConfig.getCacheFactory();
         mRetrofit = ScaffoldConfig.getRetrofit();
     }
@@ -96,11 +93,5 @@ public class RepositoryManager implements IRepositoryManager {
 
     private <T> Method getRetrofitMethod(T service, Method method) throws NoSuchMethodException {
         return service.getClass().getMethod(method.getName(), method.getParameterTypes());
-    }
-
-    @NonNull
-    @Override
-    public Context getContext() {
-        return mApplication;
     }
 }

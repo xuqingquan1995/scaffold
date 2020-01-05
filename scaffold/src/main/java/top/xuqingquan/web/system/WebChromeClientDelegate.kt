@@ -80,7 +80,9 @@ open class WebChromeClientDelegate constructor(webChromeClient: WebChromeClient?
     ): Boolean {
         return if (this.delegate != null) {
             this.delegate!!.onCreateWindow(view, isDialog, isUserGesture, resultMsg)
-        } else super.onCreateWindow(view, isDialog, isUserGesture, resultMsg)
+        } else {
+            super.onCreateWindow(view, isDialog, isUserGesture, resultMsg)
+        }
     }
 
     override fun onRequestFocus(view: WebView) {
@@ -151,22 +153,12 @@ open class WebChromeClientDelegate constructor(webChromeClient: WebChromeClient?
     ) {
         if (this.delegate != null) {
             this.delegate!!.onExceededDatabaseQuota(
-                url,
-                databaseIdentifier,
-                quota,
-                estimatedDatabaseSize,
-                totalQuota,
-                quotaUpdater
+                url, databaseIdentifier, quota, estimatedDatabaseSize, totalQuota, quotaUpdater
             )
             return
         }
         super.onExceededDatabaseQuota(
-            url,
-            databaseIdentifier,
-            quota,
-            estimatedDatabaseSize,
-            totalQuota,
-            quotaUpdater
+            url, databaseIdentifier, quota, estimatedDatabaseSize, totalQuota, quotaUpdater
         )
 
     }

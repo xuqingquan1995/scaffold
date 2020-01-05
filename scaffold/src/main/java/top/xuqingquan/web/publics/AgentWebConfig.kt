@@ -29,13 +29,17 @@ object AgentWebConfig {
     @JvmStatic
     fun getCookiesByUrl(url: String): String? {
         return if (hasX5()) {
-            if (com.tencent.smtt.sdk.CookieManager.getInstance() == null) null else com.tencent.smtt.sdk.CookieManager.getInstance().getCookie(
-                url
-            )
+            if (com.tencent.smtt.sdk.CookieManager.getInstance() == null) {
+                null
+            } else {
+                com.tencent.smtt.sdk.CookieManager.getInstance().getCookie(url)
+            }
         } else {
-            if (android.webkit.CookieManager.getInstance() == null) null else android.webkit.CookieManager.getInstance().getCookie(
-                url
-            )
+            if (android.webkit.CookieManager.getInstance() == null) {
+                null
+            } else {
+                android.webkit.CookieManager.getInstance().getCookie(url)
+            }
         }
     }
 
@@ -100,9 +104,13 @@ object AgentWebConfig {
             return
         }
         if (hasX5()) {
-            AsyncTask.THREAD_POOL_EXECUTOR.execute { com.tencent.smtt.sdk.CookieManager.getInstance().flush() }
+            AsyncTask.THREAD_POOL_EXECUTOR.execute {
+                com.tencent.smtt.sdk.CookieManager.getInstance().flush()
+            }
         } else {
-            AsyncTask.THREAD_POOL_EXECUTOR.execute { android.webkit.CookieManager.getInstance().flush() }
+            AsyncTask.THREAD_POOL_EXECUTOR.execute {
+                android.webkit.CookieManager.getInstance().flush()
+            }
         }
     }
 

@@ -3,7 +3,7 @@ package top.xuqingquan.web.system
 import android.webkit.WebViewClient
 
 open class MiddlewareWebClientBase : WebViewClientDelegate {
-    private var mMiddleWrareWebClientBase: MiddlewareWebClientBase? = null
+    private var mMiddleWareWebClientBase: MiddlewareWebClientBase? = null
 
     override var delegate: WebViewClient?
         get() = super.delegate
@@ -13,7 +13,7 @@ open class MiddlewareWebClientBase : WebViewClientDelegate {
         }
 
     constructor(client: MiddlewareWebClientBase) : super(client) {
-        this.mMiddleWrareWebClientBase = client
+        this.mMiddleWareWebClientBase = client
     }
 
     protected constructor(client: WebViewClient?) : super(client)
@@ -21,12 +21,12 @@ open class MiddlewareWebClientBase : WebViewClientDelegate {
     protected constructor() : super(null)
 
     operator fun next(): MiddlewareWebClientBase? {
-        return this.mMiddleWrareWebClientBase
+        return this.mMiddleWareWebClientBase
     }
 
     fun enq(middleWrareWebClientBase: MiddlewareWebClientBase): MiddlewareWebClientBase {
         super.delegate = middleWrareWebClientBase
-        this.mMiddleWrareWebClientBase = middleWrareWebClientBase
+        this.mMiddleWareWebClientBase = middleWrareWebClientBase
         return middleWrareWebClientBase
     }
 

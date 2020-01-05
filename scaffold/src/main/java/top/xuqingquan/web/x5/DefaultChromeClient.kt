@@ -100,13 +100,24 @@ class DefaultChromeClient(
     }
 
     //location
-    override fun onGeolocationPermissionsShowPrompt(origin: String, callback: GeolocationPermissionsCallback) {
+    override fun onGeolocationPermissionsShowPrompt(
+        origin: String,
+        callback: GeolocationPermissionsCallback
+    ) {
         onGeolocationPermissionsShowPromptInternal(origin, callback)
     }
 
-    private fun onGeolocationPermissionsShowPromptInternal(origin: String, callback: GeolocationPermissionsCallback) {
+    private fun onGeolocationPermissionsShowPromptInternal(
+        origin: String,
+        callback: GeolocationPermissionsCallback
+    ) {
         if (mPermissionInterceptor != null) {
-            if (mPermissionInterceptor.intercept(this.mWebView.url, AgentWebPermissions.LOCATION, "location")) {
+            if (mPermissionInterceptor.intercept(
+                    this.mWebView.url,
+                    AgentWebPermissions.LOCATION,
+                    "location"
+                )
+            ) {
                 callback.invoke(origin, false, false)
                 return
             }
@@ -131,14 +142,11 @@ class DefaultChromeClient(
     }
 
     override fun onJsPrompt(
-        view: WebView,
-        url: String,
-        message: String,
-        defaultValue: String,
-        result: JsPromptResult
+        view: WebView, url: String, message: String, defaultValue: String, result: JsPromptResult
     ): Boolean {
         try {
-            this.mAgentWebUIController.get()?.onJsPrompt(mWebView, url, message, defaultValue, result)
+            this.mAgentWebUIController.get()
+                ?.onJsPrompt(mWebView, url, message, defaultValue, result)
         } catch (throwable: Throwable) {
             Timber.e(throwable)
         }
@@ -146,24 +154,26 @@ class DefaultChromeClient(
         return true
     }
 
-    override fun onJsConfirm(view: WebView, url: String, message: String, result: JsResult): Boolean {
+    override fun onJsConfirm(
+        view: WebView, url: String, message: String, result: JsResult
+    ): Boolean {
         mAgentWebUIController.get()?.onJsConfirm(view, url, message, result)
         return true
     }
 
 
     override fun onExceededDatabaseQuota(
-        url: String,
-        databaseIdentifier: String,
-        quota: Long,
-        estimatedDatabaseSize: Long,
-        totalQuota: Long,
-        quotaUpdater: WebStorage.QuotaUpdater
+        url: String, databaseIdentifier: String, quota: Long, estimatedDatabaseSize: Long,
+        totalQuota: Long, quotaUpdater: WebStorage.QuotaUpdater
     ) {
         quotaUpdater.updateQuota(totalQuota * 2)
     }
 
-    override fun onReachedMaxAppCacheSize(requiredStorage: Long, quota: Long, quotaUpdater: WebStorage.QuotaUpdater) {
+    override fun onReachedMaxAppCacheSize(
+        requiredStorage: Long,
+        quota: Long,
+        quotaUpdater: WebStorage.QuotaUpdater
+    ) {
         quotaUpdater.updateQuota(requiredStorage * 2)
     }
 
@@ -191,10 +201,7 @@ class DefaultChromeClient(
         return if (mActivity == null || mActivity.isFinishing) {
             false
         } else AgentWebUtils.showFileChooserCompat(
-            mActivity,
-            mWebView,
-            valueCallbacks,
-            fileChooserParams,
+            mActivity, mWebView, valueCallbacks, fileChooserParams,
             this.mPermissionInterceptor!!, null, null, null
         )
     }

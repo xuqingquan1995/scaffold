@@ -41,10 +41,6 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
      */
     private static final int CONSTANTS_ABNORMAL_BIG = 7;
     /**
-     * WebViewClient
-     */
-    private WebViewClient mWebViewClient;
-    /**
      * mWebClientHelper
      */
     private boolean webClientHelper;
@@ -79,7 +75,7 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
     /**
      * 是否拦截找不到相应页面的Url，默认拦截
      */
-    private boolean mIsInterceptUnkownUrl;
+    private boolean mIsInterceptUnknowUrl;
     /**
      * AbsAgentWebUIController
      */
@@ -124,11 +120,10 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
     private DefaultWebClient(Builder builder) {
         super(builder.mClient);
         this.mWebView = builder.mWebView;
-        this.mWebViewClient = builder.mClient;
         this.mWeakReference = new WeakReference<>(builder.mActivity);
         this.webClientHelper = builder.mWebClientHelper;
         this.mAgentWebUIController = new WeakReference<>(AgentWebUtils.getAgentWebUIControllerByWebView(builder.mWebView));
-        this.mIsInterceptUnkownUrl = builder.mIsInterceptUnkownScheme;
+        this.mIsInterceptUnknowUrl = builder.mIsInterceptUnkownScheme;
         if (builder.mUrlHandleWays <= 0) {
             mUrlHandleWays = WebConfig.ASK_USER_OPEN_OTHER_PAGE;
         } else {
@@ -169,7 +164,7 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
             Timber.i("intercept url:" + url);
             return true;
         }
-        if (mIsInterceptUnkownUrl) {
+        if (mIsInterceptUnknowUrl) {
             Timber.i("intercept UnkownUrl :" + request.getUrl());
             return true;
         }
@@ -249,7 +244,7 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
             return true;
         }
         // 手机里面没有页面能匹配到该链接 ，拦截下来。
-        if (mIsInterceptUnkownUrl) {
+        if (mIsInterceptUnknowUrl) {
             Timber.i("intercept InterceptUnkownScheme : " + url);
             return true;
         }
@@ -264,7 +259,7 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
             Intent intent = Intent.parseUri(url, Intent.URI_INTENT_SCHEME);
             PackageManager mPackageManager = mWeakReference.get().getPackageManager();
             List<ResolveInfo> mResolveInfos = mPackageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
-            return mResolveInfos == null ? 0 : mResolveInfos.size();
+            return mResolveInfos.size();
         } catch (Throwable t) {
             Timber.e(t);
             return 0;

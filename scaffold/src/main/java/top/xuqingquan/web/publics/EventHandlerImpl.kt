@@ -52,12 +52,12 @@ class EventHandlerImpl : IEventHandler {
     companion object {
 
         @JvmStatic
-        fun getInstantce(view: android.webkit.WebView?, eventInterceptor: EventInterceptor?): EventHandlerImpl {
+        fun getInstance(view: android.webkit.WebView?, eventInterceptor: EventInterceptor?): EventHandlerImpl {
             return EventHandlerImpl(view, eventInterceptor)
         }
 
         @JvmStatic
-        fun getInstantce(view: com.tencent.smtt.sdk.WebView?, eventInterceptor: EventInterceptor?): EventHandlerImpl {
+        fun getInstance(view: com.tencent.smtt.sdk.WebView?, eventInterceptor: EventInterceptor?): EventHandlerImpl {
             return EventHandlerImpl(view, eventInterceptor)
         }
     }

@@ -41,14 +41,9 @@ public class DefaultWebCreator implements WebCreator {
     /**
      * 使用默认的进度条
      */
-    public DefaultWebCreator(@NonNull Activity activity,
-                             @Nullable ViewGroup viewGroup,
-                             ViewGroup.LayoutParams lp,
-                             int index,
-                             int color,
-                             int mHeight,
-                             android.webkit.WebView webView,
-                             top.xuqingquan.web.system.IWebLayout webLayout) {
+    public DefaultWebCreator(
+            @NonNull Activity activity, @Nullable ViewGroup viewGroup, ViewGroup.LayoutParams lp, int index,
+            int color, int mHeight, android.webkit.WebView webView, top.xuqingquan.web.system.IWebLayout webLayout) {
         this.mActivity = activity;
         this.mViewGroup = viewGroup;
         this.mIsNeedDefaultProgress = true;
