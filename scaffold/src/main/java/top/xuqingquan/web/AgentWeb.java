@@ -244,11 +244,21 @@ public final class AgentWeb {
     }
 
     public boolean handleKeyEvent(int keyCode, KeyEvent keyEvent) {
-        return getIEventHandler().onKeyDown(keyCode, keyEvent);
+        this.mIEventHandler = getIEventHandler();
+        if (mIEventHandler != null) {
+            return mIEventHandler.onKeyDown(keyCode, keyEvent);
+        } else {
+            return false;
+        }
     }
 
     public boolean back() {
-        return getIEventHandler().back();
+        this.mIEventHandler = getIEventHandler();
+        if (mIEventHandler != null) {
+            return mIEventHandler.back();
+        } else {
+            return false;
+        }
     }
 
     public top.xuqingquan.web.system.WebCreator getWebCreator() {
@@ -259,8 +269,7 @@ public final class AgentWeb {
         return this.mX5WebCreator;
     }
 
-    @SuppressWarnings("WeakerAccess")
-    public IEventHandler getIEventHandler() {
+    private IEventHandler getIEventHandler() {
         if (this.mIEventHandler == null) {
             if (WebConfig.hasX5()) {
                 mIEventHandler = EventHandlerImpl.getInstance(getX5WebCreator().getWebView(), getInterceptor());
