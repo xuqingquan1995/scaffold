@@ -8,6 +8,7 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.view.View
 import org.jetbrains.anko.dip
+import org.jetbrains.anko.px2dip
 import java.io.File
 import java.io.FileOutputStream
 
@@ -16,6 +17,10 @@ import java.io.FileOutputStream
  */
 fun dp2px(context: Context, dipValue: Float): Int {
     return context.dip(dipValue)
+}
+
+fun px2dp(context: Context, dipValue: Int): Float {
+    return context.px2dip(dipValue)
 }
 
 /**
