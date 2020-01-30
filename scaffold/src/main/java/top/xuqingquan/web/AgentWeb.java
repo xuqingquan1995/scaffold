@@ -272,9 +272,13 @@ public final class AgentWeb {
     private IEventHandler getIEventHandler() {
         if (this.mIEventHandler == null) {
             if (WebConfig.hasX5()) {
-                mIEventHandler = EventHandlerImpl.getInstance(getX5WebCreator().getWebView(), getInterceptor());
+                if (getX5WebCreator() != null) {
+                    mIEventHandler = EventHandlerImpl.getInstance(getX5WebCreator().getWebView(), getInterceptor());
+                }
             } else {
-                mIEventHandler = EventHandlerImpl.getInstance(getWebCreator().getWebView(), getInterceptor());
+                if (getWebCreator() != null) {
+                    mIEventHandler = EventHandlerImpl.getInstance(getWebCreator().getWebView(), getInterceptor());
+                }
             }
         }
         return this.mIEventHandler;
