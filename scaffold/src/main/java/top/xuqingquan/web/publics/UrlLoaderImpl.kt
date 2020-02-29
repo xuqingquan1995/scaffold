@@ -50,7 +50,7 @@ class UrlLoaderImpl : IUrlLoader {
         }
         Timber.i("loadUrl:$url headers:$headers")
         if (WebConfig.hasX5()) {
-            if (!headers.isNullOrEmpty()) {
+            if (headers.isNullOrEmpty()) {
                 this.mx5WebView!!.loadUrl(url)
             } else {
                 this.mx5WebView!!.loadUrl(url, headers)

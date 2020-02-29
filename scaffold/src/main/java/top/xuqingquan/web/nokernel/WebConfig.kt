@@ -3,6 +3,7 @@ package top.xuqingquan.web.nokernel
 import android.annotation.SuppressLint
 import android.os.Build
 import com.tencent.smtt.sdk.QbSdk
+import top.xuqingquan.BuildConfig
 import top.xuqingquan.utils.Timber
 
 import java.io.File
@@ -25,8 +26,8 @@ object WebConfig {
      */
     internal const val DISALLOW_OPEN_OTHER_APP = DERECT_OPEN_OTHER_PAGE shr 4
     const val FILE_CACHE_PATH = "agentweb-cache"
-    @JvmField
-    internal val AGENTWEB_CACHE_PATCH = File.separator + "agentweb-cache"
+    internal val AGENTWEB_CACHE_PATCH = "${File.separator}${FILE_CACHE_PATH}"
+    const val AGENTWEB_NAME = "AgentWeb"
     /**
      * 缓存路径
      */
@@ -63,7 +64,7 @@ object WebConfig {
     /**
      * AgentWeb 的版本
      */
-    const val AGENTWEB_VERSION = " agentweb/4.0.2 "
+    const val AGENTWEB_VERSION = "$AGENTWEB_NAME/${BuildConfig.VERSION_NAME}"
     /**
      * 通过JS获取的文件大小， 这里限制最大为5MB ，太大会抛出 OutOfMemoryError
      */
