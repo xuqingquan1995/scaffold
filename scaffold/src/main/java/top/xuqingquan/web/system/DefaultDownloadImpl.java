@@ -58,17 +58,28 @@ public class DefaultDownloadImpl implements android.webkit.DownloadListener {
 
     private static Handler mHandler = new Handler(Looper.getMainLooper());
 
+    private boolean isInstallDownloader;
 
     protected DefaultDownloadImpl(Activity activity, WebView webView, PermissionInterceptor permissionInterceptor) {
         this.mContext = activity.getApplicationContext();
         this.mActivityWeakReference = new WeakReference<>(activity);
         this.mPermissionListener = permissionInterceptor;
         this.mAgentWebUIController = new WeakReference<>(AgentWebUtils.getAgentWebUIControllerByWebView(webView));
+        try {
+            DownloadImpl.getInstance().with(this.mContext);
+            isInstallDownloader = true;
+        } catch (Throwable throwable) {
+            Timber.e(throwable);
+            isInstallDownloader = false;
+        }
     }
 
 
     @Override
     public void onDownloadStart(final String url, final String userAgent, final String contentDisposition, final String mimetype, final long contentLength) {
+        if (!isInstallDownloader) {
+            return;
+        }
         mHandler.post(() -> onDownloadStartInternal(url, userAgent, contentDisposition, mimetype, contentLength));
     }
 
@@ -203,12 +214,6 @@ public class DefaultDownloadImpl implements android.webkit.DownloadListener {
     public static DefaultDownloadImpl create(@NonNull Activity activity,
                                              @NonNull WebView webView,
                                              @Nullable PermissionInterceptor permissionInterceptor) {
-        try {
-            DownloadImpl.getInstance().with(activity.getApplication());
-        } catch (Throwable throwable) {
-            Timber.e(throwable);
-        }
-
         return new DefaultDownloadImpl(activity, webView, permissionInterceptor);
     }
 }
