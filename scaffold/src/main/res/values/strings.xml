@@ -4,6 +4,7 @@
     <string name="loading">加载中…</string>
     <string name="click_to_retry">点击重试</string>
     <string name="agentweb_download_task_has_been_exist">该任务已经存在 ， 请勿重复点击下载!</string>
+    <string name="agentweb_download_file_has_been_exist">文件已存在,无需重复下载!</string>
     <string name="agentweb_tips">提示</string>
     <string name="agentweb_honeycomblow">您正在使用手机流量 ， 继续下载该文件吗?</string>
     <string name="agentweb_download">下载</string>
