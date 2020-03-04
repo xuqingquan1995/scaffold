@@ -14,6 +14,7 @@ import android.view.WindowManager
 import androidx.annotation.RequiresPermission
 import androidx.core.content.ContextCompat
 import org.jetbrains.anko.share
+import top.xuqingquan.app.ScaffoldFileProvider
 import java.io.File
 
 /**
@@ -120,12 +121,26 @@ fun getScreenWidth(context: Context): Int {
  */
 fun installAPK(context: Context, file: File?) {
     if (file == null || !file.exists()) return
-    val intent = Intent()
+    val intent = Intent(Intent.ACTION_VIEW)
+    // 由于没有在Activity环境下启动Activity,设置下面的标签
+    // 由于没有在Activity环境下启动Activity,设置下面的标签
     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-    intent.action = Intent.ACTION_VIEW
-    intent.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive")
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+        val contentUri = ScaffoldFileProvider.getUriForFile(
+            context, context.packageName + ".ScaffoldFileProvider", file
+        )
+        Timber.d("installApk: $contentUri")
+        intent.setDataAndType(contentUri, "application/vnd.android.package-archive")
+    } else {
+        intent.setDataAndType(
+            Uri.fromFile(file),
+            "application/vnd.android.package-archive"
+        )
+    }
     context.startActivity(intent)
 }
+
 
 /**
  * 获取IMEI

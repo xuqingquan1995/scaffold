@@ -7,8 +7,9 @@ import com.tencent.smtt.sdk.DownloadListener
 import com.tencent.smtt.sdk.WebView
 import top.xuqingquan.utils.Timber
 import top.xuqingquan.utils.getActivityByContext
-import top.xuqingquan.utils.getCacheFile
+import top.xuqingquan.utils.getCacheFilePath
 import top.xuqingquan.web.AgentWeb
+import java.io.File
 
 class AgentWebSettingsImpl : AbsAgentWebSettings() {
     private var mAgentWeb: AgentWeb? = null
@@ -37,14 +38,25 @@ class AgentWebSettingsImpl : AbsAgentWebSettings() {
             Timber.e(t)
             try {
                 listener = DownloadListener { url, _, _, _, _ ->
+                    val fileName = if (url.contains("?")) {
+                        url.substring(url.lastIndexOf("/") + 1, url.indexOf("?"))
+                    } else {
+                        url.substring(url.lastIndexOf("/") + 1)
+                    }
+                    val downloadPath = getCacheFilePath(webView.context)
+                    val downloadFile = File(downloadPath, fileName)
+                    if (downloadFile.exists()) {
+                        return@DownloadListener
+                    }
                     val downloadManager =
                         ContextCompat.getSystemService(webView.context, DownloadManager::class.java)
                     if (downloadManager != null) {
                         val request = DownloadManager.Request(Uri.parse(url))
                         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-                        request.setDestinationInExternalPublicDir(
-                            getCacheFile(webView.context).absolutePath,
-                            url.substring(url.lastIndexOf("/") + 1)
+                        request.setDestinationInExternalFilesDir(
+                            webView.context,
+                            "/",
+                            fileName
                         )
                         downloadManager.enqueue(request)
                     }
