@@ -5,8 +5,8 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import androidx.core.content.ContextCompat
-import androidx.core.net.toFile
 import top.xuqingquan.utils.Timber
+import top.xuqingquan.utils.getPath
 import top.xuqingquan.web.nokernel.WebUtils.getCommonFileIntentCompat
 import java.io.File
 
@@ -20,9 +20,12 @@ class DownLoadBroadcast : BroadcastReceiver() {
             val uri = downloadManager?.getUriForDownloadedFile(downloadId)
             Timber.d("url===>$uri")
             uri?.let {
-                val mIntent = getCommonFileIntentCompat(context, it.toFile())
-                mIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                context.startActivity(mIntent)
+                val path = getPath(context, uri)
+                if (!path.isNullOrEmpty()) {
+                    val mIntent = getCommonFileIntentCompat(context, File((path)))
+                    mIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    context.startActivity(mIntent)
+                }
             }
             context.unregisterReceiver(this)
         }
