@@ -430,51 +430,53 @@ public final class AgentWeb {
             top.xuqingquan.web.x5.IAgentWebSettings mAgentWebSettings = this.mX5AgentWebSettings;
             if (mAgentWebSettings == null) {
                 this.mX5AgentWebSettings = top.xuqingquan.web.x5.AgentWebSettingsImpl.getInstance();
-                mAgentWebSettings = top.xuqingquan.web.x5.AgentWebSettingsImpl.getInstance();
+                mAgentWebSettings = this.mX5AgentWebSettings;
             }
             if (mAgentWebSettings instanceof top.xuqingquan.web.x5.AbsAgentWebSettings) {
                 ((top.xuqingquan.web.x5.AbsAgentWebSettings) mAgentWebSettings).bindAgentWeb(this);
+                if (mX5WebListenerManager == null) {
+                    mX5WebListenerManager = (top.xuqingquan.web.x5.WebListenerManager) mAgentWebSettings;
+                }
             }
-            if (mX5WebListenerManager == null && mAgentWebSettings instanceof top.xuqingquan.web.x5.AbsAgentWebSettings) {
-                mX5WebListenerManager = (top.xuqingquan.web.x5.WebListenerManager) mAgentWebSettings;
-            }
-            mAgentWebSettings.toSetting(getX5WebCreator().getWebView());
+            com.tencent.smtt.sdk.WebView webView = getX5WebCreator().getWebView();
+            mAgentWebSettings.toSetting(webView);
             if (mJsInterfaceHolder == null) {
-                mJsInterfaceHolder = JsInterfaceHolderImpl.getJsInterfaceHolder(getX5WebCreator().getWebView());
+                mJsInterfaceHolder = JsInterfaceHolderImpl.getJsInterfaceHolder(webView);
             }
             Timber.i("mJavaObjects:" + mJavaObjects.size());
             if (mJavaObjects != null && !mJavaObjects.isEmpty()) {
                 mJsInterfaceHolder.addJavaObjects(mJavaObjects);
             }
             if (mX5WebListenerManager != null) {
-                mX5WebListenerManager.setDownloader(getX5WebCreator().getWebView(), null);
-                mX5WebListenerManager.setWebChromeClient(getX5WebCreator().getWebView(), getX5ChromeClient());
-                mX5WebListenerManager.setWebViewClient(getX5WebCreator().getWebView(), getX5WebViewClient());
+                mX5WebListenerManager.setDownloader(webView, null);
+                mX5WebListenerManager.setWebChromeClient(webView, getX5ChromeClient());
+                mX5WebListenerManager.setWebViewClient(webView, getX5WebViewClient());
             }
         } else {
             top.xuqingquan.web.system.IAgentWebSettings mAgentWebSettings = this.mAgentWebSettings;
             if (mAgentWebSettings == null) {
                 this.mAgentWebSettings = top.xuqingquan.web.system.AgentWebSettingsImpl.getInstance();
-                mAgentWebSettings = top.xuqingquan.web.system.AgentWebSettingsImpl.getInstance();
+                mAgentWebSettings = this.mAgentWebSettings;
             }
             if (mAgentWebSettings instanceof top.xuqingquan.web.system.AbsAgentWebSettings) {
                 ((top.xuqingquan.web.system.AbsAgentWebSettings) mAgentWebSettings).bindAgentWeb(this);
+                if (mWebListenerManager == null) {
+                    mWebListenerManager = (top.xuqingquan.web.system.WebListenerManager) mAgentWebSettings;
+                }
             }
-            if (mWebListenerManager == null && mAgentWebSettings instanceof top.xuqingquan.web.system.AbsAgentWebSettings) {
-                mWebListenerManager = (top.xuqingquan.web.system.WebListenerManager) mAgentWebSettings;
-            }
-            mAgentWebSettings.toSetting(getWebCreator().getWebView());
+            android.webkit.WebView webView = getWebCreator().getWebView();
+            mAgentWebSettings.toSetting(webView);
             if (mJsInterfaceHolder == null) {
-                mJsInterfaceHolder = JsInterfaceHolderImpl.getJsInterfaceHolder(getWebCreator().getWebView());
+                mJsInterfaceHolder = JsInterfaceHolderImpl.getJsInterfaceHolder(webView);
             }
             Timber.i("mJavaObjects:" + mJavaObjects.size());
             if (mJavaObjects != null && !mJavaObjects.isEmpty()) {
                 mJsInterfaceHolder.addJavaObjects(mJavaObjects);
             }
             if (mWebListenerManager != null) {
-                mWebListenerManager.setDownloader(getWebCreator().getWebView(), null);
-                mWebListenerManager.setWebChromeClient(getWebCreator().getWebView(), getChromeClient());
-                mWebListenerManager.setWebViewClient(getWebCreator().getWebView(), getWebViewClient());
+                mWebListenerManager.setDownloader(webView, null);
+                mWebListenerManager.setWebChromeClient(webView, getChromeClient());
+                mWebListenerManager.setWebViewClient(webView, getWebViewClient());
             }
         }
         return this;

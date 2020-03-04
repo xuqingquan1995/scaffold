@@ -2,6 +2,7 @@ package top.xuqingquan.web.x5;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
@@ -17,6 +18,7 @@ import com.download.library.ResourceRequest;
 import com.tencent.smtt.sdk.DownloadListener;
 import com.tencent.smtt.sdk.WebView;
 
+import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,6 +26,7 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 import top.xuqingquan.R;
+import top.xuqingquan.utils.FileUtils;
 import top.xuqingquan.utils.NetUtils;
 import top.xuqingquan.utils.PermissionUtils;
 import top.xuqingquan.utils.Timber;
@@ -31,6 +34,7 @@ import top.xuqingquan.web.nokernel.Action;
 import top.xuqingquan.web.nokernel.ActionActivity;
 import top.xuqingquan.web.nokernel.AgentWebPermissions;
 import top.xuqingquan.web.nokernel.PermissionInterceptor;
+import top.xuqingquan.web.nokernel.WebUtils;
 import top.xuqingquan.web.publics.AbsAgentWebUIController;
 import top.xuqingquan.web.publics.AgentWebConfig;
 import top.xuqingquan.web.publics.AgentWebUtils;
@@ -78,7 +82,7 @@ public class DefaultDownloadImpl implements DownloadListener {
     @Override
     public void onDownloadStart(final String url, final String userAgent, final String contentDisposition, final String mimetype, final long contentLength) {
         if (!isInstallDownloader) {
-            Timber.e( "unable start download " + url + "; implementation 'com.download.library:Downloader:x.x.x'");
+            Timber.e("unable start download " + url + "; implementation 'com.download.library:Downloader:x.x.x'");
             return;
         }
         mHandler.post(() -> onDownloadStartInternal(url, userAgent, contentDisposition, mimetype, contentLength));
@@ -94,6 +98,9 @@ public class DefaultDownloadImpl implements DownloadListener {
             }
         }
         ResourceRequest resourceRequest = createResourceRequest(url);
+        if (resourceRequest == null) {
+            return;
+        }
         this.mDownloadTasks.put(url, resourceRequest);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             List<String> mList = checkNeedPermission();
@@ -109,8 +116,34 @@ public class DefaultDownloadImpl implements DownloadListener {
         }
     }
 
+    @Nullable
     protected ResourceRequest createResourceRequest(String url) {
-        return DownloadImpl.getInstance().with(url).setEnableIndicator(true).autoOpenIgnoreMD5();
+        String fileName = "";
+        try {
+            if (url.contains("?")) {
+                fileName = url.substring(url.lastIndexOf("/") + 1, url.indexOf("?"));
+            } else {
+                fileName = url.substring(url.lastIndexOf("/") + 1);
+            }
+        } catch (Throwable t) {
+        }
+        File downloadFile = new File(FileUtils.getCacheFilePath(mContext), fileName);
+        if (downloadFile.exists()) {
+            Timber.d("文件已存在");
+            if (null != mAgentWebUIController.get()) {
+                mAgentWebUIController.get().onShowMessage(mContext.getString(R.string.agentweb_download_file_has_been_exist), "reDownload");
+            }
+            Intent mIntent = WebUtils.getCommonFileIntentCompat(mContext, downloadFile);
+            mIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            mContext.startActivity(mIntent);
+            return null;
+        }
+        Timber.d("fileName=" + fileName);
+        return DownloadImpl.getInstance()
+                .with(url)
+                .target(downloadFile, mContext.getPackageName() + ".ScaffoldFileProvider")
+                .setEnableIndicator(true)
+                .autoOpenIgnoreMD5();
     }
 
     protected ActionActivity.PermissionListener getPermissionListener(final String url) {
@@ -188,9 +221,7 @@ public class DefaultDownloadImpl implements DownloadListener {
             // 该链接是否正在下载
             if (DownloadImpl.getInstance().exist(url)) {
                 if (null != mAgentWebUIController.get()) {
-                    mAgentWebUIController.get().onShowMessage(
-                            mActivityWeakReference.get()
-                                    .getString(R.string.agentweb_download_task_has_been_exist), "preDownload");
+                    mAgentWebUIController.get().onShowMessage(mContext.getString(R.string.agentweb_download_task_has_been_exist), "preDownload");
                 }
                 return;
             }
