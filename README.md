@@ -7,7 +7,7 @@
 AndroidX:
 implementation "top.xuqingquan:scaffold:2.0.1"
 support:
-implementation "top.xuqingquan:scaffold-support:2.0.1"
+implementation "top.xuqingquan:scaffold:2.0.1-support"
 ```
 或
 
