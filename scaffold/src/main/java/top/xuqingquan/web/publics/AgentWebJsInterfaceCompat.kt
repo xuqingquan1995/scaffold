@@ -4,7 +4,7 @@ import android.app.Activity
 import android.os.Build
 import android.os.Handler
 import android.webkit.JavascriptInterface
-import androidx.annotation.RequiresApi
+import android.support.annotation.RequiresApi
 import top.xuqingquan.utils.Timber
 import top.xuqingquan.web.AgentWeb
 import top.xuqingquan.web.nokernel.WebConfig

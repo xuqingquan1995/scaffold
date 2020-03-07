@@ -18,7 +18,7 @@ import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import androidx.annotation.RequiresApi;
+import android.support.annotation.RequiresApi;
 
 import com.alipay.sdk.app.PayTask;
 

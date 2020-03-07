@@ -5,7 +5,7 @@ import android.net.Uri
 import android.os.Build
 import android.view.View
 import android.webkit.*
-import androidx.annotation.RequiresApi
+import android.support.annotation.RequiresApi
 import top.xuqingquan.utils.Timber
 import top.xuqingquan.utils.getDeniedPermissions
 import top.xuqingquan.utils.hasPermission

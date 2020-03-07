@@ -13,7 +13,7 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 
-import androidx.annotation.RequiresApi;
+import android.support.annotation.RequiresApi;
 
 import com.alipay.sdk.app.PayTask;
 import com.tencent.smtt.export.external.interfaces.*;

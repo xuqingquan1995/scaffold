@@ -1,8 +1,9 @@
 package top.xuqingquan.imageloader;
 
 import android.content.Context;
-import androidx.annotation.Nullable;
-import androidx.core.util.Preconditions;
+import android.support.annotation.Nullable;
+
+import android.support.v4.util.Preconditions;
 import top.xuqingquan.app.ScaffoldConfig;
 
 /**

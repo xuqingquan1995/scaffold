@@ -3,14 +3,13 @@ package top.xuqingquan.widget.bottom;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Typeface;
+import android.support.design.internal.BottomNavigationItemView;
+import android.support.design.internal.BottomNavigationMenuView;
+import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
-import androidx.viewpager.widget.ViewPager;
-import androidx.viewpager2.widget.ViewPager2;
-import com.google.android.material.bottomnavigation.BottomNavigationItemView;
-import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 
 /**
  * Created by 许清泉 on 2019-05-25 19:26
@@ -279,27 +278,9 @@ public class BottomNavigationViewEx extends BottomNavigationViewInner {
     }
 
     @Override
-    public BottomNavigationViewInner setupWithViewPager(ViewPager2 viewPager2) {
-        try {
-            return super.setupWithViewPager(viewPager2);
-        } catch (Throwable e) {
-            return this;
-        }
-    }
-
-    @Override
     public BottomNavigationViewInner setupWithViewPager(ViewPager viewPager) {
         try {
             return super.setupWithViewPager(viewPager);
-        } catch (Throwable e) {
-            return this;
-        }
-    }
-
-    @Override
-    public BottomNavigationViewInner setupWithViewPager(ViewPager2 viewPager2, boolean smoothScroll) {
-        try {
-            return super.setupWithViewPager(viewPager2, smoothScroll);
         } catch (Throwable e) {
             return this;
         }

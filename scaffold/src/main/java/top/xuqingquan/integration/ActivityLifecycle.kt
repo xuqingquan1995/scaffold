@@ -3,9 +3,9 @@ package top.xuqingquan.integration
 import android.app.Activity
 import android.app.Application
 import android.os.Bundle
-import androidx.core.util.Preconditions
-import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.FragmentManager
+import android.support.v4.util.Preconditions
+import android.support.v4.app.FragmentActivity
+import android.support.v4.app.FragmentManager
 import top.xuqingquan.app.ScaffoldConfig
 import top.xuqingquan.cache.Cache
 import top.xuqingquan.cache.IntelligentCache

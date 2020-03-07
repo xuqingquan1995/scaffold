@@ -1,7 +1,7 @@
 package top.xuqingquan.base.model.entity
 
-import androidx.lifecycle.LiveData
-import androidx.paging.PagedList
+import android.arch.lifecycle.LiveData
+import android.arch.paging.PagedList
 
 /**
  * Created by 许清泉 on 2019-04-20 20:44

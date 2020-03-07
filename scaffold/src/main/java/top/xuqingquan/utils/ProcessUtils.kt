@@ -8,7 +8,7 @@ import android.content.Context
 import android.content.Context.ACTIVITY_SERVICE
 import android.os.Process
 import android.text.TextUtils
-import androidx.core.content.ContextCompat
+import android.support.v4.content.ContextCompat
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileReader

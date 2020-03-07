@@ -1,18 +1,20 @@
 package top.xuqingquan.base.view.fragment
 
+import android.arch.lifecycle.MutableLiveData
 import android.content.Context
 import android.os.Bundle
+import android.support.annotation.LayoutRes
+import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import androidx.annotation.LayoutRes
-import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import top.xuqingquan.BuildConfig
 import top.xuqingquan.app.ScaffoldConfig
 import top.xuqingquan.base.view.activity.SimpleActivity
@@ -147,7 +149,7 @@ abstract class SimpleFragment : Fragment(), IFragment, FragmentOnKeyListener {
     }
 
     protected fun <T> launch(
-        context: CoroutineContext = lifecycleScope.coroutineContext,
+        context: CoroutineContext = Dispatchers.Main,
         tryBlock: suspend CoroutineScope.() -> T,
         catchBlock: suspend CoroutineScope.(Throwable) -> Unit = {},
         finallyBlock: suspend CoroutineScope.() -> Unit = {},
@@ -156,7 +158,7 @@ abstract class SimpleFragment : Fragment(), IFragment, FragmentOnKeyListener {
         if (hideKeyboard) {
             hideSoftKeyboard()
         }
-        return lifecycleScope.launch(context) {
+        return CoroutineScope(context).launch {
             try {
                 tryBlock()
             } catch (e: Throwable) {
@@ -173,7 +175,7 @@ abstract class SimpleFragment : Fragment(), IFragment, FragmentOnKeyListener {
 
     protected fun <T> launch(
         hideKeyboard: Boolean = true,
-        context: CoroutineContext = lifecycleScope.coroutineContext,
+        context: CoroutineContext = Dispatchers.Main,
         tryBlock: suspend CoroutineScope.() -> T
     ): Job {
         return launch(context, tryBlock, {}, {}, hideKeyboard)

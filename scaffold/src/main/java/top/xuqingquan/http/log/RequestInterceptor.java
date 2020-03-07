@@ -1,6 +1,6 @@
 package top.xuqingquan.http.log;
 
-import androidx.annotation.NonNull;
+import android.support.annotation.NonNull;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;

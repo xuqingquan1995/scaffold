@@ -3,7 +3,7 @@ package top.xuqingquan.web.publics;
 import android.annotation.SuppressLint;
 import android.os.Build;
 
-import androidx.annotation.Nullable;
+import android.support.annotation.Nullable;
 
 import top.xuqingquan.utils.CharacterUtils;
 import top.xuqingquan.web.nokernel.WebConfig;

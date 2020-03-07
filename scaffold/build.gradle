@@ -55,20 +55,30 @@ dependencies {
     api rootProject.ext.deps.kotlin
     api rootProject.ext.deps.kotlinx_coroutines_core
     api rootProject.ext.deps.kotlinx_coroutines_android
-    api rootProject.ext.deps.appcompat
-    api rootProject.ext.deps.constraintlayout
-    api rootProject.ext.deps.core_ktx
-    api rootProject.ext.deps.lifecycle
-    api rootProject.ext.deps.lifecycle_runtime_ktx
+//    api rootProject.ext.deps.appcompat
+    api rootProject.ext.deps.appcompat_v7
+//    api rootProject.ext.deps.constraintlayout
+    api rootProject.ext.deps.constraintlayout_support
+//    api rootProject.ext.deps.core_ktx
+//    api rootProject.ext.deps.lifecycle
+    api rootProject.ext.deps.lifecycle_extensions
+//    api rootProject.ext.deps.lifecycle_runtime_ktx
+    api rootProject.ext.deps.lifecycle_runtime
     api rootProject.ext.deps.anko
-    compileOnly rootProject.ext.deps.multidex
+//    compileOnly rootProject.ext.deps.multidex
+    compileOnly rootProject.ext.deps.multidex_support
     //view
-    api rootProject.ext.deps.recyclerview
-    api rootProject.ext.deps.exifinterface
-    compileOnly rootProject.ext.deps.paging
+//    api rootProject.ext.deps.recyclerview
+    api rootProject.ext.deps.recyclerview_v7
+//    api rootProject.ext.deps.exifinterface
+    api rootProject.ext.deps.exifinterface_support
+//    compileOnly rootProject.ext.deps.paging
+    compileOnly rootProject.ext.deps.paging_runtime
+    compileOnly rootProject.ext.deps.paging_common
     api rootProject.ext.deps.glide
     kapt rootProject.ext.deps.glide_compiler
-    api rootProject.ext.deps.material
+//    api rootProject.ext.deps.material
+    api rootProject.ext.deps.design
     compileOnly rootProject.ext.deps.autosize
     //retorfit
     api rootProject.ext.deps.retrofit
@@ -90,7 +100,9 @@ dependencies {
     releaseCompileOnly rootProject.ext.deps.anrwatchdog
     //test
     testImplementation rootProject.ext.deps.junit
-    androidTestImplementation rootProject.ext.deps.espresso_core
-    androidTestImplementation rootProject.ext.deps.test_rules
-    androidTestImplementation rootProject.ext.deps.test_ext
+//    androidTestImplementation rootProject.ext.deps.espresso_core
+    androidTestImplementation rootProject.ext.deps.espresso_support
+//    androidTestImplementation rootProject.ext.deps.test_rules
+    androidTestImplementation rootProject.ext.deps.rules_support
+//    androidTestImplementation rootProject.ext.deps.test_ext
 }

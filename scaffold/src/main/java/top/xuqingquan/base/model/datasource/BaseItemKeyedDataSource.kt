@@ -1,7 +1,7 @@
 package top.xuqingquan.base.model.datasource
 
-import androidx.lifecycle.MutableLiveData
-import androidx.paging.ItemKeyedDataSource
+import android.arch.lifecycle.MutableLiveData
+import android.arch.paging.ItemKeyedDataSource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

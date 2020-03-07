@@ -9,7 +9,7 @@ import android.os.Handler
 import android.os.Message
 import android.text.TextUtils
 import android.widget.EditText
-import androidx.appcompat.app.AlertDialog
+import android.support.v7.app.AlertDialog
 import top.xuqingquan.R
 import top.xuqingquan.utils.Timber
 import top.xuqingquan.utils.getApplicationName

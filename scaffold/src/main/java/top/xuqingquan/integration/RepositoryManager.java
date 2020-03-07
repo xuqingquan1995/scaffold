@@ -1,7 +1,7 @@
 package top.xuqingquan.integration;
 
-import androidx.annotation.NonNull;
-import androidx.core.util.Preconditions;
+import android.support.annotation.NonNull;
+import android.support.v4.util.Preconditions;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;

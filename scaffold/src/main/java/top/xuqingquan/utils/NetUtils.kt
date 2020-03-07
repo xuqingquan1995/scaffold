@@ -3,6 +3,7 @@
 package top.xuqingquan.utils
 
 import android.annotation.SuppressLint
+import android.arch.lifecycle.MutableLiveData
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.Network
@@ -11,8 +12,7 @@ import android.net.wifi.WifiManager
 import android.os.Build
 import android.telephony.TelephonyManager
 import android.text.TextUtils
-import androidx.core.content.ContextCompat
-import androidx.lifecycle.MutableLiveData
+import android.support.v4.content.ContextCompat
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileReader

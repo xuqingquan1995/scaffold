@@ -5,7 +5,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Message
 import android.view.View
-import androidx.annotation.RequiresApi
+import android.support.annotation.RequiresApi
 import com.tencent.smtt.export.external.interfaces.*
 import com.tencent.smtt.sdk.*
 

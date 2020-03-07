@@ -5,10 +5,10 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.KeyEvent
 import android.widget.FrameLayout
-import androidx.annotation.ColorInt
-import androidx.annotation.DimenRes
-import androidx.annotation.IdRes
-import androidx.annotation.LayoutRes
+import android.support.annotation.ColorInt
+import android.support.annotation.DimenRes
+import android.support.annotation.IdRes
+import android.support.annotation.LayoutRes
 import org.jetbrains.anko.px2dip
 import top.xuqingquan.R
 import top.xuqingquan.app.ScaffoldConfig

@@ -1,6 +1,6 @@
 package top.xuqingquan.base.model.diffcallback
 
-import androidx.recyclerview.widget.DiffUtil
+import android.support.v7.util.DiffUtil
 
 /**
  * Created by 许清泉 on 2019-04-20 17:54

@@ -4,7 +4,7 @@ import android.app.DownloadManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import androidx.core.content.ContextCompat
+import android.support.v4.content.ContextCompat
 import top.xuqingquan.utils.Timber
 import top.xuqingquan.utils.getPath
 import top.xuqingquan.web.nokernel.WebUtils.getCommonFileIntentCompat

@@ -1,7 +1,7 @@
 package top.xuqingquan.sample
 
-import androidx.lifecycle.MutableLiveData
-import androidx.paging.DataSource
+import android.arch.lifecycle.MutableLiveData
+import android.arch.paging.DataSource
 
 class BeanDataSourceFactory : DataSource.Factory<Int, Subjects>() {
 

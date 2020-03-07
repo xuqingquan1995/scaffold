@@ -1,14 +1,18 @@
 package top.xuqingquan.web;
 
 import android.app.Activity;
+import android.support.annotation.ColorInt;
+import android.support.annotation.IdRes;
+import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.ArrayMap;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.*;
-import androidx.collection.ArrayMap;
-import androidx.fragment.app.Fragment;
+import android.support.v4.app.Fragment;
 
 import top.xuqingquan.utils.Timber;
 import top.xuqingquan.web.nokernel.*;

@@ -1,12 +1,11 @@
 package top.xuqingquan.sample
 
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.Transformations
+import android.arch.paging.LivePagedListBuilder
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.Observer
-import androidx.lifecycle.Transformations
-import androidx.paging.toLiveData
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.delay
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 import top.xuqingquan.app.ScaffoldConfig
@@ -16,7 +15,6 @@ import top.xuqingquan.base.view.activity.SimpleActivity
 import top.xuqingquan.base.view.adapter.listadapter.SimplePagedListAdapter
 import top.xuqingquan.http.log.Level
 import top.xuqingquan.utils.Timber
-import top.xuqingquan.web.nokernel.WebConfig
 
 class MainActivity : SimpleActivity() {
 
@@ -47,10 +45,10 @@ class MainActivity : SimpleActivity() {
 //        }
 //    }
 
-        override fun initData(savedInstanceState: Bundle?) {
+    override fun initData(savedInstanceState: Bundle?) {
         val factory = BeanDataSourceFactory()
         val listing = Listing(
-            pagedList = factory.toLiveData(config),
+            pagedList = LivePagedListBuilder(factory, config).build(),
             networkState = Transformations.switchMap(factory.sourceLiveData) { it.networkState },
             refreshState = Transformations.switchMap(factory.sourceLiveData) { it.initialLoad },
             empty = Transformations.switchMap(factory.sourceLiveData) { it.empty },
@@ -73,7 +71,7 @@ class MainActivity : SimpleActivity() {
             toast("empty--$it")
         })
         listing.exception.observe(this, Observer {
-            toast("exception${it.message}")
+            toast("exception${it?.message}")
         })
         listing.networkState.observe(this, Observer {
             adapter.setNetworkState(it)

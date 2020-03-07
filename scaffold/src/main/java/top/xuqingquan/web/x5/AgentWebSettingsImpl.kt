@@ -4,7 +4,7 @@ import android.app.DownloadManager
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.Uri
-import androidx.core.content.ContextCompat
+import android.support.v4.content.ContextCompat
 import com.tencent.smtt.sdk.DownloadListener
 import com.tencent.smtt.sdk.WebView
 import top.xuqingquan.app.ScaffoldConfig

@@ -6,7 +6,7 @@ import android.content.IntentFilter
 import android.net.Uri
 import android.webkit.DownloadListener
 import android.webkit.WebView
-import androidx.core.content.ContextCompat
+import android.support.v4.content.ContextCompat
 import top.xuqingquan.app.ScaffoldConfig
 import top.xuqingquan.utils.Timber
 import top.xuqingquan.utils.getActivityByContext

@@ -6,7 +6,7 @@ import android.os.Build
 import android.os.Message
 import android.view.View
 import android.webkit.*
-import androidx.annotation.RequiresApi
+import android.support.annotation.RequiresApi
 
 @Suppress("DEPRECATION")
 open class WebChromeClientDelegate constructor(webChromeClient: WebChromeClient?) :

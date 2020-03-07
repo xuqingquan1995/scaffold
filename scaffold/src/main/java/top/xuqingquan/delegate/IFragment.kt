@@ -1,7 +1,7 @@
 package top.xuqingquan.delegate
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.support.v4.app.Fragment
 import top.xuqingquan.cache.Cache
 import top.xuqingquan.cache.LruCache
 

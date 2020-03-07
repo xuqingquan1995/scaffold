@@ -5,6 +5,14 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.support.annotation.NonNull;
+import android.support.design.bottomnavigation.LabelVisibilityMode;
+import android.support.design.internal.BottomNavigationItemView;
+import android.support.design.internal.BottomNavigationMenuView;
+import android.support.design.internal.ThemeEnforcement;
+import android.support.design.widget.BottomNavigationView;
+import android.support.v4.view.ViewPager;
+import android.support.v7.widget.TintTypedArray;
 import android.util.AttributeSet;
 import android.util.SparseIntArray;
 import android.util.TypedValue;
@@ -14,23 +22,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import androidx.annotation.NonNull;
-import androidx.appcompat.widget.TintTypedArray;
-import androidx.viewpager.widget.ViewPager;
-import androidx.viewpager2.widget.ViewPager2;
-import com.google.android.material.R;
-import com.google.android.material.bottomnavigation.BottomNavigationItemView;
-import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.bottomnavigation.LabelVisibilityMode;
-import com.google.android.material.internal.ThemeEnforcement;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
 
+import top.xuqingquan.R;
+
 /**
  * Created by 许清泉 on 2019-05-25 19:16
- * ViewPager/ViewPager2通用
  */
 @SuppressLint("RestrictedApi")
 public class BottomNavigationViewInner extends BottomNavigationView {
@@ -47,9 +46,6 @@ public class BottomNavigationViewInner extends BottomNavigationView {
     // used for animation end
 
     // used for setupWithViewPager
-    private ViewPager2 mViewPager2;
-    private MyOnNavigationItemSelectedListener2 mMyOnNavigationItemSelectedListener2;
-    private BottomNavigationViewExOnPageChangeListener2 mPageChangeListener2;
     private ViewPager mViewPager;
     private MyOnNavigationItemSelectedListener mMyOnNavigationItemSelectedListener;
     private BottomNavigationViewExOnPageChangeListener mPageChangeListener;
@@ -422,23 +418,17 @@ public class BottomNavigationViewInner extends BottomNavigationView {
      */
     public OnNavigationItemSelectedListener getOnNavigationItemSelectedListener() {
         // private OnNavigationItemSelectedListener mListener;
-        OnNavigationItemSelectedListener mListener = getField(BottomNavigationView.class, this, "selectedListener");
-        return mListener;
+        return getField(BottomNavigationView.class, this, "selectedListener");
     }
 
     @Override
     public void setOnNavigationItemSelectedListener(OnNavigationItemSelectedListener listener) {
         // if not set up with view pager, the same with father
-        if (null == mMyOnNavigationItemSelectedListener && null == mMyOnNavigationItemSelectedListener2) {
+        if (null == mMyOnNavigationItemSelectedListener) {
             super.setOnNavigationItemSelectedListener(listener);
             return;
         }
-        if (mMyOnNavigationItemSelectedListener != null) {
-            mMyOnNavigationItemSelectedListener.setOnNavigationItemSelectedListener(listener);
-        }
-        if (mMyOnNavigationItemSelectedListener2 != null) {
-            mMyOnNavigationItemSelectedListener2.setOnNavigationItemSelectedListener(listener);
-        }
+        mMyOnNavigationItemSelectedListener.setOnNavigationItemSelectedListener(listener);
     }
 
     /**
@@ -765,58 +755,10 @@ public class BottomNavigationViewInner extends BottomNavigationView {
      * changes in one are automatically reflected in the other. This includes scroll state changes
      * and clicks.
      *
-     * @param viewPager2
-     */
-    public BottomNavigationViewInner setupWithViewPager(final ViewPager2 viewPager2) {
-        return setupWithViewPager(viewPager2, false);
-    }
-
-    /**
-     * This method will link the given ViewPager and this BottomNavigationViewInner together so that
-     * changes in one are automatically reflected in the other. This includes scroll state changes
-     * and clicks.
-     *
      * @param viewPager
      */
     public BottomNavigationViewInner setupWithViewPager(final ViewPager viewPager) {
         return setupWithViewPager(viewPager, false);
-    }
-
-    /**
-     * This method will link the given ViewPager and this BottomNavigationViewInner together so that
-     * changes in one are automatically reflected in the other. This includes scroll state changes
-     * and clicks.
-     *
-     * @param viewPager2
-     * @param smoothScroll whether ViewPager changed with smooth scroll animation
-     */
-    public BottomNavigationViewInner setupWithViewPager(final ViewPager2 viewPager2, boolean smoothScroll) {
-        if (mViewPager2 != null) {
-            // If we've already been setup with a ViewPager, remove us from it
-            if (mPageChangeListener2 != null) {
-                mViewPager2.unregisterOnPageChangeCallback(mPageChangeListener2);
-            }
-        }
-
-        if (null == viewPager2) {
-            mViewPager2 = null;
-            super.setOnNavigationItemSelectedListener(null);
-            return this;
-        }
-
-        mViewPager2 = viewPager2;
-
-        // Add our custom OnPageChangeListener to the ViewPager
-        if (mPageChangeListener2 == null) {
-            mPageChangeListener2 = new BottomNavigationViewExOnPageChangeListener2(this);
-        }
-        viewPager2.registerOnPageChangeCallback(mPageChangeListener2);
-
-        // Now we'll add a navigation item selected listener to set ViewPager's current item
-        OnNavigationItemSelectedListener listener = getOnNavigationItemSelectedListener();
-        mMyOnNavigationItemSelectedListener2 = new MyOnNavigationItemSelectedListener2(viewPager2, this, smoothScroll, listener);
-        super.setOnNavigationItemSelectedListener(mMyOnNavigationItemSelectedListener2);
-        return this;
     }
 
     /**
@@ -857,41 +799,6 @@ public class BottomNavigationViewInner extends BottomNavigationView {
     }
 
     /**
-     * A {@link ViewPager2.OnPageChangeCallback} class which contains the
-     * necessary calls back to the provided {@link BottomNavigationViewInner} so that the tab position is
-     * kept in sync.
-     * <p>
-     * <p>This class stores the provided BottomNavigationViewInner weakly, meaning that you can use
-     * {@link ViewPager2#registerOnPageChangeCallback(ViewPager2.OnPageChangeCallback)
-     * addOnPageChangeListener(OnPageChangeListener)} without removing the listener and
-     * not cause a leak.
-     */
-    private static class BottomNavigationViewExOnPageChangeListener2 extends ViewPager2.OnPageChangeCallback {
-        private final WeakReference<BottomNavigationViewInner> mBnveRef;
-
-        public BottomNavigationViewExOnPageChangeListener2(BottomNavigationViewInner bnve) {
-            mBnveRef = new WeakReference<>(bnve);
-        }
-
-        @Override
-        public void onPageScrollStateChanged(final int state) {
-        }
-
-        @Override
-        public void onPageScrolled(final int position, final float positionOffset,
-                                   final int positionOffsetPixels) {
-        }
-
-        @Override
-        public void onPageSelected(final int position) {
-            final BottomNavigationViewInner bnve = mBnveRef.get();
-            if (null != bnve && !isNavigationItemClicking)
-                bnve.setCurrentItem(position);
-//            Log.d("onPageSelected", "--------- position " + position + " ------------");
-        }
-    }
-
-    /**
      * A {@link ViewPager.OnPageChangeListener} class which contains the
      * necessary calls back to the provided {@link BottomNavigationViewInner} so that the tab position is
      * kept in sync.
@@ -924,70 +831,6 @@ public class BottomNavigationViewInner extends BottomNavigationView {
                 bnve.setCurrentItem(position);
 //            Log.d("onPageSelected", "--------- position " + position + " ------------");
         }
-    }
-
-    /**
-     * Decorate OnNavigationItemSelectedListener for setupWithViewPager
-     */
-    private static class MyOnNavigationItemSelectedListener2 implements OnNavigationItemSelectedListener {
-        private OnNavigationItemSelectedListener listener;
-        private final WeakReference<ViewPager2> viewPager2Ref;
-        private boolean smoothScroll;
-        private SparseIntArray items;// used for change ViewPager selected item
-        private int previousPosition = -1;
-
-
-        MyOnNavigationItemSelectedListener2(ViewPager2 viewPager2, BottomNavigationViewInner bnve, boolean smoothScroll, OnNavigationItemSelectedListener listener) {
-            this.viewPager2Ref = new WeakReference<>(viewPager2);
-            this.listener = listener;
-            this.smoothScroll = smoothScroll;
-
-            // create items
-            Menu menu = bnve.getMenu();
-            int size = menu.size();
-            items = new SparseIntArray(size);
-            for (int i = 0; i < size; i++) {
-                int itemId = menu.getItem(i).getItemId();
-                items.put(itemId, i);
-            }
-        }
-
-        public void setOnNavigationItemSelectedListener(OnNavigationItemSelectedListener listener) {
-            this.listener = listener;
-        }
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            int position = items.get(item.getItemId());
-            // only set item when item changed
-            if (previousPosition == position) {
-                return true;
-            }
-//            Log.d("onNavigationItemSelecte", "position:"  + position);
-            // user listener
-            if (null != listener) {
-                boolean bool = listener.onNavigationItemSelected(item);
-                // if the selected is invalid, no need change the view pager
-                if (!bool)
-                    return false;
-            }
-
-            // change view pager
-            ViewPager2 viewPager2 = viewPager2Ref.get();
-            if (null == viewPager2)
-                return false;
-
-            // use isNavigationItemClicking flag to avoid `ViewPager.OnPageChangeListener` trigger
-            isNavigationItemClicking = true;
-            viewPager2.setCurrentItem(items.get(item.getItemId()), smoothScroll);
-            isNavigationItemClicking = false;
-
-            // update previous position
-            previousPosition = position;
-
-            return true;
-        }
-
     }
 
     /**

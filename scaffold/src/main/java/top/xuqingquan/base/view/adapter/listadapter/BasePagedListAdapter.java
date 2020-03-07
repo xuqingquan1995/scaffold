@@ -1,9 +1,9 @@
 package top.xuqingquan.base.view.adapter.listadapter;
 
+import android.support.v7.util.DiffUtil;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.DiffUtil;
+import android.support.annotation.NonNull;
 import kotlin.jvm.functions.Function0;
 import org.jetbrains.annotations.NotNull;
 import top.xuqingquan.R;

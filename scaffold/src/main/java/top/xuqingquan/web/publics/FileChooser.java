@@ -12,7 +12,7 @@ import android.os.SystemClock;
 import android.text.TextUtils;
 import android.util.Base64;
 
-import androidx.annotation.RequiresApi;
+import android.support.annotation.RequiresApi;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

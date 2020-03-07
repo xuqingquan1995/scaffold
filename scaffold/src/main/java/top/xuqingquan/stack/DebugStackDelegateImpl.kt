@@ -8,8 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
-import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.FragmentActivity
+import android.support.v7.app.AlertDialog
+import android.support.v4.app.FragmentActivity
 import top.xuqingquan.R
 import top.xuqingquan.app.ScaffoldConfig
 import top.xuqingquan.utils.Timber

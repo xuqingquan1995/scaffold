@@ -2,9 +2,9 @@ package top.xuqingquan.widget.text
 
 import android.content.Context
 import android.graphics.Rect
+import android.support.v7.widget.AppCompatTextView
 import android.text.TextUtils
 import android.util.AttributeSet
-import androidx.appcompat.widget.AppCompatTextView
 
 /**
  * Created by 许清泉 on 2018/12/28 23:51

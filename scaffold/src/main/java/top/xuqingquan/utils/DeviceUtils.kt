@@ -11,8 +11,8 @@ import android.telephony.TelephonyManager
 import android.text.TextUtils
 import android.util.DisplayMetrics
 import android.view.WindowManager
-import androidx.annotation.RequiresPermission
-import androidx.core.content.ContextCompat
+import android.support.annotation.RequiresPermission
+import android.support.v4.content.ContextCompat
 import org.jetbrains.anko.share
 import top.xuqingquan.app.ScaffoldFileProvider
 import java.io.File

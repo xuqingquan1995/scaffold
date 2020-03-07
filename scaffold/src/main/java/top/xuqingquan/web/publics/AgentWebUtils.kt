@@ -5,15 +5,15 @@ import android.content.Context
 import android.net.Uri
 import android.os.Build
 import android.os.Handler
+import android.support.annotation.ColorInt
+import android.support.annotation.RequiresApi
+import android.support.design.widget.Snackbar
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.TextUtils
 import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.ColorInt
-import androidx.annotation.RequiresApi
-import com.google.android.material.snackbar.Snackbar
 import top.xuqingquan.R
 import top.xuqingquan.utils.Timber
 import top.xuqingquan.utils.clearCacheFolder
@@ -21,7 +21,6 @@ import top.xuqingquan.web.nokernel.PermissionInterceptor
 import top.xuqingquan.web.nokernel.WebConfig
 import top.xuqingquan.web.nokernel.WebUtils
 import top.xuqingquan.web.nokernel.WebUtils.isUIThread
-import top.xuqingquan.web.publics.WebParentLayout
 import java.io.File
 import java.lang.ref.WeakReference
 

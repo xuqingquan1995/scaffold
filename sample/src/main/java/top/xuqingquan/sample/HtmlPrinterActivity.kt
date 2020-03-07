@@ -1,12 +1,13 @@
 package top.xuqingquan.sample
 
+import android.arch.lifecycle.MutableLiveData
+import android.arch.lifecycle.Observer
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.KeyEvent
 import android.view.ViewGroup
 import android.webkit.JavascriptInterface
-import androidx.core.widget.doAfterTextChanged
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import com.tencent.smtt.sdk.WebView
 import com.tencent.smtt.sdk.WebViewClient
 import kotlinx.android.synthetic.main.html_printer.*
@@ -67,7 +68,7 @@ class HtmlPrinterActivity : SimpleActivity() {
         agentWeb.jsInterfaceHolder.addJavaObject("android", JavaScriptObject(html))
         html.observe(this, Observer {
             toast("得到源码")
-            currentSource = it
+            currentSource = it?:""
         })
         url.onEditorAction { _, _, _ ->
             webView.loadUrl(url.text.toString().trim())
@@ -75,11 +76,19 @@ class HtmlPrinterActivity : SimpleActivity() {
         copy.onClick {
             copyTextToBoard(this@HtmlPrinterActivity, currentSource)
         }
-        url.doAfterTextChanged {
-            if (it != null && it.endsWith("\n")) {
-                url.setText(it.trim())
+        url.addTextChangedListener(object :TextWatcher{
+            override fun afterTextChanged(s: Editable?) {
+                if (s != null && s.endsWith("\n")) {
+                    url.setText(s.trim())
+                }
             }
-        }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+        })
     }
 
 

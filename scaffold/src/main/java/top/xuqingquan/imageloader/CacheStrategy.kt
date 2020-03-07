@@ -1,6 +1,6 @@
 package top.xuqingquan.imageloader
 
-import androidx.annotation.IntDef
+import android.support.annotation.IntDef
 
 interface CacheStrategy {
     @IntDef(ALL, NONE, RESOURCE, DATA, AUTOMATIC)

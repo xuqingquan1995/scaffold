@@ -10,9 +10,9 @@ import android.os.Environment
 import android.os.Handler
 import android.os.Looper
 import android.provider.MediaStore
+import android.support.v4.os.EnvironmentCompat
 import android.text.TextUtils
 import android.widget.Toast
-import androidx.core.os.EnvironmentCompat
 import top.xuqingquan.R
 import top.xuqingquan.utils.Timber
 import top.xuqingquan.utils.getMIMEType

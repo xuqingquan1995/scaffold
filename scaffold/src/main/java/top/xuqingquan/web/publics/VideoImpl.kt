@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.FrameLayout
-import androidx.core.util.Pair
 import com.tencent.smtt.export.external.interfaces.IX5WebChromeClient
 import top.xuqingquan.web.nokernel.EventInterceptor
 import top.xuqingquan.web.nokernel.WebConfig

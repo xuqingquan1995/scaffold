@@ -1,14 +1,13 @@
 package top.xuqingquan.base.view.activity
 
+import android.arch.lifecycle.MutableLiveData
 import android.os.Bundle
+import android.support.annotation.LayoutRes
+import android.support.v4.content.ContextCompat
+import android.support.v7.app.AppCompatActivity
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import androidx.annotation.LayoutRes
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.*
 import top.xuqingquan.BuildConfig
 import top.xuqingquan.app.ScaffoldConfig
@@ -117,7 +116,7 @@ abstract class SimpleActivity : AppCompatActivity(), IActivity {
     }
 
     protected fun <T> launch(
-        context: CoroutineContext = lifecycleScope.coroutineContext,
+        context: CoroutineContext = Dispatchers.Main,
         tryBlock: suspend CoroutineScope.() -> T,
         catchBlock: suspend CoroutineScope.(Throwable) -> Unit = {},
         finallyBlock: suspend CoroutineScope.() -> Unit = {},
@@ -126,7 +125,7 @@ abstract class SimpleActivity : AppCompatActivity(), IActivity {
         if (hideKeyboard) {
             hideSoftKeyboard()
         }
-        return lifecycleScope.launch(context) {
+        return CoroutineScope(context).launch {
             try {
                 tryBlock()
             } catch (e: Throwable) {
@@ -143,7 +142,7 @@ abstract class SimpleActivity : AppCompatActivity(), IActivity {
 
     protected fun <T> launch(
         hideKeyboard: Boolean = true,
-        context: CoroutineContext = lifecycleScope.coroutineContext,
+        context: CoroutineContext = Dispatchers.Main,
         tryBlock: suspend CoroutineScope.() -> T
     ): Job {
         return launch(context, tryBlock, {}, {}, hideKeyboard)

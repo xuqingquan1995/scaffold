@@ -2,7 +2,7 @@ package top.xuqingquan.imageloader
 
 import android.annotation.SuppressLint
 import android.content.Context
-import androidx.core.util.Preconditions
+import android.support.v4.util.Preconditions
 import com.bumptech.glide.Glide
 import com.bumptech.glide.GlideBuilder
 import com.bumptech.glide.load.engine.DiskCacheStrategy

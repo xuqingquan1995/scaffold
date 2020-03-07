@@ -1,7 +1,7 @@
 package top.xuqingquan.imageloader
 
 import android.graphics.Bitmap
-import androidx.annotation.IntRange
+import android.support.annotation.IntRange
 import com.bumptech.glide.load.Key
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation

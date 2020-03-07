@@ -10,10 +10,10 @@ import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.widget.FrameLayout;
 
-import androidx.annotation.IdRes;
-import androidx.annotation.LayoutRes;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import android.support.annotation.IdRes;
+import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import top.xuqingquan.R;
 import top.xuqingquan.utils.Timber;
@@ -99,12 +99,12 @@ public class WebParentLayout extends FrameLayout implements Provider<AbsAgentWeb
             final View clickView = mFrameLayout.findViewById(mClickId);
             if (clickView != null) {
                 clickView.setOnClickListener(v -> {
-                    if (WebConfig.hasX5()){
+                    if (WebConfig.hasX5()) {
                         if (getX5WebView() != null) {
                             clickView.setClickable(false);
                             getX5WebView().reload();
                         }
-                    }else {
+                    } else {
                         if (getWebView() != null) {
                             clickView.setClickable(false);
                             getWebView().reload();
@@ -117,12 +117,12 @@ public class WebParentLayout extends FrameLayout implements Provider<AbsAgentWeb
             }
         }
         mFrameLayout.setOnClickListener(v -> {
-            if (WebConfig.hasX5()){
+            if (WebConfig.hasX5()) {
                 if (getX5WebView() != null) {
                     mFrameLayout.setClickable(false);
                     getX5WebView().reload();
                 }
-            }else {
+            } else {
                 if (getWebView() != null) {
                     mFrameLayout.setClickable(false);
                     getWebView().reload();

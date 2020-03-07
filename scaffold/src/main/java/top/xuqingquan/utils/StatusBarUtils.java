@@ -9,15 +9,14 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Build;
 import android.provider.Settings;
+import android.support.annotation.ColorInt;
+import android.support.annotation.IntDef;
+import android.support.annotation.IntRange;
+import android.support.v4.view.ViewCompat;
 import android.util.DisplayMetrics;
 import android.view.*;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-
-import androidx.annotation.ColorInt;
-import androidx.annotation.IntDef;
-import androidx.annotation.IntRange;
-import androidx.core.view.ViewCompat;
 
 import top.xuqingquan.R;
 

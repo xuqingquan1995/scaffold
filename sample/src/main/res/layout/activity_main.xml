@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+<android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh"
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -9,10 +9,10 @@
         android:layout_height="match_parent"
         tools:context=".MainActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+    <android.support.v7.widget.RecyclerView
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
             tools:listitem="@layout/item"
             android:id="@+id/list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
-</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</android.support.v4.widget.SwipeRefreshLayout>
