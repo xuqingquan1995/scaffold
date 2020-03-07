@@ -1,6 +1,17 @@
 # Scaffold 使用说明
 ## 依赖Scaffold
-### jitpack方式：
+### 远程依赖：
+[ ![Download](https://api.bintray.com/packages/xuqingquan1995/maven/scaffold/images/download.svg?version=2.0.1) ](https://bintray.com/xuqingquan1995/maven/scaffold/2.0.1/link)
+```
+在项目module下的build.gradle中dependencies里添加
+AndroidX:
+implementation "top.xuqingquan:scaffold:2.0.1"
+support:
+implementation "top.xuqingquan:scaffold:2.0.1-support"
+```
+或
+
+[![](https://jitpack.io/v/xuqingquan1995/Scaffold.svg)](https://jitpack.io/#xuqingquan1995/Scaffold)
 ```
 在项目目录下的build.gradle中的allprojects下的repositories里面添加
 maven {
@@ -8,9 +19,9 @@ maven {
 }
 然后再项目module下的build.gradle中dependencies里添加
 AndroidX:
-implementation com.github.xuqingquan1995:Scaffold:2.0.0'
+implementation 'com.github.xuqingquan1995:Scaffold:2.0.1'
 support:
-implementation com.github.xuqingquan1995:Scaffold:2.0.0-support'
+implementation 'com.github.xuqingquan1995:Scaffold:2.0.1-support'
 ```
 ### 作为module引用
 ```
@@ -135,3 +146,34 @@ launch {
 > Gitee: https://gitee.com/xuqingquan/Scaffold.git
 
 欢迎Star
+
+# License [![license](https://img.shields.io/github/license/xuqingquan1995/Scaffold.svg)](https://github.com/xuqingquan1995/Scaffold/blob/master/LICENSE)
+
+MIT License
+
+Copyright (c) 2020 许清泉
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+## 参考借鉴
+- [MVPArms](https://github.com/JessYanCoding/MVPArms)
+- [AndroidUtilCode](https://github.com/Blankj/AndroidUtilCode)
+- [AgentWeb](https://github.com/Justson/AgentWeb)
+- [Fragmentation](https://github.com/YoKeyword/Fragmentation)
+- [QMUI_Android](https://github.com/Tencent/QMUI_Android)
