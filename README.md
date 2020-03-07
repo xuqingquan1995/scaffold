@@ -7,7 +7,10 @@ maven {
      url "https://jitpack.io"
 }
 然后再项目module下的build.gradle中dependencies里添加
-implementation com.github.xuqingquan1995:Scaffold:1.0.5'
+AndroidX:
+implementation com.github.xuqingquan1995:Scaffold:2.0.0'
+support:
+implementation com.github.xuqingquan1995:Scaffold:2.0.0-support'
 ```
 ### 作为module引用
 ```
