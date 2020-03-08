@@ -10,6 +10,7 @@ import java.security.MessageDigest
 
 /**
  * Created by 许清泉 on 2019/4/16 01:02
+ * 高斯模糊
  */
 class BlurTransformation(@IntRange(from = 0) private val radius: Int = 15) : BitmapTransformation() {
     private val ID = this::class.java.name

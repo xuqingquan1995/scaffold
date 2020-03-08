@@ -3,7 +3,7 @@ package top.xuqingquan.integration
 import android.content.Context
 import android.os.Bundle
 import android.view.View
-import androidx.core.util.Preconditions
+import top.xuqingquan.utils.Preconditions
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import top.xuqingquan.cache.Cache

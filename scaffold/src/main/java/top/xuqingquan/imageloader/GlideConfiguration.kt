@@ -51,5 +51,11 @@ class GlideConfiguration : AppGlideModule() {
             InputStream::class.java,
             OkHttpUrlLoader.Factory(ScaffoldConfig.getOkHttpClient())
         )
+        val loadImgStrategy = ScaffoldConfig.getImageLoader().loadImgStrategy
+        if (loadImgStrategy is GlideAppliesOptions) {
+            (loadImgStrategy as GlideAppliesOptions).registerComponents(context, glide, registry)
+        }
     }
+
+    override fun isManifestParsingEnabled() = false
 }
