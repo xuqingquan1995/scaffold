@@ -25,13 +25,12 @@ ext {
             lifecycle           : '2.2.0',
             recyclerview        : '1.1.0',
             paging              : '2.1.1',
-            room                : '2.2.0-rc01',
-            navigation          : '2.1.0-alpha02',
+            room                : '2.2.4',
+            navigation          : '2.3.0-alpha03',
             material            : '1.2.0-alpha05',
             glide               : '4.11.0',
             qrcode              : '1.3.7',
             pickerView          : '4.1.9',
-            couponView          : '1.0.4',
             banner              : '2.0.0-alpha02',
             roundedimageview    : '2.3.0',
             autosize            : '1.2.0',
@@ -44,7 +43,7 @@ ext {
             recovery            : '1.0.0',
             anrwatchdog         : '1.4.0',
             anko                : '0.10.8',
-            viewpager2          : '1.0.0-beta03',
+            viewpager2          : '1.0.0',
             exifinterface       : '1.1.0',
             flexbox             : '2.0.1',
             tbs                 : '43697'
@@ -58,7 +57,7 @@ ext {
             core_ktx                  : "androidx.core:core-ktx:${depsVer.core_ktx}",
             constraintlayout          : "androidx.constraintlayout:constraintlayout:${depsVer.constraintlayout}",
             anko                      : "org.jetbrains.anko:anko:${depsVer.anko}",
-            viewpager2                : "androidx.viewpager2:viewpager2:${depsVer.viewpager2}",
+            multidex                  : "androidx.multidex:multidex:${depsVer.multidex}",
             junit                     : "junit:junit:${depsVer.junit}",
             test_rules                : "androidx.test:rules:${depsVer.test_rules}",
             espresso_core             : "androidx.test.espresso:espresso-core:${depsVer.espresso_core}",
@@ -68,15 +67,16 @@ ext {
             logging_interceptor       : "com.squareup.okhttp3:logging-interceptor:${depsVer.okhttp}",
             retrofit                  : "com.squareup.retrofit2:retrofit:${depsVer.retrofit}",
             converter_gson            : "com.squareup.retrofit2:converter-gson:${depsVer.retrofit}",
+            //format
+            gson                      : "com.google.code.gson:gson:${depsVer.gson}",
             //network
             progressmanager           : "me.jessyan:progressmanager:${depsVer.progressmanager}",
             retrofit_url_manager      : "me.jessyan:retrofit-url-manager:${depsVer.retrofit_url_manager}",
-            //format
-            gson                      : "com.google.code.gson:gson:${depsVer.gson}",
             //debug
             leakcanary                : "com.squareup.leakcanary:leakcanary-android:${depsVer.leakcanary}",
             logger                    : "com.orhanobut:logger:${depsVer.logger}",
             recovery                  : "com.zxy.android:recovery:${depsVer.recovery}",
+            anrwatchdog               : "com.github.anrwatchdog:anrwatchdog:${depsVer.anrwatchdog}",
             //message
             eventbus                  : "org.greenrobot:eventbus:${depsVer.eventbus}",
             //lifecycle
@@ -84,29 +84,27 @@ ext {
             lifecycle_viewmodel_ktx   : "androidx.lifecycle:lifecycle-viewmodel-ktx:${depsVer.lifecycle}",
             lifecycle_runtime_ktx     : "androidx.lifecycle:lifecycle-runtime-ktx:${depsVer.lifecycle}",
             //view
-            exifinterface             : "androidx.exifinterface:exifinterface:${depsVer.exifinterface}",
+            viewpager2                : "androidx.viewpager2:viewpager2:${depsVer.viewpager2}",
             recyclerview              : "androidx.recyclerview:recyclerview:${depsVer.recyclerview}",
             paging                    : "androidx.paging:paging-runtime-ktx:${depsVer.paging}",
-            room                      : "androidx.room:room-runtime:${depsVer.room}",
-            room_compiler             : "androidx.room:room-compiler:${depsVer.room}",
-            room_ktx                  : "androidx.room:room-ktx:${depsVer.room}",
             navigation_fragment_ktx   : "androidx.navigation:navigation-fragment-ktx:${depsVer.navigation}",
             navigation_ui_ktx         : "androidx.navigation:navigation-ui-ktx:${depsVer.navigation}",
             material                  : "com.google.android.material:material:${depsVer.material}",
+            pickerView                : "com.contrarywind:Android-PickerView:${depsVer.pickerView}",//选择器
+            banner                    : "com.youth.banner:banner:${depsVer.banner}",//轮播
+            roundedimageview          : "com.makeramen:roundedimageview:${depsVer.roundedimageview}",//圆角
+            flexbox                   : "com.google.android:flexbox:${depsVer.flexbox}",//流式布局
+            BRVAH                     : "com.github.CymChad:BaseRecyclerViewAdapterHelper:${depsVer.BRVAH}",//强大的RecyclerViewAdapter
+            //tools
+            exifinterface             : "androidx.exifinterface:exifinterface:${depsVer.exifinterface}",
+            room                      : "androidx.room:room-runtime:${depsVer.room}",
+            room_compiler             : "androidx.room:room-compiler:${depsVer.room}",
+            room_ktx                  : "androidx.room:room-ktx:${depsVer.room}",
             glide                     : "com.github.bumptech.glide:glide:${depsVer.glide}",
             glide_compiler            : "com.github.bumptech.glide:compiler:${depsVer.glide}",
-            pickerView                : "com.contrarywind:Android-PickerView:${depsVer.pickerView}",//选择器
-            couponView                : "com.github.dongjunkun:CouponView:${depsVer.couponView}",//优惠券样式
-            banner                    : "com.youth.banner:banner:${depsVer.banner}",//广告
-            roundedimageview          : "com.makeramen:roundedimageview:${depsVer.roundedimageview}",//圆角
             autosize                  : "me.jessyan:autosize:${depsVer.autosize}",//屏幕自适应
-            BRVAH                     : "com.github.CymChad:BaseRecyclerViewAdapterHelper:${depsVer.BRVAH}",//强大的RecyclerViewAdapter
-            flexbox                   : "com.google.android:flexbox:${depsVer.flexbox}",//流式布局
-            //tools
-            qrcode                    : "cn.bingoogolapple:bga-qrcode-zxing:${depsVer.qrcode}",
             Downloader                : "com.download.library:Downloader:${depsVer.Downloader}",
-            multidex                  : "androidx.multidex:multidex:${depsVer.multidex}",
-            anrwatchdog               : "com.github.anrwatchdog:anrwatchdog:${depsVer.anrwatchdog}",
+            qrcode                    : "cn.bingoogolapple:bga-qrcode-zxing:${depsVer.qrcode}",
             tbs                       : "com.tencent.tbs.tbssdk:sdk:${depsVer.tbs}"
     ]
 
