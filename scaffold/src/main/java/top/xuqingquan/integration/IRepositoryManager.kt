@@ -1,5 +1,7 @@
 package top.xuqingquan.integration
 
+import retrofit2.Retrofit
+
 /**
  * Created by 许清泉 on 2019/4/14 16:42
  * 用来管理网络请求层,以及数据缓存层
@@ -14,5 +16,9 @@ interface IRepositoryManager {
      * @return Retrofit service
     </T> */
     fun <T> obtainRetrofitService(service: Class<T>): T
+
+    interface ObtainServiceDelegate {
+        fun <T> createRetrofitService(retrofit: Retrofit?, serviceClass: Class<T>?): T?
+    }
 
 }

@@ -2,9 +2,10 @@ package top.xuqingquan.imageloader
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.support.v4.util.Preconditions
+import top.xuqingquan.utils.Preconditions
 import com.bumptech.glide.Glide
 import com.bumptech.glide.GlideBuilder
+import com.bumptech.glide.Registry
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
@@ -28,7 +29,6 @@ class GlideImageLoaderStrategy : BaseImageLoaderStrategy<ImageConfigImpl>, Glide
         val glideRequest = requests.load(config.getUrl())
         when (config.cacheStrategy) {
             //缓存策略
-            CacheStrategy.ALL -> glideRequest.diskCacheStrategy(DiskCacheStrategy.ALL)
             CacheStrategy.NONE -> glideRequest.diskCacheStrategy(DiskCacheStrategy.NONE)
             CacheStrategy.RESOURCE -> glideRequest.diskCacheStrategy(DiskCacheStrategy.RESOURCE)
             CacheStrategy.DATA -> glideRequest.diskCacheStrategy(DiskCacheStrategy.DATA)
@@ -96,5 +96,9 @@ class GlideImageLoaderStrategy : BaseImageLoaderStrategy<ImageConfigImpl>, Glide
 
     override fun applyGlideOptions(context: Context, builder: GlideBuilder) {
         Timber.d("applyGlideOptions")
+    }
+
+    override fun registerComponents(context: Context, glide: Glide, registry: Registry) {
+        Timber.i("registerComponents")
     }
 }

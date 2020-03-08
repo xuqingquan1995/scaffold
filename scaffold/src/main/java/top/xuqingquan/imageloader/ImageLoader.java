@@ -3,7 +3,7 @@ package top.xuqingquan.imageloader;
 import android.content.Context;
 import android.support.annotation.Nullable;
 
-import android.support.v4.util.Preconditions;
+import top.xuqingquan.utils.Preconditions;
 import top.xuqingquan.app.ScaffoldConfig;
 
 /**

@@ -73,6 +73,7 @@ public class ScaffoldConfig {
     private static RetrofitConfiguration retrofitConfiguration;
     private static OkhttpConfiguration okhttpConfiguration;
     private static ComponentCallbacks2 componentCallbacks2;
+    private static IRepositoryManager.ObtainServiceDelegate obtainServiceDelegate;
 
     private ScaffoldConfig(@NonNull Application application) {
         ScaffoldConfig.application = application;
@@ -102,6 +103,8 @@ public class ScaffoldConfig {
     public static Gson getGson() {
         if (gson == null) {
             GsonBuilder builder = new GsonBuilder();
+            builder.serializeNulls();//支持序列化值为 null 的参数
+            builder.enableComplexMapKeySerialization();//支持将序列化 key 为 Object 的 Map, 默认只能序列化 key 为 String 的 Map
             if (gsonConfiguration != null) {
                 gsonConfiguration.configGson(application, builder);
             }
@@ -240,6 +243,11 @@ public class ScaffoldConfig {
     }
 
     @Nullable
+    public static IRepositoryManager.ObtainServiceDelegate getObtainServiceDelegate() {
+        return obtainServiceDelegate;
+    }
+
+    @Nullable
     public static OkhttpConfiguration getOkhttpConfiguration() {
         return okhttpConfiguration;
     }
@@ -341,6 +349,11 @@ public class ScaffoldConfig {
     @NonNull
     public ScaffoldConfig setRetrofitConfiguration(@Nullable RetrofitConfiguration retrofitConfiguration) {
         ScaffoldConfig.retrofitConfiguration = retrofitConfiguration;
+        return this;
+    }
+
+    public ScaffoldConfig setObtainServiceDelegate(IRepositoryManager.ObtainServiceDelegate obtainServiceDelegate) {
+        ScaffoldConfig.obtainServiceDelegate = obtainServiceDelegate;
         return this;
     }
 
@@ -447,6 +460,7 @@ public class ScaffoldConfig {
     private static Application.ActivityLifecycleCallbacks activityLifecycleCallbacks;
     private static FragmentManager.FragmentLifecycleCallbacks fragmentLifecycleCallbacks;
     private static List<FragmentManager.FragmentLifecycleCallbacks> fragmentLifecycleCallbacksList;
+
     @NonNull
     public static AppManager getAppManager() {
         if (appManager == null) {

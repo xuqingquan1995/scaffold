@@ -1,6 +1,6 @@
 package top.xuqingquan.cache
 
-import android.support.v4.util.Preconditions
+import top.xuqingquan.utils.Preconditions
 
 /**
  * Created by 许清泉 on 2019/4/14 17:57
