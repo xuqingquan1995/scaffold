@@ -43,24 +43,27 @@ class UrlLoaderImpl : IUrlLoader {
     }
 
     override fun loadUrl(url: String, headers: Map<String, String>?) {
-        if (!WebUtils.isUIThread()) {
-            WebUtils.runInUiThread(Runnable {
-                loadUrl(url, headers)
-            })
-        }
-        Timber.i("loadUrl:$url headers:$headers")
-        if (WebConfig.hasX5()) {
-            if (headers.isNullOrEmpty()) {
-                this.mx5WebView!!.loadUrl(url)
-            } else {
-                this.mx5WebView!!.loadUrl(url, headers)
+        try {
+            if (!WebUtils.isUIThread()) {
+                WebUtils.runInUiThread(Runnable {
+                    loadUrl(url, headers)
+                })
             }
-        } else {
-            if (headers.isNullOrEmpty()) {
-                this.mWebView!!.loadUrl(url)
+            Timber.i("loadUrl:$url headers:$headers")
+            if (WebConfig.hasX5()) {
+                if (headers.isNullOrEmpty()) {
+                    this.mx5WebView!!.loadUrl(url)
+                } else {
+                    this.mx5WebView!!.loadUrl(url, headers)
+                }
             } else {
-                this.mWebView!!.loadUrl(url, headers)
+                if (headers.isNullOrEmpty()) {
+                    this.mWebView!!.loadUrl(url)
+                } else {
+                    this.mWebView!!.loadUrl(url, headers)
+                }
             }
+        } catch (e: Throwable) {
         }
     }
 

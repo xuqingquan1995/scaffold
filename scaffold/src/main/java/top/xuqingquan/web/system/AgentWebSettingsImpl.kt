@@ -47,10 +47,18 @@ class AgentWebSettingsImpl : AbsAgentWebSettings() {
             Timber.e(t)
             try {
                 listener = DownloadListener { url, _, _, _, _ ->
-                    val fileName = if (url.contains("?")) {
-                        url.substring(url.lastIndexOf("/") + 1, url.indexOf("?"))
-                    } else {
-                        url.substring(url.lastIndexOf("/") + 1)
+                    val fileName = try {
+                        var lastIndexOf = url.lastIndexOf("/")
+                        if (lastIndexOf != url.length - 1) {//如果已经不是最后一项了
+                            lastIndexOf += 1
+                        }
+                        if (url.contains("?")) {
+                            url.substring(lastIndexOf, url.indexOf("?"))
+                        } else {
+                            url.substring(lastIndexOf)
+                        }
+                    } catch (e: Throwable) {
+                        url
                     }
                     val downloadPath = getCacheFilePath(mContext)
                     val downloadFile = File(downloadPath, fileName)

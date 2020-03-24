@@ -98,7 +98,7 @@ class IntelligentCache<V>(size: Int) : Cache<String, V> {
      */
     @Synchronized
     override fun keySet(): MutableSet<String> {
-        val set = mCache.keySet()
+        val set = mCache.keySet().toMutableSet()
         set.addAll(mMap.keys)
         return set
     }

@@ -22,7 +22,7 @@ import java.io.InputStream
  */
 @GlideModule
 class GlideConfiguration : AppGlideModule() {
-    private val IMAGE_DISK_CACHE_MAX_SIZE: Long = 100 * 1024 * 1024//图片缓存文件最大值为100Mb
+    private val IMAGE_DISK_CACHE_MAX_SIZE: Long = 512 * 1024 * 1024//图片缓存文件最大值为100Mb
 
     override fun applyOptions(context: Context, builder: GlideBuilder) {
         builder.setDiskCache {
