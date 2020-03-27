@@ -73,6 +73,7 @@ dependencies {
     implementation rootProject.ext.deps.paging
     implementation rootProject.ext.deps.tbs
     implementation rootProject.ext.deps.Downloader
+    implementation 'com.jwkj:M3U8Manger:v2.3.0'
 }
 andResGuard {
     // mappingFile = file("./resource_mapping.txt")
