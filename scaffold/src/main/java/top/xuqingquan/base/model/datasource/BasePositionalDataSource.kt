@@ -1,7 +1,7 @@
 package top.xuqingquan.base.model.datasource
 
-import androidx.lifecycle.MutableLiveData
-import androidx.paging.PositionalDataSource
+import android.arch.lifecycle.MutableLiveData
+import android.arch.paging.PositionalDataSource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
