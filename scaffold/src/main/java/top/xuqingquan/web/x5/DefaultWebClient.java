@@ -303,6 +303,7 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
             }
             PackageManager packageManager = mActivity.getPackageManager();
             intent = Intent.parseUri(url, Intent.URI_INTENT_SCHEME);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             ResolveInfo info = packageManager.resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY);
             // 跳到该应用
             if (info != null) {
@@ -355,6 +356,7 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
                 }
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setData(Uri.parse(url));
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mActivity.startActivity(intent);
             } catch (Throwable throwable) {
                 Timber.e(throwable);
@@ -408,6 +410,7 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
             Intent intent = new Intent();
             intent.setAction(Intent.ACTION_VIEW);
             intent.setData(Uri.parse(url));
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             mWeakReference.get().startActivity(intent);
 
         } catch (Throwable e) {
