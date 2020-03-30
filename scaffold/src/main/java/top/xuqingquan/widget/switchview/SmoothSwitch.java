@@ -6,11 +6,11 @@ import android.content.res.TypedArray;
 import android.graphics.drawable.StateListDrawable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.widget.Switch;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.Dimension;
 import androidx.annotation.IntDef;
+import androidx.appcompat.widget.SwitchCompat;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -18,7 +18,7 @@ import java.lang.annotation.RetentionPolicy;
 import top.xuqingquan.R;
 import top.xuqingquan.utils.ViewUtils;
 
-public class SmoothSwitch extends Switch {//平滑
+public class SmoothSwitch extends SwitchCompat {//平滑
 
     public static final int SMALL = 0;
     public static final int LARGE = 1;
@@ -51,6 +51,7 @@ public class SmoothSwitch extends Switch {//平滑
 
     public SmoothSwitch(Context context, AttributeSet attrs) {
         super(context, attrs);
+        setShowText(true);
         mContext = context;
         TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.SmoothSwitch);
         if (a.getString(R.styleable.SmoothSwitch_size) != null) {
@@ -79,14 +80,6 @@ public class SmoothSwitch extends Switch {//平滑
         }
         a.recycle();
         setSwitch();
-    }
-
-    public SmoothSwitch(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr, 0);
-    }
-
-    public SmoothSwitch(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
     }
 
     @SuppressLint("ClickableViewAccessibility")
