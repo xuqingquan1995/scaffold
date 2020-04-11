@@ -3,14 +3,13 @@ package top.xuqingquan.base.view.adapter.viewholder
 import android.view.View
 import androidx.annotation.IdRes
 import androidx.recyclerview.widget.RecyclerView
-import org.jetbrains.anko.find
 
 /**
  * Created by 许清泉 on 2019/4/13 23:28
  * 简单实现ViewHolder
  */
-open class BaseViewHolder<T>(val view: View) :
-    RecyclerView.ViewHolder(view) {
+open class BaseViewHolder<T>(val _view: View) :
+    RecyclerView.ViewHolder(_view) {
 
     var onViewClickListener: OnViewClickListener? = null
 
@@ -21,7 +20,7 @@ open class BaseViewHolder<T>(val view: View) :
      */
     open fun setData(data: T?, position: Int) {}
 
-    inline fun <reified V : View> getView(@IdRes viewId: Int): V = view.find(viewId)
+    inline fun <reified V : View> getView(@IdRes viewId: Int): V = _view.findViewById(viewId)
 
     init {
         itemView.setOnClickListener {
