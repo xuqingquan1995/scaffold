@@ -2,13 +2,19 @@
 @file:Suppress("NOTHING_TO_INLINE", "unused")
 package top.xuqingquan.utils.anko
 
-fun androidx.drawerlayout.widget.DrawerLayout.drawerListener(init: __DrawerLayout_DrawerListener.() -> Unit) {
+import androidx.core.widget.NestedScrollView
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.FragmentTabHost
+import androidx.viewpager.widget.PagerAdapter
+import androidx.viewpager.widget.ViewPager
+
+fun DrawerLayout.drawerListener(init: __DrawerLayout_DrawerListener.() -> Unit) {
     val listener = __DrawerLayout_DrawerListener()
     listener.init()
     addDrawerListener(listener)
 }
 
-class __DrawerLayout_DrawerListener : androidx.drawerlayout.widget.DrawerLayout.DrawerListener {
+class __DrawerLayout_DrawerListener : DrawerLayout.DrawerListener {
     private var _onDrawerSlide: ((android.view.View?, Float) -> Unit)? = null
     private var _onDrawerOpened: ((android.view.View?) -> Unit)? = null
     private var _onDrawerClosed: ((android.view.View?) -> Unit)? = null
@@ -48,17 +54,17 @@ class __DrawerLayout_DrawerListener : androidx.drawerlayout.widget.DrawerLayout.
 
 }
 
-inline fun androidx.viewpager.widget.ViewPager.onAdapterChange(noinline l: (viewPager: androidx.viewpager.widget.ViewPager?, oldAdapter: androidx.viewpager.widget.PagerAdapter?, newAdapter: androidx.viewpager.widget.PagerAdapter?) -> Unit) {
+inline fun ViewPager.onAdapterChange(noinline l: (viewPager: ViewPager?, oldAdapter: PagerAdapter?, newAdapter: PagerAdapter?) -> Unit) {
     addOnAdapterChangeListener(l)
 }
 
-fun androidx.viewpager.widget.ViewPager.onPageChangeListener(init: __ViewPager_OnPageChangeListener.() -> Unit) {
+fun ViewPager.onPageChangeListener(init: __ViewPager_OnPageChangeListener.() -> Unit) {
     val listener = __ViewPager_OnPageChangeListener()
     listener.init()
     addOnPageChangeListener(listener)
 }
 
-class __ViewPager_OnPageChangeListener : androidx.viewpager.widget.ViewPager.OnPageChangeListener {
+class __ViewPager_OnPageChangeListener : ViewPager.OnPageChangeListener {
     private var _onPageScrolled: ((Int, Float, Int) -> Unit)? = null
     private var _onPageSelected: ((Int) -> Unit)? = null
     private var _onPageScrollStateChanged: ((Int) -> Unit)? = null
@@ -89,15 +95,15 @@ class __ViewPager_OnPageChangeListener : androidx.viewpager.widget.ViewPager.OnP
 
 }
 
-inline fun androidx.fragment.app.FragmentTabHost.onTabChanged(noinline l: (tabId: String?) -> Unit) {
+inline fun FragmentTabHost.onTabChanged(noinline l: (tabId: String?) -> Unit) {
     setOnTabChangedListener(l)
 }
 
-inline fun androidx.core.widget.NestedScrollView.onScrollChange(noinline l: (v: androidx.core.widget.NestedScrollView?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int) -> Unit) {
+inline fun NestedScrollView.onScrollChange(noinline l: (v: NestedScrollView?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int) -> Unit) {
     setOnScrollChangeListener(l)
 }
-//
-//inline fun androidx.swiperefreshlayout.widget.SwipeRefreshLayout.onRefresh(noinline l: () -> Unit) {
+
+//inline fun SwipeRefreshLayout.onRefresh(noinline l: () -> Unit) {
 //    setOnRefreshListener(l)
 //}
-//
+
