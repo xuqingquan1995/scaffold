@@ -7,8 +7,8 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.view.View
-import org.jetbrains.anko.dip
-import org.jetbrains.anko.px2dip
+import top.xuqingquan.utils.anko.dip
+import top.xuqingquan.utils.anko.px2dip
 import java.io.File
 import java.io.FileOutputStream
 
