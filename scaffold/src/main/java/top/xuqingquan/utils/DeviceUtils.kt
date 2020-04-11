@@ -13,8 +13,8 @@ import android.util.DisplayMetrics
 import android.view.WindowManager
 import android.support.annotation.RequiresPermission
 import android.support.v4.content.ContextCompat
-import org.jetbrains.anko.share
 import top.xuqingquan.app.ScaffoldFileProvider
+import top.xuqingquan.utils.anko.share
 import java.io.File
 
 /**

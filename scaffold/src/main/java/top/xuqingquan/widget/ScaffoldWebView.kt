@@ -9,9 +9,9 @@ import android.support.annotation.ColorInt
 import android.support.annotation.DimenRes
 import android.support.annotation.IdRes
 import android.support.annotation.LayoutRes
-import org.jetbrains.anko.px2dip
 import top.xuqingquan.R
 import top.xuqingquan.app.ScaffoldConfig
+import top.xuqingquan.utils.anko.px2dip
 import top.xuqingquan.web.AgentWeb
 import top.xuqingquan.web.nokernel.PermissionInterceptor
 import top.xuqingquan.web.nokernel.WebConfig

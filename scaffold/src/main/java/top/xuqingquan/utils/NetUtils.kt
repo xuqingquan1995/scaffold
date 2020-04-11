@@ -51,26 +51,32 @@ fun checkNetworkType(ctx: Context): Int {
 
 @Suppress("DEPRECATION")
 fun networkIsConnect(ctx: Context, callback: MutableLiveData<Boolean>? = null): Boolean {
-    val context = ctx.applicationContext
-    val connectivity = ContextCompat.getSystemService(context, ConnectivityManager::class.java)
-    val info = connectivity?.activeNetworkInfo
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-        connectivity?.registerDefaultNetworkCallback(
-            object : ConnectivityManager.NetworkCallback() {
-                override fun onAvailable(network: Network) {
-                    super.onAvailable(network)
-                    callback?.postValue(true)
-                }
+    return try {
+        val context = ctx.applicationContext
+        val connectivity = ContextCompat.getSystemService(context, ConnectivityManager::class.java)
+        val info = connectivity?.activeNetworkInfo
+        if (callback != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                connectivity?.registerDefaultNetworkCallback(
+                    object : ConnectivityManager.NetworkCallback() {
+                        override fun onAvailable(network: Network) {
+                            super.onAvailable(network)
+                            callback.postValue(true)
+                        }
 
-                override fun onLost(network: Network) {
-                    super.onLost(network)
-                    callback?.postValue(false)
-                }
-            })
-    } else {
-        callback?.postValue(info != null && info.isConnected)
+                        override fun onLost(network: Network) {
+                            super.onLost(network)
+                            callback.postValue(false)
+                        }
+                    })
+            } else {
+                callback.postValue(info != null && info.isConnected)
+            }
+        }
+        info != null && info.isConnected
+    } catch (e: Throwable) {
+        false
     }
-    return info != null && info.isConnected
 }
 
 /**

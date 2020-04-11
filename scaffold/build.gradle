@@ -67,7 +67,6 @@ dependencies {
     api rootProject.ext.deps.lifecycle_extensions
 //    api rootProject.ext.deps.lifecycle_runtime_ktx
     api rootProject.ext.deps.lifecycle_runtime
-    api rootProject.ext.deps.anko
 //    compileOnly rootProject.ext.deps.multidex
     compileOnly rootProject.ext.deps.multidex_support
     //view

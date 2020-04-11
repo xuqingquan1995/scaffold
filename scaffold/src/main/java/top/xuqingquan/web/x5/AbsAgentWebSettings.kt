@@ -86,7 +86,7 @@ abstract class AbsAgentWebSettings : IAgentWebSettings<WebSettings>, WebListener
         //缓存文件最大值
         mWebSettings!!.setAppCacheMaxSize(java.lang.Long.MAX_VALUE)
         mWebSettings!!.userAgentString = getWebSettings()!!
-            .userAgentString + USERAGENT_AGENTWEB + USERAGENT_UC + USERAGENT_QQ_BROWSER
+            .userAgentString + USERAGENT_AGENTWEB + USERAGENT_UC
         Timber.i("UserAgentString : " + mWebSettings!!.userAgentString)
     }
 
@@ -117,7 +117,6 @@ abstract class AbsAgentWebSettings : IAgentWebSettings<WebSettings>, WebListener
 
     companion object {
         private const val USERAGENT_UC = " UCBrowser/11.6.4.950 "
-        private const val USERAGENT_QQ_BROWSER = " MQQBrowser/8.0 "
         private const val USERAGENT_AGENTWEB = WebConfig.AGENTWEB_VERSION
 
         @JvmStatic
