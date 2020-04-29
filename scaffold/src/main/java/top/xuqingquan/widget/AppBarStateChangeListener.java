@@ -1,6 +1,6 @@
 package top.xuqingquan.widget;
 
-import com.google.android.material.appbar.AppBarLayout;
+import android.support.design.widget.AppBarLayout;
 
 /**
  * Created by 许清泉 on 2020/4/16 12:54

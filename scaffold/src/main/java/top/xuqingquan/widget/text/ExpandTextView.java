@@ -2,14 +2,13 @@ package top.xuqingquan.widget.text;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.support.v7.widget.AppCompatTextView;
 import android.text.Layout;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.StaticLayout;
 import android.text.method.LinkMovementMethod;
 import android.util.AttributeSet;
-
-import androidx.appcompat.widget.AppCompatTextView;
 
 /**
  * 自定义控件，长文本展开收起TextView
