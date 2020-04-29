@@ -45,7 +45,7 @@ ext {
             swiperefreshlayout  : '1.0.0',
             exifinterface       : '1.2.0',
             flexbox             : '2.0.1',
-            tbs                 : '43697'
+            tbs                 : '43903'
     ]
     deps = [
             //每个app都要用到的
