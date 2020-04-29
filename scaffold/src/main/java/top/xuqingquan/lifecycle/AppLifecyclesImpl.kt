@@ -38,13 +38,17 @@ class AppLifecyclesImpl : AppLifecycles {
 //                    return BuildConfig.DEBUG
 //                }
 //            })
-            //ANR监视，debug时使用
-            ANRWatchDog()
-                .setIgnoreDebugger(true)
-                .setANRListener {
-                    it.printStackTrace()
-                }
-                .start()
+            try {
+                //ANR监视，debug时使用
+                Class.forName("com.github.anrwatchdog.ANRWatchDog")
+                ANRWatchDog()
+                    .setIgnoreDebugger(true)
+                    .setANRListener {
+                        it.printStackTrace()
+                    }
+                    .start()
+            } catch (t: Throwable) {
+            }
             try {
                 Class.forName("com.zxy.recovery.core.Recovery")
                 //崩溃重启框架，debug时使用
