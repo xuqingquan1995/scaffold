@@ -11,11 +11,11 @@ import android.webkit.JavascriptInterface
 import com.tencent.smtt.sdk.WebView
 import com.tencent.smtt.sdk.WebViewClient
 import kotlinx.android.synthetic.main.html_printer.*
-import org.jetbrains.anko.sdk27.coroutines.onClick
-import org.jetbrains.anko.sdk27.coroutines.onEditorAction
-import org.jetbrains.anko.toast
 import top.xuqingquan.base.view.activity.SimpleActivity
 import top.xuqingquan.utils.Timber
+import top.xuqingquan.utils.anko.onClick
+import top.xuqingquan.utils.anko.onEditorAction
+import top.xuqingquan.utils.anko.toast
 import top.xuqingquan.utils.copyTextToBoard
 import top.xuqingquan.web.AgentWeb
 import top.xuqingquan.web.nokernel.OpenOtherPageWays

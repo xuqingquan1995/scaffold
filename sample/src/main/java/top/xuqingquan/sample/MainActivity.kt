@@ -6,8 +6,9 @@ import android.arch.paging.LivePagedListBuilder
 import android.os.Bundle
 import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
-import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.toast
+import top.xuqingquan.utils.anko.startActivity
+import top.xuqingquan.utils.anko.toast
+import top.xuqingquan.web.nokernel.WebConfig
 import top.xuqingquan.app.ScaffoldConfig
 import top.xuqingquan.base.model.entity.Listing
 import top.xuqingquan.base.model.entity.NetworkStatus

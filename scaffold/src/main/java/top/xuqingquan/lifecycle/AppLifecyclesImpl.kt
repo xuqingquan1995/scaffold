@@ -8,7 +8,6 @@ import com.tencent.smtt.export.external.TbsCoreSettings
 import com.tencent.smtt.sdk.QbSdk
 import com.tencent.smtt.sdk.TbsListener
 import com.zxy.recovery.core.Recovery
-import me.jessyan.autosize.AutoSizeConfig
 import top.xuqingquan.app.ScaffoldConfig
 import top.xuqingquan.delegate.AppLifecycles
 import top.xuqingquan.error.RecoveryCrashCallback
@@ -61,11 +60,6 @@ class AppLifecyclesImpl : AppLifecycles {
             }
         }
         try {
-            Class.forName("me.jessyan.autosize.AutoSizeConfig")
-            AutoSizeConfig.getInstance().isCustomFragment = true
-        } catch (e: Throwable) {
-        }
-        try {
             Class.forName("com.tencent.smtt.sdk.QbSdk")
             thread {
                 Timber.d("QbSdk----Thread.currentThread()===${Thread.currentThread()}")
@@ -73,7 +67,7 @@ class AppLifecyclesImpl : AppLifecycles {
                 QbSdk.initTbsSettings(
                     mapOf(
                         TbsCoreSettings.TBS_SETTINGS_USE_SPEEDY_CLASSLOADER to true,
-                        TbsCoreSettings.TBS_SETTINGS_USE_DEXLOADER_SERVICE to false
+                        TbsCoreSettings.TBS_SETTINGS_USE_DEXLOADER_SERVICE to true
                     )
                 )
                 QbSdk.setDownloadWithoutWifi(true)

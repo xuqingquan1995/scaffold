@@ -11,8 +11,8 @@ android {
     defaultConfig {
         minSdkVersion rootProject.ext.android.minSdkVersion
         targetSdkVersion rootProject.ext.android.targetSdkVersion
-        versionCode 203
-        versionName "2.0.3"
+        versionCode 204
+        versionName "2.0.4"
         testInstrumentationRunner rootProject.ext.android.AndroidJUnitRunner
         flavorDimensions 'default'
     }
@@ -81,7 +81,6 @@ dependencies {
     kapt rootProject.ext.deps.glide_compiler
 //    api rootProject.ext.deps.material
     api rootProject.ext.deps.design
-    compileOnly rootProject.ext.deps.autosize
     //retorfit
     api rootProject.ext.deps.retrofit
     api rootProject.ext.deps.converter_gson

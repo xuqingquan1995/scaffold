@@ -49,6 +49,16 @@ fun checkNetworkType(ctx: Context): Int {
     }
 }
 
+fun checkNetworkTypeStr(ctx: Context): String {
+    return when (checkNetworkType(ctx)) {
+        1 -> "WIFI"
+        2 -> "4G"
+        3 -> "3G"
+        4 -> "2G"
+        else -> "未知"
+    }
+}
+
 @Suppress("DEPRECATION")
 fun networkIsConnect(ctx: Context, callback: MutableLiveData<Boolean>? = null): Boolean {
     return try {
@@ -206,4 +216,24 @@ fun getSSID(context: Context): String {
     val manager = ContextCompat.getSystemService(context, WifiManager::class.java)
     val info = manager?.connectionInfo
     return info?.ssid?.replace("\"", "") ?: "<unknown ssid>"
+}
+
+fun hasSim(context: Context): Boolean {
+    val manager = ContextCompat.getSystemService(context, TelephonyManager::class.java)
+    return manager?.simState == TelephonyManager.SIM_STATE_READY
+}
+
+fun getCellularOperatorType(context: Context): String {
+    var operatorType = "网络未知"
+    if (!networkIsConnect(context)) {
+        operatorType = "网络没有连接"
+        return operatorType
+    }
+    val networkType = checkNetworkTypeStr(context)
+    if (!hasSim(context)) {
+        return "$networkType-没有sim卡"
+    }
+    val manager = ContextCompat.getSystemService(context, TelephonyManager::class.java)
+        ?: return operatorType
+    return "${manager.simOperatorName}-$networkType"
 }
