@@ -7,8 +7,6 @@ import androidx.lifecycle.Transformations
 import androidx.paging.toLiveData
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.delay
-import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.toast
 import top.xuqingquan.app.ScaffoldConfig
 import top.xuqingquan.base.model.entity.Listing
 import top.xuqingquan.base.model.entity.NetworkStatus
@@ -16,6 +14,8 @@ import top.xuqingquan.base.view.activity.SimpleActivity
 import top.xuqingquan.base.view.adapter.listadapter.SimplePagedListAdapter
 import top.xuqingquan.http.log.Level
 import top.xuqingquan.utils.Timber
+import top.xuqingquan.utils.anko.startActivity
+import top.xuqingquan.utils.anko.toast
 import top.xuqingquan.web.nokernel.WebConfig
 
 class MainActivity : SimpleActivity() {
