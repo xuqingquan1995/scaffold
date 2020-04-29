@@ -5,6 +5,7 @@ package top.xuqingquan.utils.anko
 import androidx.core.widget.NestedScrollView
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.FragmentTabHost
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 
@@ -103,7 +104,7 @@ inline fun NestedScrollView.onScrollChange(noinline l: (v: NestedScrollView?, sc
     setOnScrollChangeListener(l)
 }
 
-//inline fun SwipeRefreshLayout.onRefresh(noinline l: () -> Unit) {
-//    setOnRefreshListener(l)
-//}
+inline fun SwipeRefreshLayout.onRefresh(noinline l: () -> Unit) {
+    setOnRefreshListener(l)
+}
 

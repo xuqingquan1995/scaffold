@@ -67,8 +67,8 @@ dependencies {
     //test
     testImplementation rootProject.ext.deps.junit
     androidTestImplementation rootProject.ext.deps.espresso_core
-//    implementation project(path: ':scaffold')
-    implementation 'top.xuqingquan:scaffold:2.0.3'
+    implementation project(path: ':scaffold')
+//    implementation 'top.xuqingquan:scaffold:2.0.3'
     implementation rootProject.ext.deps.multidex
     implementation rootProject.ext.deps.paging
     implementation rootProject.ext.deps.tbs
