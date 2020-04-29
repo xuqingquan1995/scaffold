@@ -1,5 +1,6 @@
 package top.xuqingquan.base.view.adapter.viewholder
 
+import android.util.SparseArray
 import android.support.annotation.IdRes
 import android.support.v7.widget.RecyclerView
 import android.view.View
@@ -8,8 +9,13 @@ import android.view.View
  * Created by 许清泉 on 2019/4/13 23:28
  * 简单实现ViewHolder
  */
-open class BaseViewHolder<T>(val _view: View) :
+open class BaseViewHolder<T>(_view: View) :
     RecyclerView.ViewHolder(_view) {
+
+    /**
+     * Views indexed with their IDs
+     */
+    val views = SparseArray<View>()
 
     var onViewClickListener: OnViewClickListener? = null
 
@@ -20,7 +26,14 @@ open class BaseViewHolder<T>(val _view: View) :
      */
     open fun setData(data: T?, position: Int) {}
 
-    inline fun <reified V : View> getView(@IdRes viewId: Int): V = _view.findViewById(viewId)
+    inline fun <reified V : View> getView(@IdRes viewId: Int): V {
+        var view = views.get(viewId)
+        if (view == null) {
+            view = itemView.findViewById(viewId)
+            views.put(viewId, view)
+        }
+        return view as V
+    }
 
     init {
         itemView.setOnClickListener {
