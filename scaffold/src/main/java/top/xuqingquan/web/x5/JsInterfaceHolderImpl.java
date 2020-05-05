@@ -1,8 +1,7 @@
 package top.xuqingquan.web.x5;
 
 import android.annotation.SuppressLint;
-
-import androidx.annotation.NonNull;
+import android.support.annotation.NonNull;
 
 import com.tencent.smtt.sdk.WebView;
 

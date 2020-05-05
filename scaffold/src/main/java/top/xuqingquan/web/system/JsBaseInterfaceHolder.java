@@ -1,8 +1,7 @@
 package top.xuqingquan.web.system;
 
+import android.support.annotation.NonNull;
 import android.webkit.JavascriptInterface;
-
-import androidx.annotation.NonNull;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;

@@ -2,7 +2,7 @@ package top.xuqingquan.web.x5;
 
 import android.webkit.JavascriptInterface;
 
-import androidx.annotation.NonNull;
+import android.support.annotation.NonNull;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
