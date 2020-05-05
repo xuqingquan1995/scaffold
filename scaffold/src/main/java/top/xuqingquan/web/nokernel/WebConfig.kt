@@ -56,8 +56,6 @@ object WebConfig {
      * 自定义 WebView
      */
     const val WEBVIEW_CUSTOM_TYPE = 3
-    @JvmField
-    var WEBVIEW_TYPE = WEBVIEW_DEFAULT_TYPE
     @Volatile
     @JvmField
     var IS_INITIALIZED = false

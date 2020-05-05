@@ -9,7 +9,6 @@ import com.tencent.smtt.sdk.DownloadListener
 import com.tencent.smtt.sdk.WebView
 import top.xuqingquan.app.ScaffoldConfig
 import top.xuqingquan.utils.Timber
-import top.xuqingquan.utils.getActivityByContext
 import top.xuqingquan.utils.getCacheFilePath
 import top.xuqingquan.web.AgentWeb
 import top.xuqingquan.web.nokernel.DownLoadBroadcast
@@ -34,8 +33,7 @@ class AgentWebSettingsImpl : AbsAgentWebSettings() {
         try {
             Class.forName("com.download.library.DownloadTask")//如果有依赖下载库则使用下载库，否则使用系统的
             if (mAgentWeb != null) {
-                // Fix Android 5.1 crashing: ClassCastException: android.app.ContextImpl cannot be cast to android.app.Activity
-                var activity = getActivityByContext(mContext)
+                var activity = mAgentWeb!!.activity
                 if (activity == null) {
                     activity = ScaffoldConfig.getAppManager().getTopActivity()
                 }

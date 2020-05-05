@@ -11,6 +11,8 @@ import android.widget.FrameLayout;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.tencent.smtt.sdk.WebView;
+
 import top.xuqingquan.R;
 import top.xuqingquan.utils.Timber;
 import top.xuqingquan.utils.ViewUtils;
@@ -33,17 +35,18 @@ public class DefaultWebCreator implements WebCreator {
      */
     private int mHeight;
     private boolean mIsCreated = false;
-    private IWebLayout mX5IWebLayout;
+    private top.xuqingquan.web.x5.IWebLayout mIWebLayout;
     private BaseIndicatorSpec mBaseIndicatorSpec;
-    private com.tencent.smtt.sdk.WebView mX5WebView;
+    private WebView mWebView;
     private FrameLayout mFrameLayout = null;
+    private int mWebViewType = WebConfig.WEBVIEW_DEFAULT_TYPE;
 
     /**
      * 使用默认的进度条
      */
     public DefaultWebCreator(
             @NonNull Activity activity, @Nullable ViewGroup viewGroup, ViewGroup.LayoutParams lp, int index,
-            int color, int mHeight, com.tencent.smtt.sdk.WebView webView, IWebLayout webLayout) {
+            int color, int mHeight, WebView webView, top.xuqingquan.web.x5.IWebLayout webLayout) {
         this.mActivity = activity;
         this.mViewGroup = viewGroup;
         this.mIsNeedDefaultProgress = true;
@@ -51,39 +54,39 @@ public class DefaultWebCreator implements WebCreator {
         this.mColor = color;
         this.mLayoutParams = lp;
         this.mHeight = mHeight;
-        this.mX5WebView = webView;
-        this.mX5IWebLayout = webLayout;
+        this.mWebView = webView;
+        this.mIWebLayout = webLayout;
     }
 
     /**
      * 关闭进度条
      */
-    public DefaultWebCreator(@NonNull Activity activity, @Nullable ViewGroup viewGroup, ViewGroup.LayoutParams lp, int index, @Nullable com.tencent.smtt.sdk.WebView webView, IWebLayout webLayout) {
+    public DefaultWebCreator(@NonNull Activity activity, @Nullable ViewGroup viewGroup, ViewGroup.LayoutParams lp, int index, @Nullable WebView webView, top.xuqingquan.web.x5.IWebLayout webLayout) {
         this.mActivity = activity;
         this.mViewGroup = viewGroup;
         this.mIsNeedDefaultProgress = false;
         this.mIndex = index;
         this.mLayoutParams = lp;
-        this.mX5WebView = webView;
-        this.mX5IWebLayout = webLayout;
+        this.mWebView = webView;
+        this.mIWebLayout = webLayout;
     }
 
     /**
      * 自定义Indicator
      */
-    public DefaultWebCreator(@NonNull Activity activity, @Nullable ViewGroup viewGroup, ViewGroup.LayoutParams lp, int index, BaseIndicatorView progressView, com.tencent.smtt.sdk.WebView webView, IWebLayout webLayout) {
+    public DefaultWebCreator(@NonNull Activity activity, @Nullable ViewGroup viewGroup, ViewGroup.LayoutParams lp, int index, BaseIndicatorView progressView, WebView webView, top.xuqingquan.web.x5.IWebLayout webLayout) {
         this.mActivity = activity;
         this.mViewGroup = viewGroup;
         this.mIsNeedDefaultProgress = false;
         this.mIndex = index;
         this.mLayoutParams = lp;
         this.mProgressView = progressView;
-        this.mX5WebView = webView;
-        this.mX5IWebLayout = webLayout;
+        this.mWebView = webView;
+        this.mIWebLayout = webLayout;
     }
 
-    public void setWebView(com.tencent.smtt.sdk.WebView webView) {
-        mX5WebView = webView;
+    public void setWebView(WebView webView) {
+        mWebView = webView;
     }
 
     @NonNull
@@ -109,8 +112,8 @@ public class DefaultWebCreator implements WebCreator {
     }
 
     @Override
-    public com.tencent.smtt.sdk.WebView getWebView() {
-        return mX5WebView;
+    public WebView getWebView() {
+        return mWebView;
     }
 
     @Override
@@ -119,19 +122,24 @@ public class DefaultWebCreator implements WebCreator {
         return mFrameLayout;
     }
 
+    @Override
+    public int getWebViewType() {
+        return this.mWebViewType;
+    }
+
     private ViewGroup createLayout() {
         Activity mActivity = this.mActivity;
         WebParentLayout mFrameLayout = new WebParentLayout(mActivity);
         mFrameLayout.setId(R.id.web_parent_layout_id);
         mFrameLayout.setBackgroundColor(Color.WHITE);
         FrameLayout.LayoutParams mLayoutParams = new FrameLayout.LayoutParams(-1, -1);
-        this.mX5WebView = createX5WebView();
-        View target = mX5IWebLayout == null ? this.mX5WebView : x5WebLayout();
+        this.mWebView = createWebView();
+        View target = mIWebLayout == null ? this.mWebView : webLayout();
         mFrameLayout.addView(target, mLayoutParams);
-        mFrameLayout.bindWebView(this.mX5WebView);
-        Timber.i("  instanceof  AgentWebView:" + (this.mX5WebView instanceof AgentWebView));
-        if (this.mX5WebView instanceof AgentWebView) {
-            WebConfig.WEBVIEW_TYPE = WebConfig.WEBVIEW_AGENTWEB_SAFE_TYPE;
+        mFrameLayout.bindWebView(this.mWebView);
+        Timber.i("  instanceof  AgentWebView:" + (this.mWebView instanceof top.xuqingquan.web.x5.AgentWebView));
+        if (this.mWebView instanceof top.xuqingquan.web.x5.AgentWebView) {
+            this.mWebViewType = WebConfig.WEBVIEW_AGENTWEB_SAFE_TYPE;
         }
         ViewStub mViewStub = new ViewStub(mActivity);
         mViewStub.setId(R.id.mainframe_error_viewsub_id);
@@ -159,30 +167,30 @@ public class DefaultWebCreator implements WebCreator {
         return mFrameLayout;
     }
 
-    private View x5WebLayout() {
-        com.tencent.smtt.sdk.WebView mWebView = mX5IWebLayout.getWebView();
+    private View webLayout() {
+        WebView mWebView = mIWebLayout.getWebView();
         if (mWebView == null) {
-            mWebView = createX5WebView();
-            mX5IWebLayout.getLayout().addView(mWebView, -1, -1);
+            mWebView = createWebView();
+            mIWebLayout.getLayout().addView(mWebView, -1, -1);
             Timber.i("add webview");
         } else {
-            WebConfig.WEBVIEW_TYPE = WebConfig.WEBVIEW_CUSTOM_TYPE;
+            this.mWebViewType = WebConfig.WEBVIEW_CUSTOM_TYPE;
         }
-        this.mX5WebView = mWebView;
-        return mX5IWebLayout.getLayout();
+        this.mWebView = mWebView;
+        return mIWebLayout.getLayout();
     }
 
-    private com.tencent.smtt.sdk.WebView createX5WebView() {
-        com.tencent.smtt.sdk.WebView mWebView;
-        if (this.mX5WebView != null) {
-            mWebView = this.mX5WebView;
-            WebConfig.WEBVIEW_TYPE = WebConfig.WEBVIEW_CUSTOM_TYPE;
+    private WebView createWebView() {
+        WebView mWebView;
+        if (this.mWebView != null) {
+            mWebView = this.mWebView;
+            this.mWebViewType = WebConfig.WEBVIEW_CUSTOM_TYPE;
         } else if (WebConfig.IS_KITKAT_OR_BELOW_KITKAT) {
-            mWebView = new AgentWebView(mActivity);
-            WebConfig.WEBVIEW_TYPE = WebConfig.WEBVIEW_AGENTWEB_SAFE_TYPE;
+            mWebView = new top.xuqingquan.web.x5.AgentWebView(mActivity);
+            this.mWebViewType = WebConfig.WEBVIEW_AGENTWEB_SAFE_TYPE;
         } else {
             mWebView = new LollipopFixedWebView(mActivity);
-            WebConfig.WEBVIEW_TYPE = WebConfig.WEBVIEW_DEFAULT_TYPE;
+            this.mWebViewType = WebConfig.WEBVIEW_DEFAULT_TYPE;
         }
         return mWebView;
     }

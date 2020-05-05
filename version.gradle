@@ -1,7 +1,7 @@
 ext {
     android = [
-            compileSdkVersion : 29,
-            buildToolsVersion : '29.0.2',
+            compileSdkVersion : 28,
+            buildToolsVersion : '28.0.3',
             minSdkVersion     : 21,
             targetSdkVersion  : 26,
             AndroidJUnitRunner: 'android.support.test.runner.AndroidJUnitRunner',

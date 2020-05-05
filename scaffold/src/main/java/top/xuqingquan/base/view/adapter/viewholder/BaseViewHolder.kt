@@ -15,7 +15,7 @@ open class BaseViewHolder<T>(_view: View) :
     /**
      * Views indexed with their IDs
      */
-    val views = SparseArray<View>()
+    private val views = SparseArray<View>()
 
     var onViewClickListener: OnViewClickListener? = null
 
@@ -26,7 +26,8 @@ open class BaseViewHolder<T>(_view: View) :
      */
     open fun setData(data: T?, position: Int) {}
 
-    inline fun <reified V : View> getView(@IdRes viewId: Int): V {
+    @Suppress("UNCHECKED_CAST")
+    fun <V : View> getView(@IdRes viewId: Int): V {
         var view = views.get(viewId)
         if (view == null) {
             view = itemView.findViewById(viewId)
