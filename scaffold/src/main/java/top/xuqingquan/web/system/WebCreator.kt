@@ -11,4 +11,6 @@ interface WebCreator<T : BaseIndicatorSpec> : IWebIndicator<T> {
     fun getWebParentLayout(): FrameLayout
 
     fun create(): WebCreator<T>
+
+    fun getWebViewType(): Int
 }

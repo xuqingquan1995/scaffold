@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import top.xuqingquan.utils.Timber;
@@ -61,7 +62,7 @@ public class WebIndicator extends BaseIndicatorView implements BaseIndicatorSpec
     /**
      * 标志当前进度条的状态
      */
-    private int TAG = 0;
+    private int indicatorStatus = 0;
     public static final int UN_START = 0;
     public static final int STARTED = 1;
     public static final int FINISH = 2;
@@ -69,7 +70,7 @@ public class WebIndicator extends BaseIndicatorView implements BaseIndicatorSpec
     /**
      * 默认的高度
      */
-    public static int WEB_INDICATOR_DEFAULT_HEIGHT = 3;
+    public int mWebIndicatorDefaultHeight = 3;
 
     public WebIndicator(Context context) {
         this(context, null);
@@ -92,7 +93,7 @@ public class WebIndicator extends BaseIndicatorView implements BaseIndicatorSpec
         mPaint.setDither(true);
         mPaint.setStrokeCap(Paint.Cap.SQUARE);
         mTargetWidth = context.getResources().getDisplayMetrics().widthPixels;
-        WEB_INDICATOR_DEFAULT_HEIGHT = ViewUtils.dp2px(context, 3);
+        mWebIndicatorDefaultHeight = ViewUtils.dp2px(context, 3);
     }
 
     public void setColor(int color) {
@@ -111,10 +112,10 @@ public class WebIndicator extends BaseIndicatorView implements BaseIndicatorSpec
         int hMode = MeasureSpec.getMode(heightMeasureSpec);
         int h = MeasureSpec.getSize(heightMeasureSpec);
         if (wMode == MeasureSpec.AT_MOST) {
-            w = w <= getContext().getResources().getDisplayMetrics().widthPixels ? w : getContext().getResources().getDisplayMetrics().widthPixels;
+            w = Math.min(w, getContext().getResources().getDisplayMetrics().widthPixels);
         }
         if (hMode == MeasureSpec.AT_MOST) {
-            h = WEB_INDICATOR_DEFAULT_HEIGHT;
+            h = mWebIndicatorDefaultHeight;
         }
         this.setMeasuredDimension(w, h);
     }
@@ -162,14 +163,14 @@ public class WebIndicator extends BaseIndicatorView implements BaseIndicatorSpec
         if (progress < 95f) {
             return;
         }
-        if (TAG != FINISH) {
+        if (indicatorStatus != FINISH) {
             startAnim(true);
         }
     }
 
     @Override
     public void hide() {
-        TAG = FINISH;
+        indicatorStatus = FINISH;
     }
 
     private void startAnim(boolean isFinished) {
@@ -213,7 +214,7 @@ public class WebIndicator extends BaseIndicatorView implements BaseIndicatorSpec
             mAnimatorSet.start();
             mAnimator = mAnimatorSet;
         }
-        TAG = STARTED;
+        indicatorStatus = STARTED;
     }
 
     private ValueAnimator.AnimatorUpdateListener mAnimatorUpdateListener = animation -> {
@@ -238,12 +239,12 @@ public class WebIndicator extends BaseIndicatorView implements BaseIndicatorSpec
     }
 
     private void doEnd() {
-        if (TAG == FINISH && mCurrentProgress == 100f) {
+        if (indicatorStatus == FINISH && mCurrentProgress == 100f) {
             setVisibility(GONE);
             mCurrentProgress = 0f;
             this.setAlpha(1f);
         }
-        TAG = UN_START;
+        indicatorStatus = UN_START;
     }
 
     @Override
@@ -260,8 +261,9 @@ public class WebIndicator extends BaseIndicatorView implements BaseIndicatorSpec
     }
 
 
+    @NonNull
     @Override
     public LayoutParams offerLayoutParams() {
-        return new LayoutParams(-1, WEB_INDICATOR_DEFAULT_HEIGHT);
+        return new LayoutParams(-1, mWebIndicatorDefaultHeight);
     }
 }
