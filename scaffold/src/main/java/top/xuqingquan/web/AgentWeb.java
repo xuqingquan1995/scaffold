@@ -441,7 +441,7 @@ public final class AgentWeb {
             com.tencent.smtt.sdk.WebView webView = getX5WebCreator().getWebView();
             mAgentWebSettings.toSetting(webView);
             if (mJsInterfaceHolder == null) {
-                mJsInterfaceHolder = JsInterfaceHolderImpl.getJsInterfaceHolder(webView);
+                mJsInterfaceHolder = top.xuqingquan.web.x5.JsInterfaceHolderImpl.getJsInterfaceHolder(mX5WebCreator);
             }
             Timber.i("mJavaObjects:" + mJavaObjects.size());
             if (mJavaObjects != null && !mJavaObjects.isEmpty()) {
@@ -467,7 +467,7 @@ public final class AgentWeb {
             android.webkit.WebView webView = getWebCreator().getWebView();
             mAgentWebSettings.toSetting(webView);
             if (mJsInterfaceHolder == null) {
-                mJsInterfaceHolder = JsInterfaceHolderImpl.getJsInterfaceHolder(webView);
+                mJsInterfaceHolder = top.xuqingquan.web.system.JsInterfaceHolderImpl.getJsInterfaceHolder(mWebCreator);
             }
             Timber.i("mJavaObjects:" + mJavaObjects.size());
             if (mJavaObjects != null && !mJavaObjects.isEmpty()) {
@@ -881,6 +881,10 @@ public final class AgentWeb {
             this.mAgentBuilder.mIsInterceptUnkownUrl = true;
             return this;
         }
+    }
+
+    public Activity getActivity() {
+        return this.mActivity;
     }
 
     public static final class PermissionInterceptorWrapper implements PermissionInterceptor {

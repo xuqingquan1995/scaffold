@@ -57,7 +57,7 @@ public class ScaffoldConfig {
     private static Gson gson;
     private static GsonConfiguration gsonConfiguration;
     private static HttpUrl httpUrl;
-    private static boolean showStack = ScaffoldConfig.debug();
+    private static boolean showStack = false;
     private static Level level;
     private static PagedList.Config config;
     private static ExecutorService executorService;
