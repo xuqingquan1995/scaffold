@@ -13,7 +13,7 @@ import kotlin.coroutines.CoroutineContext
 /**
  * Created by 许清泉 on 2020/5/10 14:09
  */
-class BaseBoundaryCallback<Value> : PagedList.BoundaryCallback<Value>() {
+open class BaseBoundaryCallback<Value> : PagedList.BoundaryCallback<Value>() {
     /**
      * 用于更新全过程的网络状态
      */
