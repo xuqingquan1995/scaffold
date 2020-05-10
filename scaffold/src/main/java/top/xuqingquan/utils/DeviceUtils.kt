@@ -7,6 +7,7 @@ import android.content.*
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
+import android.provider.Settings
 import android.telephony.TelephonyManager
 import android.text.TextUtils
 import android.util.DisplayMetrics
@@ -157,6 +158,10 @@ fun getIMEI(context: Context): String? {
     } else {
         null
     }
+}
+
+fun getAndroidID(context: Context): String {
+    return Settings.System.getString(context.contentResolver, Settings.Secure.ANDROID_ID)
 }
 
 /**
