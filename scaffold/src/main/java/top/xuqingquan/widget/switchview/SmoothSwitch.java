@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.StateListDrawable;
+import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.Dimension;
 import android.support.annotation.IntDef;
@@ -114,7 +115,9 @@ public class SmoothSwitch extends SwitchCompat {//平滑
             res.addState(new int[]{android.R.attr.state_checked}, getResources().getDrawable(R.drawable.small_switch));
             res.addState(new int[]{-android.R.attr.state_checked}, getResources().getDrawable(R.drawable.small_switch));
         }
-        res.setTint(thumbColor);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            res.setTint(thumbColor);
+        }
         return res;
     }
 

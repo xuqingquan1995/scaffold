@@ -81,10 +81,18 @@ dependencies {
     kapt rootProject.ext.deps.glide_compiler
 //    api rootProject.ext.deps.material
     api rootProject.ext.deps.design
-    //retorfit
-    api rootProject.ext.deps.retrofit
-    api rootProject.ext.deps.converter_gson
-    api rootProject.ext.deps.logging_interceptor
+    //retorfit（避免使用okhttp最新版）
+    api(rootProject.ext.deps.retrofit) {
+        exclude group: 'com.squareup.okhttp3', module: 'okhttp'
+    }
+    api rootProject.ext.deps.okhttp
+    api(rootProject.ext.deps.converter_gson) {
+        exclude group: 'com.squareup.okhttp3', module: 'okhttp'
+        exclude group: 'com.squareup.retrofit2', module: 'retrofit'
+    }
+    api(rootProject.ext.deps.logging_interceptor) {
+        exclude group: 'com.squareup.okhttp3', module: 'okhttp'
+    }
     //format
     api rootProject.ext.deps.gson
     //eventbus

@@ -27,13 +27,13 @@ import java.util.*
 fun printResult(response: Response): String? {
     try {
         //读取服务器返回的结果
-        val responseBody = response.newBuilder().build().body
+        val responseBody = response.newBuilder().build().body()
         val source = responseBody!!.source()
         source.request(Long.MAX_VALUE) // Buffer the entire body.
-        val buffer = source.buffer
+        val buffer = source.buffer()
         //获取content的压缩类型
         val encoding = response
-            .headers["Content-Encoding"]
+            .headers()["Content-Encoding"]
         val clone = buffer.clone()
         //解析response content
         return parseContent(responseBody, encoding, clone)
@@ -81,7 +81,7 @@ private fun parseContent(responseBody: ResponseBody, encoding: String?, clone: B
  */
 fun parseParams(request: Request): String {
     try {
-        val body = request.newBuilder().build().body ?: return ""
+        val body = request.newBuilder().build().body() ?: return ""
         val requestbuffer = Buffer()
         body.writeTo(requestbuffer)
         var charset: Charset? = StandardCharsets.UTF_8
@@ -105,7 +105,7 @@ fun parseParams(request: Request): String {
  * @return `true` 为可以解析
  */
 fun isParseable(mediaType: MediaType?) =
-    if (mediaType?.type == null) false else isText(mediaType) || isPlain(
+    if (mediaType?.type() == null) false else isText(mediaType) || isPlain(
         mediaType
     ) || isJson(mediaType) || isForm(
         mediaType
@@ -113,22 +113,22 @@ fun isParseable(mediaType: MediaType?) =
         mediaType
     )
 
-fun isText(mediaType: MediaType?) = if (mediaType?.type == null) false else mediaType.type == "text"
+fun isText(mediaType: MediaType?) = if (mediaType?.type() == null) false else mediaType.type() == "text"
 
 fun isPlain(mediaType: MediaType?) =
-    if (mediaType?.subtype == null) false else mediaType.subtype.toLowerCase(Locale.getDefault()).contains("plain")
+    if (mediaType?.subtype() == null) false else mediaType.subtype().toLowerCase(Locale.getDefault()).contains("plain")
 
 fun isJson(mediaType: MediaType?) =
-    if (mediaType?.subtype == null) false else mediaType.subtype.toLowerCase(Locale.getDefault()).contains("json")
+    if (mediaType?.subtype() == null) false else mediaType.subtype().toLowerCase(Locale.getDefault()).contains("json")
 
 fun isXml(mediaType: MediaType?) =
-    if (mediaType?.subtype == null) false else mediaType.subtype.toLowerCase(Locale.getDefault()).contains("xml")
+    if (mediaType?.subtype() == null) false else mediaType.subtype().toLowerCase(Locale.getDefault()).contains("xml")
 
 fun isHtml(mediaType: MediaType?) =
-    if (mediaType?.subtype == null) false else mediaType.subtype.toLowerCase(Locale.getDefault()).contains("html")
+    if (mediaType?.subtype() == null) false else mediaType.subtype().toLowerCase(Locale.getDefault()).contains("html")
 
 fun isForm(mediaType: MediaType?) =
-    if (mediaType?.subtype == null) false else mediaType.subtype.toLowerCase(Locale.getDefault()).contains("x-www-form-urlencoded")
+    if (mediaType?.subtype() == null) false else mediaType.subtype().toLowerCase(Locale.getDefault()).contains("x-www-form-urlencoded")
 
 fun convertCharset(charset: Charset): String {
     val s = charset.toString()
