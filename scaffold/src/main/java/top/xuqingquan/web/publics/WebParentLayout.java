@@ -45,7 +45,7 @@ public class WebParentLayout extends FrameLayout implements Provider<AbsAgentWeb
         if (!(context instanceof Activity)) {
             throw new IllegalArgumentException("WebParentLayout context must be activity or activity sub class .");
         }
-        this.mErrorLayoutRes = R.layout.agentweb_error_page;
+        this.mErrorLayoutRes = R.layout.scaffold_web_error_page;
     }
 
     public void bindController(AbsAgentWebUIController agentWebUIController) {
@@ -76,7 +76,7 @@ public class WebParentLayout extends FrameLayout implements Provider<AbsAgentWeb
     private void createErrorLayout() {
         final FrameLayout mFrameLayout = new FrameLayout(getContext());
         mFrameLayout.setBackgroundColor(Color.WHITE);
-        mFrameLayout.setId(R.id.mainframe_error_container_id);
+        mFrameLayout.setId(R.id.scaffold_mainframe_error_container_id);
         if (this.mErrorView == null) {
             LayoutInflater mLayoutInflater = LayoutInflater.from(getContext());
             Timber.i("mErrorLayoutRes:" + mErrorLayoutRes);
@@ -84,7 +84,7 @@ public class WebParentLayout extends FrameLayout implements Provider<AbsAgentWeb
         } else {
             mFrameLayout.addView(mErrorView);
         }
-        ViewStub mViewStub = this.findViewById(R.id.mainframe_error_viewsub_id);
+        ViewStub mViewStub = this.findViewById(R.id.scaffold_mainframe_error_viewsub_id);
         final int index = this.indexOfChild(mViewStub);
         this.removeViewInLayout(mViewStub);
         final ViewGroup.LayoutParams layoutParams = getLayoutParams();
@@ -132,7 +132,7 @@ public class WebParentLayout extends FrameLayout implements Provider<AbsAgentWeb
     }
 
     void hideErrorLayout() {
-        View mView = this.findViewById(R.id.mainframe_error_container_id);
+        View mView = this.findViewById(R.id.scaffold_mainframe_error_container_id);
         if (mView != null) {
             mView.setVisibility(View.GONE);
         }
@@ -149,7 +149,7 @@ public class WebParentLayout extends FrameLayout implements Provider<AbsAgentWeb
         }
         this.mErrorLayoutRes = resLayout;
         if (this.mErrorLayoutRes <= 0) {
-            this.mErrorLayoutRes = R.layout.agentweb_error_page;
+            this.mErrorLayoutRes = R.layout.scaffold_web_error_page;
         }
     }
 

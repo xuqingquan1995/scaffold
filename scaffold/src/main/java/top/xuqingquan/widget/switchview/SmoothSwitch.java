@@ -108,12 +108,12 @@ public class SmoothSwitch extends SwitchCompat {//平滑
         StateListDrawable res = new StateListDrawable();
         if (type == LARGE) {
             this.setSwitchTextAppearance(mContext, R.style.LargeText);
-            res.addState(new int[]{android.R.attr.state_checked}, getResources().getDrawable(R.drawable.large_switch));
-            res.addState(new int[]{-android.R.attr.state_checked}, getResources().getDrawable(R.drawable.large_switch));
+            res.addState(new int[]{android.R.attr.state_checked}, getResources().getDrawable(R.drawable.scaffold_large_switch));
+            res.addState(new int[]{-android.R.attr.state_checked}, getResources().getDrawable(R.drawable.scaffold_large_switch));
         } else if (type == SMALL) {
             this.setSwitchTextAppearance(mContext, R.style.SmallText);
-            res.addState(new int[]{android.R.attr.state_checked}, getResources().getDrawable(R.drawable.small_switch));
-            res.addState(new int[]{-android.R.attr.state_checked}, getResources().getDrawable(R.drawable.small_switch));
+            res.addState(new int[]{android.R.attr.state_checked}, getResources().getDrawable(R.drawable.scaffold_small_switch));
+            res.addState(new int[]{-android.R.attr.state_checked}, getResources().getDrawable(R.drawable.scaffold_small_switch));
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             res.setTint(thumbColor);

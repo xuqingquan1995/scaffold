@@ -8,6 +8,6 @@
             android:layout_height="match_parent"
             android:background="?android:attr/selectableItemBackground"
             android:gravity="center"
-            android:text="@string/agentweb_default_page_error" />
+            android:text="@string/scaffold_default_page_error" />
 
 </LinearLayout>

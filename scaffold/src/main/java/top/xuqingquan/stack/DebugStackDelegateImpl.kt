@@ -39,7 +39,7 @@ class DebugStackDelegateImpl(private val mActivity: FragmentActivity) : DebugSta
         val root = mActivity.findViewById<View>(android.R.id.content)
         if (root is FrameLayout) {
             val stackView = ImageView(mActivity)
-            stackView.setImageResource(R.drawable.fragmentation_ic_stack)
+            stackView.setImageResource(R.drawable.scaffold_ic_stack)
             val params =
                 FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
             params.gravity = Gravity.END

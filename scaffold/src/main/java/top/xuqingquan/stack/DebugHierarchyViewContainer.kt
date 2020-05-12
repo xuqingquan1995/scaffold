@@ -34,7 +34,7 @@ class DebugHierarchyViewContainer : ScrollView {
             mTitleLayout!!.layoutParams = flParams
 
             val title = TextView(mContext)
-            title.setText(R.string.stack_view)
+            title.setText(R.string.scaffold_stack_view)
             title.textSize = 20f
             title.setTextColor(Color.BLACK)
             val p = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
@@ -92,19 +92,19 @@ class DebugHierarchyViewContainer : ScrollView {
 
             val childTvItem: TextView
             childTvItem = getTextView(child, tempHierarchy)
-            childTvItem.setTag(R.id.hierarchy, tempHierarchy)
+            childTvItem.setTag(R.id.scaffold_hierarchy, tempHierarchy)
 
             val childFragmentRecord = child.childFragmentRecord
             if (childFragmentRecord != null && childFragmentRecord.size > 0) {
                 tempHierarchy++
-                childTvItem.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_arrow_right, 0, 0, 0)
+                childTvItem.setCompoundDrawablesWithIntrinsicBounds(R.drawable.scaffold_ic_arrow_right, 0, 0, 0)
                 val finalChilHierarchy = tempHierarchy
                 childTvItem.setOnClickListener { v ->
-                    if (v.getTag(R.id.isexpand) != null) {
-                        val isExpand = v.getTag(R.id.isexpand) as Boolean
+                    if (v.getTag(R.id.scaffold_isexpand) != null) {
+                        val isExpand = v.getTag(R.id.scaffold_isexpand) as Boolean
                         if (isExpand) {
                             childTvItem.setCompoundDrawablesWithIntrinsicBounds(
-                                R.drawable.ic_arrow_right,
+                                R.drawable.scaffold_ic_arrow_right,
                                 0,
                                 0,
                                 0
@@ -114,9 +114,9 @@ class DebugHierarchyViewContainer : ScrollView {
                             handleExpandView(childFragmentRecord, finalChilHierarchy, childTvItem)
 
                         }
-                        v.setTag(R.id.isexpand, !isExpand)
+                        v.setTag(R.id.scaffold_isexpand, !isExpand)
                     } else {
-                        childTvItem.setTag(R.id.isexpand, true)
+                        childTvItem.setTag(R.id.scaffold_isexpand, true)
                         handleExpandView(childFragmentRecord, finalChilHierarchy, childTvItem)
                     }
                 }
@@ -138,14 +138,14 @@ class DebugHierarchyViewContainer : ScrollView {
         childTvItem: TextView
     ) {
         setView(childFragmentRecord!!, finalChilHierarchy, childTvItem)
-        childTvItem.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_arrow_down, 0, 0, 0)
+        childTvItem.setCompoundDrawablesWithIntrinsicBounds(R.drawable.scaffold_ic_arrow_down, 0, 0, 0)
     }
 
     private fun removeView(hierarchy: Int) {
         val size = mLinearLayout!!.childCount
         for (i in size - 1 downTo 0) {
             val view = mLinearLayout!!.getChildAt(i)
-            if (view.getTag(R.id.hierarchy) != null && view.getTag(R.id.hierarchy) as Int >= hierarchy) {
+            if (view.getTag(R.id.scaffold_hierarchy) != null && view.getTag(R.id.scaffold_hierarchy) as Int >= hierarchy) {
                 mLinearLayout!!.removeView(view)
             }
         }

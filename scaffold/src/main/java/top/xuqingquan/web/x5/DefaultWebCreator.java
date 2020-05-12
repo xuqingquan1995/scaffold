@@ -130,7 +130,7 @@ public class DefaultWebCreator implements WebCreator {
     private ViewGroup createLayout() {
         Activity mActivity = this.mActivity;
         WebParentLayout mFrameLayout = new WebParentLayout(mActivity);
-        mFrameLayout.setId(R.id.web_parent_layout_id);
+        mFrameLayout.setId(R.id.scaffold_web_parent_layout_id);
         mFrameLayout.setBackgroundColor(Color.WHITE);
         FrameLayout.LayoutParams mLayoutParams = new FrameLayout.LayoutParams(-1, -1);
         this.mWebView = createWebView();
@@ -142,7 +142,7 @@ public class DefaultWebCreator implements WebCreator {
             this.mWebViewType = WebConfig.WEBVIEW_AGENTWEB_SAFE_TYPE;
         }
         ViewStub mViewStub = new ViewStub(mActivity);
-        mViewStub.setId(R.id.mainframe_error_viewsub_id);
+        mViewStub.setId(R.id.scaffold_mainframe_error_viewsub_id);
         mFrameLayout.addView(mViewStub, new FrameLayout.LayoutParams(-1, -1));
         if (mIsNeedDefaultProgress) {
             FrameLayout.LayoutParams lp;

@@ -177,7 +177,7 @@ object AgentWebUtils {
         mViewGroup = webView.parent as ViewGroup
         while (mViewGroup != null) {
             Timber.i("ViewGroup:$mViewGroup")
-            mViewGroup = if (mViewGroup.id == R.id.web_parent_layout_id) {
+            mViewGroup = if (mViewGroup.id == R.id.scaffold_web_parent_layout_id) {
                 val mWebParentLayout = mViewGroup as WebParentLayout?
                 Timber.i("found WebParentLayout")
                 return mWebParentLayout!!
@@ -200,7 +200,7 @@ object AgentWebUtils {
         mViewGroup = webView.parent as ViewGroup
         while (mViewGroup != null) {
             Timber.i("ViewGroup:$mViewGroup")
-            mViewGroup = if (mViewGroup.id == R.id.web_parent_layout_id) {
+            mViewGroup = if (mViewGroup.id == R.id.scaffold_web_parent_layout_id) {
                 val mWebParentLayout = mViewGroup as WebParentLayout?
                 Timber.i("found WebParentLayout")
                 return mWebParentLayout!!

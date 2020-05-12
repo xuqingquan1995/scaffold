@@ -11,7 +11,8 @@ import android.support.v4.app.FragmentPagerAdapter
 open class BaseViewPagerAdapter(
     fm: FragmentManager,
     private val fragments: List<Fragment>,
-    private val title: List<String>? = null
+    private val title: List<String>? = null,
+    private val behavior: Int? = 1//为了保证跟AndroidX版本没有差异
 ) : FragmentPagerAdapter(fm) {
 
     override fun getItem(position: Int) = fragments[position]
