@@ -55,6 +55,7 @@ ext {
             espresso_version        : '3.0.2',
             lifecycle_version       : '1.1.1',
             navigation_version      : '1.0.0',
+            room_version            : '1.1.1',
     ]
     deps = [
             //每个app都要用到的
@@ -129,6 +130,8 @@ ext {
             lifecycle_runtime         : "android.arch.lifecycle:runtime:${depsVer.lifecycle_version}",
             navigation_fragment       : "android.arch.navigation:navigation-fragment:${depsVer.navigation_version}",
             navigation_ui             : "android.arch.navigation:navigation-ui:${depsVer.navigation_version}",
+            room_runtime              : "android.arch.persistence.room:runtime:${depsVer.room_version}",
+            room_compiler_support     : "android.arch.persistence.room:compiler:${depsVer.navigation_version}",
     ]
 
 }
