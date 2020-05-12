@@ -49,34 +49,35 @@ public class SmoothSwitch extends SwitchCompat {//平滑
         super(context);
     }
 
+    @SuppressLint("CustomViewStyleable")
     public SmoothSwitch(Context context, AttributeSet attrs) {
         super(context, attrs);
         setShowText(true);
         mContext = context;
-        TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.SmoothSwitch);
-        if (a.getString(R.styleable.SmoothSwitch_size) != null) {
-            type = a.getInteger(R.styleable.SmoothSwitch_size, 0);
+        TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.scaffold_SmoothSwitch);
+        if (a.getString(R.styleable.scaffold_SmoothSwitch_scaffold_size) != null) {
+            type = a.getInteger(R.styleable.scaffold_SmoothSwitch_scaffold_size, 0);
         }
-        if (a.getString(R.styleable.SmoothSwitch_leftTrackText) != null) {
-            leftString = a.getString(R.styleable.SmoothSwitch_leftTrackText);
+        if (a.getString(R.styleable.scaffold_SmoothSwitch_scaffold_leftTrackText) != null) {
+            leftString = a.getString(R.styleable.scaffold_SmoothSwitch_scaffold_leftTrackText);
         }
-        if (a.getString(R.styleable.SmoothSwitch_rightTrackText) != null) {
-            rightString = a.getString(R.styleable.SmoothSwitch_rightTrackText);
+        if (a.getString(R.styleable.scaffold_SmoothSwitch_scaffold_rightTrackText) != null) {
+            rightString = a.getString(R.styleable.scaffold_SmoothSwitch_scaffold_rightTrackText);
         }
-        if (a.getString(R.styleable.SmoothSwitch_borderColor) != null) {
-            borderColor = a.getColor(R.styleable.SmoothSwitch_borderColor, borderColor);
+        if (a.getString(R.styleable.scaffold_SmoothSwitch_scaffold_borderColor) != null) {
+            borderColor = a.getColor(R.styleable.scaffold_SmoothSwitch_scaffold_borderColor, borderColor);
         }
-        if (a.getString(R.styleable.SmoothSwitch_trackColor) != null) {
-            trackColor = a.getColor(R.styleable.SmoothSwitch_trackColor, trackColor);
+        if (a.getString(R.styleable.scaffold_SmoothSwitch_scaffold_trackColor) != null) {
+            trackColor = a.getColor(R.styleable.scaffold_SmoothSwitch_scaffold_trackColor, trackColor);
         }
-        if (a.getString(R.styleable.SmoothSwitch_thumbColor) != null) {
-            thumbColor = a.getColor(R.styleable.SmoothSwitch_thumbColor, thumbColor);
+        if (a.getString(R.styleable.scaffold_SmoothSwitch_scaffold_thumbColor) != null) {
+            thumbColor = a.getColor(R.styleable.scaffold_SmoothSwitch_scaffold_thumbColor, thumbColor);
         }
-        if (a.getString(R.styleable.SmoothSwitch_trackTextColor) != null) {
-            trackTextColor = a.getColor(R.styleable.SmoothSwitch_trackTextColor, trackTextColor);
+        if (a.getString(R.styleable.scaffold_SmoothSwitch_scaffold_trackTextColor) != null) {
+            trackTextColor = a.getColor(R.styleable.scaffold_SmoothSwitch_scaffold_trackTextColor, trackTextColor);
         }
-        if (a.getString(R.styleable.SmoothSwitch_borderWidth) != null) {
-            borderWidth = a.getDimension(R.styleable.SmoothSwitch_borderWidth, 0);
+        if (a.getString(R.styleable.scaffold_SmoothSwitch_scaffold_borderWidth) != null) {
+            borderWidth = a.getDimension(R.styleable.scaffold_SmoothSwitch_scaffold_borderWidth, 0);
         }
         a.recycle();
         setSwitch();
@@ -107,11 +108,11 @@ public class SmoothSwitch extends SwitchCompat {//平滑
     public StateListDrawable addSelector(@Type int type) {
         StateListDrawable res = new StateListDrawable();
         if (type == LARGE) {
-            this.setSwitchTextAppearance(mContext, R.style.LargeText);
+            this.setSwitchTextAppearance(mContext, R.style.scaffold_LargeText);
             res.addState(new int[]{android.R.attr.state_checked}, getResources().getDrawable(R.drawable.scaffold_large_switch));
             res.addState(new int[]{-android.R.attr.state_checked}, getResources().getDrawable(R.drawable.scaffold_large_switch));
         } else if (type == SMALL) {
-            this.setSwitchTextAppearance(mContext, R.style.SmallText);
+            this.setSwitchTextAppearance(mContext, R.style.scaffold_SmallText);
             res.addState(new int[]{android.R.attr.state_checked}, getResources().getDrawable(R.drawable.scaffold_small_switch));
             res.addState(new int[]{-android.R.attr.state_checked}, getResources().getDrawable(R.drawable.scaffold_small_switch));
         }

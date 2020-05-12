@@ -1,5 +1,6 @@
 package top.xuqingquan.widget
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.util.AttributeSet
@@ -46,17 +47,18 @@ class ScaffoldWebView : FrameLayout {
 
     constructor(context: Context) : super(context)
 
+    @SuppressLint("CustomViewStyleable")
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
-        val typedArray = context.obtainStyledAttributes(attrs, R.styleable.ScaffoldWebView)
-        typedArray.getString(R.styleable.ScaffoldWebView_url)?.let {
+        val typedArray = context.obtainStyledAttributes(attrs, R.styleable.scaffold_ScaffoldWebView)
+        typedArray.getString(R.styleable.scaffold_ScaffoldWebView_scaffold_url)?.let {
             url = it
         }
-        debug = typedArray.getBoolean(R.styleable.ScaffoldWebView_debug, false)
-        indicatorColor = typedArray.getColor(R.styleable.ScaffoldWebView_indicatorColor, -1)
-        indicatorHeight = typedArray.getDimension(R.styleable.ScaffoldWebView_indicatorHeight, -1f).toInt()
-        error_layout = typedArray.getResourceId(R.styleable.ScaffoldWebView_error_layout, -1)
+        debug = typedArray.getBoolean(R.styleable.scaffold_ScaffoldWebView_scaffold_debug, false)
+        indicatorColor = typedArray.getColor(R.styleable.scaffold_ScaffoldWebView_scaffold_indicatorColor, -1)
+        indicatorHeight = typedArray.getDimension(R.styleable.scaffold_ScaffoldWebView_scaffold_indicatorHeight, -1f).toInt()
+        error_layout = typedArray.getResourceId(R.styleable.scaffold_ScaffoldWebView_scaffold_error_layout, -1)
         if (error_layout != -1) {
-            refresh_error = typedArray.getResourceId(R.styleable.ScaffoldWebView_refresh_error, -1)
+            refresh_error = typedArray.getResourceId(R.styleable.scaffold_ScaffoldWebView_scaffold_refresh_error, -1)
         }
         indicatorHeight = if (indicatorHeight == -1) {
             2

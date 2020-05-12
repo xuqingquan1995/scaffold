@@ -78,8 +78,6 @@ dependencies {
     implementation rootProject.ext.deps.tbs
     implementation rootProject.ext.deps.Downloader
     implementation 'com.jwkj:M3U8Manger:v2.3.0'
-    implementation files('libs/newssdk-202005121140.aar')
-    implementation rootProject.ext.deps.room_runtime
 }
 //andResGuard {
 //    // mappingFile = file("./resource_mapping.txt")

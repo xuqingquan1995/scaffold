@@ -26,11 +26,12 @@ class ProgressBarWithText : ProgressBar {
         initText()
     }
 
+    @SuppressLint("CustomViewStyleable")
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) {
-        val typedArray = context?.obtainStyledAttributes(attrs, R.styleable.ProgressBarWithText)
-        textColor = typedArray?.getColor(R.styleable.ProgressBarWithText_textColor, -1) ?: -1
-        textSize = typedArray?.getDimension(R.styleable.ProgressBarWithText_textSize, 12f) ?: 12f
-        text = typedArray?.getString(R.styleable.ProgressBarWithText_text) ?: ""
+        val typedArray = context?.obtainStyledAttributes(attrs, R.styleable.scaffold_ProgressBarWithText)
+        textColor = typedArray?.getColor(R.styleable.scaffold_ProgressBarWithText_scaffold_textColor, -1) ?: -1
+        textSize = typedArray?.getDimension(R.styleable.scaffold_ProgressBarWithText_scaffold_textSize, 12f) ?: 12f
+        text = typedArray?.getString(R.styleable.scaffold_ProgressBarWithText_scaffold_text) ?: ""
         typedArray?.recycle()
         initText()
     }
