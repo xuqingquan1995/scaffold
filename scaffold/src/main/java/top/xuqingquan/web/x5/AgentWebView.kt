@@ -20,7 +20,7 @@ open class AgentWebView @JvmOverloads constructor(context: Context, attrs: Attri
     private val mFixedOnReceivedTitle = FixedOnReceivedTitle()
 
     init {
-        id = R.id.agentweb_webview_id
+        id = R.id.scaffold_webview_id
     }
 
     override fun setWebChromeClient(client: WebChromeClient) {

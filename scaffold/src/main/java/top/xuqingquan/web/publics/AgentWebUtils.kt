@@ -21,7 +21,6 @@ import top.xuqingquan.web.nokernel.PermissionInterceptor
 import top.xuqingquan.web.nokernel.WebConfig
 import top.xuqingquan.web.nokernel.WebUtils
 import top.xuqingquan.web.nokernel.WebUtils.isUIThread
-import top.xuqingquan.web.publics.WebParentLayout
 import java.io.File
 import java.lang.ref.WeakReference
 
@@ -178,7 +177,7 @@ object AgentWebUtils {
         mViewGroup = webView.parent as ViewGroup
         while (mViewGroup != null) {
             Timber.i("ViewGroup:$mViewGroup")
-            mViewGroup = if (mViewGroup.id == R.id.web_parent_layout_id) {
+            mViewGroup = if (mViewGroup.id == R.id.scaffold_web_parent_layout_id) {
                 val mWebParentLayout = mViewGroup as WebParentLayout?
                 Timber.i("found WebParentLayout")
                 return mWebParentLayout!!
@@ -201,7 +200,7 @@ object AgentWebUtils {
         mViewGroup = webView.parent as ViewGroup
         while (mViewGroup != null) {
             Timber.i("ViewGroup:$mViewGroup")
-            mViewGroup = if (mViewGroup.id == R.id.web_parent_layout_id) {
+            mViewGroup = if (mViewGroup.id == R.id.scaffold_web_parent_layout_id) {
                 val mWebParentLayout = mViewGroup as WebParentLayout?
                 Timber.i("found WebParentLayout")
                 return mWebParentLayout!!

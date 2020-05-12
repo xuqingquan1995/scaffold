@@ -131,7 +131,7 @@ public class DefaultDownloadImpl implements DownloadListener {
         if (downloadFile.exists()) {
             Timber.d("文件已存在");
             if (null != mAgentWebUIController.get()) {
-                mAgentWebUIController.get().onShowMessage(mContext.getString(R.string.agentweb_download_file_has_been_exist), "reDownload");
+                mAgentWebUIController.get().onShowMessage(mContext.getString(R.string.scaffold_download_file_has_been_exist), "reDownload");
             }
             Intent mIntent = WebUtils.getCommonFileIntentCompat(mContext, downloadFile);
             mIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -221,7 +221,7 @@ public class DefaultDownloadImpl implements DownloadListener {
             // 该链接是否正在下载
             if (DownloadImpl.getInstance().exist(url)) {
                 if (null != mAgentWebUIController.get()) {
-                    mAgentWebUIController.get().onShowMessage(mContext.getString(R.string.agentweb_download_task_has_been_exist), "preDownload");
+                    mAgentWebUIController.get().onShowMessage(mContext.getString(R.string.scaffold_download_task_has_been_exist), "preDownload");
                 }
                 return;
             }

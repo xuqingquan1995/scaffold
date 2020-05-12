@@ -32,7 +32,7 @@ public abstract class BasePagedListAdapter<T> extends SimplePagedListAdapter<T> 
     @Override
     public BaseViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
         if (viewType == NETWORK_STATE) {
-            return new NetworkStateViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.network_state, parent, false));
+            return new NetworkStateViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.scaffold_network_state, parent, false));
         }
         return super.onCreateViewHolder(parent, viewType);
     }

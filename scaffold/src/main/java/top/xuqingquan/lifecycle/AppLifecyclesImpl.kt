@@ -32,7 +32,7 @@ class AppLifecyclesImpl : AppLifecycles {
             Timber.plant(Timber.DebugTree())
             //根据需要启用
 //            Logger.addLogAdapter(object : AndroidLogAdapter(
-//                PrettyFormatStrategy.newBuilder().tag(application.getString(R.string.app_name)).build()
+//                PrettyFormatStrategy.newBuilder().tag(application.getString(R.string.scaffold_app_name)).build()
 //            ) {
 //                override fun isLoggable(priority: Int, tag: String?): Boolean {
 //                    return BuildConfig.DEBUG
