@@ -65,15 +65,15 @@ open class DefaultUIController : AbsAgentWebUIController() {
             mAskOpenOtherAppDialog = AlertDialog.Builder(this.mActivity!!)
                 .setMessage(
                     mResources!!.getString(
-                        R.string.agentweb_leave_app_and_go_other_page,
+                        R.string.scaffold_leave_app_and_go_other_page,
                         getApplicationName(mActivity!!)
                     )
                 )//
-                .setTitle(mResources!!.getString(R.string.agentweb_tips))
+                .setTitle(mResources!!.getString(R.string.scaffold_tips))
                 .setNegativeButton(android.R.string.cancel) { _, _ ->
                     callback?.handleMessage(Message.obtain(null, -1))
                 }//
-                .setPositiveButton(mResources!!.getString(R.string.agentweb_leave)) { _, _ ->
+                .setPositiveButton(mResources!!.getString(R.string.scaffold_leave)) { _, _ ->
                     callback?.handleMessage(Message.obtain(null, 1))
                 }
                 .create()
@@ -127,13 +127,13 @@ open class DefaultUIController : AbsAgentWebUIController() {
         }
         if (mAlertDialogForceDownload == null) {
             mAlertDialogForceDownload = AlertDialog.Builder(this.mActivity!!)
-                .setTitle(mResources!!.getString(R.string.agentweb_tips))
-                .setMessage(mResources!!.getString(R.string.agentweb_honeycomblow))
-                .setNegativeButton(mResources!!.getString(R.string.agentweb_download)) { dialog, _ ->
+                .setTitle(mResources!!.getString(R.string.scaffold_tips))
+                .setMessage(mResources!!.getString(R.string.scaffold_honeycomblow))
+                .setNegativeButton(mResources!!.getString(R.string.scaffold_download)) { dialog, _ ->
                     dialog?.dismiss()
                     callback?.handleMessage(Message.obtain())
                 }//
-                .setPositiveButton(mResources!!.getString(R.string.agentweb_cancel)) { dialog, _ ->
+                .setPositiveButton(mResources!!.getString(R.string.scaffold_cancel)) { dialog, _ ->
                     dialog?.dismiss()
                 }.create()
         }

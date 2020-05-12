@@ -182,7 +182,7 @@ object WebUtils {
         if (activity == null || activity.isFinishing) {
             return
         }
-        val mWebParentLayout = activity.findViewById<WebParentLayout>(R.id.web_parent_layout_id)
+        val mWebParentLayout = activity.findViewById<WebParentLayout>(R.id.scaffold_web_parent_layout_id)
         val mAgentWebUIController = mWebParentLayout.provide()
         mAgentWebUIController?.onShowMessage(message, from)
     }

@@ -53,8 +53,8 @@ public class StatusBarUtils {
     private final static int STATUSBAR_TYPE_ANDROID6 = 3; // Android 6.0
     private final static int STATUS_BAR_DEFAULT_HEIGHT_DP = 25; // 大部分状态栏都是25dp
     private static final int DEFAULT_STATUS_BAR_ALPHA = 0;//默认状态栏透明度
-    private static final int FAKE_STATUS_BAR_VIEW_ID = R.id.statusbarutils_fake_status_bar_view;
-    private static final int STATUSBARUTILS_NAVIGATION_BAR_VIEW = R.id.statusbarutils_navigation_bar_view;
+    private static final int FAKE_STATUS_BAR_VIEW_ID = R.id.scaffold_fake_status_bar_view;
+    private static final int STATUSBARUTILS_NAVIGATION_BAR_VIEW = R.id.scaffold_navigation_bar_view;
     private static int sStatusbarHeight = -1;
     @StatusBarType
     private static int mStatuBarType = STATUSBAR_TYPE_DEFAULT;

@@ -295,14 +295,14 @@ public class FileChooser {
                 this.mAgentWebUIController
                         .get()
                         .onSelectItemsPrompt(this.x5WebView, x5WebView.getUrl(),
-                                new String[]{mActivity.getString(R.string.agentweb_camera),
-                                        mActivity.getString(R.string.agentweb_file_chooser)}, getCallBack());
+                                new String[]{mActivity.getString(R.string.scaffold_camera),
+                                        mActivity.getString(R.string.scaffold_file)}, getCallBack());
             } else {
                 this.mAgentWebUIController
                         .get()
                         .onSelectItemsPrompt(this.sysWebView, sysWebView.getUrl(),
-                                new String[]{mActivity.getString(R.string.agentweb_camera),
-                                        mActivity.getString(R.string.agentweb_file_chooser)}, getCallBack());
+                                new String[]{mActivity.getString(R.string.scaffold_camera),
+                                        mActivity.getString(R.string.scaffold_file)}, getCallBack());
             }
             Timber.i("open");
         }
@@ -576,7 +576,7 @@ public class FileChooser {
 
         if (sum > WebConfig.MAX_FILE_LENGTH) {
             if (mAgentWebUIController.get() != null) {
-                mAgentWebUIController.get().onShowMessage(mActivity.getString(R.string.agentweb_max_file_length_limit, (WebConfig.MAX_FILE_LENGTH / 1024 / 1024) + ""), TAG.concat("|convertFileAndCallback"));
+                mAgentWebUIController.get().onShowMessage(mActivity.getString(R.string.scaffold_max_file_length_limit, (WebConfig.MAX_FILE_LENGTH / 1024 / 1024) + ""), TAG.concat("|convertFileAndCallback"));
             }
             mJsChannelCallback.call(null);
             return;
@@ -625,7 +625,7 @@ public class FileChooser {
             }
         }
         final String path = paths[0];
-        mAgentWebUIController.get().onLoading(mActivity.getString(R.string.agentweb_loading));
+        mAgentWebUIController.get().onLoading(mActivity.getString(R.string.scaffold_loading));
         if (WebConfig.hasX5()) {
             AsyncTask.THREAD_POOL_EXECUTOR.execute(new WaitPhotoRunnable(path, new AboveLCallback(x5UriValueCallbacks, datas, mAgentWebUIController)));
         } else {
