@@ -75,6 +75,7 @@ dependencies {
 //    implementation rootProject.ext.deps.paging
     implementation rootProject.ext.deps.paging_runtime
     implementation rootProject.ext.deps.paging_common
+    implementation rootProject.ext.deps.room_runtime
     implementation rootProject.ext.deps.tbs
     implementation rootProject.ext.deps.Downloader
     implementation 'com.jwkj:M3U8Manger:v2.3.0'
