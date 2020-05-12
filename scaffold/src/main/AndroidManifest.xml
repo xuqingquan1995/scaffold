@@ -32,7 +32,7 @@
                 android:configChanges="keyboardHidden|orientation|screenSize"
                 android:exported="false"
                 android:launchMode="standard"
-                android:theme="@style/actionActivity"
+                android:theme="@style/scaffold_actionActivity"
                 android:windowSoftInputMode="stateHidden|stateAlwaysHidden"/>
         <!-- Android 7.0 之后用到FileProvider -->
         <provider
@@ -42,7 +42,7 @@
                 android:grantUriPermissions="true">
             <meta-data
                     android:name="android.support.FILE_PROVIDER_PATHS"
-                    android:resource="@xml/filepaths"/>
+                    android:resource="@xml/scaffold_filepaths"/>
         </provider>
 
         <provider
