@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<top.xuqingquan.widget.ScaffoldWebView
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<top.xuqingquan.widget.ScaffoldWebView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/webview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:url="https://www.baidu.com"
-        android:id="@+id/webview"
-        tools:context=".WebActivity"/>
+        app:scaffold_url="https://www.baidu.com"
+        tools:context=".WebActivity" />
