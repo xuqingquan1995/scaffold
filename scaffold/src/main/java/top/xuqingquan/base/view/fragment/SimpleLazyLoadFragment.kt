@@ -16,7 +16,7 @@ abstract class SimpleLazyLoadFragment : SimpleFragment() {
     private val isParentVisible: Boolean
         get() {
             val fragment = parentFragment
-            return fragment == null || fragment is SimpleLazyLoadFragment && fragment.isVisibleToUser
+            return fragment == null || fragment !is SimpleLazyLoadFragment || fragment.isVisibleToUser
         }
 
     /**
