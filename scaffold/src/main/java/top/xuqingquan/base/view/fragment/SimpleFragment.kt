@@ -149,7 +149,7 @@ abstract class SimpleFragment : Fragment(), IFragment, FragmentOnKeyListener {
     }
 
     protected fun <T> launch(
-        context: CoroutineContext = Dispatchers.Main,
+        context: CoroutineContext = Dispatchers.Main.immediate,
         tryBlock: suspend CoroutineScope.() -> T,
         catchBlock: suspend CoroutineScope.(Throwable) -> Unit = {},
         finallyBlock: suspend CoroutineScope.() -> Unit = {},
@@ -175,7 +175,7 @@ abstract class SimpleFragment : Fragment(), IFragment, FragmentOnKeyListener {
 
     protected fun <T> launch(
         hideKeyboard: Boolean = true,
-        context: CoroutineContext = Dispatchers.Main,
+        context: CoroutineContext = Dispatchers.Main.immediate,
         tryBlock: suspend CoroutineScope.() -> T
     ): Job {
         return launch(context, tryBlock, {}, {}, hideKeyboard)

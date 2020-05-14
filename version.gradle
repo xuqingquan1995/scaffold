@@ -127,6 +127,7 @@ ext {
             espresso_support          : "com.android.support.test.espresso:espresso-core:${depsVer.espresso_version}",
             lifecycle_extensions      : "android.arch.lifecycle:extensions:${depsVer.lifecycle_version}",
             lifecycle_viewmodel       : "android.arch.lifecycle:viewmodel:${depsVer.lifecycle_version}",
+            lifecycle_vm_ktx          : "android.arch.lifecycle:viewmodel-ktx:${depsVer.lifecycle_version}",
             lifecycle_runtime         : "android.arch.lifecycle:runtime:${depsVer.lifecycle_version}",
             navigation_fragment       : "android.arch.navigation:navigation-fragment:${depsVer.navigation_version}",
             navigation_ui             : "android.arch.navigation:navigation-ui:${depsVer.navigation_version}",
