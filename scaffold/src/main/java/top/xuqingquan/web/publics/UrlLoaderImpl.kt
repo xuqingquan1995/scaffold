@@ -104,20 +104,20 @@ class UrlLoaderImpl : IUrlLoader {
     }
 
     override fun loadDataWithBaseURL(
-        baseUrl: String,
+        baseUrl: String?,
         data: String,
         mimeType: String,
         encoding: String,
-        historyUrl: String
+        failUrl: String?
     ) {
         if (!WebUtils.isUIThread()) {
-            mHandler!!.post { loadDataWithBaseURL(baseUrl, data, mimeType, encoding, historyUrl) }
+            mHandler!!.post { loadDataWithBaseURL(baseUrl, data, mimeType, encoding, failUrl) }
             return
         }
         if (WebConfig.hasX5()) {
-            this.mx5WebView!!.loadDataWithBaseURL(baseUrl, data, mimeType, encoding, historyUrl)
+            this.mx5WebView!!.loadDataWithBaseURL(baseUrl, data, mimeType, encoding, failUrl)
         } else {
-            this.mWebView!!.loadDataWithBaseURL(baseUrl, data, mimeType, encoding, historyUrl)
+            this.mWebView!!.loadDataWithBaseURL(baseUrl, data, mimeType, encoding, failUrl)
         }
     }
 
