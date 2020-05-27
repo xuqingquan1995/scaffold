@@ -10,16 +10,16 @@ ext {
     depsVer = [
             kotlin              : '1.3.72',
             kotlinx_coroutines  : '1.3.6',
-            appcompat           : '1.1.0',
-            core_ktx            : '1.3.0-rc01',
-            constraintlayout    : '2.0.0-beta5',
+            appcompat           : '1.2.0-rc01',
+            core_ktx            : '1.4.0-alpha01',
+            constraintlayout    : '2.0.0-beta6',
             junit               : '4.13',
-            test_rules          : '1.3.0-beta01',
-            espresso_core       : '3.3.0-beta01',
-            test_ext            : '1.1.2-beta01',
-            retrofit            : '2.8.1',
+            test_rules          : '1.3.0-beta02',
+            espresso_core       : '3.3.0-beta02',
+            test_ext            : '1.1.2-beta02',
+            retrofit            : '2.9.0',
             gson                : '2.8.6',
-            okhttp              : '4.6.0',
+            okhttp              : '4.7.2',
             leakcanary          : '2.3',
             eventbus            : '3.2.0',
             lifecycle           : '2.2.0',
@@ -45,7 +45,17 @@ ext {
             swiperefreshlayout  : '1.0.0',
             exifinterface       : '1.2.0',
             flexbox             : '2.0.1',
-            tbs                 : '43903'
+            tbs                 : '43903',
+            //support新增部分
+            support                 : '28.0.0',
+            constraintlayout_support: '1.1.3',
+            rules_support           : '1.0.2',
+            multidex_support        : '1.0.3',
+            paging_version          : '1.0.1',
+            espresso_version        : '3.0.2',
+            lifecycle_version       : '1.1.1',
+            navigation_version      : '1.0.0',
+            room_version            : '1.1.1',
     ]
     deps = [
             //每个app都要用到的
@@ -103,7 +113,26 @@ ext {
             glide_compiler            : "com.github.bumptech.glide:compiler:${depsVer.glide}",
             Downloader                : "com.download.library:Downloader:${depsVer.Downloader}",
             qrcode                    : "cn.bingoogolapple:bga-qrcode-zxing:${depsVer.qrcode}",
-            tbs                       : "com.tencent.tbs.tbssdk:sdk:${depsVer.tbs}"
+            tbs                       : "com.tencent.tbs.tbssdk:sdk:${depsVer.tbs}",
+            //support
+            recyclerview_v7           : "com.android.support:recyclerview-v7:${depsVer.support}",
+            appcompat_v7              : "com.android.support:appcompat-v7:${depsVer.support}",
+            exifinterface_support     : "com.android.support:exifinterface:${depsVer.support}",
+            design                    : "com.android.support:design:${depsVer.support}",
+            constraintlayout_support  : "com.android.support.constraint:constraint-layout:${depsVer.constraintlayout_support}",
+            multidex_support          : "com.android.support:multidex:${depsVer.multidex_support}",
+            rules_support             : "com.android.support.test:rules:${depsVer.rules_support}",
+            paging_runtime            : "android.arch.paging:runtime:${depsVer.paging_version}",
+            paging_common             : "android.arch.paging:common:${depsVer.paging_version}",
+            espresso_support          : "com.android.support.test.espresso:espresso-core:${depsVer.espresso_version}",
+            lifecycle_extensions      : "android.arch.lifecycle:extensions:${depsVer.lifecycle_version}",
+            lifecycle_viewmodel       : "android.arch.lifecycle:viewmodel:${depsVer.lifecycle_version}",
+            lifecycle_vm_ktx          : "android.arch.lifecycle:viewmodel-ktx:${depsVer.lifecycle_version}",
+            lifecycle_runtime         : "android.arch.lifecycle:runtime:${depsVer.lifecycle_version}",
+            navigation_fragment       : "android.arch.navigation:navigation-fragment:${depsVer.navigation_version}",
+            navigation_ui             : "android.arch.navigation:navigation-ui:${depsVer.navigation_version}",
+            room_runtime              : "android.arch.persistence.room:runtime:${depsVer.room_version}",
+            room_compiler_support     : "android.arch.persistence.room:compiler:${depsVer.navigation_version}",
     ]
 
 }
