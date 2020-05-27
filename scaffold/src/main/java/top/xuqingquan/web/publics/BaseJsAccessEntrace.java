@@ -51,14 +51,17 @@ public abstract class BaseJsAccessEntrace implements JsAccessEntrace {
     }
 
     private void loadJs(@Nullable String js) {
-        if (WebConfig.hasX5()) {
+        if (WebConfig.hasX5() && mx5WebView != null) {
             mx5WebView.loadUrl(js);
-        } else {
+        } else if (mWebView != null) {
             mWebView.loadUrl(js);
         }
     }
 
     private void evaluateJs(@Nullable String js, @Nullable android.webkit.ValueCallback<String> callback) {
+        if (mWebView == null) {
+            return;
+        }
         mWebView.evaluateJavascript(js, value -> {
             if (callback != null) {
                 callback.onReceiveValue(value);
@@ -67,6 +70,9 @@ public abstract class BaseJsAccessEntrace implements JsAccessEntrace {
     }
 
     private void evaluateJs(@Nullable String js, @Nullable com.tencent.smtt.sdk.ValueCallback<String> callback) {
+        if (mx5WebView == null) {
+            return;
+        }
         mx5WebView.evaluateJavascript(js, value -> {
             if (callback != null) {
                 callback.onReceiveValue(value);
