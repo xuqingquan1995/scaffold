@@ -13,8 +13,8 @@ interface IUrlLoader {
     fun stopLoading()
 
     fun loadDataWithBaseURL(
-        baseUrl: String, data: String,
-        mimeType: String, encoding: String, historyUrl: String
+        baseUrl: String?, data: String,
+        mimeType: String, encoding: String, failUrl: String?
     )
 
     fun postUrl(url: String, params: ByteArray)

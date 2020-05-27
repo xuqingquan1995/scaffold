@@ -26,13 +26,17 @@ class ScaffoldWebView : FrameLayout {
 
     var agentWeb: AgentWeb? = null
         private set
+
     //错误页面id
     @ColorInt
     var indicatorColor: Int = -1//进度条颜色，-1为默认值
+
     @DimenRes
     var indicatorHeight: Int = 0 //进度条高度，高度为2，单位为dp
+
     @LayoutRes
     var error_layout: Int = -1
+
     @IdRes
     var refresh_error: Int = -1
     var url: String? = "https://m.baidu.com"
@@ -54,11 +58,19 @@ class ScaffoldWebView : FrameLayout {
             url = it
         }
         debug = typedArray.getBoolean(R.styleable.scaffold_ScaffoldWebView_scaffold_debug, false)
-        indicatorColor = typedArray.getColor(R.styleable.scaffold_ScaffoldWebView_scaffold_indicatorColor, -1)
-        indicatorHeight = typedArray.getDimension(R.styleable.scaffold_ScaffoldWebView_scaffold_indicatorHeight, -1f).toInt()
-        error_layout = typedArray.getResourceId(R.styleable.scaffold_ScaffoldWebView_scaffold_error_layout, -1)
+        indicatorColor =
+            typedArray.getColor(R.styleable.scaffold_ScaffoldWebView_scaffold_indicatorColor, -1)
+        indicatorHeight = typedArray.getDimension(
+            R.styleable.scaffold_ScaffoldWebView_scaffold_indicatorHeight,
+            -1f
+        ).toInt()
+        error_layout =
+            typedArray.getResourceId(R.styleable.scaffold_ScaffoldWebView_scaffold_error_layout, -1)
         if (error_layout != -1) {
-            refresh_error = typedArray.getResourceId(R.styleable.scaffold_ScaffoldWebView_scaffold_refresh_error, -1)
+            refresh_error = typedArray.getResourceId(
+                R.styleable.scaffold_ScaffoldWebView_scaffold_refresh_error,
+                -1
+            )
         }
         indicatorHeight = if (indicatorHeight == -1) {
             2
@@ -68,7 +80,11 @@ class ScaffoldWebView : FrameLayout {
         typedArray.recycle()
     }
 
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr
+    )
 
     private fun initAgentWeb() {
         initAgentWeb(null)
@@ -86,14 +102,20 @@ class ScaffoldWebView : FrameLayout {
                 .setMainFrameErrorView(error_layout, refresh_error)//当使用X5时候这一句失效
                 .interceptUnkownUrl() //拦截找不到相关页面的Url AgentWeb 3.0.0 加入。
                 .setPermissionInterceptor(object : PermissionInterceptor {
-                    override fun intercept(url: String?, permissions: Array<String>, action: String) = false
+                    override fun intercept(
+                        url: String?,
+                        permissions: Array<String>,
+                        action: String
+                    ) = false
                 })
                 .createAgentWeb()//创建AgentWeb。
                 .get()
         if (WebConfig.hasX5()) {
-            agentWeb!!.x5WebCreator.getWebView()?.overScrollMode = com.tencent.smtt.sdk.WebView.OVER_SCROLL_NEVER
+            agentWeb!!.x5WebCreator.getWebView()?.overScrollMode =
+                com.tencent.smtt.sdk.WebView.OVER_SCROLL_NEVER
         } else {
-            agentWeb!!.webCreator.getWebView()?.overScrollMode = android.webkit.WebView.OVER_SCROLL_NEVER
+            agentWeb!!.webCreator.getWebView()?.overScrollMode =
+                android.webkit.WebView.OVER_SCROLL_NEVER
         }
     }
 
@@ -116,7 +138,12 @@ class ScaffoldWebView : FrameLayout {
     }
 
     fun onDestroy() {
-        agentWeb?.destroy()
+        try {
+            agentWeb?.urlLoader?.loadDataWithBaseURL(null, "", "text/html", "utf-8", null)
+            agentWeb?.clearWebCache()
+            agentWeb?.destroy()
+        } catch (e: Throwable) {
+        }
         WebConfig.x5 = null//每次退出时都清空X5状态
     }
 
