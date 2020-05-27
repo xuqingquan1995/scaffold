@@ -65,7 +65,6 @@ dependencies {
     api rootProject.ext.deps.core_ktx
     api rootProject.ext.deps.lifecycle
     api rootProject.ext.deps.lifecycle_runtime_ktx
-    compileOnly rootProject.ext.deps.multidex
     //view
     api rootProject.ext.deps.recyclerview
     api rootProject.ext.deps.exifinterface

@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentPagerAdapter
  * BEHAVIOR_SET_USER_VISIBLE_HINT 则需要使用
  * Fragment#setUserVisibleHint(boolean)进行接收可见加载状态
  */
+@Deprecated("可能引起内存泄漏，可自行实现")
 open class BaseViewPagerAdapter(
     fm: FragmentManager,
     private val fragments: List<Fragment>,

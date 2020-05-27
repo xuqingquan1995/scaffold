@@ -6,6 +6,8 @@ import android.text.TextPaint;
 import android.text.style.ClickableSpan;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+
 /**
  * Created by 许清泉 on 2020/4/16 15:22
  */
@@ -33,7 +35,7 @@ public class ButtonSpan extends ClickableSpan {
     }
 
     @Override
-    public void onClick(View widget) {
+    public void onClick(@NonNull View widget) {
         if (onClickListener != null) {
             onClickListener.onClick(widget);
         }

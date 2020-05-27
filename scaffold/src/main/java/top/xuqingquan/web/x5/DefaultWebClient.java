@@ -116,7 +116,6 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
         Timber.i("HAS_ALIPAY_LIB:" + HAS_ALIPAY_LIB);
     }
 
-
     private DefaultWebClient(Builder builder) {
         super(builder.mClient);
         this.mWebView = builder.mWebView;
@@ -277,7 +276,6 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
         }
     }
 
-
     private ResolveInfo lookupResolveInfo(String url) {
         try {
             Intent intent;
@@ -343,7 +341,6 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
         return false;
     }
 
-
     private boolean handleCommonLink(String url) {
         if (url.startsWith(WebView.SCHEME_TEL)
                 || url.startsWith(SCHEME_SMS)
@@ -395,12 +392,10 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
         super.onPageFinished(view, url);
     }
 
-
     @Override
     public boolean shouldOverrideKeyEvent(WebView view, KeyEvent event) {
         return super.shouldOverrideKeyEvent(view, event);
     }
-
 
     private void startActivity(String url) {
         try {
@@ -439,7 +434,6 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
             return true;
         };
     }
-
 
     public static Builder createBuilder() {
         return new Builder();
