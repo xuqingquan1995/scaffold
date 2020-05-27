@@ -2,6 +2,7 @@ package top.xuqingquan.widget.text;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.support.annotation.NonNull;
 import android.text.TextPaint;
 import android.text.style.ClickableSpan;
 import android.view.View;
@@ -33,7 +34,7 @@ public class ButtonSpan extends ClickableSpan {
     }
 
     @Override
-    public void onClick(View widget) {
+    public void onClick(@NonNull View widget) {
         if (onClickListener != null) {
             onClickListener.onClick(widget);
         }

@@ -21,8 +21,8 @@ public class ExpandTextView extends AppCompatTextView {
     private int mMaxLines = 3;// TextView最大行数
     private SpannableString SPAN_CLOSE = null;// 收起的文案(颜色处理)
     private SpannableString SPAN_EXPAND = null;// 展开的文案(颜色处理)
-    private final String TEXT_EXPAND = "  更多";
-    private final String TEXT_CLOSE = "  收起";
+    private static final String TEXT_EXPAND = "  更多";
+    private static final String TEXT_CLOSE = "  收起";
 
     public ExpandTextView(Context context) {
         super(context);
@@ -94,7 +94,7 @@ public class ExpandTextView extends AppCompatTextView {
         originText = text.toString();
 
         // SDK >= 16 可以直接从xml属性获取最大行数
-        int maxLines = 0;
+        int maxLines;
         maxLines = getMaxLines();
         String workingText = originText;
         if (maxLines != -1) {

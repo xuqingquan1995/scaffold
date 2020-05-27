@@ -1,5 +1,6 @@
 package top.xuqingquan.web.publics
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.pm.ActivityInfo
 import android.graphics.Color
@@ -21,6 +22,7 @@ class VideoImpl(mActivity: Activity, webView: android.webkit.WebView?) : IVideo,
     private var mCallback: android.webkit.WebChromeClient.CustomViewCallback? = null
     private var mx5Callback: IX5WebChromeClient.CustomViewCallback? = null
 
+    @SuppressLint("SourceLockedOrientationActivity")
     override fun onShowCustomView(
         view: View,
         callback: android.webkit.WebChromeClient.CustomViewCallback
@@ -66,6 +68,7 @@ class VideoImpl(mActivity: Activity, webView: android.webkit.WebView?) : IVideo,
         mMoiveParentView!!.visibility = View.VISIBLE
     }
 
+    @SuppressLint("SourceLockedOrientationActivity")
     override fun onHideCustomView() {
         if (mMoiveView == null) {
             return

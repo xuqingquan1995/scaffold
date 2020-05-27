@@ -1,5 +1,4 @@
 <resources>
-    <string name="scaffold_app_name">scaffold</string>
     <string name="scaffold_stack_view">栈视图(Stack)</string>
     <string name="scaffold_loading">加载中 …</string>
     <string name="scaffold_click_to_retry">内容加载失败，请点击重试</string>
@@ -9,7 +8,6 @@
     <string name="scaffold_honeycomblow">您正在使用手机流量 ， 继续下载该文件吗?</string>
     <string name="scaffold_download">下载</string>
     <string name="scaffold_cancel">取消</string>
-    <string name="scaffold_coming_soon_download">即将开始下载文件</string>
     <string name="scaffold_camera">相机</string>
     <string name="scaffold_file">文件</string>
     <string name="scaffold_leave_app_and_go_other_page">您需要离开%s前往其他应用吗？</string>

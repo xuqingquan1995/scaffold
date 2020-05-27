@@ -2,18 +2,26 @@ package top.xuqingquan.utils;
 
 import android.util.Base64;
 
-import javax.crypto.*;
-import javax.crypto.spec.DESKeySpec;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.security.*;
+import java.security.DigestInputStream;
+import java.security.InvalidKeyException;
+import java.security.Key;
+import java.security.KeyFactory;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.security.spec.AlgorithmParameterSpec;
-import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
+
+import javax.crypto.Cipher;
+import javax.crypto.Mac;
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.DESKeySpec;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
 
 /**
  * <pre>
@@ -1108,17 +1116,7 @@ public final class EncryptUtils {
             } else {
                 return cipher.doFinal(data);
             }
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (NoSuchPaddingException e) {
-            e.printStackTrace();
-        } catch (InvalidKeyException e) {
-            e.printStackTrace();
-        } catch (BadPaddingException e) {
-            e.printStackTrace();
-        } catch (IllegalBlockSizeException e) {
-            e.printStackTrace();
-        } catch (InvalidKeySpecException e) {
+        } catch (Throwable e) {
             e.printStackTrace();
         }
         return null;

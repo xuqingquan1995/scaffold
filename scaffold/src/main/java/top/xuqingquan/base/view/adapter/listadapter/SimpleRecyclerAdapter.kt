@@ -50,6 +50,7 @@ open class SimpleRecyclerAdapter<T>(private val list: MutableList<T>) :
     override fun onBindViewHolder(holder: BaseViewHolder<T>, position: Int) {
         holder.setData(getItem(position), position)
         setData(holder, getItem(position), position)
+        setData(holder, getItem(position), getItemViewType(position), position)
     }
 
     /**
@@ -65,7 +66,10 @@ open class SimpleRecyclerAdapter<T>(private val list: MutableList<T>) :
     @LayoutRes
     open fun getLayoutRes(viewType: Int) = 0
 
+    @Deprecated("没有viewType")
     open fun setData(holder: BaseViewHolder<T>, data: T?, position: Int) {}
+
+    open fun setData(holder: BaseViewHolder<T>, data: T?, viewType: Int, position: Int) {}
 
     /**
      * 单击回调

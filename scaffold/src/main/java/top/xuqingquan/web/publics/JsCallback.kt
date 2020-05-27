@@ -37,7 +37,7 @@ class JsCallback {
      * @param args
      * @throws JsCallbackException
      */
-    @Throws(JsCallback.JsCallbackException::class)
+    @Throws(JsCallbackException::class)
     fun apply(vararg args: Any) {
         if (WebConfig.hasX5()) {
             if (mx5WebViewRef?.get() == null) {

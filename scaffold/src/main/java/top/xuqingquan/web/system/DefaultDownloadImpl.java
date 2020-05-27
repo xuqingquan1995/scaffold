@@ -125,7 +125,7 @@ public class DefaultDownloadImpl implements android.webkit.DownloadListener {
             } else {
                 fileName = url.substring(url.lastIndexOf("/") + 1);
             }
-        } catch (Throwable t) {
+        } catch (Throwable ignored) {
         }
         File downloadFile = new File(FileUtils.getCacheFilePath(mContext), fileName);
         if (downloadFile.exists()) {

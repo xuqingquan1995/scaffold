@@ -40,7 +40,7 @@ public class Action implements Parcelable {
 		this.mAction = action;
 	}
 
-	protected Action(Parcel in) {
+	private Action(Parcel in) {
 		mPermissions = in.createStringArrayList();
 		mAction = in.readInt();
 		mFromIntention = in.readInt();

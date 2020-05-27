@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentPagerAdapter
 /**
  * Created by 许清泉 on 2019/4/13 23:20
  */
+@Deprecated("可能引起内存泄漏，可自行实现")
 open class BaseViewPagerAdapter(
     fm: FragmentManager,
     private val fragments: List<Fragment>,

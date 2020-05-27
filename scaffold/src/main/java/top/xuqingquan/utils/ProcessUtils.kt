@@ -5,7 +5,6 @@ import android.app.ActivityManager
 import android.app.ActivityManager.RunningAppProcessInfo
 import android.app.Application
 import android.content.Context
-import android.content.Context.ACTIVITY_SERVICE
 import android.os.Process
 import android.text.TextUtils
 import android.support.v4.content.ContextCompat

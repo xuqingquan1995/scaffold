@@ -12,7 +12,8 @@ import top.xuqingquan.base.view.adapter.viewholder.BaseViewHolder
 /**
  * Created by 许清泉 on 2019/4/14 01:37
  */
-open class SimpleListAdapter<T>(diff: DiffUtil.ItemCallback<T>) : ListAdapter<T, BaseViewHolder<T>>(diff) {
+open class SimpleListAdapter<T>(diff: DiffUtil.ItemCallback<T>) :
+    ListAdapter<T, BaseViewHolder<T>>(diff) {
 
     var listener: OnViewClickListener<T>? = null
 
@@ -48,13 +49,16 @@ open class SimpleListAdapter<T>(diff: DiffUtil.ItemCallback<T>) : ListAdapter<T,
     override fun onBindViewHolder(holder: BaseViewHolder<T>, position: Int) {
         holder.setData(getItem(position), position)
         setData(holder, getItem(position), position)
+        setData(holder, getItem(position), getItemViewType(position), position)
     }
 
     /**
      * 创建ViewHolder
      */
     open fun getViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<T> {
-        return BaseViewHolder(LayoutInflater.from(parent.context).inflate(getLayoutRes(viewType), parent, false))
+        return BaseViewHolder(
+            LayoutInflater.from(parent.context).inflate(getLayoutRes(viewType), parent, false)
+        )
     }
 
     /**
@@ -63,7 +67,10 @@ open class SimpleListAdapter<T>(diff: DiffUtil.ItemCallback<T>) : ListAdapter<T,
     @LayoutRes
     open fun getLayoutRes(viewType: Int) = 0
 
+    @Deprecated("没有viewType")
     open fun setData(holder: BaseViewHolder<T>, data: T?, position: Int) {}
+
+    open fun setData(holder: BaseViewHolder<T>, data: T?, viewType: Int, position: Int) {}
 
     /**
      * 在Adapter内部实现单击回调

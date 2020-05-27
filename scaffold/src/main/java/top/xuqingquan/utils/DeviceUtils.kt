@@ -150,6 +150,7 @@ fun installAPK(context: Context, file: File?) {
 fun getIMEI(context: Context): String? {
     return if (hasPermission(context, Manifest.permission.READ_PHONE_STATE)) {
         val tel = ContextCompat.getSystemService(context, TelephonyManager::class.java)
+        @Suppress("DEPRECATION")
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             tel?.imei
         } else {

@@ -28,7 +28,7 @@ public final class ActionActivity extends Activity {
     private static PermissionListener mPermissionListener;
     private static ChooserListener mChooserListener;
     private Action mAction;
-    public static final int REQUEST_CODE = 0x254;
+    private static final int REQUEST_CODE = 0x254;
 
     public static void start(Activity activity, Action action) {
         Intent mIntent = new Intent(activity, ActionActivity.class);

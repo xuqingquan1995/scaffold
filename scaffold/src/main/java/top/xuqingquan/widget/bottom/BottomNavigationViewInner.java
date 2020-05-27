@@ -145,7 +145,6 @@ public class BottomNavigationViewInner extends BottomNavigationView {
      * @param visibility
      */
     public BottomNavigationViewInner setTextVisibility(boolean visibility) {
-        boolean textVisibility = visibility;
         /*
         1. get field in this class
         private final BottomNavigationMenuView mMenuView;
@@ -305,10 +304,8 @@ public class BottomNavigationViewInner extends BottomNavigationView {
 
     /**
      * @param enable It will has a shift animation if true. Otherwise all items are the same width.
-     * @Deprecated use {@link #setLabelVisibilityMode }
      * enable the shifting mode for navigation
      */
-    @Deprecated
     public BottomNavigationViewInner enableShiftingMode(boolean enable) {
         /*
         1. get field in this class
@@ -327,10 +324,8 @@ public class BottomNavigationViewInner extends BottomNavigationView {
 
     /**
      * @param enable It will has a shift animation for item if true. Otherwise the item text always be shown.
-     * @Deprecated use {@link #setItemHorizontalTranslationEnabled(boolean)}
      * enable the shifting mode for each item
      */
-    @Deprecated
     public BottomNavigationViewInner enableItemShiftingMode(boolean enable) {
         /*
         1. get field in this class
@@ -493,8 +488,7 @@ public class BottomNavigationViewInner extends BottomNavigationView {
          * 3 private ImageView mIcon;
          */
         BottomNavigationItemView mButtons = getBottomNavigationItemView(position);
-        ImageView mIcon = getField(BottomNavigationItemView.class, mButtons, "icon");
-        return mIcon;
+        return getField(BottomNavigationItemView.class, mButtons, "icon");
     }
 
     /**
@@ -511,8 +505,7 @@ public class BottomNavigationViewInner extends BottomNavigationView {
          * 3 private final TextView mSmallLabel;
          */
         BottomNavigationItemView mButtons = getBottomNavigationItemView(position);
-        TextView mSmallLabel = getField(BottomNavigationItemView.class, mButtons, "smallLabel");
-        return mSmallLabel;
+        return getField(BottomNavigationItemView.class, mButtons, "smallLabel");
     }
 
     /**
@@ -529,8 +522,7 @@ public class BottomNavigationViewInner extends BottomNavigationView {
          * 3 private final TextView mLargeLabel;
          */
         BottomNavigationItemView mButtons = getBottomNavigationItemView(position);
-        TextView mLargeLabel = getField(BottomNavigationItemView.class, mButtons, "largeLabel");
-        return mLargeLabel;
+        return getField(BottomNavigationItemView.class, mButtons, "largeLabel");
     }
 
     /**
@@ -721,10 +713,9 @@ public class BottomNavigationViewInner extends BottomNavigationView {
         try {
             Field field = targetClass.getDeclaredField(fieldName);
             field.setAccessible(true);
+            //noinspection unchecked
             return (T) field.get(instance);
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
+        } catch (Throwable e) {
             e.printStackTrace();
         }
         return null;
