@@ -158,6 +158,7 @@ public final class ReflectUtils {
     }
 
     private void sortConstructors(List<Constructor<?>> list) {
+        //noinspection Convert2Lambda
         Collections.sort(list, new Comparator<Constructor<?>>() {
             @Override
             public int compare(Constructor<?> o1, Constructor<?> o2) {
@@ -363,6 +364,7 @@ public final class ReflectUtils {
     }
 
     private void sortMethods(final List<Method> methods) {
+        //noinspection Convert2Lambda
         Collections.sort(methods, new Comparator<Method>() {
             @Override
             public int compare(Method o1, Method o2) {
@@ -432,6 +434,7 @@ public final class ReflectUtils {
     @SuppressWarnings("unchecked")
     public <P> P proxy(final Class<P> proxyType) {
         final boolean isMap = (object instanceof Map);
+        //noinspection Convert2Lambda
         final InvocationHandler handler = new InvocationHandler() {
             @Override
             @SuppressWarnings("null")

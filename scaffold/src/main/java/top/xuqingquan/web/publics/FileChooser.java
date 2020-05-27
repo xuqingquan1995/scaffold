@@ -1,5 +1,6 @@
 package top.xuqingquan.web.publics;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ClipData;
 import android.content.Intent;
@@ -191,6 +192,7 @@ public class FileChooser {
                 .putExtra(KEY_FILE_CHOOSER_INTENT, getFileChooserIntent()));
     }
 
+    @SuppressLint("ObsoleteSdkInt")
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private Intent getFileChooserIntent() {
         if (WebConfig.hasX5()) {
@@ -722,7 +724,7 @@ public class FileChooser {
             return null;
         }
         int tmp = Runtime.getRuntime().availableProcessors() + 1;
-        int result = paths.length > tmp ? tmp : paths.length;
+        int result = Math.min(paths.length, tmp);
         Executor mExecutor = Executors.newFixedThreadPool(result);
         final Queue<FileParcel> mQueue = new LinkedBlockingQueue<>();
         CountDownLatch mCountDownLatch = new CountDownLatch(paths.length);

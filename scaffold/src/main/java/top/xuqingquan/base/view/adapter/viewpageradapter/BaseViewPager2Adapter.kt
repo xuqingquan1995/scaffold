@@ -9,6 +9,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 /**
  * Created by 许清泉 on 2019-05-25 18:44
  */
+@Deprecated("可能引起内存泄漏，可自行实现")
 open class BaseViewPager2Adapter : FragmentStateAdapter {
 
     private val fragments: List<Fragment>

@@ -3,7 +3,6 @@ package top.xuqingquan.app
 import android.app.Application
 import android.content.ContentProvider
 import android.content.ContentValues
-import android.database.Cursor
 import android.net.Uri
 import top.xuqingquan.delegate.AppDelegate
 import top.xuqingquan.delegate.AppLifecycles

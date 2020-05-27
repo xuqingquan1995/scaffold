@@ -2,7 +2,6 @@ package top.xuqingquan.lifecycle
 
 import android.app.Application
 import android.content.Context
-import androidx.multidex.MultiDex
 import com.github.anrwatchdog.ANRWatchDog
 import com.tencent.smtt.export.external.TbsCoreSettings
 import com.tencent.smtt.sdk.QbSdk
@@ -20,11 +19,6 @@ import kotlin.concurrent.thread
 class AppLifecyclesImpl : AppLifecycles {
 
     override fun attachBaseContext(base: Context?) {
-        try {
-            Class.forName("androidx.multidex.MultiDex")
-            MultiDex.install(base)
-        } catch (e: Throwable) {
-        }
     }
 
     override fun onCreate(application: Application) {
