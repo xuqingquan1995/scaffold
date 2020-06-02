@@ -31,7 +31,7 @@ import kotlin.coroutines.CoroutineContext
 abstract class SimpleFragment : Fragment(), IFragment, FragmentOnKeyListener {
 
     private var mCache: Cache<String, Any>? = null
-    var mContext: Context? = null
+    protected var mContext: Context? = null
     protected val launchError = MutableLiveData<Throwable>()
 
     /**

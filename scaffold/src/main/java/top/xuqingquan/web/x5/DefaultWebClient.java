@@ -20,6 +20,7 @@ import com.tencent.smtt.export.external.interfaces.*;
 import com.tencent.smtt.sdk.*;
 
 import java.lang.ref.WeakReference;
+import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -40,6 +41,10 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
      * 缩放
      */
     private static final int CONSTANTS_ABNORMAL_BIG = 7;
+    /**
+     * WebViewClient
+     */
+    private WebViewClient mWebViewClient;
     /**
      * mWebClientHelper
      */
@@ -75,7 +80,7 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
     /**
      * 是否拦截找不到相应页面的Url，默认拦截
      */
-    private boolean mIsInterceptUnknowUrl;
+    private boolean mIsInterceptUnkownUrl;
     /**
      * AbsAgentWebUIController
      */
@@ -119,10 +124,11 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
     private DefaultWebClient(Builder builder) {
         super(builder.mClient);
         this.mWebView = builder.mWebView;
+        this.mWebViewClient = builder.mClient;
         this.mWeakReference = new WeakReference<>(builder.mActivity);
         this.webClientHelper = builder.mWebClientHelper;
         this.mAgentWebUIController = new WeakReference<>(AgentWebUtils.getAgentWebUIControllerByWebView(builder.mWebView));
-        this.mIsInterceptUnknowUrl = builder.mIsInterceptUnkownScheme;
+        this.mIsInterceptUnkownUrl = builder.mIsInterceptUnkownScheme;
         if (builder.mUrlHandleWays <= 0) {
             mUrlHandleWays = WebConfig.ASK_USER_OPEN_OTHER_PAGE;
         } else {
@@ -163,7 +169,7 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
             Timber.i("intercept url:" + url);
             return true;
         }
-        if (mIsInterceptUnknowUrl) {
+        if (mIsInterceptUnkownUrl) {
             Timber.i("intercept UnkownUrl :" + request.getUrl());
             return true;
         }
@@ -243,7 +249,7 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
             return true;
         }
         // 手机里面没有页面能匹配到该链接 ，拦截下来。
-        if (mIsInterceptUnknowUrl) {
+        if (mIsInterceptUnkownUrl) {
             Timber.i("intercept InterceptUnkownScheme : " + url);
             return true;
         }
@@ -258,7 +264,7 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
             Intent intent = Intent.parseUri(url, Intent.URI_INTENT_SCHEME);
             PackageManager mPackageManager = mWeakReference.get().getPackageManager();
             List<ResolveInfo> mResolveInfos = mPackageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
-            return mResolveInfos.size();
+            return mResolveInfos == null ? 0 : mResolveInfos.size();
         } catch (Throwable t) {
             Timber.e(t);
             return 0;
@@ -371,6 +377,49 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
         }
         super.onPageStarted(view, url, favicon);
 
+    }
+
+    /**
+     * MainFrame Error
+     */
+    @Override
+    @Deprecated
+    public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+        Timber.i("onReceivedError：" + description + "  CODE:" + errorCode);
+        onMainFrameError(view, errorCode, description, failingUrl);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    @Override
+    public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+        if (request.isForMainFrame()) {
+            onMainFrameError(view,
+                    error.getErrorCode(), error.getDescription().toString(),
+                    request.getUrl().toString());
+        }
+        Timber.i("onReceivedError:" + error.getDescription() + " code:" + error.getErrorCode());
+    }
+
+    private void onMainFrameError(WebView view, int errorCode, String description, String failingUrl) {
+        mErrorUrlsSet.add(failingUrl);
+        // 下面逻辑判断开发者是否重写了 onMainFrameError 方法 ， 优先交给开发者处理
+        if (this.mWebViewClient != null && webClientHelper) {
+            /*
+             * MainFrameErrorMethod
+             */
+            Method mMethod = WebUtils.isExistMethod(mWebViewClient, "onMainFrameError", AbsAgentWebUIController.class, WebView.class, int.class, String.class, String.class);
+            if (mMethod != null) {
+                try {
+                    mMethod.invoke(this.mWebViewClient, mAgentWebUIController.get(), view, errorCode, description, failingUrl);
+                } catch (Throwable throwable) {
+                    Timber.e(throwable);
+                }
+                return;
+            }
+        }
+        if (mAgentWebUIController.get() != null) {
+            mAgentWebUIController.get().onMainFrameError(view, errorCode, description, failingUrl);
+        }
     }
 
     @Override
