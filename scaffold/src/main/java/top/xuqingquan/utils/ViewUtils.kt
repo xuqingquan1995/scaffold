@@ -7,21 +7,12 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.view.View
-import top.xuqingquan.utils.anko.dip
-import top.xuqingquan.utils.anko.px2dip
 import java.io.File
 import java.io.FileOutputStream
 
 /**
  * Created by 许清泉 on 2019-04-19 22:30
  */
-fun dp2px(context: Context, dipValue: Float): Int {
-    return context.dip(dipValue)
-}
-
-fun px2dp(context: Context, dipValue: Int): Float {
-    return context.px2dip(dipValue)
-}
 
 /**
  * 将视图保存成文件

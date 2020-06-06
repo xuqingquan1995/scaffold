@@ -38,10 +38,10 @@ open class BaseViewHolder<T>(_view: View) :
 
     init {
         itemView.setOnClickListener {
-            onViewClickListener?.onClick(it, adapterPosition)
+            onViewClickListener?.onClick(it, absoluteAdapterPosition)
         }
         itemView.setOnLongClickListener {
-            onViewClickListener?.onLongClick(it, adapterPosition) ?: true
+            onViewClickListener?.onLongClick(it, absoluteAdapterPosition) ?: true
         }
     }
 

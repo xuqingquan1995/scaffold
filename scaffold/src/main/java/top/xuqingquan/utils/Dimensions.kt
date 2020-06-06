@@ -1,22 +1,9 @@
-@file:Suppress("NOTHING_TO_INLINE", "unused")
-package top.xuqingquan.utils.anko
+package top.xuqingquan.utils
 
 import android.content.Context
-import android.util.DisplayMetrics
 import android.view.View
 import androidx.annotation.DimenRes
 import androidx.fragment.app.Fragment
-
-const val LDPI: Int = DisplayMetrics.DENSITY_LOW
-const val MDPI: Int = DisplayMetrics.DENSITY_MEDIUM
-const val HDPI: Int = DisplayMetrics.DENSITY_HIGH
-
-const val TVDPI: Int = DisplayMetrics.DENSITY_TV
-const val XHDPI: Int = DisplayMetrics.DENSITY_XHIGH
-const val XXHDPI: Int = DisplayMetrics.DENSITY_XXHIGH
-const val XXXHDPI: Int = DisplayMetrics.DENSITY_XXXHIGH
-
-const val MAXDPI: Int = 0xfffe
 
 //returns dip(dp) dimension value in pixels
 fun Context.dip(value: Int): Int = (value * resources.displayMetrics.density).toInt()

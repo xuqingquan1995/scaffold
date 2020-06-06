@@ -3,6 +3,7 @@
 package top.xuqingquan.utils
 
 import android.Manifest
+import android.app.Activity
 import android.content.*
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -15,7 +16,6 @@ import android.view.WindowManager
 import androidx.annotation.RequiresPermission
 import androidx.core.content.ContextCompat
 import top.xuqingquan.app.ScaffoldFileProvider
-import top.xuqingquan.utils.anko.share
 import java.io.File
 
 /**
@@ -69,7 +69,18 @@ fun copyTextToBoard(context: Context, string: String, lable: String? = null) {
  * @param url url
  */
 fun showSystemShareOption(context: Context, title: String, url: String) {
-    context.share("$title $url", title)
+    try {
+        val intent = Intent(Intent.ACTION_SEND)
+        intent.type = "text/plain"
+        intent.putExtra(Intent.EXTRA_SUBJECT, title)
+        intent.putExtra(Intent.EXTRA_TEXT, "$title $url")
+        if (context !is Activity) {
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+        context.startActivity(Intent.createChooser(intent, null))
+    } catch (e: ActivityNotFoundException) {
+        e.printStackTrace()
+    }
 }
 
 //获取应用的名称

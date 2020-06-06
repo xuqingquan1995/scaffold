@@ -1,4 +1,4 @@
-package top.xuqingquan.utils.anko
+package top.xuqingquan.utils
 
 import android.app.Activity
 import android.app.Service
@@ -18,7 +18,10 @@ object AnkoInternals {
     @JvmStatic
     fun <T> createIntent(ctx: Context?, clazz: Class<out T>, params: Array<out Pair<String, Any?>>): Intent {
         val intent = Intent(ctx, clazz)
-        if (params.isNotEmpty()) fillIntentArguments(intent, params)
+        if (params.isNotEmpty()) fillIntentArguments(
+            intent,
+            params
+        )
         return intent
     }
 
@@ -28,7 +31,13 @@ object AnkoInternals {
         activity: Class<out Activity>,
         params: Array<out Pair<String, Any?>>
     ) {
-        ctx?.startActivity(createIntent(ctx, activity, params))
+        ctx?.startActivity(
+            createIntent(
+                ctx,
+                activity,
+                params
+            )
+        )
     }
 
     @JvmStatic
@@ -38,7 +47,12 @@ object AnkoInternals {
         requestCode: Int,
         params: Array<out Pair<String, Any?>>
     ) {
-        act.startActivityForResult(createIntent(act, activity, params), requestCode)
+        act.startActivityForResult(
+            createIntent(
+                act,
+                activity,
+                params
+            ), requestCode)
     }
 
     @JvmStatic
@@ -46,14 +60,26 @@ object AnkoInternals {
         ctx: Context?,
         service: Class<out Service>,
         params: Array<out Pair<String, Any?>>
-    ): ComponentName? = ctx?.startService(createIntent(ctx, service, params))
+    ): ComponentName? = ctx?.startService(
+        createIntent(
+            ctx,
+            service,
+            params
+        )
+    )
 
     @JvmStatic
     fun internalStopService(
         ctx: Context?,
         service: Class<out Service>,
         params: Array<out Pair<String, Any?>>
-    ): Boolean = ctx?.stopService(createIntent(ctx, service, params))?:false
+    ): Boolean = ctx?.stopService(
+        createIntent(
+            ctx,
+            service,
+            params
+        )
+    )?:false
 
     @JvmStatic
     private fun fillIntentArguments(intent: Intent, params: Array<out Pair<String, Any?>>) {

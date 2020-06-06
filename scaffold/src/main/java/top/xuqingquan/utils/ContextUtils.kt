@@ -1,5 +1,4 @@
-@file:Suppress("unused", "NOTHING_TO_INLINE")
-package top.xuqingquan.utils.anko
+package top.xuqingquan.utils
 
 import android.app.Activity
 import android.app.Dialog
@@ -21,11 +20,9 @@ inline val Context.defaultSharedPreferences: SharedPreferences
 inline val Fragment.defaultSharedPreferences: SharedPreferences
     get() = PreferenceManager.getDefaultSharedPreferences(activity)
 
-@Deprecated(message = "Inline", replaceWith = ReplaceWith("this"))
 inline val Context.ctx: Context
     get() = this
 
-@Deprecated(message = "Inline", replaceWith = ReplaceWith("this"))
 inline val Activity.act: Activity
     get() = this
 

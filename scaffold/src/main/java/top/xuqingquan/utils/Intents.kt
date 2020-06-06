@@ -1,6 +1,6 @@
-@file:Suppress("NOTHING_TO_INLINE", "unused")
-package top.xuqingquan.utils.anko
+package top.xuqingquan.utils
 
+import android.annotation.SuppressLint
 import android.app.Activity
 
 import android.app.Service
@@ -53,26 +53,14 @@ inline fun Intent.clearTask(): Intent = apply { addFlags(Intent.FLAG_ACTIVITY_CL
  *
  * @return the same intent with the flag applied.
  */
-inline fun Intent.clearTop(): Intent = apply { addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP) }
-
-/**
- * Add the [Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET] flag to the [Intent].
- *
- * @return the same intent with the flag applied.
- */
-@Deprecated(
-    message = "Deprecated in Android",
-    replaceWith = ReplaceWith("org.jetbrains.anko.newDocument")
-)
-inline fun Intent.clearWhenTaskReset(): Intent =
-    apply { addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET) }
+fun Intent.clearTop(): Intent = apply { addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP) }
 
 /**
  * Add the [Intent.FLAG_ACTIVITY_NEW_DOCUMENT] flag to the [Intent].
  *
  * @return the same intent with the flag applied.
  */
-inline fun Intent.newDocument(): Intent = apply {
+fun Intent.newDocument(): Intent = apply {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
         addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT)
     } else {
@@ -178,6 +166,7 @@ fun Context.email(email: String, subject: String = "", text: String = ""): Boole
 
 inline fun Fragment.makeCall(number: String): Boolean = activity?.makeCall(number)?:false
 
+@SuppressLint("MissingPermission")
 fun Context.makeCall(number: String): Boolean {
     try {
         val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel:$number"))

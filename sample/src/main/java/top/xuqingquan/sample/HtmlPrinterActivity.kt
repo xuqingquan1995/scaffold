@@ -12,9 +12,6 @@ import com.tencent.smtt.sdk.WebViewClient
 import kotlinx.android.synthetic.main.html_printer.*
 import top.xuqingquan.base.view.activity.SimpleActivity
 import top.xuqingquan.utils.Timber
-import top.xuqingquan.utils.anko.onClick
-import top.xuqingquan.utils.anko.onEditorAction
-import top.xuqingquan.utils.anko.toast
 import top.xuqingquan.utils.copyTextToBoard
 import top.xuqingquan.web.AgentWeb
 import top.xuqingquan.web.nokernel.OpenOtherPageWays
@@ -66,13 +63,13 @@ class HtmlPrinterActivity : SimpleActivity() {
 //        webView.loadUrl("http://debugtbs.qq.com")
         agentWeb.jsInterfaceHolder.addJavaObject("android", JavaScriptObject(html))
         html.observe(this, Observer {
-            toast("得到源码")
+//            toast("得到源码")
             currentSource = it
         })
-        url.onEditorAction { _, _, _ ->
-            webView.loadUrl(url.text.toString().trim())
-        }
-        copy.onClick {
+//        url.onEditorAction { _, _, _ ->
+//            webView.loadUrl(url.text.toString().trim())
+//        }
+        copy.setOnClickListener {
             copyTextToBoard(this@HtmlPrinterActivity, currentSource)
         }
         url.doAfterTextChanged {

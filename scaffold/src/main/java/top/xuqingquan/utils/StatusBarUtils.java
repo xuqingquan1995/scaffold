@@ -10,7 +10,12 @@ import android.graphics.Color;
 import android.os.Build;
 import android.provider.Settings;
 import android.util.DisplayMetrics;
-import android.view.*;
+import android.view.Display;
+import android.view.Gravity;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
@@ -19,12 +24,12 @@ import androidx.annotation.IntDef;
 import androidx.annotation.IntRange;
 import androidx.core.view.ViewCompat;
 
-import top.xuqingquan.R;
-
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+
+import top.xuqingquan.R;
 
 /**
  * Created by 许清泉 on 2019-07-23 20:00
@@ -450,12 +455,12 @@ public class StatusBarUtils {
             }
         }
         if (DeviceHelper.isTablet(context)
-                && sStatusbarHeight > ViewUtils.dp2px(context, STATUS_BAR_DEFAULT_HEIGHT_DP)) {
+                && sStatusbarHeight > DimensionsKt.dip(context,STATUS_BAR_DEFAULT_HEIGHT_DP)) {
             //状态栏高度大于25dp的平板，状态栏通常在下方
             sStatusbarHeight = 0;
         } else {
             if (sStatusbarHeight <= 0) {
-                sStatusbarHeight = ViewUtils.dp2px(context, STATUS_BAR_DEFAULT_HEIGHT_DP);
+                sStatusbarHeight = DimensionsKt.dip(context,STATUS_BAR_DEFAULT_HEIGHT_DP);
             }
         }
     }

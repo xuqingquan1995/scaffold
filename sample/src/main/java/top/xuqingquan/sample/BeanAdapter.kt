@@ -15,7 +15,7 @@ class BeanAdapter(retry:()->Unit) : BasePagedListAdapter<Subjects>(retry,BaseDif
     override fun getLayoutRes(viewType: Int) = R.layout.item
 
     @SuppressLint("SetTextI18n")
-    override fun setData(holder: BaseViewHolder<Subjects>, data: Subjects?, position: Int) {
+    override fun setData(holder: BaseViewHolder<Subjects>, data: Subjects?,viewType: Int, position: Int) {
         holder.getView<MarqueeTextView>(R.id.text).text = "$position---${data?.title}"
     }
 
