@@ -1,3 +1,5 @@
+@file:Suppress("NOTHING_TO_INLINE")
+
 package top.xuqingquan.utils
 
 import android.content.Context

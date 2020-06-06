@@ -7,7 +7,6 @@ import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Parcelable
-import android.preference.PreferenceManager
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.IdRes
@@ -15,10 +14,10 @@ import androidx.fragment.app.Fragment
 import java.io.Serializable
 
 inline val Context.defaultSharedPreferences: SharedPreferences
-    get() = PreferenceManager.getDefaultSharedPreferences(this)
+    get() = getSharedPreferences("${packageName}_preferences", Context.MODE_PRIVATE)
 
-inline val Fragment.defaultSharedPreferences: SharedPreferences
-    get() = PreferenceManager.getDefaultSharedPreferences(activity)
+inline val Fragment.defaultSharedPreferences: SharedPreferences?
+    get() = activity?.getSharedPreferences("${activity?.packageName}_preferences", Context.MODE_PRIVATE)
 
 inline val Context.ctx: Context
     get() = this
@@ -42,6 +41,7 @@ inline fun <reified T : View> Activity.findOptional(@IdRes id: Int): T? = findVi
 inline fun <reified T : View> Fragment.findOptional(@IdRes id: Int): T? = view?.findViewById(id) as? T
 inline fun <reified T : View> Dialog.findOptional(@IdRes id: Int): T? = findViewById(id) as? T
 
+@Suppress("NOTHING_TO_INLINE")
 inline fun <T: Fragment> T.withArguments(vararg params: Pair<String, Any?>): T {
     arguments = bundleOf(*params)
     return this
