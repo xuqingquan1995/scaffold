@@ -3,7 +3,7 @@ package top.xuqingquan.app
 import android.app.Application
 import android.content.Context
 import top.xuqingquan.delegate.AppDelegate
-import top.xuqingquan.delegate.AppLifecycles
+import top.xuqingquan.delegate.AppLifecycle
 
 
 /**
@@ -12,7 +12,7 @@ import top.xuqingquan.delegate.AppLifecycles
  */
 open class ScaffoldApplication : Application() {
 
-    private lateinit var mAppDelegate: AppLifecycles
+    private lateinit var mAppDelegate: AppLifecycle
 
     override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(base)
