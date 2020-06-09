@@ -43,7 +43,7 @@ class MainActivity : SimpleActivity() {
 //        }
 //    }
 
-        override fun initData(savedInstanceState: Bundle?) {
+    override fun initData(savedInstanceState: Bundle?) {
         val factory = BeanDataSourceFactory()
         val listing = Listing(
             pagedList = factory.toLiveData(config),
@@ -94,7 +94,12 @@ class MainActivity : SimpleActivity() {
 //                )
             }
 
-            override fun onLongClick(view: View, position: Int, data: Subjects?, viewType: Int): Boolean {
+            override fun onLongClick(
+                view: View,
+                position: Int,
+                data: Subjects?,
+                viewType: Int
+            ): Boolean {
 //                toast("onLongClick---data===>${data?.title}")
                 return super.onLongClick(view, position, data, viewType)
             }
