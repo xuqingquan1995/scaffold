@@ -5,7 +5,7 @@ import android.view.KeyEvent
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import top.xuqingquan.app.ScaffoldConfig
-import top.xuqingquan.base.view.extension.hideSoftKeyboard
+import top.xuqingquan.extension.hideSoftKeyboard
 import top.xuqingquan.cache.Cache
 import top.xuqingquan.cache.CacheType
 import top.xuqingquan.delegate.IActivity

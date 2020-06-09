@@ -1,4 +1,4 @@
-package top.xuqingquan.base.view.extension
+package top.xuqingquan.extension
 
 import android.app.Activity
 import android.content.Context

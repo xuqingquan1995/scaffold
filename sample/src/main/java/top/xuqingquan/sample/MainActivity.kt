@@ -11,6 +11,7 @@ import top.xuqingquan.base.model.entity.Listing
 import top.xuqingquan.base.model.entity.NetworkStatus
 import top.xuqingquan.base.view.activity.SimpleActivity
 import top.xuqingquan.base.view.adapter.listadapter.SimplePagedListAdapter
+import top.xuqingquan.extension.*
 import top.xuqingquan.http.log.Level
 import top.xuqingquan.utils.Timber
 
@@ -44,6 +45,9 @@ class MainActivity : SimpleActivity() {
 //    }
 
     override fun initData(savedInstanceState: Bundle?) {
+        launch{
+
+        }
         val factory = BeanDataSourceFactory()
         val listing = Listing(
             pagedList = factory.toLiveData(config),
