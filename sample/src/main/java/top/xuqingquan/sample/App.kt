@@ -2,7 +2,6 @@ package top.xuqingquan.sample
 
 import android.app.Application
 import android.content.Context
-import top.xuqingquan.app.ScaffoldConfig
 import top.xuqingquan.delegate.AppDelegate
 import top.xuqingquan.delegate.AppLifecycle
 

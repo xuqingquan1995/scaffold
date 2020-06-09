@@ -45,9 +45,6 @@ class MainActivity : SimpleActivity() {
 //    }
 
     override fun initData(savedInstanceState: Bundle?) {
-        launch{
-
-        }
         val factory = BeanDataSourceFactory()
         val listing = Listing(
             pagedList = factory.toLiveData(config),
