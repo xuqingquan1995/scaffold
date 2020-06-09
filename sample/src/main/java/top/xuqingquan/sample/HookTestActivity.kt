@@ -1,7 +1,7 @@
 package top.xuqingquan.sample
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.swift.sandhook.SandHook
 import kotlinx.android.synthetic.main.activity_hook_test.*
@@ -17,11 +17,13 @@ class HookTestActivity : AppCompatActivity() {
             try {
                 toast("Integer.parseInt(${str})=${Integer.parseInt(str)}")
             } catch (t: Throwable) {
-                longToast("error===>${t.message}")
+                longToast("error===>${t.message},str=$str")
             }
         }
         btn2.setOnClickListener {
             btn1.isVisible = false
+            btn2.isVisible = false
+            btn3.isVisible = true
             SandHook.addHookClass(IntegerHook::class.java)
         }
         btn3.setOnClickListener {

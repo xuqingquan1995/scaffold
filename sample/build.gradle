@@ -23,9 +23,9 @@ android {
             signingConfig signingConfigs.debug
             debuggable false
             jniDebuggable false
-            minifyEnabled true
-            zipAlignEnabled true
-            shrinkResources true
+            minifyEnabled false
+//            zipAlignEnabled true
+//            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             multiDexKeepProguard file('multidex-config.pro')
         }
@@ -54,11 +54,6 @@ android {
         useBuildCache = true
         javacOptions {
             option("-Xmaxerrs", 500)
-        }
-    }
-    sourceSets {
-        main {
-            jniLibs.srcDirs = ['libs']
         }
     }
 }
