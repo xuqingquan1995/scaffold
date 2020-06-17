@@ -44,12 +44,6 @@
                     android:name="android.support.FILE_PROVIDER_PATHS"
                     android:resource="@xml/scaffold_filepaths"/>
         </provider>
-
-        <provider
-                android:name=".app.ScaffoldInstaller"
-                android:authorities="${applicationId}.ScaffoldInstaller"
-                android:enabled="true"
-                android:exported="false"/>
     </application>
 
 </manifest>

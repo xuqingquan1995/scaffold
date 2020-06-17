@@ -305,6 +305,7 @@ public final class AgentWeb {
         return this.mJsInterfaceHolder;
     }
 
+    @Nullable
     public IUrlLoader getUrlLoader() {
         return this.mIUrlLoader;
     }

@@ -1,22 +1,16 @@
 package top.xuqingquan.base.view.activity
 
-import android.arch.lifecycle.MutableLiveData
 import android.os.Bundle
-import android.support.annotation.LayoutRes
-import android.support.v4.content.ContextCompat
-import android.support.v7.app.AppCompatActivity
 import android.view.KeyEvent
-import android.view.View
-import android.view.inputmethod.InputMethodManager
-import kotlinx.coroutines.*
-import top.xuqingquan.BuildConfig
+import android.support.annotation.LayoutRes
+import android.support.v7.app.AppCompatActivity
 import top.xuqingquan.app.ScaffoldConfig
+import top.xuqingquan.extension.hideSoftKeyboard
 import top.xuqingquan.cache.Cache
 import top.xuqingquan.cache.CacheType
 import top.xuqingquan.delegate.IActivity
 import top.xuqingquan.stack.DebugStackDelegate
 import top.xuqingquan.utils.FragmentOnKeyListener
-import kotlin.coroutines.CoroutineContext
 
 /**
  * Created by 许清泉 on 2019-04-24 23:32
@@ -27,7 +21,6 @@ abstract class SimpleActivity : AppCompatActivity(), IActivity {
     private var mCache: Cache<String, Any>? = null
     private var debugStackDelegate: DebugStackDelegate? = null
     protected var onKeyListener: FragmentOnKeyListener? = null
-    protected val launchError = MutableLiveData<Throwable>()
 
     /**
      * @return 布局id
@@ -76,31 +69,6 @@ abstract class SimpleActivity : AppCompatActivity(), IActivity {
         initData(savedInstanceState)
     }
 
-    /**
-     * 隐藏软键盘
-     */
-    fun hideSoftKeyboard() {
-        val imm = ContextCompat.getSystemService(this, InputMethodManager::class.java)
-        if (imm != null && imm.isActive) {
-            imm.hideSoftInputFromWindow(window.decorView.windowToken, 0)
-        }
-    }
-
-    /**
-     * 显示软键盘
-     * @param view 需要输入的组件
-     * @param time 延迟时间，默认200毫秒
-     */
-    fun showSoftKeyboard(view: View, time: Long = 200L) {
-        val imm = ContextCompat.getSystemService(this, InputMethodManager::class.java)
-        if (imm != null) {
-            view.postDelayed({
-                view.requestFocus()
-                imm.showSoftInput(view, InputMethodManager.SHOW_FORCED)
-            }, time)
-        }
-    }
-
     override fun setFragmentOnKeyListener(listener: FragmentOnKeyListener?) {
         this.onKeyListener = listener
     }
@@ -113,39 +81,5 @@ abstract class SimpleActivity : AppCompatActivity(), IActivity {
             }
         }
         return super.onKeyDown(keyCode, event)
-    }
-
-    protected fun <T> launch(
-        context: CoroutineContext = Dispatchers.Main.immediate,
-        tryBlock: suspend CoroutineScope.() -> T,
-        catchBlock: suspend CoroutineScope.(Throwable) -> Unit = {},
-        finallyBlock: suspend CoroutineScope.() -> Unit = {},
-        hideKeyboard: Boolean = true
-    ): Job {
-        if (hideKeyboard) {
-            hideSoftKeyboard()
-        }
-        return CoroutineScope(context).launch {
-            try {
-                tryBlock()
-            } catch (e: Throwable) {
-                if (BuildConfig.DEBUG) {
-                    e.printStackTrace()
-                }
-                catchBlock(e)
-                launchError.postValue(e)
-            } finally {
-                finallyBlock()
-            }
-        }
-    }
-
-    protected fun <T> launch(
-        hideKeyboard: Boolean = true,
-        context: CoroutineContext = Dispatchers.Main.immediate,
-        tryBlock: suspend CoroutineScope.() -> T
-    ): Job {
-        lifecycle
-        return launch(context, tryBlock, {}, {}, hideKeyboard)
     }
 }

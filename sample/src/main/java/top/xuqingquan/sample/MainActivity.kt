@@ -6,14 +6,12 @@ import android.arch.paging.LivePagedListBuilder
 import android.os.Bundle
 import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
-import top.xuqingquan.utils.anko.startActivity
-import top.xuqingquan.utils.anko.toast
-import top.xuqingquan.web.nokernel.WebConfig
 import top.xuqingquan.app.ScaffoldConfig
 import top.xuqingquan.base.model.entity.Listing
 import top.xuqingquan.base.model.entity.NetworkStatus
 import top.xuqingquan.base.view.activity.SimpleActivity
 import top.xuqingquan.base.view.adapter.listadapter.SimplePagedListAdapter
+import top.xuqingquan.extension.*
 import top.xuqingquan.http.log.Level
 import top.xuqingquan.utils.Timber
 
@@ -69,10 +67,10 @@ class MainActivity : SimpleActivity() {
             }
         })
         listing.empty.observe(this, Observer {
-            toast("empty--$it")
+//            toast("empty--$it")
         })
         listing.exception.observe(this, Observer {
-            toast("exception${it?.message}")
+//            toast("exception${it.message}")
         })
         listing.networkState.observe(this, Observer {
             adapter.setNetworkState(it)
@@ -87,18 +85,23 @@ class MainActivity : SimpleActivity() {
         }
         adapter.listener = object : SimplePagedListAdapter.OnViewClickListener<Subjects>() {
             override fun onClick(view: View, position: Int, data: Subjects?, viewType: Int) {
-                toast("onClick---data===>${data?.title}")
-                startActivity<WebActivity>(
-                    if (position == 0) {
-                        "url" to "http://debugtbs.qq.com"
-                    } else {
-                        "data" to ""
-                    }
-                )
+//                toast("onClick---data===>${data?.title}")
+//                startActivity<WebActivity>(
+//                    if (position == 0) {
+//                        "url" to "http://debugtbs.qq.com"
+//                    } else {
+//                        "data" to ""
+//                    }
+//                )
             }
 
-            override fun onLongClick(view: View, position: Int, data: Subjects?, viewType: Int): Boolean {
-                toast("onLongClick---data===>${data?.title}")
+            override fun onLongClick(
+                view: View,
+                position: Int,
+                data: Subjects?,
+                viewType: Int
+            ): Boolean {
+//                toast("onLongClick---data===>${data?.title}")
                 return super.onLongClick(view, position, data, viewType)
             }
         }

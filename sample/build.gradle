@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'com.didi.dokit'
 //apply plugin: 'AndResGuard'
 
 android {
@@ -22,9 +23,9 @@ android {
             signingConfig signingConfigs.debug
             debuggable false
             jniDebuggable false
-            minifyEnabled true
-            zipAlignEnabled true
-            shrinkResources true
+            minifyEnabled false
+//            zipAlignEnabled true
+//            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             multiDexKeepProguard file('multidex-config.pro')
         }
@@ -55,11 +56,6 @@ android {
             option("-Xmaxerrs", 500)
         }
     }
-    sourceSets {
-        main {
-            jniLibs.srcDirs = ['libs']
-        }
-    }
 }
 
 dependencies {
@@ -78,8 +74,10 @@ dependencies {
     implementation rootProject.ext.deps.room_runtime
     implementation rootProject.ext.deps.tbs
     implementation rootProject.ext.deps.Downloader
-    implementation 'com.jwkj:M3U8Manger:v2.3.0'
     implementation files('libs/newssdk-release.aar')
+    implementation 'com.swift.sandhook:hooklib:4.2.0'
+    // need for android 11
+    implementation 'com.swift.sandhook:nativehook:4.2.0'
 }
 //andResGuard {
 //    // mappingFile = file("./resource_mapping.txt")

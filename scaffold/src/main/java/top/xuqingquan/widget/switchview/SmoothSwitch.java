@@ -16,7 +16,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 import top.xuqingquan.R;
-import top.xuqingquan.utils.ViewUtils;
+import top.xuqingquan.utils.DimensionsKt;
 
 public class SmoothSwitch extends SwitchCompat {//平滑
 
@@ -127,6 +127,6 @@ public class SmoothSwitch extends SwitchCompat {//平滑
     }
 
     private float dp2px(float dp) {
-        return ViewUtils.dp2px(getContext(), dp);
+        return DimensionsKt.dip(getContext(),dp);
     }
 }

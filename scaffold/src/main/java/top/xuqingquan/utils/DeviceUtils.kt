@@ -3,6 +3,7 @@
 package top.xuqingquan.utils
 
 import android.Manifest
+import android.app.Activity
 import android.content.*
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -15,7 +16,6 @@ import android.view.WindowManager
 import android.support.annotation.RequiresPermission
 import android.support.v4.content.ContextCompat
 import top.xuqingquan.app.ScaffoldFileProvider
-import top.xuqingquan.utils.anko.share
 import java.io.File
 
 /**
@@ -69,7 +69,18 @@ fun copyTextToBoard(context: Context, string: String, lable: String? = null) {
  * @param url url
  */
 fun showSystemShareOption(context: Context, title: String, url: String) {
-    context.share("$title $url", title)
+    try {
+        val intent = Intent(Intent.ACTION_SEND)
+        intent.type = "text/plain"
+        intent.putExtra(Intent.EXTRA_SUBJECT, title)
+        intent.putExtra(Intent.EXTRA_TEXT, "$title $url")
+        if (context !is Activity) {
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+        context.startActivity(Intent.createChooser(intent, null))
+    } catch (e: ActivityNotFoundException) {
+        e.printStackTrace()
+    }
 }
 
 //获取应用的名称
@@ -122,22 +133,19 @@ fun getScreenWidth(context: Context): Int {
  */
 fun installAPK(context: Context, file: File?) {
     if (file == null || !file.exists()) return
+    val type = "application/vnd.android.package-archive"
     val intent = Intent(Intent.ACTION_VIEW)
     // 由于没有在Activity环境下启动Activity,设置下面的标签
-    // 由于没有在Activity环境下启动Activity,设置下面的标签
-    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-        intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         val contentUri = ScaffoldFileProvider.getUriForFile(
             context, context.packageName + ".ScaffoldFileProvider", file
         )
         Timber.d("installApk: $contentUri")
-        intent.setDataAndType(contentUri, "application/vnd.android.package-archive")
+        intent.setDataAndType(contentUri, type)
     } else {
-        intent.setDataAndType(
-            Uri.fromFile(file),
-            "application/vnd.android.package-archive"
-        )
+        intent.setDataAndType(Uri.fromFile(file), type)
     }
     context.startActivity(intent)
 }

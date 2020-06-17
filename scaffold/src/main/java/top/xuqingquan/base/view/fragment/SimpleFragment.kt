@@ -1,28 +1,20 @@
 package top.xuqingquan.base.view.fragment
 
-import android.arch.lifecycle.MutableLiveData
 import android.content.Context
 import android.os.Bundle
-import android.support.annotation.LayoutRes
-import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
-import top.xuqingquan.BuildConfig
+import android.support.annotation.LayoutRes
+import android.support.v4.app.Fragment
 import top.xuqingquan.app.ScaffoldConfig
 import top.xuqingquan.base.view.activity.SimpleActivity
+import top.xuqingquan.extension.hideSoftKeyboard
 import top.xuqingquan.cache.Cache
 import top.xuqingquan.cache.CacheType
 import top.xuqingquan.delegate.IFragment
 import top.xuqingquan.utils.FragmentOnKeyListener
-import kotlin.coroutines.CoroutineContext
 
 /**
  * Created by 许清泉 on 2019-04-24 23:38
@@ -32,7 +24,6 @@ abstract class SimpleFragment : Fragment(), IFragment, FragmentOnKeyListener {
 
     private var mCache: Cache<String, Any>? = null
     protected var mContext: Context? = null
-    protected val launchError = MutableLiveData<Throwable>()
 
     /**
      * @return 布局id
@@ -79,7 +70,7 @@ abstract class SimpleFragment : Fragment(), IFragment, FragmentOnKeyListener {
      */
     override fun onPause() {
         super.onPause()
-        hideSoftKeyboard()
+        activity?.hideSoftKeyboard()
         if (activity is SimpleActivity && activity != null) {
             (activity as SimpleActivity).setFragmentOnKeyListener(null)
         }
@@ -119,65 +110,4 @@ abstract class SimpleFragment : Fragment(), IFragment, FragmentOnKeyListener {
 
     override fun setData(data: Any?) {}
 
-    /**
-     * 隐藏软键盘
-     */
-    fun hideSoftKeyboard() {
-        view?.let {
-            val imm = ContextCompat.getSystemService(it.context, InputMethodManager::class.java)
-            if (imm != null && imm.isActive) {
-                imm.hideSoftInputFromWindow(it.windowToken, 0)
-            }
-        }
-    }
-
-    /**
-     * 显示软键盘
-     * @param view 需要输入的组件
-     * @param time 延迟时间，默认200毫秒
-     */
-    fun showSoftKeyboard(view: View, time: Long = 200L) {
-        activity?.let {
-            val imm = ContextCompat.getSystemService(it, InputMethodManager::class.java)
-            if (imm != null) {
-                view.postDelayed({
-                    view.requestFocus()
-                    imm.showSoftInput(view, InputMethodManager.SHOW_FORCED)
-                }, time)
-            }
-        }
-    }
-
-    protected fun <T> launch(
-        context: CoroutineContext = Dispatchers.Main.immediate,
-        tryBlock: suspend CoroutineScope.() -> T,
-        catchBlock: suspend CoroutineScope.(Throwable) -> Unit = {},
-        finallyBlock: suspend CoroutineScope.() -> Unit = {},
-        hideKeyboard: Boolean = true
-    ): Job {
-        if (hideKeyboard) {
-            hideSoftKeyboard()
-        }
-        return CoroutineScope(context).launch {
-            try {
-                tryBlock()
-            } catch (e: Throwable) {
-                if (BuildConfig.DEBUG) {
-                    e.printStackTrace()
-                }
-                catchBlock(e)
-                launchError.postValue(e)
-            } finally {
-                finallyBlock()
-            }
-        }
-    }
-
-    protected fun <T> launch(
-        hideKeyboard: Boolean = true,
-        context: CoroutineContext = Dispatchers.Main.immediate,
-        tryBlock: suspend CoroutineScope.() -> T
-    ): Job {
-        return launch(context, tryBlock, {}, {}, hideKeyboard)
-    }
 }

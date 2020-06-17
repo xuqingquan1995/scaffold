@@ -3,7 +3,7 @@ package top.xuqingquan.sample
 import android.app.Application
 import android.content.Context
 import android.support.v4.app.FragmentManager
-import top.xuqingquan.delegate.AppLifecycles
+import top.xuqingquan.delegate.AppLifecycle
 import top.xuqingquan.integration.LifecycleConfig
 
 /**
@@ -12,7 +12,7 @@ import top.xuqingquan.integration.LifecycleConfig
  */
 class GlobalConfiguration : LifecycleConfig {
 
-    override fun injectAppLifecycle(context: Context, lifecycles: MutableList<AppLifecycles>) {
+    override fun injectAppLifecycle(context: Context, lifecycles: MutableList<AppLifecycle>) {
 //        lifecycles.add(AppLifecyclesImpl())
     }
 
