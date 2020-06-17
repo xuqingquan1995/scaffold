@@ -2,8 +2,19 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+//apply plugin: 'com.didi.dokit'//主工程可以添加这个依赖
 apply plugin: 'com.github.dcendents.android-maven'
 group = 'com.github.xuqingquan1995'
+
+boolean isReleaseBuildType(){
+    for(String s : gradle.startParameter.taskNames) {
+        if (s.contains("Release") | s.contains("release")) {
+            return true
+        }
+    }
+    return false
+}
+
 
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
@@ -11,8 +22,8 @@ android {
     defaultConfig {
         minSdkVersion rootProject.ext.android.minSdkVersion
         targetSdkVersion rootProject.ext.android.targetSdkVersion
-        versionCode 211
-        versionName "2.1.1"
+        versionCode rootProject.ext.versionCode
+        versionName rootProject.ext.versionName
         testInstrumentationRunner rootProject.ext.android.AndroidJUnitRunner
         flavorDimensions 'default'
         resourcePrefix "scaffold_"
@@ -36,6 +47,9 @@ android {
     sourceSets {
         main {
             jniLibs.srcDir 'libs'//说明so的路径为该libs路径，关联所有so文件
+            if (!isReleaseBuildType()){
+                manifest.srcFile 'src/main/debug/AndroidManifest.xml'
+            }
         }
     }
     dexOptions {
@@ -87,9 +101,11 @@ dependencies {
     //debug
     debugApi rootProject.ext.deps.leakcanary
     debugApi rootProject.ext.deps.recovery
-    debugApi rootProject.ext.deps.anrwatchdog
     releaseCompileOnly rootProject.ext.deps.recovery
+    debugApi rootProject.ext.deps.anrwatchdog
     releaseCompileOnly rootProject.ext.deps.anrwatchdog
+    debugApi rootProject.ext.deps.doraemonkit
+    releaseCompileOnly rootProject.ext.deps.doraemonkit
     //test
     testImplementation rootProject.ext.deps.junit
     androidTestImplementation rootProject.ext.deps.espresso_core

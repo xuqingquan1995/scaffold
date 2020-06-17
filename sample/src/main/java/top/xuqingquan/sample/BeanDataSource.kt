@@ -2,6 +2,7 @@ package top.xuqingquan.sample
 
 import top.xuqingquan.base.model.datasource.BasePageKeyedDataSource
 import top.xuqingquan.base.model.entity.NetworkStatus
+import top.xuqingquan.extension.*
 import top.xuqingquan.utils.Timber
 
 class BeanDataSource : BasePageKeyedDataSource<Int, Subjects>() {

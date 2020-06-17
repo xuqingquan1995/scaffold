@@ -5,7 +5,7 @@ import android.app.Application
 import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import top.xuqingquan.delegate.AppLifecycles
+import top.xuqingquan.delegate.AppLifecycle
 
 /**
  * Created by 许清泉 on 2019/4/14 18:28
@@ -14,12 +14,12 @@ import top.xuqingquan.delegate.AppLifecycles
 interface LifecycleConfig {
 
     /**
-     * 使用 [AppLifecycles] 在 [Application] 的生命周期中注入一些操作
+     * 使用 [AppLifecycle] 在 [Application] 的生命周期中注入一些操作
      *
      * @param context    [Context]
      * @param lifecycles [Application] 的生命周期容器, 可向框架中添加多个 [Application] 的生命周期类
      */
-    fun injectAppLifecycle(context: Context, lifecycles: MutableList<AppLifecycles>)
+    fun injectAppLifecycle(context: Context, lifecycles: MutableList<AppLifecycle>)
 
     /**
      * 使用 [Application.ActivityLifecycleCallbacks] 在 [Activity] 的生命周期中注入一些操作

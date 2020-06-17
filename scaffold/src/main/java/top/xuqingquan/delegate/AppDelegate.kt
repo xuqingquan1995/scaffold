@@ -6,24 +6,27 @@ import android.content.Context
 import top.xuqingquan.app.ScaffoldConfig
 import top.xuqingquan.cache.IntelligentCache
 import top.xuqingquan.integration.LifecycleConfig
-import top.xuqingquan.lifecycle.AppLifecyclesImpl
+import top.xuqingquan.lifecycle.DebugLifecycleImpl
+import top.xuqingquan.lifecycle.X5LifecycleImpl
 import top.xuqingquan.utils.ManifestParser
 
 /**
  * Created by 许清泉 on 2019/4/14 22:55
  */
-class AppDelegate private constructor(context: Context) : AppLifecycles {
+class AppDelegate private constructor(context: Context) : AppLifecycle {
     private var mApplication: Application? = null
     private var mActivityLifecycle: Application.ActivityLifecycleCallbacks? = null
     private var mModules: List<LifecycleConfig>? = null
-    private var mAppLifecycles: MutableList<AppLifecycles>? = arrayListOf()
-    private var mActivityLifecycles: MutableList<Application.ActivityLifecycleCallbacks>? = arrayListOf()
+    private var mAppLifecycles: MutableList<AppLifecycle>? = arrayListOf()
+    private var mActivityLifecycles: MutableList<Application.ActivityLifecycleCallbacks>? =
+        arrayListOf()
     private var mComponentCallback: ComponentCallbacks2? = null
 
     companion object {
         private var onCreate = false
         private var attachBaseContext = false
         private var instance: AppDelegate? = null
+
         @JvmStatic
         fun getInstance(context: Context): AppDelegate {
             if (instance == null) {
@@ -38,12 +41,15 @@ class AppDelegate private constructor(context: Context) : AppLifecycles {
     }
 
     init {
-        mAppLifecycles!!.add(AppLifecyclesImpl())
+        mAppLifecycles!!.add(X5LifecycleImpl())
+        if (ScaffoldConfig.debug()) {
+            mAppLifecycles!!.add(DebugLifecycleImpl())
+        }
         //用反射, 将 AndroidManifest.xml 中带有 LifecycleConfig 标签的 class 转成对象集合（List<LifecycleConfig>）
         this.mModules = ManifestParser(context).parse()
         //遍历之前获得的集合, 执行每一个 LifecycleConfig 实现类的某些方法
         for (module in mModules!!) {
-            //将框架外部, 开发者实现的 Application 的生命周期回调 (AppLifecycles) 存入 mAppLifecycles 集合 (此时还未注册回调)
+            //将框架外部, 开发者实现的 Application 的生命周期回调 (AppLifecycle) 存入 mAppLifecycles 集合 (此时还未注册回调)
             module.injectAppLifecycle(context, mAppLifecycles!!)
             //将框架外部, 开发者实现的 Activity 的生命周期回调 (ActivityLifecycleCallbacks) 存入 mActivityLifecycles 集合 (此时还未注册回调)
             module.injectActivityLifecycle(context, mActivityLifecycles!!)
@@ -56,7 +62,7 @@ class AppDelegate private constructor(context: Context) : AppLifecycles {
             return
         }
         attachBaseContext = true
-        //遍历 mAppLifecycles, 执行所有已注册的 AppLifecycles 的 attachBaseContext() 方法 (框架外部, 开发者扩展的逻辑)
+        //遍历 mAppLifecycles, 执行所有已注册的 AppLifecycle 的 attachBaseContext() 方法 (框架外部, 开发者扩展的逻辑)
         for (lifecycle in mAppLifecycles!!) {
             lifecycle.attachBaseContext(base)
         }
@@ -75,7 +81,8 @@ class AppDelegate private constructor(context: Context) : AppLifecycles {
         //否则存储在 LRU 算法的存储空间中 (大于或等于缓存所能允许的最大 size, 则会根据 LRU 算法清除之前的条目)
         //前提是 extras 使用的是 IntelligentCache (框架默认使用)
         mModules?.let {
-            ScaffoldConfig.getExtras().put(IntelligentCache.getKeyOfKeep(LifecycleConfig::class.java.name), it)
+            ScaffoldConfig.getExtras()
+                .put(IntelligentCache.getKeyOfKeep(LifecycleConfig::class.java.name), it)
         }
         this.mModules = null
         //注册框架内部已实现的 Activity 生命周期逻辑

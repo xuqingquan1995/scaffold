@@ -2,14 +2,13 @@ package top.xuqingquan.sample
 
 import android.app.Application
 import android.content.Context
-import top.xuqingquan.app.ScaffoldConfig
 import top.xuqingquan.delegate.AppDelegate
-import top.xuqingquan.delegate.AppLifecycles
+import top.xuqingquan.delegate.AppLifecycle
 
 class App : Application() {
 
     //已经通过ContentProvider方式初始化，这边的初始化可以不用了
-    private lateinit var mAppDelegate: AppLifecycles
+    private lateinit var mAppDelegate: AppLifecycle
 
     override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(base)
@@ -19,7 +18,6 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         mAppDelegate.onCreate(this)
-//        ScaffoldConfig.getInstance(this)
 //            .setBaseUrl("https://api.douban.com")
     }
 

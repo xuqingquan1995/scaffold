@@ -48,7 +48,6 @@ open class SimpleListAdapter<T>(diff: DiffUtil.ItemCallback<T>) :
 
     override fun onBindViewHolder(holder: BaseViewHolder<T>, position: Int) {
         holder.setData(getItem(position), position)
-        setData(holder, getItem(position), position)
         setData(holder, getItem(position), getItemViewType(position), position)
     }
 
@@ -66,9 +65,6 @@ open class SimpleListAdapter<T>(diff: DiffUtil.ItemCallback<T>) :
      */
     @LayoutRes
     open fun getLayoutRes(viewType: Int) = 0
-
-    @Deprecated("没有viewType")
-    open fun setData(holder: BaseViewHolder<T>, data: T?, position: Int) {}
 
     open fun setData(holder: BaseViewHolder<T>, data: T?, viewType: Int, position: Int) {}
 

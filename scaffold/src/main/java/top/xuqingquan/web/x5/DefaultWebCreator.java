@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import com.tencent.smtt.sdk.WebView;
 
 import top.xuqingquan.R;
+import top.xuqingquan.utils.DimensionsKt;
 import top.xuqingquan.utils.Timber;
 import top.xuqingquan.utils.ViewUtils;
 import top.xuqingquan.web.nokernel.BaseIndicatorSpec;
@@ -148,7 +149,7 @@ public class DefaultWebCreator implements WebCreator {
             FrameLayout.LayoutParams lp;
             WebIndicator mWebIndicator = new WebIndicator(mActivity);
             if (mHeight > 0) {
-                lp = new FrameLayout.LayoutParams(-2, ViewUtils.dp2px(mActivity, mHeight));
+                lp = new FrameLayout.LayoutParams(-2, DimensionsKt.dip(mActivity, mHeight));
             } else {
                 lp = mWebIndicator.offerLayoutParams();
             }

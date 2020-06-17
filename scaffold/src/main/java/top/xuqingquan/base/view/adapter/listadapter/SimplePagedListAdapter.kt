@@ -48,7 +48,6 @@ open class SimplePagedListAdapter<T>(diff: DiffUtil.ItemCallback<T>) :
 
     override fun onBindViewHolder(holder: BaseViewHolder<T>, position: Int) {
         holder.setData(getItem(position), position)
-        setData(holder, getItem(position), position)
         setData(holder, getItem(position), getItemViewType(position), position)
     }
 
@@ -56,7 +55,9 @@ open class SimplePagedListAdapter<T>(diff: DiffUtil.ItemCallback<T>) :
      * 创建ViewHolder
      */
     open fun getViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<T> {
-        return BaseViewHolder(LayoutInflater.from(parent.context).inflate(getLayoutRes(viewType), parent, false))
+        return BaseViewHolder(
+            LayoutInflater.from(parent.context).inflate(getLayoutRes(viewType), parent, false)
+        )
     }
 
     /**
@@ -65,10 +66,8 @@ open class SimplePagedListAdapter<T>(diff: DiffUtil.ItemCallback<T>) :
     @LayoutRes
     open fun getLayoutRes(viewType: Int) = 0
 
-    @Deprecated("没有viewType")
-    open fun setData(holder: BaseViewHolder<T>, data: T?, position: Int) {}
-
     open fun setData(holder: BaseViewHolder<T>, data: T?, viewType: Int, position: Int) {}
+
     /**
      * 在Adapter内部实现单击回调
      */

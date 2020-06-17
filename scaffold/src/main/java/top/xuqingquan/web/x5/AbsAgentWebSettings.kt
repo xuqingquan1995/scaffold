@@ -95,9 +95,9 @@ abstract class AbsAgentWebSettings : IAgentWebSettings<WebSettings>, WebListener
     }
 
     override fun setWebChromeClient(
-        webview: WebView?, webChromeClient: WebChromeClient
+        webView: WebView?, webChromeClient: WebChromeClient
     ): WebListenerManager {
-        webview?.webChromeClient = webChromeClient
+        webView?.webChromeClient = webChromeClient
         return this
     }
 
