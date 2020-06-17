@@ -126,7 +126,7 @@ class ScaffoldWebView : FrameLayout {
         if (agentWeb == null) {
             initAgentWeb()
         }
-        agentWeb!!.urlLoader.loadUrl(url)
+        agentWeb!!.urlLoader?.loadUrl(url)
     }
 
     fun onResume() {
