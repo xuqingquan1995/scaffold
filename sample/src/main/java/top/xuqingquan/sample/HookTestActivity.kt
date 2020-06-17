@@ -1,8 +1,7 @@
 package top.xuqingquan.sample
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
+import android.support.v7.app.AppCompatActivity
 import com.swift.sandhook.SandHook
 import kotlinx.android.synthetic.main.activity_hook_test.*
 import top.xuqingquan.utils.longToast
@@ -21,9 +20,9 @@ class HookTestActivity : AppCompatActivity() {
             }
         }
         btn2.setOnClickListener {
-            btn1.isVisible = false
-            btn2.isVisible = false
-            btn3.isVisible = true
+//            btn1.isVisible = false
+//            btn2.isVisible = false
+//            btn3.isVisible = true
             SandHook.addHookClass(IntegerHook::class.java)
         }
         btn3.setOnClickListener {
