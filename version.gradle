@@ -47,7 +47,7 @@ ext {
             exifinterface           : '1.2.0',
             flexbox                 : '2.0.1',
             tbs                     : '43903',
-            doraemonkit             : '3.1.4',
+            doraemonkit             : '3.1.8',
             //support新增部分
             support                 : '28.0.0',
             constraintlayout_support: '1.1.3',
