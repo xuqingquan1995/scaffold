@@ -216,13 +216,13 @@ public final class AgentWeb {
 
     public AgentWeb clearWebCache() {
         if (WebConfig.hasX5()) {
-            if (getX5WebCreator().getWebView() != null) {
+            if (getX5WebCreator() != null && getX5WebCreator().getWebView() != null) {
                 AgentWebUtils.clearWebViewAllCache(mActivity, getX5WebCreator().getWebView());
             } else {
                 AgentWebUtils.clearWebViewAllCache(mActivity);
             }
         } else {
-            if (getWebCreator().getWebView() != null) {
+            if (getWebCreator() != null && getWebCreator().getWebView() != null) {
                 AgentWebUtils.clearWebViewAllCache(mActivity, getWebCreator().getWebView());
             } else {
                 AgentWebUtils.clearWebViewAllCache(mActivity);
@@ -261,10 +261,12 @@ public final class AgentWeb {
         }
     }
 
+    @Nullable
     public top.xuqingquan.web.system.WebCreator getWebCreator() {
         return this.mWebCreator;
     }
 
+    @Nullable
     public top.xuqingquan.web.x5.WebCreator getX5WebCreator() {
         return this.mX5WebCreator;
     }
