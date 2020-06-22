@@ -2,6 +2,7 @@ package top.xuqingquan.base.view.adapter.viewholder
 
 import android.util.SparseArray
 import android.view.View
+import android.widget.Checkable
 import androidx.annotation.IdRes
 import androidx.recyclerview.widget.RecyclerView
 
@@ -17,7 +18,7 @@ open class BaseViewHolder<T>(_view: View) :
      */
     private val views = SparseArray<View>()
 
-    var onViewClickListener: OnViewClickListener? = null
+    private var onViewClickListener: OnViewClickListener? = null
 
     /**
      * 设置数据
@@ -32,6 +33,14 @@ open class BaseViewHolder<T>(_view: View) :
         if (view == null) {
             view = itemView.findViewById(viewId)
             views.put(viewId, view)
+            if (view !is Checkable) {//如果不是可选中的组件，默认添加点击事件
+                view?.setOnClickListener {
+                    onViewClickListener?.onClick(it, absoluteAdapterPosition)
+                }
+                view?.setOnLongClickListener {
+                    onViewClickListener?.onLongClick(it, absoluteAdapterPosition) ?: true
+                }
+            }
         }
         return view as V
     }
@@ -61,10 +70,8 @@ open class BaseViewHolder<T>(_view: View) :
         open fun onLongClick(view: View, position: Int) = true
     }
 
-    /**
-     * 释放资源
-     */
-    fun onRelease() {
-        onViewClickListener = null
+    fun setOnViewClickListener(onViewClickListener: OnViewClickListener) {
+        this.onViewClickListener = onViewClickListener
     }
+
 }

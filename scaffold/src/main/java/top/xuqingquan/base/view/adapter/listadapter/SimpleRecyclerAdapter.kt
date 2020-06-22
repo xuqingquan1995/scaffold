@@ -14,7 +14,8 @@ import top.xuqingquan.base.view.adapter.viewholder.BaseViewHolder
 @Suppress("NON_FINAL_MEMBER_IN_FINAL_CLASS")
 open class SimpleRecyclerAdapter<T>(private val list: MutableList<T>) :
     RecyclerView.Adapter<BaseViewHolder<T>>() {
-    var listener: OnViewClickListener<T>? = null
+
+    var listener: OnItemClickListener<T>? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<T> {
         val holder = getViewHolder(parent, viewType)
@@ -26,7 +27,7 @@ open class SimpleRecyclerAdapter<T>(private val list: MutableList<T>) :
         holder: BaseViewHolder<T>,
         viewType: Int
     ) {
-        holder.onViewClickListener = object : BaseViewHolder.OnViewClickListener() {
+        holder.setOnViewClickListener(object : BaseViewHolder.OnViewClickListener() {
             override fun onClick(view: View, position: Int) {
                 if (listener == null) {
                     onClick(view, position, getItem(position), viewType)
@@ -42,7 +43,7 @@ open class SimpleRecyclerAdapter<T>(private val list: MutableList<T>) :
                     listener!!.onLongClick(view, position, getItem(position), viewType)
                 }
             }
-        }
+        })
     }
 
     override fun getItemCount() = list.size
@@ -79,12 +80,6 @@ open class SimpleRecyclerAdapter<T>(private val list: MutableList<T>) :
      */
     open fun onLongClick(view: View, position: Int, data: T?, viewType: Int): Boolean {
         return true
-    }
-
-    abstract class OnViewClickListener<T> {
-        abstract fun onClick(view: View, position: Int, data: T?, viewType: Int)
-
-        open fun onLongClick(view: View, position: Int, data: T?, viewType: Int) = true
     }
 
     fun getBaseList() = list
@@ -128,19 +123,5 @@ open class SimpleRecyclerAdapter<T>(private val list: MutableList<T>) :
     fun resetData(list: List<T>) {
         removeAll()
         addList(list)
-    }
-
-    companion object {
-        @JvmStatic
-        fun releaseAllViewHolder(recyclerView: RecyclerView) {
-            for (i in recyclerView.childCount - 1 downTo 0) {
-                val view = recyclerView.getChildAt(i)
-                val holder = recyclerView.getChildViewHolder(view)
-                if (holder != null && holder is BaseViewHolder<*>) {
-                    holder.onRelease()
-                }
-
-            }
-        }
     }
 }

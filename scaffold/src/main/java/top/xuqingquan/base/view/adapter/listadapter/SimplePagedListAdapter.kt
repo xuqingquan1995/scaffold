@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.RecyclerView
 import top.xuqingquan.base.view.adapter.viewholder.BaseViewHolder
 
 /**
@@ -15,7 +14,7 @@ import top.xuqingquan.base.view.adapter.viewholder.BaseViewHolder
 open class SimplePagedListAdapter<T>(diff: DiffUtil.ItemCallback<T>) :
     PagedListAdapter<T, BaseViewHolder<T>>(diff) {
 
-    var listener: OnViewClickListener<T>? = null
+    var listener: OnItemClickListener<T>? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<T> {
         val holder = getViewHolder(parent, viewType)
@@ -27,7 +26,7 @@ open class SimplePagedListAdapter<T>(diff: DiffUtil.ItemCallback<T>) :
         holder: BaseViewHolder<T>,
         viewType: Int
     ) {
-        holder.onViewClickListener = object : BaseViewHolder.OnViewClickListener() {
+        holder.setOnViewClickListener(object : BaseViewHolder.OnViewClickListener() {
             override fun onClick(view: View, position: Int) {
                 if (listener == null) {
                     onClick(view, position, getItem(position), viewType)
@@ -43,7 +42,7 @@ open class SimplePagedListAdapter<T>(diff: DiffUtil.ItemCallback<T>) :
                     listener!!.onLongClick(view, position, getItem(position), viewType)
                 }
             }
-        }
+        })
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder<T>, position: Int) {
@@ -72,7 +71,6 @@ open class SimplePagedListAdapter<T>(diff: DiffUtil.ItemCallback<T>) :
      * 在Adapter内部实现单击回调
      */
     open fun onClick(view: View, position: Int, data: T?, viewType: Int) {
-
     }
 
     /**
@@ -80,12 +78,6 @@ open class SimplePagedListAdapter<T>(diff: DiffUtil.ItemCallback<T>) :
      */
     open fun onLongClick(view: View, position: Int, data: T?, viewType: Int): Boolean {
         return true
-    }
-
-    abstract class OnViewClickListener<T> {
-        abstract fun onClick(view: View, position: Int, data: T?, viewType: Int)
-
-        open fun onLongClick(view: View, position: Int, data: T?, viewType: Int) = true
     }
 
     override fun getItem(position: Int): T? {
@@ -98,20 +90,4 @@ open class SimplePagedListAdapter<T>(diff: DiffUtil.ItemCallback<T>) :
             return null
         }
     }
-
-    companion object {
-        @Suppress("unused")
-        @JvmStatic
-        fun releaseAllViewHolder(recyclerView: RecyclerView) {
-            for (i in recyclerView.childCount - 1 downTo 0) {
-                val view = recyclerView.getChildAt(i)
-                val holder = recyclerView.getChildViewHolder(view)
-                if (holder != null && holder is BaseViewHolder<*>) {
-                    holder.onRelease()
-                }
-
-            }
-        }
-    }
-
 }
