@@ -69,6 +69,7 @@ dependencies {
     implementation rootProject.ext.deps.paging
     implementation rootProject.ext.deps.room
     implementation rootProject.ext.deps.tbs
+    implementation rootProject.ext.deps.BRVAH
     implementation 'com.swift.sandhook:hooklib:4.2.0'
     // need for android 11
     implementation 'com.swift.sandhook:nativehook:4.2.0'

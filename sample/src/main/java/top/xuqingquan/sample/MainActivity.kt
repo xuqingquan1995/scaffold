@@ -10,7 +10,7 @@ import top.xuqingquan.app.ScaffoldConfig
 import top.xuqingquan.base.model.entity.Listing
 import top.xuqingquan.base.model.entity.NetworkStatus
 import top.xuqingquan.base.view.activity.SimpleActivity
-import top.xuqingquan.base.view.adapter.listadapter.SimplePagedListAdapter
+import top.xuqingquan.base.view.adapter.listadapter.OnItemClickListener
 import top.xuqingquan.extension.*
 import top.xuqingquan.http.log.Level
 import top.xuqingquan.utils.Timber
@@ -84,9 +84,9 @@ class MainActivity : SimpleActivity() {
             Timber.d("refreshState===1111")
             listing.refresh.invoke()
         }
-        adapter.listener = object : SimplePagedListAdapter.OnViewClickListener<Subjects>() {
-            override fun onClick(view: View, position: Int, data: Subjects?, viewType: Int) {
-//                toast("onClick---data===>${data?.title}")
+        adapter.setOnItemClickListener {
+            onClick { view, position, data, viewType ->
+                Timber.d("view===>${view.id == R.id.text},view.id=${view.id}")
                 startActivity<WebActivity>(
                     if (position == 0) {
                         "url" to "http://debugtbs.qq.com"
@@ -95,16 +95,29 @@ class MainActivity : SimpleActivity() {
                     }
                 )
             }
-
-            override fun onLongClick(
-                view: View,
-                position: Int,
-                data: Subjects?,
-                viewType: Int
-            ): Boolean {
-//                toast("onLongClick---data===>${data?.title}")
-                return super.onLongClick(view, position, data, viewType)
-            }
         }
+//        adapter.listener = object : OnItemClickListener<Subjects>() {
+//            override fun onClick(view: View, position: Int, data: Subjects?, viewType: Int) {
+//                Timber.d("view===>${view.id == R.id.text},view.id=${view.id}")
+////                toast("onClick---data===>${data?.title}")
+//                startActivity<WebActivity>(
+//                    if (position == 0) {
+//                        "url" to "http://debugtbs.qq.com"
+//                    } else {
+//                        "data" to ""
+//                    }
+//                )
+//            }
+//
+//            override fun onLongClick(
+//                view: View,
+//                position: Int,
+//                data: Subjects?,
+//                viewType: Int
+//            ): Boolean {
+////                toast("onLongClick---data===>${data?.title}")
+//                return super.onLongClick(view, position, data, viewType)
+//            }
+//        }
     }
 }

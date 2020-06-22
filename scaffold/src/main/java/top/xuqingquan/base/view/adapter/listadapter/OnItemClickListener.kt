@@ -24,3 +24,64 @@ abstract class OnItemClickListener<T> {
      */
     open fun onLongClick(view: View, position: Int, data: T?, viewType: Int) = true
 }
+
+class OnItemClickListenerImpl<T> : OnItemClickListener<T>() {
+
+    private var onClick: ((view: View, position: Int, data: T?, viewType: Int) -> Unit)? = null
+    private var onLongClick: ((view: View, position: Int, data: T?, viewType: Int) -> Boolean)? =
+        null
+
+    override fun onClick(view: View, position: Int, data: T?, viewType: Int) {
+        onClick?.invoke(view, position, data, viewType)
+    }
+
+    override fun onLongClick(view: View, position: Int, data: T?, viewType: Int): Boolean {
+        return (onLongClick?.invoke(view, position, data, viewType) ?: true)
+    }
+
+    fun onClick(l: (view: View, position: Int, data: T?, viewType: Int) -> Unit) {
+        onClick = l
+    }
+
+    fun onLongClick(l: ((view: View, position: Int, data: T?, viewType: Int) -> Boolean)) {
+        onLongClick = l
+    }
+}
+
+abstract class OnViewClickListener {
+    /**
+     * 点击事件
+     * @param view 被点击的视图
+     * @param position 在RecyclerView中的位置
+     */
+    abstract fun onClick(view: View, position: Int)
+
+    /**
+     * 长按事件
+     * @param view 被点击的视图
+     * @param position 在RecyclerView中的位置
+     */
+    open fun onLongClick(view: View, position: Int) = true
+}
+
+class OnViewClickListenerImpl : OnViewClickListener() {
+
+    private var onClick: ((view: View, position: Int) -> Unit)? = null
+    private var onLongClick: ((view: View, position: Int) -> Boolean)? = null
+
+    override fun onClick(view: View, position: Int) {
+        onClick?.invoke(view, position)
+    }
+
+    override fun onLongClick(view: View, position: Int): Boolean {
+        return (onLongClick?.invoke(view, position) ?: true)
+    }
+
+    fun onClick(l: (view: View, position: Int) -> Unit) {
+        onClick = l
+    }
+
+    fun onLongClick(l: ((view: View, position: Int) -> Boolean)) {
+        onLongClick = l
+    }
+}

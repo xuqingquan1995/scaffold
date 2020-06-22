@@ -5,6 +5,8 @@ import android.view.View
 import android.widget.Checkable
 import androidx.annotation.IdRes
 import androidx.recyclerview.widget.RecyclerView
+import top.xuqingquan.base.view.adapter.listadapter.OnViewClickListener
+import top.xuqingquan.base.view.adapter.listadapter.OnViewClickListenerImpl
 
 /**
  * Created by 许清泉 on 2019/4/13 23:28
@@ -54,24 +56,10 @@ open class BaseViewHolder<T>(_view: View) :
         }
     }
 
-    abstract class OnViewClickListener {
-        /**
-         * 点击事件
-         * @param view 被点击的视图
-         * @param position 在RecyclerView中的位置
-         */
-        abstract fun onClick(view: View, position: Int)
-
-        /**
-         * 长按事件
-         * @param view 被点击的视图
-         * @param position 在RecyclerView中的位置
-         */
-        open fun onLongClick(view: View, position: Int) = true
-    }
-
-    fun setOnViewClickListener(onViewClickListener: OnViewClickListener) {
-        this.onViewClickListener = onViewClickListener
+    fun setOnViewClickListener(init: OnViewClickListenerImpl.() -> Unit) {
+        val listener = OnViewClickListenerImpl()
+        listener.init()
+        this.onViewClickListener = listener
     }
 
 }

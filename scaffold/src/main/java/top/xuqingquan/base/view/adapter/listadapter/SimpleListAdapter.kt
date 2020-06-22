@@ -26,8 +26,8 @@ open class SimpleListAdapter<T>(diff: DiffUtil.ItemCallback<T>) :
         holder: BaseViewHolder<T>,
         viewType: Int
     ) {
-        holder.setOnViewClickListener(object : BaseViewHolder.OnViewClickListener() {
-            override fun onClick(view: View, position: Int) {
+        holder.setOnViewClickListener {
+            onClick { view, position ->
                 if (listener == null) {
                     onClick(view, position, getItem(position), viewType)
                 } else {
@@ -35,14 +35,14 @@ open class SimpleListAdapter<T>(diff: DiffUtil.ItemCallback<T>) :
                 }
             }
 
-            override fun onLongClick(view: View, position: Int): Boolean {
-                return if (listener == null) {
+            onLongClick { view, position ->
+                return@onLongClick if (listener == null) {
                     onLongClick(view, position, getItem(position), viewType)
                 } else {
                     listener!!.onLongClick(view, position, getItem(position), viewType)
                 }
             }
-        })
+        }
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder<T>, position: Int) {

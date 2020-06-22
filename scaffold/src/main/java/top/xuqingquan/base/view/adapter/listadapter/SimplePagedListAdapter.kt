@@ -15,6 +15,8 @@ open class SimplePagedListAdapter<T>(diff: DiffUtil.ItemCallback<T>) :
     PagedListAdapter<T, BaseViewHolder<T>>(diff) {
 
     var listener: OnItemClickListener<T>? = null
+        @Deprecated("改用setOnItemClickListener")
+        set
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<T> {
         val holder = getViewHolder(parent, viewType)
@@ -26,8 +28,8 @@ open class SimplePagedListAdapter<T>(diff: DiffUtil.ItemCallback<T>) :
         holder: BaseViewHolder<T>,
         viewType: Int
     ) {
-        holder.setOnViewClickListener(object : BaseViewHolder.OnViewClickListener() {
-            override fun onClick(view: View, position: Int) {
+        holder.setOnViewClickListener {
+            onClick { view, position ->
                 if (listener == null) {
                     onClick(view, position, getItem(position), viewType)
                 } else {
@@ -35,14 +37,14 @@ open class SimplePagedListAdapter<T>(diff: DiffUtil.ItemCallback<T>) :
                 }
             }
 
-            override fun onLongClick(view: View, position: Int): Boolean {
-                return if (listener == null) {
+            onLongClick { view, position ->
+                return@onLongClick if (listener == null) {
                     onLongClick(view, position, getItem(position), viewType)
                 } else {
                     listener!!.onLongClick(view, position, getItem(position), viewType)
                 }
             }
-        })
+        }
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder<T>, position: Int) {
@@ -90,4 +92,11 @@ open class SimplePagedListAdapter<T>(diff: DiffUtil.ItemCallback<T>) :
             return null
         }
     }
+
+    fun setOnItemClickListener(init: OnItemClickListenerImpl<T>.() -> Unit) {
+        val listener = OnItemClickListenerImpl<T>()
+        listener.init()
+        this.listener = listener
+    }
+
 }
