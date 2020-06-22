@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Context
 import android.util.AttributeSet
 import android.view.KeyEvent
+import android.webkit.WebView
 import android.widget.FrameLayout
 import androidx.annotation.ColorInt
 import androidx.annotation.DimenRes
@@ -17,6 +18,7 @@ import top.xuqingquan.web.AgentWeb
 import top.xuqingquan.web.nokernel.PermissionInterceptor
 import top.xuqingquan.web.nokernel.WebConfig
 import top.xuqingquan.web.publics.AgentWebConfig
+import com.tencent.smtt.sdk.WebView as X5WebView
 
 /**
  * Created by 许清泉 on 2019-05-22 21:00
@@ -111,11 +113,9 @@ class ScaffoldWebView : FrameLayout {
                 .createAgentWeb()//创建AgentWeb。
                 .get()
         if (WebConfig.hasX5()) {
-            agentWeb!!.x5WebCreator.getWebView()?.overScrollMode =
-                com.tencent.smtt.sdk.WebView.OVER_SCROLL_NEVER
+            agentWeb!!.x5WebCreator?.getWebView()?.overScrollMode = X5WebView.OVER_SCROLL_NEVER
         } else {
-            agentWeb!!.webCreator.getWebView()?.overScrollMode =
-                android.webkit.WebView.OVER_SCROLL_NEVER
+            agentWeb!!.webCreator?.getWebView()?.overScrollMode = WebView.OVER_SCROLL_NEVER
         }
     }
 

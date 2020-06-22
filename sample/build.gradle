@@ -59,7 +59,7 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar','*.aar'])
     //test
     testImplementation rootProject.ext.deps.junit
     androidTestImplementation rootProject.ext.deps.espresso_core
@@ -69,7 +69,6 @@ dependencies {
     implementation rootProject.ext.deps.paging
     implementation rootProject.ext.deps.room
     implementation rootProject.ext.deps.tbs
-    implementation files('libs/newssdk-release.aar')
     implementation 'com.swift.sandhook:hooklib:4.2.0'
     // need for android 11
     implementation 'com.swift.sandhook:nativehook:4.2.0'
