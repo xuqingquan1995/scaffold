@@ -11,6 +11,10 @@ import android.text.TextUtils
 import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.ValueCallback
+import android.webkit.WebChromeClient
+import android.webkit.WebSettings
+import android.webkit.WebView
 import androidx.annotation.ColorInt
 import androidx.annotation.RequiresApi
 import com.google.android.material.snackbar.Snackbar
@@ -23,11 +27,14 @@ import top.xuqingquan.web.nokernel.WebUtils
 import top.xuqingquan.web.nokernel.WebUtils.isUIThread
 import java.io.File
 import java.lang.ref.WeakReference
+import com.tencent.smtt.sdk.WebView as X5WebView
+import com.tencent.smtt.sdk.ValueCallback as X5ValueCallback
+import com.tencent.smtt.sdk.WebChromeClient as X5WebChromeClient
 
 object AgentWebUtils {
 
     @JvmStatic
-    fun clearWebView(m: android.webkit.WebView?) {
+    fun clearWebView(m: WebView?) {
         try {
             if (m == null) {
                 return
@@ -53,7 +60,7 @@ object AgentWebUtils {
     }
 
     @JvmStatic
-    fun clearWebView(m: com.tencent.smtt.sdk.WebView?) {
+    fun clearWebView(m: X5WebView?) {
         try {
             if (m == null) {
                 return
@@ -108,10 +115,10 @@ object AgentWebUtils {
     }
 
     @JvmStatic
-    fun clearWebViewAllCache(context: Context, webView: android.webkit.WebView) {
+    fun clearWebViewAllCache(context: Context, webView: WebView) {
         try {
             AgentWebConfig.removeAllCookies(null)
-            webView.settings.cacheMode = android.webkit.WebSettings.LOAD_NO_CACHE
+            webView.settings.cacheMode = WebSettings.LOAD_NO_CACHE
             context.deleteDatabase("webviewCache.db")
             context.deleteDatabase("webview.db")
             webView.clearCache(true)
@@ -125,10 +132,10 @@ object AgentWebUtils {
     }
 
     @JvmStatic
-    fun clearWebViewAllCache(context: Context, webView: com.tencent.smtt.sdk.WebView) {
+    fun clearWebViewAllCache(context: Context, webView: X5WebView) {
         try {
             AgentWebConfig.removeAllX5Cookies(null)
-            webView.settings.cacheMode = android.webkit.WebSettings.LOAD_NO_CACHE
+            webView.settings.cacheMode = WebSettings.LOAD_NO_CACHE
             context.deleteDatabase("webviewCache.db")
             context.deleteDatabase("webview.db")
             webView.clearCache(true)
@@ -150,7 +157,10 @@ object AgentWebUtils {
                     top.xuqingquan.web.x5.LollipopFixedWebView(context.applicationContext)
                 )
             } else {
-                clearWebViewAllCache(context, top.xuqingquan.web.system.LollipopFixedWebView(context.applicationContext))
+                clearWebViewAllCache(
+                    context,
+                    top.xuqingquan.web.system.LollipopFixedWebView(context.applicationContext)
+                )
             }
         } catch (e: Throwable) {
             e.printStackTrace()
@@ -159,19 +169,19 @@ object AgentWebUtils {
     }
 
     @JvmStatic
-    fun getAgentWebUIControllerByWebView(webView: android.webkit.WebView): AbsAgentWebUIController? {
+    fun getAgentWebUIControllerByWebView(webView: WebView): AbsAgentWebUIController? {
         val mWebParentLayout = getWebParentLayoutByWebView(webView)
         return mWebParentLayout.provide()
     }
 
     @JvmStatic
-    fun getAgentWebUIControllerByWebView(webView: com.tencent.smtt.sdk.WebView): AbsAgentWebUIController? {
+    fun getAgentWebUIControllerByWebView(webView: X5WebView): AbsAgentWebUIController? {
         val mWebParentLayout = getWebParentLayoutByWebView(webView)
         return mWebParentLayout.provide()
     }
 
     @JvmStatic
-    fun getWebParentLayoutByWebView(webView: android.webkit.WebView): WebParentLayout {
+    fun getWebParentLayoutByWebView(webView: WebView): WebParentLayout {
         var mViewGroup: ViewGroup?
         check(webView.parent is ViewGroup) { "please check webcreator's create method was be called ?" }
         mViewGroup = webView.parent as ViewGroup
@@ -194,7 +204,7 @@ object AgentWebUtils {
     }
 
     @JvmStatic
-    fun getWebParentLayoutByWebView(webView: com.tencent.smtt.sdk.WebView): WebParentLayout {
+    fun getWebParentLayoutByWebView(webView: X5WebView): WebParentLayout {
         var mViewGroup: ViewGroup?
         check(webView.parent is ViewGroup) { "please check webcreator's create method was be called ?" }
         mViewGroup = webView.parent as ViewGroup
@@ -220,11 +230,11 @@ object AgentWebUtils {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     fun showFileChooserCompat(
         activity: Activity,
-        webView: android.webkit.WebView,
-        valueCallbacks: android.webkit.ValueCallback<Array<Uri>>?,
-        fileChooserParams: android.webkit.WebChromeClient.FileChooserParams?,
+        webView: WebView,
+        valueCallbacks: ValueCallback<Array<Uri>>?,
+        fileChooserParams: WebChromeClient.FileChooserParams?,
         permissionInterceptor: PermissionInterceptor,
-        valueCallback: android.webkit.ValueCallback<Uri>?,
+        valueCallback: ValueCallback<Uri>?,
         mimeType: String?,
         jsChannelCallback: Handler.Callback?
     ): Boolean {
@@ -263,11 +273,11 @@ object AgentWebUtils {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     fun showFileChooserCompat(
         activity: Activity,
-        webView: com.tencent.smtt.sdk.WebView,
-        valueCallbacks: com.tencent.smtt.sdk.ValueCallback<Array<Uri>>?,
-        fileChooserParams: com.tencent.smtt.sdk.WebChromeClient.FileChooserParams?,
+        webView: X5WebView,
+        valueCallbacks: X5ValueCallback<Array<Uri>>?,
+        fileChooserParams: X5WebChromeClient.FileChooserParams?,
         permissionInterceptor: PermissionInterceptor,
-        valueCallback: com.tencent.smtt.sdk.ValueCallback<Uri>?,
+        valueCallback: X5ValueCallback<Uri>?,
         mimeType: String?,
         jsChannelCallback: Handler.Callback?
     ): Boolean {

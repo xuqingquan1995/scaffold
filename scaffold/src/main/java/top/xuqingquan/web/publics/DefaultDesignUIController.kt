@@ -9,6 +9,7 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,6 +19,8 @@ import com.google.android.material.snackbar.Snackbar
 import top.xuqingquan.utils.Timber
 import top.xuqingquan.web.nokernel.WebConfig
 
+import com.tencent.smtt.sdk.WebView as X5WebView
+
 class DefaultDesignUIController : DefaultUIController() {
 
     private var mBottomSheetDialog: BottomSheetDialog? = null
@@ -25,15 +28,15 @@ class DefaultDesignUIController : DefaultUIController() {
     private var mWebParentLayout: WebParentLayout? = null
     private var mLayoutInflater: LayoutInflater? = null
 
-    override fun onJsAlert(view: android.webkit.WebView, url: String, message: String) {
+    override fun onJsAlert(view: WebView, url: String, message: String) {
         onJsAlertInternal(view, message)
     }
 
-    override fun onJsAlert(view: com.tencent.smtt.sdk.WebView, url: String, message: String) {
+    override fun onJsAlert(view: X5WebView, url: String, message: String) {
         onJsAlertInternal(view, message)
     }
 
-    private fun onJsAlertInternal(view: android.webkit.WebView, message: String) {
+    private fun onJsAlertInternal(view: WebView, message: String) {
         if (this.mActivity == null || this.mActivity!!.isFinishing||this.mActivity!!.isDestroyed) {
             return
         }
@@ -53,7 +56,7 @@ class DefaultDesignUIController : DefaultUIController() {
 
     }
 
-    private fun onJsAlertInternal(view: com.tencent.smtt.sdk.WebView, message: String) {
+    private fun onJsAlertInternal(view: X5WebView, message: String) {
         if (this.mActivity == null || this.mActivity!!.isFinishing||this.mActivity!!.isDestroyed) {
             return
         }
@@ -74,7 +77,7 @@ class DefaultDesignUIController : DefaultUIController() {
     }
 
     override fun onSelectItemsPrompt(
-        view: android.webkit.WebView,
+        view: WebView,
         url: String,
         ways: Array<String>,
         callback: Handler.Callback
@@ -83,7 +86,7 @@ class DefaultDesignUIController : DefaultUIController() {
     }
 
     override fun onSelectItemsPrompt(
-        view: com.tencent.smtt.sdk.WebView,
+        view: X5WebView,
         url: String,
         ways: Array<String>,
         callback: Handler.Callback

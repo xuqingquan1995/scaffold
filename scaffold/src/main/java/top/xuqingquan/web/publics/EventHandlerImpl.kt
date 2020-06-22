@@ -1,9 +1,12 @@
 package top.xuqingquan.web.publics
 
 import android.view.KeyEvent
+import android.webkit.WebView
 import top.xuqingquan.web.nokernel.EventInterceptor
 import top.xuqingquan.web.nokernel.IEventHandler
 import top.xuqingquan.web.nokernel.WebConfig
+
+import com.tencent.smtt.sdk.WebView as X5WebView
 
 /**
  * IEventHandler 对事件的处理，主要是针对
@@ -11,16 +14,16 @@ import top.xuqingquan.web.nokernel.WebConfig
  * 则先退出视频。
  */
 class EventHandlerImpl : IEventHandler {
-    private var mWebView: android.webkit.WebView? = null
-    private var mX5WebView: com.tencent.smtt.sdk.WebView? = null
+    private var mWebView: WebView? = null
+    private var mX5WebView: X5WebView? = null
     private var mEventInterceptor: EventInterceptor? = null
 
-    private constructor(webView: android.webkit.WebView?, eventInterceptor: EventInterceptor?) {
+    private constructor(webView: WebView?, eventInterceptor: EventInterceptor?) {
         this.mWebView = webView
         this.mEventInterceptor = eventInterceptor
     }
 
-    private constructor(webView: com.tencent.smtt.sdk.WebView?, eventInterceptor: EventInterceptor?) {
+    private constructor(webView: X5WebView?, eventInterceptor: EventInterceptor?) {
         this.mX5WebView = webView
         this.mEventInterceptor = eventInterceptor
     }
@@ -52,12 +55,12 @@ class EventHandlerImpl : IEventHandler {
     companion object {
 
         @JvmStatic
-        fun getInstance(view: android.webkit.WebView?, eventInterceptor: EventInterceptor?): EventHandlerImpl {
+        fun getInstance(view: WebView?, eventInterceptor: EventInterceptor?): EventHandlerImpl {
             return EventHandlerImpl(view, eventInterceptor)
         }
 
         @JvmStatic
-        fun getInstance(view: com.tencent.smtt.sdk.WebView?, eventInterceptor: EventInterceptor?): EventHandlerImpl {
+        fun getInstance(view: X5WebView?, eventInterceptor: EventInterceptor?): EventHandlerImpl {
             return EventHandlerImpl(view, eventInterceptor)
         }
     }

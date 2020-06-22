@@ -3,6 +3,12 @@ package top.xuqingquan.web.publics
 import android.app.Activity
 import android.app.Dialog
 import android.os.Handler
+import android.webkit.JsPromptResult
+import com.tencent.smtt.sdk.WebView as X5WebView
+import android.webkit.WebView
+import com.tencent.smtt.export.external.interfaces.JsResult as X5JsResult
+import android.webkit.JsResult
+import com.tencent.smtt.export.external.interfaces.JsPromptResult as X5JsPromptResult
 
 abstract class AbsAgentWebUIController {
     @Volatile
@@ -51,9 +57,9 @@ abstract class AbsAgentWebUIController {
      * @param url
      * @param message
      */
-    abstract fun onJsAlert(view: android.webkit.WebView, url: String, message: String)
+    abstract fun onJsAlert(view: WebView, url: String, message: String)
 
-    abstract fun onJsAlert(view: com.tencent.smtt.sdk.WebView, url: String, message: String)
+    abstract fun onJsAlert(view: X5WebView, url: String, message: String)
 
     /**
      * 咨询用户是否前往其他页面
@@ -62,17 +68,9 @@ abstract class AbsAgentWebUIController {
      * @param url
      * @param callback
      */
-    abstract fun onOpenPagePrompt(
-        view: android.webkit.WebView,
-        url: String,
-        callback: Handler.Callback
-    )
+    abstract fun onOpenPagePrompt(view: WebView, url: String, callback: Handler.Callback)
 
-    abstract fun onOpenPagePrompt(
-        view: com.tencent.smtt.sdk.WebView,
-        url: String,
-        callback: Handler.Callback
-    )
+    abstract fun onOpenPagePrompt(view: X5WebView, url: String, callback: Handler.Callback)
 
     /**
      * WebChromeClient#onJsConfirm
@@ -82,32 +80,16 @@ abstract class AbsAgentWebUIController {
      * @param message
      * @param jsResult
      */
-    abstract fun onJsConfirm(
-        view: android.webkit.WebView,
-        url: String,
-        message: String,
-        jsResult: android.webkit.JsResult
-    )
+    abstract fun onJsConfirm(view: WebView, url: String, message: String, jsResult: JsResult)
 
-    abstract fun onJsConfirm(
-        view: com.tencent.smtt.sdk.WebView,
-        url: String,
-        message: String,
-        jsResult: com.tencent.smtt.export.external.interfaces.JsResult
+    abstract fun onJsConfirm(view: X5WebView, url: String, message: String, jsResult: X5JsResult)
+
+    abstract fun onSelectItemsPrompt(
+        view: WebView, url: String, ways: Array<String>, callback: Handler.Callback
     )
 
     abstract fun onSelectItemsPrompt(
-        view: android.webkit.WebView,
-        url: String,
-        ways: Array<String>,
-        callback: Handler.Callback
-    )
-
-    abstract fun onSelectItemsPrompt(
-        view: com.tencent.smtt.sdk.WebView,
-        url: String,
-        ways: Array<String>,
-        callback: Handler.Callback
+        view: X5WebView, url: String, ways: Array<String>, callback: Handler.Callback
     )
 
     /**
@@ -128,19 +110,13 @@ abstract class AbsAgentWebUIController {
      * @param jsPromptResult
      */
     abstract fun onJsPrompt(
-        view: android.webkit.WebView,
-        url: String,
-        message: String,
-        defaultValue: String,
-        jsPromptResult: android.webkit.JsPromptResult
+        view: WebView, url: String, message: String,
+        defaultValue: String, jsPromptResult: JsPromptResult
     )
 
     abstract fun onJsPrompt(
-        view: com.tencent.smtt.sdk.WebView,
-        url: String,
-        message: String,
-        defaultValue: String,
-        jsPromptResult: com.tencent.smtt.export.external.interfaces.JsPromptResult
+        view: X5WebView, url: String, message: String,
+        defaultValue: String, jsPromptResult: X5JsPromptResult
     )
 
     /**
@@ -152,17 +128,11 @@ abstract class AbsAgentWebUIController {
      * @param failingUrl
      */
     abstract fun onMainFrameError(
-        view: android.webkit.WebView,
-        errorCode: Int,
-        description: String,
-        failingUrl: String
+        view: WebView, errorCode: Int, description: String, failingUrl: String
     )
 
     abstract fun onMainFrameError(
-        view: com.tencent.smtt.sdk.WebView,
-        errorCode: Int,
-        description: String,
-        failingUrl: String
+        view: X5WebView, errorCode: Int, description: String, failingUrl: String
     )
 
     /**
@@ -196,9 +166,7 @@ abstract class AbsAgentWebUIController {
      * @param action
      */
     abstract fun onPermissionsDeny(
-        permissions: Array<String>,
-        permissionType: String,
-        action: String
+        permissions: Array<String>, permissionType: String, action: String
     )
 
     companion object {

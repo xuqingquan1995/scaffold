@@ -2,11 +2,14 @@ package top.xuqingquan.web.publics
 
 import android.text.TextUtils
 import android.util.Log
+import android.webkit.WebView
 import org.json.JSONException
 import org.json.JSONObject
 import top.xuqingquan.utils.Timber
 import java.lang.reflect.Method
 import java.util.*
+
+import com.tencent.smtt.sdk.WebView as X5WebView
 
 @Suppress("unused")
 class JsCallJava(interfaceObj: Any, interfaceName: String) {
@@ -88,7 +91,7 @@ class JsCallJava(interfaceObj: Any, interfaceName: String) {
         return sign.toString()
     }
 
-    fun call(webView: android.webkit.WebView, jsonObject: JSONObject?): String {
+    fun call(webView: WebView, jsonObject: JSONObject?): String {
         val time = android.os.SystemClock.uptimeMillis()
         return if (jsonObject != null) {
             try {
@@ -145,9 +148,11 @@ class JsCallJava(interfaceObj: Any, interfaceName: String) {
                         currIndex = numIndex - numIndex / 10 * 10 - 1
                         currCls = methodTypes[currIndex]
                         when (currCls) {
-                            Int::class.javaPrimitiveType -> values[currIndex] = argsVals.getInt(currIndex)
+                            Int::class.javaPrimitiveType -> values[currIndex] =
+                                argsVals.getInt(currIndex)
                             Long::class.javaPrimitiveType -> //WARN: argsJson.getLong(k + defValue) will return a bigger incorrect number
-                                values[currIndex] = java.lang.Long.parseLong(argsVals.getString(currIndex))
+                                values[currIndex] =
+                                    java.lang.Long.parseLong(argsVals.getString(currIndex))
                             else -> values[currIndex] = argsVals.getDouble(currIndex)
                         }
                         numIndex /= 10
@@ -158,7 +163,12 @@ class JsCallJava(interfaceObj: Any, interfaceName: String) {
             } catch (e: Throwable) {
                 //优先返回详细的错误信息
                 if (e.cause != null) {
-                    return getReturn(jsonObject, 500, "method execute result:" + e.cause!!.message, time)
+                    return getReturn(
+                        jsonObject,
+                        500,
+                        "method execute result:" + e.cause!!.message,
+                        time
+                    )
                 }
                 getReturn(jsonObject, 500, "method execute result:" + e.message, time)
             }
@@ -168,7 +178,7 @@ class JsCallJava(interfaceObj: Any, interfaceName: String) {
         }
     }
 
-    fun call(webView: com.tencent.smtt.sdk.WebView, jsonObject: JSONObject?): String {
+    fun call(webView: X5WebView, jsonObject: JSONObject?): String {
         val time = android.os.SystemClock.uptimeMillis()
         return if (jsonObject != null) {
             try {
@@ -225,9 +235,11 @@ class JsCallJava(interfaceObj: Any, interfaceName: String) {
                         currIndex = numIndex - numIndex / 10 * 10 - 1
                         currCls = methodTypes[currIndex]
                         when (currCls) {
-                            Int::class.javaPrimitiveType -> values[currIndex] = argsVals.getInt(currIndex)
+                            Int::class.javaPrimitiveType -> values[currIndex] =
+                                argsVals.getInt(currIndex)
                             Long::class.javaPrimitiveType -> //WARN: argsJson.getLong(k + defValue) will return a bigger incorrect number
-                                values[currIndex] = java.lang.Long.parseLong(argsVals.getString(currIndex))
+                                values[currIndex] =
+                                    java.lang.Long.parseLong(argsVals.getString(currIndex))
                             else -> values[currIndex] = argsVals.getDouble(currIndex)
                         }
                         numIndex /= 10
@@ -238,7 +250,12 @@ class JsCallJava(interfaceObj: Any, interfaceName: String) {
             } catch (e: Throwable) {
                 //优先返回详细的错误信息
                 if (e.cause != null) {
-                    return getReturn(jsonObject, 500, "method execute result:" + e.cause!!.message, time)
+                    return getReturn(
+                        jsonObject,
+                        500,
+                        "method execute result:" + e.cause!!.message,
+                        time
+                    )
                 }
                 getReturn(jsonObject, 500, "method execute result:" + e.message, time)
             }
@@ -248,7 +265,12 @@ class JsCallJava(interfaceObj: Any, interfaceName: String) {
         }
     }
 
-    private fun getReturn(reqJson: JSONObject?, stateCode: Int, result_o: Any?, time: Long): String {
+    private fun getReturn(
+        reqJson: JSONObject?,
+        stateCode: Int,
+        result_o: Any?,
+        time: Long
+    ): String {
         var result = result_o
         val insertRes: String
         when (result) {
@@ -279,7 +301,12 @@ class JsCallJava(interfaceObj: Any, interfaceName: String) {
         private val IGNORE_UNSAFE_METHODS =
             arrayOf("getClass", "hashCode", "notify", "notifyAll", "equals", "toString", "wait")
 
-        private fun promptMsgFormat(`object`: String, method: String, types: String, args: String): String {
+        private fun promptMsgFormat(
+            `object`: String,
+            method: String,
+            types: String,
+            args: String
+        ): String {
             val sb = StringBuilder()
             sb.append("{")
             sb.append(KEY_OBJ).append(":").append(`object`).append(",")

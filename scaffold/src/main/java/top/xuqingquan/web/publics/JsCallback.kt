@@ -1,5 +1,6 @@
 package top.xuqingquan.web.publics
 
+import android.webkit.WebView
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -9,22 +10,24 @@ import top.xuqingquan.web.nokernel.WebConfig
 import java.lang.ref.WeakReference
 import java.util.Locale
 
+import com.tencent.smtt.sdk.WebView as X5WebView
+
 class JsCallback {
     private var mIndex: Int = 0
     private var mCouldGoOn: Boolean = false
-    private var mWebViewRef: WeakReference<android.webkit.WebView>? = null
-    private var mx5WebViewRef: WeakReference<com.tencent.smtt.sdk.WebView>? = null
+    private var mWebViewRef: WeakReference<WebView>? = null
+    private var mx5WebViewRef: WeakReference<X5WebView>? = null
     private var mIsPermanent: Int = 0
     private var mInjectedName: String? = null
 
-    internal constructor(view: android.webkit.WebView, injectedName: String, index: Int) {
+    internal constructor(view: WebView, injectedName: String, index: Int) {
         mCouldGoOn = true
         mWebViewRef = WeakReference(view)
         mInjectedName = injectedName
         mIndex = index
     }
 
-    internal constructor(view: com.tencent.smtt.sdk.WebView, injectedName: String, index: Int) {
+    internal constructor(view: X5WebView, injectedName: String, index: Int) {
         mCouldGoOn = true
         mx5WebViewRef = WeakReference(view)
         mInjectedName = injectedName

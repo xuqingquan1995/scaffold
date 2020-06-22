@@ -2,24 +2,28 @@ package top.xuqingquan.web.publics
 
 import android.os.Handler
 import android.os.Looper
+import android.webkit.ValueCallback
+import android.webkit.WebView
+import com.tencent.smtt.sdk.ValueCallback as X5ValueCallback
+import com.tencent.smtt.sdk.WebView as X5WebView
 
 class JsAccessEntraceImpl : BaseJsAccessEntrace {
 
     private val mHandler = Handler(Looper.getMainLooper())
 
-    private constructor(webView: android.webkit.WebView?) : super(webView)
+    private constructor(webView: WebView?) : super(webView)
 
-    private constructor(webView: com.tencent.smtt.sdk.WebView?) : super(webView)
+    private constructor(webView: X5WebView?) : super(webView)
 
-    private fun safeCallJs(s: String?, valueCallback: android.webkit.ValueCallback<String>?) {
+    private fun safeCallJs(s: String?, valueCallback: ValueCallback<String>?) {
         mHandler.post { callJs(s, valueCallback) }
     }
 
-    private fun safeCallJs(s: String?, valueCallback: com.tencent.smtt.sdk.ValueCallback<String>?) {
+    private fun safeCallJs(s: String?, valueCallback: X5ValueCallback<String>?) {
         mHandler.post { callJs(s, valueCallback) }
     }
 
-    override fun callJs(js: String?, callback: android.webkit.ValueCallback<String>?) {
+    override fun callJs(js: String?, callback: ValueCallback<String>?) {
         if (Thread.currentThread() !== Looper.getMainLooper().thread) {
             safeCallJs(js, callback)
             return
@@ -27,7 +31,7 @@ class JsAccessEntraceImpl : BaseJsAccessEntrace {
         super.callJs(js, callback)
     }
 
-    override fun callJs(js: String?, callback: com.tencent.smtt.sdk.ValueCallback<String>?) {
+    override fun callJs(js: String?, callback: X5ValueCallback<String>?) {
         if (Thread.currentThread() !== Looper.getMainLooper().thread) {
             safeCallJs(js, callback)
             return
@@ -38,12 +42,12 @@ class JsAccessEntraceImpl : BaseJsAccessEntrace {
     companion object {
 
         @JvmStatic
-        fun getInstance(webView: android.webkit.WebView?): JsAccessEntraceImpl {
+        fun getInstance(webView: WebView?): JsAccessEntraceImpl {
             return JsAccessEntraceImpl(webView)
         }
 
         @JvmStatic
-        fun getInstance(webView: com.tencent.smtt.sdk.WebView?): JsAccessEntraceImpl {
+        fun getInstance(webView: X5WebView?): JsAccessEntraceImpl {
             return JsAccessEntraceImpl(webView)
         }
     }

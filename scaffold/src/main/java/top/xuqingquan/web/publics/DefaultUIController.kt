@@ -9,6 +9,7 @@ import android.os.Message
 import android.text.TextUtils
 import android.webkit.JsPromptResult
 import android.webkit.JsResult
+import android.webkit.WebView
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import top.xuqingquan.R
@@ -17,6 +18,7 @@ import top.xuqingquan.utils.getApplicationName
 import top.xuqingquan.web.nokernel.WebUtils
 import com.tencent.smtt.export.external.interfaces.JsPromptResult as X5JsPromptResult
 import com.tencent.smtt.export.external.interfaces.JsResult as X5JsResult
+import com.tencent.smtt.sdk.WebView as X5WebView
 
 open class DefaultUIController : AbsAgentWebUIController() {
 
@@ -34,27 +36,19 @@ open class DefaultUIController : AbsAgentWebUIController() {
     private var mAlertDialogForceDownload: AlertDialog? = null
     private var mAlertDialogDownload: AlertDialog? = null
 
-    override fun onJsAlert(view: android.webkit.WebView, url: String, message: String) {
+    override fun onJsAlert(view: WebView, url: String, message: String) {
         WebUtils.toastShowShort(view.context.applicationContext, message)
     }
 
-    override fun onJsAlert(view: com.tencent.smtt.sdk.WebView, url: String, message: String) {
+    override fun onJsAlert(view: X5WebView, url: String, message: String) {
         WebUtils.toastShowShort(view.context.applicationContext, message)
     }
 
-    override fun onOpenPagePrompt(
-        view: android.webkit.WebView,
-        url: String,
-        callback: Handler.Callback
-    ) {
+    override fun onOpenPagePrompt(view: WebView, url: String, callback: Handler.Callback) {
         onOpenPagePrompt(callback)
     }
 
-    override fun onOpenPagePrompt(
-        view: com.tencent.smtt.sdk.WebView,
-        url: String,
-        callback: Handler.Callback
-    ) {
+    override fun onOpenPagePrompt(view: X5WebView, url: String, callback: Handler.Callback) {
         onOpenPagePrompt(callback)
     }
 
@@ -84,37 +78,25 @@ open class DefaultUIController : AbsAgentWebUIController() {
     }
 
     override fun onJsConfirm(
-        view: android.webkit.WebView,
-        url: String,
-        message: String,
-        jsResult: JsResult
+        view: WebView, url: String, message: String, jsResult: JsResult
     ) {
         onJsConfirmInternal(message, jsResult)
     }
 
     override fun onJsConfirm(
-        view: com.tencent.smtt.sdk.WebView,
-        url: String,
-        message: String,
-        jsResult: X5JsResult
+        view: X5WebView, url: String, message: String, jsResult: X5JsResult
     ) {
         onJsConfirmInternal(message, jsResult)
     }
 
     override fun onSelectItemsPrompt(
-        view: android.webkit.WebView,
-        url: String,
-        ways: Array<String>,
-        callback: Handler.Callback
+        view: WebView, url: String, ways: Array<String>, callback: Handler.Callback
     ) {
         showChooserInternal(ways, callback)
     }
 
     override fun onSelectItemsPrompt(
-        view: com.tencent.smtt.sdk.WebView,
-        url: String,
-        ways: Array<String>,
-        callback: Handler.Callback
+        view: X5WebView, url: String, ways: Array<String>, callback: Handler.Callback
     ) {
         showChooserInternal(ways, callback)
     }
@@ -217,8 +199,7 @@ open class DefaultUIController : AbsAgentWebUIController() {
     }
 
     private fun onJsConfirmInternal(
-        message: String,
-        jsResult: X5JsResult
+        message: String, jsResult: X5JsResult
     ) {
         if (this.mActivity == null || this.mActivity!!.isFinishing || this.mActivity!!.isDestroyed) {
             toCancelJsresult(jsResult)
@@ -249,9 +230,7 @@ open class DefaultUIController : AbsAgentWebUIController() {
     }
 
     private fun onJsPromptInternal(
-        message: String,
-        defaultValue: String,
-        jsPromptResult: JsPromptResult
+        message: String, defaultValue: String, jsPromptResult: JsPromptResult
     ) {
         if (this.mActivity == null || this.mActivity!!.isFinishing || this.mActivity!!.isDestroyed) {
             jsPromptResult.cancel()
@@ -282,9 +261,7 @@ open class DefaultUIController : AbsAgentWebUIController() {
     }
 
     private fun onJsPromptInternal(
-        message: String,
-        defaultValue: String,
-        jsPromptResult: X5JsPromptResult
+        message: String, defaultValue: String, jsPromptResult: X5JsPromptResult
     ) {
         if (this.mActivity == null || this.mActivity!!.isFinishing || this.mActivity!!.isDestroyed) {
             jsPromptResult.cancel()
@@ -315,40 +292,28 @@ open class DefaultUIController : AbsAgentWebUIController() {
     }
 
     override fun onJsPrompt(
-        view: android.webkit.WebView,
-        url: String,
-        message: String,
-        defaultValue: String,
-        jsPromptResult: JsPromptResult
+        view: WebView, url: String, message: String,
+        defaultValue: String, jsPromptResult: JsPromptResult
     ) {
         onJsPromptInternal(message, defaultValue, jsPromptResult)
     }
 
     override fun onJsPrompt(
-        view: com.tencent.smtt.sdk.WebView,
-        url: String,
-        message: String,
-        defaultValue: String,
-        jsPromptResult: X5JsPromptResult
+        view: X5WebView, url: String, message: String,
+        defaultValue: String, jsPromptResult: X5JsPromptResult
     ) {
         onJsPromptInternal(message, defaultValue, jsPromptResult)
     }
 
     override fun onMainFrameError(
-        view: android.webkit.WebView,
-        errorCode: Int,
-        description: String,
-        failingUrl: String
+        view: WebView, errorCode: Int, description: String, failingUrl: String
     ) {
         Timber.i("mWebParentLayout onMainFrameError:" + mWebParentLayout!!)
         mWebParentLayout?.showPageMainFrameError()
     }
 
     override fun onMainFrameError(
-        view: com.tencent.smtt.sdk.WebView,
-        errorCode: Int,
-        description: String,
-        failingUrl: String
+        view: X5WebView, errorCode: Int, description: String, failingUrl: String
     ) {
         Timber.i("mWebParentLayout onMainFrameError:" + mWebParentLayout!!)
         mWebParentLayout?.showPageMainFrameError()
@@ -390,9 +355,7 @@ open class DefaultUIController : AbsAgentWebUIController() {
     }
 
     override fun onPermissionsDeny(
-        permissions: Array<String>,
-        permissionType: String,
-        action: String
+        permissions: Array<String>, permissionType: String, action: String
     ) {
         //		AgentWebUtils.toastShowShort(mActivity.getApplicationContext(), "权限被冻结");
     }

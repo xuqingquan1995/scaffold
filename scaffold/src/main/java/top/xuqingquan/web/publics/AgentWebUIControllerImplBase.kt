@@ -2,65 +2,47 @@ package top.xuqingquan.web.publics
 
 import android.app.Activity
 import android.os.Handler
+import android.webkit.JsPromptResult
+import android.webkit.JsResult
+import android.webkit.WebView
+import com.tencent.smtt.sdk.WebView as X5WebView
+import com.tencent.smtt.export.external.interfaces.JsResult as X5JsResult
+import com.tencent.smtt.export.external.interfaces.JsPromptResult as X5JsPromptResult
 
 class AgentWebUIControllerImplBase : AbsAgentWebUIController() {
 
-    override fun onJsAlert(view: android.webkit.WebView, url: String, message: String) {
+    override fun onJsAlert(view: WebView, url: String, message: String) {
         getDelegate().onJsAlert(view, url, message)
     }
 
-    override fun onJsAlert(view: com.tencent.smtt.sdk.WebView, url: String, message: String) {
+    override fun onJsAlert(view: X5WebView, url: String, message: String) {
         getDelegate().onJsAlert(view, url, message)
     }
 
-    override fun onOpenPagePrompt(
-        view: android.webkit.WebView,
-        url: String,
-        callback: Handler.Callback
-    ) {
+    override fun onOpenPagePrompt(view: WebView, url: String, callback: Handler.Callback) {
         getDelegate().onOpenPagePrompt(view, url, callback)
     }
 
-    override fun onOpenPagePrompt(
-        view: com.tencent.smtt.sdk.WebView,
-        url: String,
-        callback: Handler.Callback
-    ) {
+    override fun onOpenPagePrompt(view: X5WebView, url: String, callback: Handler.Callback) {
         getDelegate().onOpenPagePrompt(view, url, callback)
     }
 
-    override fun onJsConfirm(
-        view: android.webkit.WebView,
-        url: String,
-        message: String,
-        jsResult: android.webkit.JsResult
-    ) {
+    override fun onJsConfirm(view: WebView, url: String, message: String, jsResult: JsResult) {
         getDelegate().onJsConfirm(view, url, message, jsResult)
     }
 
-    override fun onJsConfirm(
-        view: com.tencent.smtt.sdk.WebView,
-        url: String,
-        message: String,
-        jsResult: com.tencent.smtt.export.external.interfaces.JsResult
-    ) {
+    override fun onJsConfirm(view: X5WebView, url: String, message: String, jsResult: X5JsResult) {
         getDelegate().onJsConfirm(view, url, message, jsResult)
     }
 
     override fun onSelectItemsPrompt(
-        view: android.webkit.WebView,
-        url: String,
-        ways: Array<String>,
-        callback: Handler.Callback
+        view: WebView, url: String, ways: Array<String>, callback: Handler.Callback
     ) {
         getDelegate().onSelectItemsPrompt(view, url, ways, callback)
     }
 
     override fun onSelectItemsPrompt(
-        view: com.tencent.smtt.sdk.WebView,
-        url: String,
-        ways: Array<String>,
-        callback: Handler.Callback
+        view: X5WebView, url: String, ways: Array<String>, callback: Handler.Callback
     ) {
         getDelegate().onSelectItemsPrompt(view, url, ways, callback)
     }
@@ -74,39 +56,27 @@ class AgentWebUIControllerImplBase : AbsAgentWebUIController() {
     }
 
     override fun onJsPrompt(
-        view: android.webkit.WebView,
-        url: String,
-        message: String,
-        defaultValue: String,
-        jsPromptResult: android.webkit.JsPromptResult
+        view: WebView, url: String, message: String,
+        defaultValue: String, jsPromptResult: JsPromptResult
     ) {
         getDelegate().onJsPrompt(view, url, message, defaultValue, jsPromptResult)
     }
 
     override fun onJsPrompt(
-        view: com.tencent.smtt.sdk.WebView,
-        url: String,
-        message: String,
-        defaultValue: String,
-        jsPromptResult: com.tencent.smtt.export.external.interfaces.JsPromptResult
+        view: X5WebView, url: String, message: String,
+        defaultValue: String, jsPromptResult: X5JsPromptResult
     ) {
         getDelegate().onJsPrompt(view, url, message, defaultValue, jsPromptResult)
     }
 
     override fun onMainFrameError(
-        view: android.webkit.WebView,
-        errorCode: Int,
-        description: String,
-        failingUrl: String
+        view: WebView, errorCode: Int, description: String, failingUrl: String
     ) {
         getDelegate().onMainFrameError(view, errorCode, description, failingUrl)
     }
 
     override fun onMainFrameError(
-        view: com.tencent.smtt.sdk.WebView,
-        errorCode: Int,
-        description: String,
-        failingUrl: String
+        view: X5WebView, errorCode: Int, description: String, failingUrl: String
     ) {
         getDelegate().onMainFrameError(view, errorCode, description, failingUrl)
     }
@@ -129,9 +99,7 @@ class AgentWebUIControllerImplBase : AbsAgentWebUIController() {
     }
 
     override fun onPermissionsDeny(
-        permissions: Array<String>,
-        permissionType: String,
-        action: String
+        permissions: Array<String>, permissionType: String, action: String
     ) {
         getDelegate().onPermissionsDeny(permissions, permissionType, action)
     }

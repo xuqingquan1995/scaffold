@@ -4,10 +4,18 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.os.AsyncTask
 import android.os.Build
+import android.webkit.CookieManager
+import android.webkit.CookieSyncManager
+import android.webkit.ValueCallback
+import android.webkit.WebView
 import top.xuqingquan.utils.Timber
 import top.xuqingquan.web.nokernel.WebConfig.DEBUG
 import top.xuqingquan.web.nokernel.WebConfig.IS_INITIALIZED
 import top.xuqingquan.web.nokernel.WebConfig.hasX5
+import com.tencent.smtt.sdk.CookieManager as X5CookieManager
+import com.tencent.smtt.sdk.CookieSyncManager as X5CookieSyncManager
+import com.tencent.smtt.sdk.ValueCallback as X5ValueCallback
+import com.tencent.smtt.sdk.WebView as X5WebView
 
 @Suppress("DEPRECATION")
 @SuppressLint("ObsoleteSdkInt")
@@ -18,9 +26,9 @@ object AgentWebConfig {
         DEBUG = true
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             if (hasX5()) {
-                com.tencent.smtt.sdk.WebView.setWebContentsDebuggingEnabled(true)
+                X5WebView.setWebContentsDebuggingEnabled(true)
             } else {
-                android.webkit.WebView.setWebContentsDebuggingEnabled(true)
+                WebView.setWebContentsDebuggingEnabled(true)
             }
         }
     }
@@ -29,49 +37,49 @@ object AgentWebConfig {
     @JvmStatic
     fun getCookiesByUrl(url: String): String? {
         return if (hasX5()) {
-            if (com.tencent.smtt.sdk.CookieManager.getInstance() == null) {
+            if (X5CookieManager.getInstance() == null) {
                 null
             } else {
-                com.tencent.smtt.sdk.CookieManager.getInstance().getCookie(url)
+                X5CookieManager.getInstance().getCookie(url)
             }
         } else {
-            if (android.webkit.CookieManager.getInstance() == null) {
+            if (CookieManager.getInstance() == null) {
                 null
             } else {
-                android.webkit.CookieManager.getInstance().getCookie(url)
+                CookieManager.getInstance().getCookie(url)
             }
         }
     }
 
     @JvmStatic
-    fun removeAllCookies(callback_o: android.webkit.ValueCallback<Boolean>?) {
+    fun removeAllCookies(callback_o: ValueCallback<Boolean>?) {
         var callback = callback_o
         if (callback == null) {
             callback = getDefaultIgnoreCallback()
         }
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            android.webkit.CookieManager.getInstance().removeAllCookie()
+            CookieManager.getInstance().removeAllCookie()
             toSyncCookies()
-            callback.onReceiveValue(!android.webkit.CookieManager.getInstance().hasCookies())
+            callback.onReceiveValue(!CookieManager.getInstance().hasCookies())
             return
         }
-        android.webkit.CookieManager.getInstance().removeAllCookies(callback)
+        CookieManager.getInstance().removeAllCookies(callback)
         toSyncCookies()
     }
 
     @JvmStatic
-    fun removeAllX5Cookies(callback_o: com.tencent.smtt.sdk.ValueCallback<Boolean>?) {
+    fun removeAllX5Cookies(callback_o: X5ValueCallback<Boolean>?) {
         var callback = callback_o
         if (callback == null) {
             callback = getX5DefaultIgnoreCallback()
         }
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            com.tencent.smtt.sdk.CookieManager.getInstance().removeAllCookie()
+            X5CookieManager.getInstance().removeAllCookie()
             toSyncCookies()
-            callback.onReceiveValue(!com.tencent.smtt.sdk.CookieManager.getInstance().hasCookies())
+            callback.onReceiveValue(!X5CookieManager.getInstance().hasCookies())
             return
         }
-        com.tencent.smtt.sdk.CookieManager.getInstance().removeAllCookies(callback)
+        X5CookieManager.getInstance().removeAllCookies(callback)
         toSyncCookies()
     }
 
@@ -87,9 +95,9 @@ object AgentWebConfig {
     private fun createCookiesSyncInstance(context: Context) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             if (hasX5()) {
-                com.tencent.smtt.sdk.CookieSyncManager.createInstance(context)
+                X5CookieSyncManager.createInstance(context)
             } else {
-                android.webkit.CookieSyncManager.createInstance(context)
+                CookieSyncManager.createInstance(context)
             }
         }
     }
@@ -97,31 +105,31 @@ object AgentWebConfig {
     private fun toSyncCookies() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             if (hasX5()) {
-                com.tencent.smtt.sdk.CookieSyncManager.getInstance().sync()
+                X5CookieSyncManager.getInstance().sync()
             } else {
-                android.webkit.CookieSyncManager.getInstance().sync()
+                CookieSyncManager.getInstance().sync()
             }
             return
         }
         if (hasX5()) {
             AsyncTask.THREAD_POOL_EXECUTOR.execute {
-                com.tencent.smtt.sdk.CookieManager.getInstance().flush()
+                X5CookieManager.getInstance().flush()
             }
         } else {
             AsyncTask.THREAD_POOL_EXECUTOR.execute {
-                android.webkit.CookieManager.getInstance().flush()
+                CookieManager.getInstance().flush()
             }
         }
     }
 
-    private fun getDefaultIgnoreCallback(): android.webkit.ValueCallback<Boolean> {
-        return android.webkit.ValueCallback {
+    private fun getDefaultIgnoreCallback(): ValueCallback<Boolean> {
+        return ValueCallback {
             Timber.i("removeExpiredCookies:$it")
         }
     }
 
-    private fun getX5DefaultIgnoreCallback(): com.tencent.smtt.sdk.ValueCallback<Boolean> {
-        return com.tencent.smtt.sdk.ValueCallback {
+    private fun getX5DefaultIgnoreCallback(): X5ValueCallback<Boolean> {
+        return X5ValueCallback {
             Timber.i("removeExpiredCookies:$it")
         }
     }

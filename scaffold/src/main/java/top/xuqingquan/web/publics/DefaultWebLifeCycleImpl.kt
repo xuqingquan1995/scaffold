@@ -1,17 +1,20 @@
 package top.xuqingquan.web.publics
 
+import android.webkit.WebView
 import top.xuqingquan.web.nokernel.WebConfig
 import top.xuqingquan.web.nokernel.WebLifeCycle
 
-class DefaultWebLifeCycleImpl : WebLifeCycle {
-    private var mWebView: android.webkit.WebView? = null
-    private var mX5WebView: com.tencent.smtt.sdk.WebView? = null
+import com.tencent.smtt.sdk.WebView as X5WebView
 
-    constructor(webView: android.webkit.WebView?) {
+class DefaultWebLifeCycleImpl : WebLifeCycle {
+    private var mWebView: WebView? = null
+    private var mX5WebView: X5WebView? = null
+
+    constructor(webView: WebView?) {
         this.mWebView = webView
     }
 
-    constructor(webView: com.tencent.smtt.sdk.WebView?) {
+    constructor(webView: X5WebView?) {
         this.mX5WebView = webView
     }
 

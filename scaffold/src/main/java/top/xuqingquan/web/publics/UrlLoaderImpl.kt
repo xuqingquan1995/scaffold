@@ -2,19 +2,22 @@ package top.xuqingquan.web.publics
 
 import android.os.Handler
 import android.os.Looper
+import android.webkit.WebView
 import top.xuqingquan.utils.Timber
 import top.xuqingquan.web.nokernel.HttpHeaders
 import top.xuqingquan.web.nokernel.IUrlLoader
 import top.xuqingquan.web.nokernel.WebConfig
 import top.xuqingquan.web.nokernel.WebUtils
 
+import com.tencent.smtt.sdk.WebView as X5WebView
+
 class UrlLoaderImpl : IUrlLoader {
     private var mHandler: Handler? = null
-    private var mWebView: android.webkit.WebView? = null
-    private var mx5WebView: com.tencent.smtt.sdk.WebView? = null
+    private var mWebView: WebView? = null
+    private var mx5WebView: X5WebView? = null
     private var mHttpHeaders: HttpHeaders? = null
 
-    constructor(webView: android.webkit.WebView?, httpHeaders: HttpHeaders?) {
+    constructor(webView: WebView?, httpHeaders: HttpHeaders?) {
         this.mWebView = webView
         if (this.mWebView == null) {
             throw NullPointerException("webview cannot be null .")
@@ -26,7 +29,7 @@ class UrlLoaderImpl : IUrlLoader {
         mHandler = Handler(Looper.getMainLooper())
     }
 
-    constructor(webView: com.tencent.smtt.sdk.WebView?, httpHeaders: HttpHeaders?) {
+    constructor(webView: X5WebView?, httpHeaders: HttpHeaders?) {
         this.mx5WebView = webView
         if (this.mx5WebView == null) {
             throw NullPointerException("webview cannot be null .")

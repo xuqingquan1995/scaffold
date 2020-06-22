@@ -7,26 +7,25 @@ import android.graphics.Color
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.webkit.WebChromeClient
+import android.webkit.WebView
 import android.widget.FrameLayout
 import androidx.core.util.Pair
-import com.tencent.smtt.export.external.interfaces.IX5WebChromeClient
 import top.xuqingquan.web.nokernel.EventInterceptor
-import top.xuqingquan.web.nokernel.WebConfig
 
-class VideoImpl(mActivity: Activity, webView: android.webkit.WebView?) : IVideo, EventInterceptor {
+class VideoImpl(mActivity: Activity, webView: WebView?) : IVideo, EventInterceptor {
 
     private var mActivity: Activity? = mActivity
-    private var mWebView: android.webkit.WebView? = webView
+    private var mWebView: WebView? = webView
     private var mFlags = mutableSetOf<Pair<Int, Int>>()
     private var mMoiveView: View? = null
     private var mMoiveParentView: ViewGroup? = null
-    private var mCallback: android.webkit.WebChromeClient.CustomViewCallback? = null
-    private var mx5Callback: IX5WebChromeClient.CustomViewCallback? = null
+    private var mCallback: WebChromeClient.CustomViewCallback? = null
 
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onShowCustomView(
         view: View,
-        callback: android.webkit.WebChromeClient.CustomViewCallback
+        callback: WebChromeClient.CustomViewCallback
     ) {
         val mActivity = this.mActivity
         if (mActivity == null || mActivity.isFinishing || mActivity.isDestroyed) {
@@ -92,12 +91,8 @@ class VideoImpl(mActivity: Activity, webView: android.webkit.WebView?) : IVideo,
         }
         mMoiveParentView?.visibility = View.GONE
         this.mMoiveView = null
-        if (WebConfig.hasX5()) {
-            mx5Callback?.onCustomViewHidden()
-        } else {
-            mCallback?.onCustomViewHidden()
-            mWebView?.visibility = View.VISIBLE
-        }
+        mCallback?.onCustomViewHidden()
+        mWebView?.visibility = View.VISIBLE
     }
 
     override fun isVideoState() = mMoiveView != null

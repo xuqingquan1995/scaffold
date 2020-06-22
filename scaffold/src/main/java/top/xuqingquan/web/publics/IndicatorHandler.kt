@@ -1,15 +1,18 @@
 package top.xuqingquan.web.publics
 
+import android.webkit.WebView
 import top.xuqingquan.web.nokernel.BaseIndicatorSpec
+
+import com.tencent.smtt.sdk.WebView as X5WebView
 
 class IndicatorHandler : IndicatorController {
     private var mBaseIndicatorSpec: BaseIndicatorSpec? = null
 
-    override fun progress(v: android.webkit.WebView, newProgress: Int) {
+    override fun progress(v: WebView, newProgress: Int) {
         progress(newProgress)
     }
 
-    override fun progress(v: com.tencent.smtt.sdk.WebView, newProgress: Int) {
+    override fun progress(v: X5WebView, newProgress: Int) {
         progress(newProgress)
     }
 
