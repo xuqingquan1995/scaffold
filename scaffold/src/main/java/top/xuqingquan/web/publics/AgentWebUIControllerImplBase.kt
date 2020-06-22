@@ -13,11 +13,19 @@ class AgentWebUIControllerImplBase : AbsAgentWebUIController() {
         getDelegate().onJsAlert(view, url, message)
     }
 
-    override fun onOpenPagePrompt(view: android.webkit.WebView, url: String, callback: Handler.Callback) {
+    override fun onOpenPagePrompt(
+        view: android.webkit.WebView,
+        url: String,
+        callback: Handler.Callback
+    ) {
         getDelegate().onOpenPagePrompt(view, url, callback)
     }
 
-    override fun onOpenPagePrompt(view: com.tencent.smtt.sdk.WebView, url: String, callback: Handler.Callback) {
+    override fun onOpenPagePrompt(
+        view: com.tencent.smtt.sdk.WebView,
+        url: String,
+        callback: Handler.Callback
+    ) {
         getDelegate().onOpenPagePrompt(view, url, callback)
     }
 
@@ -57,8 +65,12 @@ class AgentWebUIControllerImplBase : AbsAgentWebUIController() {
         getDelegate().onSelectItemsPrompt(view, url, ways, callback)
     }
 
-    override fun onForceDownloadAlert(url: String, callback: Handler.Callback) {
-        getDelegate().onForceDownloadAlert(url, callback)
+    override fun onForceDownloadAlert(callback: Handler.Callback) {
+        getDelegate().onForceDownloadAlert(callback)
+    }
+
+    override fun onDownloadPrompt(fileName: String, callback: Handler.Callback) {
+        getDelegate().onDownloadPrompt(fileName, callback)
     }
 
     override fun onJsPrompt(
@@ -116,7 +128,11 @@ class AgentWebUIControllerImplBase : AbsAgentWebUIController() {
         getDelegate().onShowMessage(message, intent)
     }
 
-    override fun onPermissionsDeny(permissions: Array<String>, permissionType: String, action: String) {
+    override fun onPermissionsDeny(
+        permissions: Array<String>,
+        permissionType: String,
+        action: String
+    ) {
         getDelegate().onPermissionsDeny(permissions, permissionType, action)
     }
 

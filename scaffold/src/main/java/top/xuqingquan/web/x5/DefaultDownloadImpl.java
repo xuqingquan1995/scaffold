@@ -118,15 +118,7 @@ public class DefaultDownloadImpl implements DownloadListener {
 
     @Nullable
     protected ResourceRequest createResourceRequest(String url) {
-        String fileName = "";
-        try {
-            if (url.contains("?")) {
-                fileName = url.substring(url.lastIndexOf("/") + 1, url.indexOf("?"));
-            } else {
-                fileName = url.substring(url.lastIndexOf("/") + 1);
-            }
-        } catch (Throwable ignored) {
-        }
+        String fileName = convertUrl2FileName(url);
         File downloadFile = new File(FileUtils.getCacheFilePath(mContext), fileName);
         if (downloadFile.exists()) {
             Timber.d("文件已存在");
@@ -144,6 +136,25 @@ public class DefaultDownloadImpl implements DownloadListener {
                 .target(downloadFile, mContext.getPackageName() + ".ScaffoldFileProvider")
                 .setEnableIndicator(true)
                 .autoOpenIgnoreMD5();
+    }
+
+    @NonNull
+    private String convertUrl2FileName(String url) {
+        String fileName;
+        try {
+            int lastIndexOf = url.lastIndexOf("/");
+            if (lastIndexOf != url.length() - 1) {//如果已经不是最后一项了
+                lastIndexOf += 1;
+            }
+            if (url.contains("?")) {
+                fileName = url.substring(lastIndexOf, url.indexOf("?"));
+            } else {
+                fileName = url.substring(lastIndexOf);
+            }
+        } catch (Throwable e) {
+            fileName = url;
+        }
+        return fileName;
     }
 
     protected ActionActivity.PermissionListener getPermissionListener(final String url) {
@@ -174,13 +185,22 @@ public class DefaultDownloadImpl implements DownloadListener {
     }
 
     protected void preDownload(String url) {
-        // 移动数据
-        if (!isForceRequest(url) &&
-                NetUtils.checkNetworkType(mContext) > 1) {
-            showDialog(url);
+        Activity mActivity = mActivityWeakReference.get();
+        if (null == mActivity || mActivity.isFinishing()) {
             return;
         }
-        performDownload(url);
+        AbsAgentWebUIController mAgentWebUIController = this.mAgentWebUIController.get();
+        if (mAgentWebUIController != null) {
+            mAgentWebUIController.onDownloadPrompt(convertUrl2FileName(url), res -> {
+                // 移动数据
+                if (!isForceRequest(url) && NetUtils.checkNetworkType(mContext) > 1) {
+                    showDialog(url);
+                    return true;
+                }
+                performDownload(url);
+                return true;
+            });
+        }
     }
 
     protected boolean isForceRequest(String url) {
@@ -198,13 +218,13 @@ public class DefaultDownloadImpl implements DownloadListener {
     }
 
     protected void showDialog(final String url) {
-        Activity mActivity;
-        if (null == (mActivity = mActivityWeakReference.get()) || mActivity.isFinishing()) {
+        Activity mActivity = mActivityWeakReference.get();
+        if (null == mActivity || mActivity.isFinishing()) {
             return;
         }
-        AbsAgentWebUIController mAgentWebUIController;
-        if (null != (mAgentWebUIController = this.mAgentWebUIController.get())) {
-            mAgentWebUIController.onForceDownloadAlert(url, createCallback(url));
+        AbsAgentWebUIController mAgentWebUIController = this.mAgentWebUIController.get();
+        if (null != mAgentWebUIController) {
+            mAgentWebUIController.onForceDownloadAlert(createCallback(url));
         }
     }
 

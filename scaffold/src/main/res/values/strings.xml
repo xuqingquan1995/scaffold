@@ -6,6 +6,7 @@
     <string name="scaffold_download_file_has_been_exist">文件已存在,无需重复下载!</string>
     <string name="scaffold_tips">提示</string>
     <string name="scaffold_honeycomblow">您正在使用手机流量 ， 继续下载该文件吗?</string>
+    <string name="scaffold_download_file_tips">是否允许下载%s?</string>
     <string name="scaffold_download">下载</string>
     <string name="scaffold_cancel">取消</string>
     <string name="scaffold_camera">相机</string>

@@ -69,7 +69,6 @@ dependencies {
     implementation rootProject.ext.deps.paging
     implementation rootProject.ext.deps.room
     implementation rootProject.ext.deps.tbs
-    implementation rootProject.ext.deps.Downloader
     implementation files('libs/newssdk-release.aar')
     implementation 'com.swift.sandhook:hooklib:4.2.0'
     // need for android 11

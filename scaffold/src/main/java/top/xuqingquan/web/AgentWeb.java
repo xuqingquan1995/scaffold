@@ -150,13 +150,15 @@ public final class AgentWeb {
             this.mX5AgentWebSettings = agentBuilder.mX5AgentWebSettings;
             this.mX5MiddleWrareWebClientBaseHeader = agentBuilder.mX5MiddlewareWebClientBaseHeader;
             this.mX5MiddlewareWebChromeBaseHeader = agentBuilder.mX5ChromeMiddleWareHeader;
-            this.mIUrlLoader = new UrlLoaderImpl(getX5WebCreator().create().getWebView(), agentBuilder.mHttpHeaders);
-            this.mWebLifeCycle = new DefaultWebLifeCycleImpl(getX5WebCreator().getWebView());
-            if (getX5WebCreator().getWebParentLayout() instanceof WebParentLayout) {
-                WebParentLayout mWebParentLayout = (WebParentLayout) getX5WebCreator().getWebParentLayout();
-                mWebParentLayout.bindController(agentBuilder.mAgentWebUIController == null ? AgentWebUIControllerImplBase.build() : agentBuilder.mAgentWebUIController);
-                mWebParentLayout.setErrorLayoutRes(agentBuilder.mErrorLayout, agentBuilder.mReloadId);
-                mWebParentLayout.setErrorView(agentBuilder.mErrorView);
+            if (getX5WebCreator() != null) {
+                this.mIUrlLoader = new UrlLoaderImpl(getX5WebCreator().create().getWebView(), agentBuilder.mHttpHeaders);
+                this.mWebLifeCycle = new DefaultWebLifeCycleImpl(getX5WebCreator().getWebView());
+                if (getX5WebCreator().getWebParentLayout() instanceof WebParentLayout) {
+                    WebParentLayout mWebParentLayout = (WebParentLayout) getX5WebCreator().getWebParentLayout();
+                    mWebParentLayout.bindController(agentBuilder.mAgentWebUIController == null ? AgentWebUIControllerImplBase.build() : agentBuilder.mAgentWebUIController);
+                    mWebParentLayout.setErrorLayoutRes(agentBuilder.mErrorLayout, agentBuilder.mReloadId);
+                    mWebParentLayout.setErrorView(agentBuilder.mErrorView);
+                }
             }
         } else {
             this.mWebChromeClient = agentBuilder.mWebChromeClient;
@@ -164,13 +166,15 @@ public final class AgentWeb {
             this.mAgentWebSettings = agentBuilder.mAgentWebSettings;
             this.mMiddleWrareWebClientBaseHeader = agentBuilder.mMiddlewareWebClientBaseHeader;
             this.mMiddlewareWebChromeBaseHeader = agentBuilder.mChromeMiddleWareHeader;
-            this.mIUrlLoader = new UrlLoaderImpl(getWebCreator().create().getWebView(), agentBuilder.mHttpHeaders);
-            this.mWebLifeCycle = new DefaultWebLifeCycleImpl(getWebCreator().getWebView());
-            if (getWebCreator().getWebParentLayout() instanceof WebParentLayout) {
-                WebParentLayout mWebParentLayout = (WebParentLayout) getWebCreator().getWebParentLayout();
-                mWebParentLayout.bindController(agentBuilder.mAgentWebUIController == null ? AgentWebUIControllerImplBase.build() : agentBuilder.mAgentWebUIController);
-                mWebParentLayout.setErrorLayoutRes(agentBuilder.mErrorLayout, agentBuilder.mReloadId);
-                mWebParentLayout.setErrorView(agentBuilder.mErrorView);
+            if (getWebCreator() != null) {
+                this.mIUrlLoader = new UrlLoaderImpl(getWebCreator().create().getWebView(), agentBuilder.mHttpHeaders);
+                this.mWebLifeCycle = new DefaultWebLifeCycleImpl(getWebCreator().getWebView());
+                if (getWebCreator().getWebParentLayout() instanceof WebParentLayout) {
+                    WebParentLayout mWebParentLayout = (WebParentLayout) getWebCreator().getWebParentLayout();
+                    mWebParentLayout.bindController(agentBuilder.mAgentWebUIController == null ? AgentWebUIControllerImplBase.build() : agentBuilder.mAgentWebUIController);
+                    mWebParentLayout.setErrorLayoutRes(agentBuilder.mErrorLayout, agentBuilder.mReloadId);
+                    mWebParentLayout.setErrorView(agentBuilder.mErrorView);
+                }
             }
         }
         if (agentBuilder.mJavaObject != null && !agentBuilder.mJavaObject.isEmpty()) {

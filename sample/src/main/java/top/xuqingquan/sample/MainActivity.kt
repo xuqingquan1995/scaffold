@@ -14,6 +14,7 @@ import top.xuqingquan.base.view.adapter.listadapter.SimplePagedListAdapter
 import top.xuqingquan.extension.*
 import top.xuqingquan.http.log.Level
 import top.xuqingquan.utils.Timber
+import top.xuqingquan.utils.startActivity
 
 class MainActivity : SimpleActivity() {
 
@@ -86,13 +87,13 @@ class MainActivity : SimpleActivity() {
         adapter.listener = object : SimplePagedListAdapter.OnViewClickListener<Subjects>() {
             override fun onClick(view: View, position: Int, data: Subjects?, viewType: Int) {
 //                toast("onClick---data===>${data?.title}")
-//                startActivity<WebActivity>(
-//                    if (position == 0) {
-//                        "url" to "http://debugtbs.qq.com"
-//                    } else {
-//                        "data" to ""
-//                    }
-//                )
+                startActivity<WebActivity>(
+                    if (position == 0) {
+                        "url" to "http://debugtbs.qq.com"
+                    } else {
+                        "data" to ""
+                    }
+                )
             }
 
             override fun onLongClick(

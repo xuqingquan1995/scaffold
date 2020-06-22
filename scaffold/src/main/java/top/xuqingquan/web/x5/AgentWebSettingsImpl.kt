@@ -1,19 +1,13 @@
 package top.xuqingquan.web.x5
 
-import android.app.DownloadManager
-import android.content.Intent
-import android.content.IntentFilter
-import android.net.Uri
-import androidx.core.content.ContextCompat
+import android.os.Handler
 import com.tencent.smtt.sdk.DownloadListener
 import com.tencent.smtt.sdk.WebView
 import top.xuqingquan.app.ScaffoldConfig
 import top.xuqingquan.utils.Timber
-import top.xuqingquan.utils.getCacheFilePath
+import top.xuqingquan.utils.download
 import top.xuqingquan.web.AgentWeb
-import top.xuqingquan.web.nokernel.DownLoadBroadcast
-import top.xuqingquan.web.nokernel.WebUtils.getCommonFileIntentCompat
-import java.io.File
+import top.xuqingquan.web.publics.AgentWebUtils
 
 class AgentWebSettingsImpl : AbsAgentWebSettings() {
     private var mAgentWeb: AgentWeb? = null
@@ -58,28 +52,14 @@ class AgentWebSettingsImpl : AbsAgentWebSettings() {
                     } catch (e: Throwable) {
                         url
                     }
-                    val downloadPath = getCacheFilePath(mContext)
-                    val downloadFile = File(downloadPath, fileName)
-                    if (downloadFile.exists()) {
-                        val mIntent = getCommonFileIntentCompat(mContext, downloadFile)
-                        mIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        mContext.startActivity(mIntent)
-                        return@DownloadListener
-                    }
-                    val downloadManager =
-                        ContextCompat.getSystemService(mContext, DownloadManager::class.java)
-                    if (downloadManager != null) {
-                        val request = DownloadManager.Request(Uri.parse(url))
-                        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-                        request.setDestinationInExternalFilesDir(
-                            mContext,
-                            "/",
-                            fileName
-                        )
-                        downloadManager.enqueue(request)
-                        val intentFilter = IntentFilter()
-                        intentFilter.addAction(DownloadManager.ACTION_DOWNLOAD_COMPLETE)
-                        mContext.registerReceiver(DownLoadBroadcast(), intentFilter)
+                    val uiController = AgentWebUtils.getAgentWebUIControllerByWebView(webView)
+                    if (uiController != null) {
+                        uiController.onDownloadPrompt(fileName, Handler.Callback {
+                            download(mContext, fileName, url)
+                            return@Callback true
+                        })
+                    } else {
+                        download(mContext, fileName, url)
                     }
                 }
             } catch (tt: Throwable) {

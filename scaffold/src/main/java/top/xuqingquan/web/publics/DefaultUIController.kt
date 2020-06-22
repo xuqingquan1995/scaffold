@@ -4,33 +4,35 @@ package top.xuqingquan.web.publics
 
 import android.app.Activity
 import android.app.ProgressDialog
-import android.content.res.Resources
 import android.os.Handler
 import android.os.Message
 import android.text.TextUtils
+import android.webkit.JsPromptResult
+import android.webkit.JsResult
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import top.xuqingquan.R
 import top.xuqingquan.utils.Timber
 import top.xuqingquan.utils.getApplicationName
 import top.xuqingquan.web.nokernel.WebUtils
+import com.tencent.smtt.export.external.interfaces.JsPromptResult as X5JsPromptResult
+import com.tencent.smtt.export.external.interfaces.JsResult as X5JsResult
 
 open class DefaultUIController : AbsAgentWebUIController() {
 
     private var mAlertDialog: AlertDialog? = null
     private var mConfirmDialog: AlertDialog? = null
-    private var mJsPromptResult: android.webkit.JsPromptResult? = null
-    private var mJsResult: android.webkit.JsResult? = null
-    private var mX5JsPromptResult: com.tencent.smtt.export.external.interfaces.JsPromptResult? =
-        null
-    private var mX5JsResult: com.tencent.smtt.export.external.interfaces.JsResult? = null
+    private var mJsPromptResult: JsPromptResult? = null
+    private var mJsResult: JsResult? = null
+    private var mX5JsPromptResult: X5JsPromptResult? = null
+    private var mX5JsResult: X5JsResult? = null
     private var mPromptDialog: AlertDialog? = null
     private var mActivity: Activity? = null
     private var mWebParentLayout: WebParentLayout? = null
     private var mAskOpenOtherAppDialog: AlertDialog? = null
     private var mProgressDialog: ProgressDialog? = null
     private var mAlertDialogForceDownload: AlertDialog? = null
-    private var mResources: Resources? = null
+    private var mAlertDialogDownload: AlertDialog? = null
 
     override fun onJsAlert(view: android.webkit.WebView, url: String, message: String) {
         WebUtils.toastShowShort(view.context.applicationContext, message)
@@ -63,17 +65,17 @@ open class DefaultUIController : AbsAgentWebUIController() {
         }
         if (mAskOpenOtherAppDialog == null) {
             mAskOpenOtherAppDialog = AlertDialog.Builder(this.mActivity!!)
+                .setTitle(R.string.scaffold_tips)
                 .setMessage(
-                    mResources!!.getString(
+                    this.mActivity!!.getString(
                         R.string.scaffold_leave_app_and_go_other_page,
                         getApplicationName(mActivity!!)
                     )
                 )//
-                .setTitle(mResources!!.getString(R.string.scaffold_tips))
-                .setNegativeButton(android.R.string.cancel) { _, _ ->
+                .setNegativeButton(R.string.scaffold_cancel) { _, _ ->
                     callback?.handleMessage(Message.obtain(null, -1))
                 }//
-                .setPositiveButton(mResources!!.getString(R.string.scaffold_leave)) { _, _ ->
+                .setPositiveButton(R.string.scaffold_leave) { _, _ ->
                     callback?.handleMessage(Message.obtain(null, 1))
                 }
                 .create()
@@ -85,7 +87,7 @@ open class DefaultUIController : AbsAgentWebUIController() {
         view: android.webkit.WebView,
         url: String,
         message: String,
-        jsResult: android.webkit.JsResult
+        jsResult: JsResult
     ) {
         onJsConfirmInternal(message, jsResult)
     }
@@ -94,7 +96,7 @@ open class DefaultUIController : AbsAgentWebUIController() {
         view: com.tencent.smtt.sdk.WebView,
         url: String,
         message: String,
-        jsResult: com.tencent.smtt.export.external.interfaces.JsResult
+        jsResult: X5JsResult
     ) {
         onJsConfirmInternal(message, jsResult)
     }
@@ -117,27 +119,49 @@ open class DefaultUIController : AbsAgentWebUIController() {
         showChooserInternal(ways, callback)
     }
 
-    override fun onForceDownloadAlert(url: String, callback: Handler.Callback) {
+    override fun onForceDownloadAlert(callback: Handler.Callback) {
         onForceDownloadAlertInternal(callback)
     }
 
-    private fun onForceDownloadAlertInternal(callback: Handler.Callback?) {
+    private fun onForceDownloadAlertInternal(callback: Handler.Callback) {
         if (this.mActivity == null || this.mActivity!!.isFinishing || this.mActivity!!.isDestroyed) {
             return
         }
         if (mAlertDialogForceDownload == null) {
             mAlertDialogForceDownload = AlertDialog.Builder(this.mActivity!!)
-                .setTitle(mResources!!.getString(R.string.scaffold_tips))
-                .setMessage(mResources!!.getString(R.string.scaffold_honeycomblow))
-                .setNegativeButton(mResources!!.getString(R.string.scaffold_download)) { dialog, _ ->
+                .setTitle(R.string.scaffold_tips)
+                .setMessage(R.string.scaffold_honeycomblow)
+                .setNegativeButton(R.string.scaffold_download) { dialog, _ ->
                     dialog?.dismiss()
-                    callback?.handleMessage(Message.obtain())
+                    callback.handleMessage(Message.obtain())
                 }//
-                .setPositiveButton(mResources!!.getString(R.string.scaffold_cancel)) { dialog, _ ->
+                .setPositiveButton(R.string.scaffold_cancel) { dialog, _ ->
                     dialog?.dismiss()
                 }.create()
         }
         mAlertDialogForceDownload!!.show()
+    }
+
+    override fun onDownloadPrompt(fileName: String, callback: Handler.Callback) {
+        if (this.mActivity == null || this.mActivity!!.isFinishing || this.mActivity!!.isDestroyed) {
+            return
+        }
+        if (mAlertDialogDownload == null) {
+            mAlertDialogDownload = AlertDialog.Builder(this.mActivity!!)
+                .setTitle(R.string.scaffold_tips)
+                .setNegativeButton(R.string.scaffold_download) { dialog, _ ->
+                    dialog?.dismiss()
+                    callback.handleMessage(Message.obtain())
+                }//
+                .setPositiveButton(R.string.scaffold_cancel) { dialog, _ ->
+                    dialog?.dismiss()
+                }
+                .create()
+        }
+        mAlertDialogDownload!!.setMessage(
+            this.mActivity!!.getString(R.string.scaffold_download_file_tips, fileName)
+        )
+        mAlertDialogDownload!!.show()
     }
 
     private fun showChooserInternal(ways: Array<String>, callback: Handler.Callback?) {
@@ -163,7 +187,7 @@ open class DefaultUIController : AbsAgentWebUIController() {
         mAlertDialog!!.show()
     }
 
-    private fun onJsConfirmInternal(message: String, jsResult: android.webkit.JsResult) {
+    private fun onJsConfirmInternal(message: String, jsResult: JsResult) {
         if (this.mActivity == null || this.mActivity!!.isFinishing || this.mActivity!!.isDestroyed) {
             toCancelJsresult(jsResult)
             return
@@ -194,7 +218,7 @@ open class DefaultUIController : AbsAgentWebUIController() {
 
     private fun onJsConfirmInternal(
         message: String,
-        jsResult: com.tencent.smtt.export.external.interfaces.JsResult
+        jsResult: X5JsResult
     ) {
         if (this.mActivity == null || this.mActivity!!.isFinishing || this.mActivity!!.isDestroyed) {
             toCancelJsresult(jsResult)
@@ -227,7 +251,7 @@ open class DefaultUIController : AbsAgentWebUIController() {
     private fun onJsPromptInternal(
         message: String,
         defaultValue: String,
-        jsPromptResult: android.webkit.JsPromptResult
+        jsPromptResult: JsPromptResult
     ) {
         if (this.mActivity == null || this.mActivity!!.isFinishing || this.mActivity!!.isDestroyed) {
             jsPromptResult.cancel()
@@ -260,7 +284,7 @@ open class DefaultUIController : AbsAgentWebUIController() {
     private fun onJsPromptInternal(
         message: String,
         defaultValue: String,
-        jsPromptResult: com.tencent.smtt.export.external.interfaces.JsPromptResult
+        jsPromptResult: X5JsPromptResult
     ) {
         if (this.mActivity == null || this.mActivity!!.isFinishing || this.mActivity!!.isDestroyed) {
             jsPromptResult.cancel()
@@ -295,7 +319,7 @@ open class DefaultUIController : AbsAgentWebUIController() {
         url: String,
         message: String,
         defaultValue: String,
-        jsPromptResult: android.webkit.JsPromptResult
+        jsPromptResult: JsPromptResult
     ) {
         onJsPromptInternal(message, defaultValue, jsPromptResult)
     }
@@ -305,7 +329,7 @@ open class DefaultUIController : AbsAgentWebUIController() {
         url: String,
         message: String,
         defaultValue: String,
-        jsPromptResult: com.tencent.smtt.export.external.interfaces.JsPromptResult
+        jsPromptResult: X5JsPromptResult
     ) {
         onJsPromptInternal(message, defaultValue, jsPromptResult)
     }
@@ -373,17 +397,16 @@ open class DefaultUIController : AbsAgentWebUIController() {
         //		AgentWebUtils.toastShowShort(mActivity.getApplicationContext(), "权限被冻结");
     }
 
-    private fun toCancelJsresult(result: android.webkit.JsResult?) {
+    private fun toCancelJsresult(result: JsResult?) {
         result?.cancel()
     }
 
-    private fun toCancelJsresult(result: com.tencent.smtt.export.external.interfaces.JsResult?) {
+    private fun toCancelJsresult(result: X5JsResult?) {
         result?.cancel()
     }
 
     override fun bindSupportWebParent(webParentLayout: WebParentLayout, activity: Activity) {
         this.mActivity = activity
         this.mWebParentLayout = webParentLayout
-        mResources = this.mActivity?.resources
     }
 }

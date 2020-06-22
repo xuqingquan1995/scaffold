@@ -112,11 +112,11 @@ abstract class AbsAgentWebUIController {
 
     /**
      * 强制下载弹窗
-     *
-     * @param url      当前下载地址。
      * @param callback 用户操作回调回调
      */
-    abstract fun onForceDownloadAlert(url: String, callback: Handler.Callback)
+    abstract fun onForceDownloadAlert(callback: Handler.Callback)
+
+    abstract fun onDownloadPrompt(fileName: String, callback: Handler.Callback)
 
     /**
      * WebChromeClient#onJsPrompt
