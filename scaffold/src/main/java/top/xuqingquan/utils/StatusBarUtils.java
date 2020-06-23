@@ -164,23 +164,21 @@ public class StatusBarUtils {
     @TargetApi(28)
     private static void handleDisplayCutoutMode(final Window window) {
         View decorView = window.getDecorView();
-        if (decorView != null) {
-            if (ViewCompat.isAttachedToWindow(decorView)) {
-                realHandleDisplayCutoutMode(window, decorView);
-            } else {
-                decorView.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
-                    @Override
-                    public void onViewAttachedToWindow(View v) {
-                        v.removeOnAttachStateChangeListener(this);
-                        realHandleDisplayCutoutMode(window, v);
-                    }
+        if (ViewCompat.isAttachedToWindow(decorView)) {
+            realHandleDisplayCutoutMode(window, decorView);
+        } else {
+            decorView.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
+                @Override
+                public void onViewAttachedToWindow(View v) {
+                    v.removeOnAttachStateChangeListener(this);
+                    realHandleDisplayCutoutMode(window, v);
+                }
 
-                    @Override
-                    public void onViewDetachedFromWindow(View v) {
+                @Override
+                public void onViewDetachedFromWindow(View v) {
 
-                    }
-                });
-            }
+                }
+            });
         }
     }
 
@@ -211,18 +209,16 @@ public class StatusBarUtils {
         if (mStatusBarType != STATUSBAR_TYPE_DEFAULT) {
             return setStatusBarLightMode(activity, mStatusBarType);
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            if (isMIUICustomStatusBarLightModeImpl() && MIUISetStatusBarLightMode(activity.getWindow(), true)) {
-                mStatusBarType = STATUSBAR_TYPE_MIUI;
-                return true;
-            } else if (FlymeSetStatusBarLightMode(activity.getWindow(), true)) {
-                mStatusBarType = STATUSBAR_TYPE_FLYME;
-                return true;
-            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                Android6SetStatusBarLightMode(activity.getWindow(), true);
-                mStatusBarType = STATUSBAR_TYPE_ANDROID6;
-                return true;
-            }
+        if (isMIUICustomStatusBarLightModeImpl() && MIUISetStatusBarLightMode(activity.getWindow(), true)) {
+            mStatusBarType = STATUSBAR_TYPE_MIUI;
+            return true;
+        } else if (FlymeSetStatusBarLightMode(activity.getWindow(), true)) {
+            mStatusBarType = STATUSBAR_TYPE_FLYME;
+            return true;
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Android6SetStatusBarLightMode(activity.getWindow(), true);
+            mStatusBarType = STATUSBAR_TYPE_ANDROID6;
+            return true;
         }
         return false;
     }
@@ -315,14 +311,14 @@ public class StatusBarUtils {
      * @param light  是否把状态栏字体及图标颜色设置为深色
      * @return boolean 成功执行返回 true
      */
-    @SuppressWarnings("unchecked")
     public static boolean MIUISetStatusBarLightMode(Window window, boolean light) {
         boolean result = false;
         if (window != null) {
-            Class clazz = window.getClass();
+            Class<?> clazz = window.getClass();
             try {
                 int darkModeFlag;
-                Class layoutParams = Class.forName("android.view.MiuiWindowManager$LayoutParams");
+                @SuppressLint("PrivateApi")
+                Class<?> layoutParams = Class.forName("android.view.MiuiWindowManager$LayoutParams");
                 Field field = layoutParams.getField("EXTRA_FLAG_STATUS_BAR_DARK_MODE");
                 darkModeFlag = field.getInt(layoutParams);
                 Method extraFlagField = clazz.getMethod("setExtraFlags", int.class, int.class);
@@ -332,7 +328,7 @@ public class StatusBarUtils {
                     extraFlagField.invoke(window, 0, darkModeFlag);//清除黑色字体
                 }
                 result = true;
-            } catch (Exception ignored) {
+            } catch (Throwable ignored) {
 
             }
         }
@@ -359,6 +355,7 @@ public class StatusBarUtils {
      * @param light  是否把状态栏字体及图标颜色设置为深色
      * @return boolean 成功执行返回true
      */
+    @SuppressWarnings("JavaReflectionMemberAccess")
     public static boolean FlymeSetStatusBarLightMode(Window window, boolean light) {
         boolean result = false;
         if (window != null) {
@@ -386,7 +383,7 @@ public class StatusBarUtils {
                     meizuFlags.setInt(lp, value);
                     window.setAttributes(lp);
                     result = true;
-                } catch (Exception ignored) {
+                } catch (Throwable ignored) {
 
                 }
             }else if(RomUtils.isFlyme()){
@@ -406,7 +403,7 @@ public class StatusBarUtils {
         try {
             WindowManager.LayoutParams attrs = activity.getWindow().getAttributes();
             ret = (attrs.flags & WindowManager.LayoutParams.FLAG_FULLSCREEN) != 0;
-        } catch (Exception e) {
+        } catch (Throwable e) {
             e.printStackTrace();
         }
         return ret;
@@ -423,24 +420,24 @@ public class StatusBarUtils {
         String[] systemSharedLibraryNames = context.getPackageManager()
                 .getSystemSharedLibraryNames();
         String fieldName = null;
-        for (String lib : systemSharedLibraryNames) {
-            if ("touchwiz".equals(lib)) {
-                fieldName = "SYSTEM_UI_FLAG_TRANSPARENT_BACKGROUND";
-            } else if (lib.startsWith("com.sonyericsson.navigationbar")) {
-                fieldName = "SYSTEM_UI_FLAG_TRANSPARENT";
+        if (systemSharedLibraryNames != null) {
+            for (String lib : systemSharedLibraryNames) {
+                if ("touchwiz".equals(lib)) {
+                    fieldName = "SYSTEM_UI_FLAG_TRANSPARENT_BACKGROUND";
+                } else if (lib.startsWith("com.sonyericsson.navigationbar")) {
+                    fieldName = "SYSTEM_UI_FLAG_TRANSPARENT";
+                }
             }
         }
 
         if (fieldName != null) {
             try {
                 Field field = View.class.getField(fieldName);
-                if (field != null) {
-                    Class<?> type = field.getType();
-                    if (type == int.class) {
-                        sTransparentValue = field.getInt(null);
-                    }
+                Class<?> type = field.getType();
+                if (type == int.class) {
+                    sTransparentValue = field.getInt(null);
                 }
-            } catch (Exception ignored) {
+            } catch (Throwable ignored) {
             }
         }
         return sTransparentValue;
@@ -463,6 +460,7 @@ public class StatusBarUtils {
         return sStatusBarHeight;
     }
 
+    @SuppressLint("PrivateApi")
     private static void initStatusBarHeight(Context context) {
         Class<?> clazz;
         Object obj = null;
@@ -483,8 +481,9 @@ public class StatusBarUtils {
         } catch (Throwable t) {
             t.printStackTrace();
         }
-        if (field != null && obj != null) {
+        if (field != null) {
             try {
+                //noinspection ConstantConditions
                 int id = Integer.parseInt(field.get(obj).toString());
                 sStatusBarHeight = context.getResources().getDimensionPixelSize(id);
             } catch (Throwable t) {
@@ -715,7 +714,7 @@ public class StatusBarUtils {
                     return (int) ((f >= 0) ? (f + 0.5f) : (f - 0.5f));
                 }
             }
-        } catch (Resources.NotFoundException ignored) {
+        } catch (Throwable ignored) {
             return 0;
         }
         return result;
