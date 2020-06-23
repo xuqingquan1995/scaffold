@@ -22,7 +22,6 @@ ext {
             retrofit                : '2.9.0',
             gson                    : '2.8.6',
             okhttp                  : '4.7.2',
-            leakcanary              : '2.3',
             eventbus                : '3.2.0',
             lifecycle               : '2.2.0',
             recyclerview            : '1.2.0-alpha03',
@@ -83,11 +82,11 @@ ext {
             progressmanager           : "me.jessyan:progressmanager:${depsVer.progressmanager}",
             retrofit_url_manager      : "me.jessyan:retrofit-url-manager:${depsVer.retrofit_url_manager}",
             //debug
-            leakcanary                : "com.squareup.leakcanary:leakcanary-android:${depsVer.leakcanary}",
             logger                    : "com.orhanobut:logger:${depsVer.logger}",
             recovery                  : "com.zxy.android:recovery:${depsVer.recovery}",
             anrwatchdog               : "com.github.anrwatchdog:anrwatchdog:${depsVer.anrwatchdog}",
             doraemonkit               : "com.didichuxing.doraemonkit:doraemonkit:${depsVer.doraemonkit}",
+            doraemonkit_leakcanary    : "com.didichuxing.doraemonkit:doraemonkit-leakcanary:${depsVer.doraemonkit}",
             //message
             eventbus                  : "org.greenrobot:eventbus:${depsVer.eventbus}",
             //lifecycle

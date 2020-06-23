@@ -1,7 +1,6 @@
 package top.xuqingquan.sample
 
 import android.os.Bundle
-import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.Transformations
 import androidx.paging.toLiveData
@@ -10,19 +9,12 @@ import top.xuqingquan.app.ScaffoldConfig
 import top.xuqingquan.base.model.entity.Listing
 import top.xuqingquan.base.model.entity.NetworkStatus
 import top.xuqingquan.base.view.activity.SimpleActivity
-import top.xuqingquan.base.view.adapter.listadapter.OnItemClickListener
 import top.xuqingquan.extension.*
-import top.xuqingquan.http.log.Level
+import top.xuqingquan.utils.RomUtils
 import top.xuqingquan.utils.Timber
 import top.xuqingquan.utils.startActivity
 
 class MainActivity : SimpleActivity() {
-
-    init {
-        ScaffoldConfig.getInstance(application)
-            .setBaseUrl("https://api.douban.com")
-            .setLevel(Level.NONE)
-    }
 
     private lateinit var adapter: BeanAdapter
     private val config = ScaffoldConfig.getPagedListConfig()
@@ -46,6 +38,7 @@ class MainActivity : SimpleActivity() {
 //    }
 
     override fun initData(savedInstanceState: Bundle?) {
+        Timber.d("rom===>${RomUtils.getRomInfo()},${RomUtils.getVersion()}")
         val factory = BeanDataSourceFactory()
         val listing = Listing(
             pagedList = factory.toLiveData(config),

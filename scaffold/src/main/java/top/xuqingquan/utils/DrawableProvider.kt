@@ -35,8 +35,8 @@ fun getStateListDrawable(normalDrawable: Drawable, pressDrawable: Drawable): Dra
  * @param tv
  * @return
  */
-fun getScaleDrawableForRadioButton(percent: Float, tv: TextView): Drawable {
-    val compoundDrawables = tv.compoundDrawables
+fun TextView.getScaleDrawableForRadioButton(percent: Float): Drawable {
+    val compoundDrawables = compoundDrawables
     var drawable: Drawable? = null
     for (d in compoundDrawables) {
         if (d != null) {
@@ -52,8 +52,8 @@ fun getScaleDrawableForRadioButton(percent: Float, tv: TextView): Drawable {
  * @param tv
  * @return
  */
-fun getScaleDrawableForRadioButton2(width: Float, tv: TextView): Drawable {
-    val compoundDrawables = tv.compoundDrawables
+fun TextView.getScaleDrawableForRadioButton2(width: Float): Drawable {
+    val compoundDrawables = compoundDrawables
     var drawable: Drawable? = null
     for (d in compoundDrawables) {
         if (d != null) {
@@ -88,16 +88,6 @@ fun getScaleDrawable(percent: Float, drawable: Drawable): Drawable {
 fun getScaleDrawable2(width: Float, drawable: Drawable): Drawable {
     val percent = width * 1.0f / drawable.intrinsicWidth
     return getScaleDrawable(percent, drawable)
-}
-
-/**
- * 设置左边的drawable
- *
- * @param tv
- * @param drawable
- */
-fun setLeftDrawable(tv: TextView, drawable: Drawable) {
-    tv.setCompoundDrawables(drawable, null, null, null)
 }
 
 /**

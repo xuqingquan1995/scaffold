@@ -56,7 +56,7 @@ android {
 }
 
 dependencies {
-    compileOnly fileTree(include: ['*.jar'], dir: 'libs')
+    compileOnly fileTree(include: ['*.jar','*.aar'], dir: 'libs')
     api rootProject.ext.deps.kotlin
     api rootProject.ext.deps.kotlinx_coroutines_core
     api rootProject.ext.deps.kotlinx_coroutines_android
@@ -84,9 +84,8 @@ dependencies {
     //download（需要用到web下载的时候需要依赖）
     compileOnly rootProject.ext.deps.Downloader
     compileOnly rootProject.ext.deps.tbs
-    compileOnly(name: 'alipaySdk-15.6.5-20190718211148', ext: 'aar')
     //debug
-    debugApi rootProject.ext.deps.leakcanary
+    debugApi rootProject.ext.deps.doraemonkit_leakcanary
     debugApi rootProject.ext.deps.recovery
     releaseCompileOnly rootProject.ext.deps.recovery
     debugApi rootProject.ext.deps.anrwatchdog
