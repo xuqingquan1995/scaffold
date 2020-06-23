@@ -499,12 +499,14 @@ public final class RomUtils {
 
     private final static String KEY_MIUI_VERSION_NAME = "ro.miui.ui.version.name";
     private static final String KEY_FLYME_VERSION_NAME = "ro.build.display.id";
+    private static final String KEY_EMUI_VERSION_NAME = "ro.build.version.emui";
     private final static String FLYME = "flyme";
     private final static String ZTEC2016 = "zte c2016";
     private final static String ZUKZ1 = "zuk z1";
     private final static String[] MEIZUBOARD = {"m9", "M9", "mx", "MX"};
     private static String sMiuiVersionName;
     private static String sFlymeVersionName;
+    private static String sEmuiVersionName;
     private static boolean sIsTabletChecked = false;
     private static boolean sIsTabletValue = false;
 
@@ -538,6 +540,8 @@ public final class RomUtils {
             sMiuiVersionName = getLowerCaseName(properties, getMethod, KEY_MIUI_VERSION_NAME);
             //flyme
             sFlymeVersionName = getLowerCaseName(properties, getMethod, KEY_FLYME_VERSION_NAME);
+            //emui
+            sEmuiVersionName = getLowerCaseName(properties, getMethod, KEY_EMUI_VERSION_NAME);
         } catch (Throwable e) {
             Timber.e(e, "read SystemProperties error");
         }
@@ -635,6 +639,9 @@ public final class RomUtils {
         return isPhone(MEIZUBOARD) || isFlyme();
     }
 
+    public static String getEmuiVersion() {
+        return getVersion(sEmuiVersionName);
+    }
     /**
      * 判断是否为 ZUK Z1 和 ZTK C2016。
      * 两台设备的系统虽然为 android 6.0，但不支持状态栏icon颜色改变，因此经常需要对它们进行额外判断。

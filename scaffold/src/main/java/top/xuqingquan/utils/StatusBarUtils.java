@@ -364,7 +364,7 @@ public class StatusBarUtils {
 
             // flyme 在 6.2.0.0A 支持了 Android 官方的实现方案，旧的方案失效
             // 高版本调用这个出现不可预期的 Bug,官方文档也没有给出完整的高低版本兼容方案
-            if(RomUtils.isFlymeLowerThan(7)){
+            if (RomUtils.isFlymeLowerThan(7)) {
                 try {
                     WindowManager.LayoutParams lp = window.getAttributes();
                     Field darkFlag = WindowManager.LayoutParams.class
@@ -386,7 +386,7 @@ public class StatusBarUtils {
                 } catch (Throwable ignored) {
 
                 }
-            }else if(RomUtils.isFlyme()){
+            } else if (RomUtils.isFlyme()) {
                 result = true;
             }
         }
@@ -673,7 +673,7 @@ public class StatusBarUtils {
         }
         //判断华为手机是否隐藏了导航栏，隐藏了，直接返回false
         if (RomUtils.isHuawei()) {
-            if (/*RomUtils.getEmuiVersion().startsWith("3") ||*/ Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            if (RomUtils.getEmuiVersion().startsWith("3") || Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
                 if (Settings.System.getInt(activity.getContentResolver(), IMMERSION_EMUI_NAVIGATION_BAR_HIDE_SHOW, 0) != 0) {
                     return false;
                 }
