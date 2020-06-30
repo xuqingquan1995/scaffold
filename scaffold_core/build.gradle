@@ -3,8 +3,6 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 //apply plugin: 'com.didi.dokit'//主工程可以添加这个依赖
-apply plugin: 'com.github.dcendents.android-maven'
-group = 'com.github.xuqingquan1995'
 
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
@@ -66,7 +64,7 @@ dependencies {
     api rootProject.ext.deps.core_ktx
     api rootProject.ext.deps.lifecycle
     api rootProject.ext.deps.lifecycle_runtime_ktx
-    api project(path: ':scaffold_utils')
+    api 'top.xuqingquan:utils:2.2.1-support'
     //view
     api rootProject.ext.deps.recyclerview
     compileOnly rootProject.ext.deps.paging
@@ -82,7 +80,7 @@ dependencies {
     //eventbus
     api rootProject.ext.deps.eventbus
     //需要用到web下载的时候需要依赖
-    compileOnly project(path: ':scaffold_web')
+    compileOnly 'top.xuqingquan:web:2.2.1-support'
     compileOnly rootProject.ext.deps.tbs
     //debug
     debugApi rootProject.ext.deps.doraemonkit_leakcanary
