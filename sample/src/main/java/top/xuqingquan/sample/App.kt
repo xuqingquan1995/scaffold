@@ -2,6 +2,7 @@ package top.xuqingquan.sample
 
 import android.app.Application
 import android.content.Context
+import top.xuqingquan.app.ScaffoldConfig
 import top.xuqingquan.delegate.AppDelegate
 import top.xuqingquan.delegate.AppLifecycle
 
@@ -17,6 +18,9 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        ScaffoldConfig.getInstance(this)
+            .setBaseUrl("https://api.douban.com")
+            .debug(BuildConfig.DEBUG)
         mAppDelegate.onCreate(this)
 //            .setBaseUrl("https://api.douban.com")
     }

@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<top.xuqingquan.widget.text.MarqueeTextView
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/item"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:id="@+id/image"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/ic_launcher" />
+
+    <top.xuqingquan.widget.text.MarqueeTextView
         android:id="@+id/text"
-        android:text="@string/app_name"
-        android:gravity="center"
-        android:textSize="16sp"
-        android:padding="5dp"
-        android:textColor="@android:color/black"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="@string/app_name"
+        android:textColor="@android:color/black"
+        android:textSize="16sp" />
+</LinearLayout>

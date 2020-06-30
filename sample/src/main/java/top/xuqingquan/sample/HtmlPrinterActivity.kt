@@ -8,8 +8,6 @@ import android.text.TextWatcher
 import android.view.KeyEvent
 import android.view.ViewGroup
 import android.webkit.JavascriptInterface
-import com.tencent.smtt.sdk.WebView
-import com.tencent.smtt.sdk.WebViewClient
 import kotlinx.android.synthetic.main.html_printer.*
 import top.xuqingquan.base.view.activity.SimpleActivity
 import top.xuqingquan.utils.Timber
@@ -40,13 +38,6 @@ class HtmlPrinterActivity : SimpleActivity() {
                 }
             })
             .interceptUnkownUrl() //拦截找不到相关页面的Url AgentWeb 3.0.0 加入。
-            .setWebViewClient(object : WebViewClient() {
-                override fun onPageFinished(view: WebView?, url: String?) {
-                    super.onPageFinished(view, url)
-                    Timber.d("onPageFinished")
-                    view?.loadUrl("javascript:window.android.getSource('<head>'+document.getElementsByTagName('html')[0].innerHTML+'</head>');")
-                }
-            })
             .setWebViewClient(object : android.webkit.WebViewClient() {
                 override fun onPageFinished(view: android.webkit.WebView?, url: String?) {
                     super.onPageFinished(view, url)
@@ -71,7 +62,10 @@ class HtmlPrinterActivity : SimpleActivity() {
 //            webView.loadUrl(url.text.toString().trim())
 //        }
         copy.setOnClickListener {
-            copyTextToBoard(this@HtmlPrinterActivity, currentSource)
+            copyTextToBoard(
+                this@HtmlPrinterActivity,
+                currentSource
+            )
         }
         url.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {

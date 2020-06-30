@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="scaffold_hierarchy" type="id" />
+    <item name="scaffold_isexpand" type="id" />
+
+    <item name="scaffold_fake_status_bar_view" type="id" />
+    <item name="scaffold_navigation_bar_view" type="id" />
+
+</resources>

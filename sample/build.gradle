@@ -56,24 +56,26 @@ android {
             option("-Xmaxerrs", 500)
         }
     }
+    lintOptions {
+        abortOnError false
+    }
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar','*.aar'])
     //test
     testImplementation rootProject.ext.deps.junit
 //    androidTestImplementation rootProject.ext.deps.espresso_core
     androidTestImplementation rootProject.ext.deps.espresso_support
-    implementation project(path: ':scaffold')
-//    implementation 'top.xuqingquan:scaffold:2.0.1-support'
+    implementation project(path: ':scaffold_core')
+//    //implementation 'top.xuqingquan:scaffold:2.0.1-support'
 //    implementation rootProject.ext.deps.multidex
     implementation rootProject.ext.deps.multidex_support
 //    implementation rootProject.ext.deps.paging
     implementation rootProject.ext.deps.paging_runtime
     implementation rootProject.ext.deps.paging_common
     implementation rootProject.ext.deps.room_runtime
-    implementation rootProject.ext.deps.tbs
-    implementation rootProject.ext.deps.Downloader
+    implementation project(path: ':scaffold_web')
     implementation files('libs/newssdk-release.aar')
     implementation 'com.swift.sandhook:hooklib:4.2.0'
     // need for android 11
