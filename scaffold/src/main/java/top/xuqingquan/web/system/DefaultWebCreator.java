@@ -133,7 +133,12 @@ public class DefaultWebCreator implements WebCreator {
         mFrameLayout.setBackgroundColor(Color.WHITE);
         FrameLayout.LayoutParams mLayoutParams = new FrameLayout.LayoutParams(-1, -1);
         this.mWebView = createWebView();
-        View target = mIWebLayout == null ? this.mWebView : webLayout();
+        View target;
+        if (mIWebLayout == null) {
+            target = this.mWebView;
+        } else {
+            target = webLayout();
+        }
         mFrameLayout.addView(target, mLayoutParams);
         mFrameLayout.bindWebView(this.mWebView);
         Timber.i("  instanceof  AgentWebView:" + (this.mWebView instanceof AgentWebView));
@@ -147,7 +152,7 @@ public class DefaultWebCreator implements WebCreator {
             FrameLayout.LayoutParams lp;
             WebIndicator mWebIndicator = new WebIndicator(mActivity);
             if (mHeight > 0) {
-                lp = new FrameLayout.LayoutParams(-2, DimensionsKt.dip(mActivity,mHeight));
+                lp = new FrameLayout.LayoutParams(-2, DimensionsKt.dip(mActivity, mHeight));
             } else {
                 lp = mWebIndicator.offerLayoutParams();
             }

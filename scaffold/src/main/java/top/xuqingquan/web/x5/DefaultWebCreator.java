@@ -135,7 +135,12 @@ public class DefaultWebCreator implements WebCreator {
         mFrameLayout.setBackgroundColor(Color.WHITE);
         FrameLayout.LayoutParams mLayoutParams = new FrameLayout.LayoutParams(-1, -1);
         this.mWebView = createWebView();
-        View target = mIWebLayout == null ? this.mWebView : webLayout();
+        View target;
+        if (mIWebLayout == null) {
+            target = this.mWebView;
+        } else {
+            target = webLayout();
+        }
         mFrameLayout.addView(target, mLayoutParams);
         mFrameLayout.bindWebView(this.mWebView);
         Timber.i("  instanceof  AgentWebView:" + (this.mWebView instanceof top.xuqingquan.web.x5.AgentWebView));
