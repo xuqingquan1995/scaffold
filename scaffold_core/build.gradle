@@ -69,7 +69,7 @@ dependencies {
     api rootProject.ext.deps.lifecycle_runtime
 //    compileOnly rootProject.ext.deps.multidex
     compileOnly rootProject.ext.deps.multidex_support
-    api project(path: ':scaffold_utils')
+    api 'top.xuqingquan:utils:2.2.1-support'
     //view
 //    api rootProject.ext.deps.recyclerview
     api rootProject.ext.deps.recyclerview_v7
@@ -98,7 +98,7 @@ dependencies {
     //eventbus
     api rootProject.ext.deps.eventbus
     //需要用到web下载的时候需要依赖
-    compileOnly project(path: ':scaffold_web')
+    compileOnly 'top.xuqingquan:web:2.2.1-support'
     compileOnly rootProject.ext.deps.tbs
     //debug
     debugApi rootProject.ext.deps.doraemonkit_leakcanary
