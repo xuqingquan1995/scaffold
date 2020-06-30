@@ -874,7 +874,7 @@ public final class AgentWeb {
             return this;
         }
 
-        public CommonBuilder setAgentWebUIController(@Nullable AgentWebUIControllerImplBase agentWebUIController) {
+        public CommonBuilder setAgentWebUIController(@Nullable AbsAgentWebUIController agentWebUIController) {
             this.mAgentBuilder.mAgentWebUIController = agentWebUIController;
             return this;
         }

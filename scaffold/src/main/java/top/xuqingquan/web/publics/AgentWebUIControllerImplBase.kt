@@ -9,7 +9,7 @@ import com.tencent.smtt.sdk.WebView as X5WebView
 import com.tencent.smtt.export.external.interfaces.JsResult as X5JsResult
 import com.tencent.smtt.export.external.interfaces.JsPromptResult as X5JsPromptResult
 
-class AgentWebUIControllerImplBase : AbsAgentWebUIController() {
+open class AgentWebUIControllerImplBase : AbsAgentWebUIController() {
 
     override fun onJsAlert(view: WebView, url: String, message: String) {
         getDelegate().onJsAlert(view, url, message)
