@@ -3,8 +3,6 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 //apply plugin: 'com.didi.dokit'//主工程可以添加这个依赖
-apply plugin: 'com.github.dcendents.android-maven'
-group = 'com.github.xuqingquan1995'
 
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion

@@ -2,8 +2,6 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'com.github.dcendents.android-maven'
-group = 'com.github.xuqingquan1995'
 
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
@@ -69,5 +67,5 @@ dependencies {
 //    androidTestImplementation rootProject.ext.deps.test_rules
     androidTestImplementation rootProject.ext.deps.rules_support
 //    androidTestImplementation rootProject.ext.deps.test_ext
-
 }
+apply from: 'bintray.gradle'
