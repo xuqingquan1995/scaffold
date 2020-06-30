@@ -1,0 +1,69 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'com.github.dcendents.android-maven'
+group = 'com.github.xuqingquan1995'
+
+android {
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    buildToolsVersion rootProject.ext.android.buildToolsVersion
+    defaultConfig {
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode rootProject.ext.versionCode
+        versionName rootProject.ext.versionName
+        testInstrumentationRunner rootProject.ext.android.AndroidJUnitRunner
+        flavorDimensions 'default'
+        resourcePrefix "scaffold_"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    sourceSets {
+        main {
+            jniLibs.srcDir 'libs'//说明so的路径为该libs路径，关联所有so文件
+        }
+    }
+    dexOptions {
+        preDexLibraries true
+        maxProcessCount 8
+    }
+    //如果有用到kapt添加如下配置
+    kapt {
+        useBuildCache = true
+        javacOptions {
+            option("-Xmaxerrs", 500)
+        }
+    }
+    lintOptions {
+        abortOnError false
+    }
+}
+
+dependencies {
+    compileOnly fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
+    implementation rootProject.ext.deps.kotlin
+    implementation rootProject.ext.deps.appcompat
+    compileOnly rootProject.ext.deps.material
+    implementation project(path: ':scaffold_utils')
+    //download（需要用到web下载的时候需要依赖）
+    compileOnly rootProject.ext.deps.Downloader
+    compileOnly rootProject.ext.deps.tbs
+    //test
+    testImplementation rootProject.ext.deps.junit
+    androidTestImplementation rootProject.ext.deps.espresso_core
+    androidTestImplementation rootProject.ext.deps.test_rules
+    androidTestImplementation rootProject.ext.deps.test_ext
+
+}

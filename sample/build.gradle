@@ -56,24 +56,27 @@ android {
             option("-Xmaxerrs", 500)
         }
     }
+    lintOptions {
+        abortOnError false
+    }
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar','*.aar'])
     //test
     testImplementation rootProject.ext.deps.junit
     androidTestImplementation rootProject.ext.deps.espresso_core
-    implementation project(path: ':scaffold')
+    implementation project(path: ':scaffold_core')
 //    implementation 'top.xuqingquan:scaffold:2.0.3'
     implementation rootProject.ext.deps.multidex
     implementation rootProject.ext.deps.paging
     implementation rootProject.ext.deps.room
     implementation rootProject.ext.deps.tbs
-    implementation rootProject.ext.deps.Downloader
-    implementation files('libs/newssdk-release.aar')
+    implementation rootProject.ext.deps.BRVAH
     implementation 'com.swift.sandhook:hooklib:4.2.0'
     // need for android 11
     implementation 'com.swift.sandhook:nativehook:4.2.0'
+    implementation project(path: ':scaffold_web')
 }
 //andResGuard {
 //    // mappingFile = file("./resource_mapping.txt")

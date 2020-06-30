@@ -70,7 +70,10 @@ class HtmlPrinterActivity : SimpleActivity() {
 //            webView.loadUrl(url.text.toString().trim())
 //        }
         copy.setOnClickListener {
-            copyTextToBoard(this@HtmlPrinterActivity, currentSource)
+            copyTextToBoard(
+                this@HtmlPrinterActivity,
+                currentSource
+            )
         }
         url.doAfterTextChanged {
             if (it != null && it.endsWith("\n")) {
