@@ -29,7 +29,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-import top.xuqingquan.R;
+import top.xuqingquan.utils.R;
 
 /**
  * Created by 许清泉 on 2019-07-23 20:00
