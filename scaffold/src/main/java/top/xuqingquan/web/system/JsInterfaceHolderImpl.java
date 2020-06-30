@@ -12,6 +12,7 @@ import top.xuqingquan.utils.Timber;
 import top.xuqingquan.web.nokernel.JsInterfaceHolder;
 import top.xuqingquan.web.nokernel.JsInterfaceObjectException;
 
+@SuppressWarnings("rawtypes")
 public class JsInterfaceHolderImpl extends JsBaseInterfaceHolder {
 
     private WebView mWebView;

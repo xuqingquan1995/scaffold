@@ -21,6 +21,7 @@ import top.xuqingquan.web.nokernel.WebConfig;
 import top.xuqingquan.web.nokernel.WebIndicator;
 import top.xuqingquan.web.publics.WebParentLayout;
 
+@SuppressWarnings("rawtypes")
 public class DefaultWebCreator implements WebCreator {
     private Activity mActivity;
     private ViewGroup mViewGroup;

@@ -267,7 +267,7 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
             Intent intent = Intent.parseUri(url, Intent.URI_INTENT_SCHEME);
             PackageManager mPackageManager = mWeakReference.get().getPackageManager();
             List<ResolveInfo> mResolveInfos = mPackageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
-            return mResolveInfos == null ? 0 : mResolveInfos.size();
+            return mResolveInfos.size();
         } catch (Throwable t) {
             Timber.e(t);
             return 0;
@@ -495,7 +495,7 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
         private Activity mActivity;
         private WebViewClient mClient;
         private boolean mWebClientHelper;
-        @SuppressWarnings("unused")
+        @SuppressWarnings({"unused", "FieldCanBeLocal"})
         private PermissionInterceptor mPermissionInterceptor;
         private WebView mWebView;
         private boolean mIsInterceptUnkownScheme;

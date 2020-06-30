@@ -17,7 +17,7 @@ import top.xuqingquan.web.publics.*;
 import java.lang.ref.WeakReference;
 import java.util.Map;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "rawtypes"})
 public final class AgentWeb {
     /**
      * Activity
@@ -758,11 +758,11 @@ public final class AgentWeb {
             if (middleWrareWebClientBase == null) {
                 return this;
             }
+            this.mAgentBuilder.mMiddlewareWebClientBaseTail = middleWrareWebClientBase;
             if (this.mAgentBuilder.mMiddlewareWebClientBaseHeader == null) {
-                this.mAgentBuilder.mMiddlewareWebClientBaseHeader = this.mAgentBuilder.mMiddlewareWebClientBaseTail = middleWrareWebClientBase;
+                this.mAgentBuilder.mMiddlewareWebClientBaseHeader = middleWrareWebClientBase;
             } else {
                 this.mAgentBuilder.mMiddlewareWebClientBaseTail.enq(middleWrareWebClientBase);
-                this.mAgentBuilder.mMiddlewareWebClientBaseTail = middleWrareWebClientBase;
             }
             return this;
         }
@@ -771,12 +771,11 @@ public final class AgentWeb {
             if (middleWrareWebClientBase == null) {
                 return this;
             }
+            this.mAgentBuilder.mX5MiddlewareWebClientBaseTail = middleWrareWebClientBase;
             if (this.mAgentBuilder.mX5MiddlewareWebClientBaseHeader == null) {
                 this.mAgentBuilder.mX5MiddlewareWebClientBaseHeader = middleWrareWebClientBase;
-                this.mAgentBuilder.mX5MiddlewareWebClientBaseTail = middleWrareWebClientBase;
             } else {
                 this.mAgentBuilder.mX5MiddlewareWebClientBaseTail.enq(middleWrareWebClientBase);
-                this.mAgentBuilder.mX5MiddlewareWebClientBaseTail = middleWrareWebClientBase;
             }
             return this;
         }
@@ -785,11 +784,11 @@ public final class AgentWeb {
             if (middlewareWebChromeBase == null) {
                 return this;
             }
+            this.mAgentBuilder.mChromeMiddleWareTail = middlewareWebChromeBase;
             if (this.mAgentBuilder.mChromeMiddleWareHeader == null) {
-                this.mAgentBuilder.mChromeMiddleWareHeader = this.mAgentBuilder.mChromeMiddleWareTail = middlewareWebChromeBase;
+                this.mAgentBuilder.mChromeMiddleWareHeader = middlewareWebChromeBase;
             } else {
                 this.mAgentBuilder.mChromeMiddleWareTail.enq(middlewareWebChromeBase);
-                this.mAgentBuilder.mChromeMiddleWareTail = middlewareWebChromeBase;
             }
             return this;
         }
@@ -798,12 +797,11 @@ public final class AgentWeb {
             if (middlewareWebChromeBase == null) {
                 return this;
             }
+            this.mAgentBuilder.mX5ChromeMiddleWareTail = middlewareWebChromeBase;
             if (this.mAgentBuilder.mX5ChromeMiddleWareHeader == null) {
                 this.mAgentBuilder.mX5ChromeMiddleWareHeader = middlewareWebChromeBase;
-                this.mAgentBuilder.mX5ChromeMiddleWareTail = middlewareWebChromeBase;
             } else {
                 this.mAgentBuilder.mX5ChromeMiddleWareTail.enq(middlewareWebChromeBase);
-                this.mAgentBuilder.mX5ChromeMiddleWareTail = middlewareWebChromeBase;
             }
             return this;
         }

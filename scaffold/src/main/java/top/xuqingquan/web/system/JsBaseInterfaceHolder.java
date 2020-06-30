@@ -10,6 +10,7 @@ import java.lang.reflect.Method;
 import top.xuqingquan.web.nokernel.JsInterfaceHolder;
 import top.xuqingquan.web.nokernel.WebConfig;
 
+@SuppressWarnings("rawtypes")
 public abstract class JsBaseInterfaceHolder implements JsInterfaceHolder {
 
     private WebCreator mWebCreator;

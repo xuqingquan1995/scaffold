@@ -42,6 +42,7 @@ import top.xuqingquan.web.publics.AgentWebUtils;
 /**
  * Created by 许清泉 on 2019-06-19 23:29
  */
+@SuppressWarnings("rawtypes")
 public class DefaultDownloadImpl implements DownloadListener {
     /**
      * Application Context

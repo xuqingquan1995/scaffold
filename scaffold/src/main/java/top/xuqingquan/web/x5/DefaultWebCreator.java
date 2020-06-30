@@ -16,13 +16,13 @@ import com.tencent.smtt.sdk.WebView;
 import top.xuqingquan.R;
 import top.xuqingquan.utils.DimensionsKt;
 import top.xuqingquan.utils.Timber;
-import top.xuqingquan.utils.ViewUtils;
 import top.xuqingquan.web.nokernel.BaseIndicatorSpec;
 import top.xuqingquan.web.nokernel.BaseIndicatorView;
 import top.xuqingquan.web.nokernel.WebConfig;
 import top.xuqingquan.web.nokernel.WebIndicator;
 import top.xuqingquan.web.publics.WebParentLayout;
 
+@SuppressWarnings("rawtypes")
 public class DefaultWebCreator implements WebCreator {
     private Activity mActivity;
     private ViewGroup mViewGroup;
