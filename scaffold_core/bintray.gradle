@@ -45,6 +45,7 @@ install {
         pom.project {
             packaging 'aar'
             name 'scaffold'
+            artifactId 'scaffold'
             description 'Android 基础开发框架，帮助开发者快速搭建基础模块'
             url siteUrl
             // Set your license

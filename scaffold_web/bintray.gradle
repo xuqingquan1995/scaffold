@@ -4,7 +4,7 @@ apply plugin: 'com.github.dcendents.android-maven'
 def siteUrl = 'https://github.com/xuqingquan1995/Scaffold'
 def gitUrl = 'https://github.com/xuqingquan1995/Scaffold.git'
 version = rootProject.ext.versionName
-group = "top.xuqingquan.web"
+group = "top.xuqingquan"
 
 task javadoc(type: Javadoc) {
     source = android.sourceSets.main.java.srcDirs
@@ -45,6 +45,7 @@ install {
         pom.project {
             packaging 'aar'
             name 'scaffold'
+            artifactId 'web'
             description 'Android 基础开发框架，帮助开发者快速搭建基础模块'
             url siteUrl
             // Set your license
