@@ -2,17 +2,13 @@ package top.xuqingquan.sample
 
 import android.annotation.SuppressLint
 import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
-import top.xuqingquan.base.model.diffcallback.BaseDiffCallBack
 import top.xuqingquan.base.view.adapter.listadapter.BasePagedListAdapter
-import top.xuqingquan.base.view.adapter.listadapter.SimpleRecyclerAdapter
 import top.xuqingquan.base.view.adapter.viewholder.BaseViewHolder
 import top.xuqingquan.utils.Timber
 import top.xuqingquan.widget.text.MarqueeTextView
 
-class BeanAdapter(retry:()->Unit={}) : BasePagedListAdapter<Subjects>(retry,BaseDiffCallBack<Subjects>()) {
+class BeanAdapter(retry:()->Unit={}) : BasePagedListAdapter<Subjects>(retry,SubjectsDiffCallBack()) {
 
     override fun getLayoutRes(viewType: Int) = R.layout.item
 

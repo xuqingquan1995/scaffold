@@ -1,4 +1,4 @@
-package top.xuqingquan.http
+package top.xuqingquan.imageloader.glide
 
 import com.bumptech.glide.load.Options
 import com.bumptech.glide.load.model.GlideUrl

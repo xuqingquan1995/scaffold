@@ -1,4 +1,4 @@
-package top.xuqingquan.imageloader
+package top.xuqingquan.imageloader.glide
 
 import android.content.Context
 import com.bumptech.glide.Glide

@@ -39,7 +39,7 @@ import top.xuqingquan.http.log.FormatPrinter;
 import top.xuqingquan.http.log.Level;
 import top.xuqingquan.http.log.RequestInterceptor;
 import top.xuqingquan.imageloader.BaseImageLoaderStrategy;
-import top.xuqingquan.imageloader.GlideImageLoaderStrategy;
+import top.xuqingquan.imageloader.glide.GlideImageLoaderStrategy;
 import top.xuqingquan.imageloader.ImageLoader;
 import top.xuqingquan.integration.ActivityLifecycle;
 import top.xuqingquan.integration.AppManager;

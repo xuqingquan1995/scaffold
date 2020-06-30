@@ -28,19 +28,11 @@ open class SimpleListAdapter<T>(diff: DiffUtil.ItemCallback<T>) :
     ) {
         holder.setOnViewClickListener {
             onClick { view, position ->
-                if (listener == null) {
-                    onClick(view, position, getItem(position), viewType)
-                } else {
-                    listener!!.onClick(view, position, getItem(position), viewType)
-                }
+                onClick(view, position, getItem(position), viewType)
             }
 
             onLongClick { view, position ->
-                return@onLongClick if (listener == null) {
-                    onLongClick(view, position, getItem(position), viewType)
-                } else {
-                    listener!!.onLongClick(view, position, getItem(position), viewType)
-                }
+                return@onLongClick onLongClick(view, position, getItem(position), viewType)
             }
         }
     }
@@ -71,14 +63,14 @@ open class SimpleListAdapter<T>(diff: DiffUtil.ItemCallback<T>) :
      * 在Adapter内部实现单击回调
      */
     open fun onClick(view: View, position: Int, data: T?, viewType: Int) {
-
+        listener?.onClick(view, position, getItem(position), viewType)
     }
 
     /**
      * 在Adapter内部实现长按回调
      */
     open fun onLongClick(view: View, position: Int, data: T?, viewType: Int): Boolean {
-        return true
+        return listener?.onLongClick(view, position, getItem(position), viewType) ?: true
     }
 
     override fun getItem(position: Int): T? {
@@ -90,6 +82,12 @@ open class SimpleListAdapter<T>(diff: DiffUtil.ItemCallback<T>) :
         } catch (t: Throwable) {
             return null
         }
+    }
+
+    fun setOnItemClickListener(init: OnItemClickListenerImpl<T>.() -> Unit) {
+        val listener = OnItemClickListenerImpl<T>()
+        listener.init()
+        this.listener = listener
     }
 
 }

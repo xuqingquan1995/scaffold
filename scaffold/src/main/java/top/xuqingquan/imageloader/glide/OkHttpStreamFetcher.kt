@@ -1,4 +1,4 @@
-package top.xuqingquan.http
+package top.xuqingquan.imageloader.glide
 
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.DataSource

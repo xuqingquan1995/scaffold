@@ -1,8 +1,7 @@
-package top.xuqingquan.imageloader
+package top.xuqingquan.imageloader.glide
 
 import android.annotation.SuppressLint
 import android.content.Context
-import top.xuqingquan.utils.Preconditions
 import com.bumptech.glide.Glide
 import com.bumptech.glide.GlideBuilder
 import com.bumptech.glide.Registry
@@ -12,6 +11,8 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import top.xuqingquan.imageloader.*
+import top.xuqingquan.utils.Preconditions
 import top.xuqingquan.utils.Timber
 
 /**

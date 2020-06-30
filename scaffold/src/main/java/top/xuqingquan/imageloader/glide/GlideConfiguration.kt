@@ -1,4 +1,4 @@
-package top.xuqingquan.imageloader
+package top.xuqingquan.imageloader.glide
 
 import android.content.Context
 import com.bumptech.glide.Glide
@@ -12,7 +12,6 @@ import com.bumptech.glide.load.engine.cache.MemorySizeCalculator
 import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.module.AppGlideModule
 import top.xuqingquan.app.ScaffoldConfig
-import top.xuqingquan.http.OkHttpUrlLoader
 import top.xuqingquan.utils.makeDirs
 import java.io.File
 import java.io.InputStream
@@ -22,7 +21,9 @@ import java.io.InputStream
  */
 @GlideModule
 class GlideConfiguration : AppGlideModule() {
-    private val IMAGE_DISK_CACHE_MAX_SIZE: Long = 512 * 1024 * 1024//图片缓存文件最大值为100Mb
+    companion object {
+        private const val IMAGE_DISK_CACHE_MAX_SIZE: Long = 512 * 1024 * 1024//图片缓存文件最大值为100Mb
+    }
 
     override fun applyOptions(context: Context, builder: GlideBuilder) {
         builder.setDiskCache {

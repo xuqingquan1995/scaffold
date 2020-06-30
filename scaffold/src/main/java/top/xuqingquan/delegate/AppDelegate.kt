@@ -112,13 +112,13 @@ class AppDelegate private constructor(context: Context) : AppLifecycle {
             mApplication!!.unregisterComponentCallbacks(mComponentCallback)
         }
         if (!mActivityLifecycles.isNullOrEmpty()) {
-            for (lifecycle in mActivityLifecycles!!) {
-                mApplication!!.unregisterActivityLifecycleCallbacks(lifecycle)
+            mActivityLifecycles?.forEach {
+                mApplication!!.unregisterActivityLifecycleCallbacks(it)
             }
         }
         if (!mAppLifecycles.isNullOrEmpty()) {
-            for (lifecycle in mAppLifecycles!!) {
-                lifecycle.onTerminate(mApplication!!)
+            mAppLifecycles?.forEach {
+                it.onTerminate(mApplication!!)
             }
         }
         this.mActivityLifecycle = null

@@ -2,10 +2,11 @@ package top.xuqingquan.base.view.adapter.listadapter;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
+
 import kotlin.jvm.functions.Function0;
-import org.jetbrains.annotations.NotNull;
 import top.xuqingquan.R;
 import top.xuqingquan.base.model.entity.NetworkStatus;
 import top.xuqingquan.base.view.adapter.viewholder.BaseViewHolder;
@@ -20,17 +21,17 @@ public abstract class BaseListAdapter<T> extends SimpleListAdapter<T> {
     private NetworkStatus networkStatus;
     private static final int NETWORK_STATE = -0x799;
     private static final int ITEM = -0x977;
-    private Function0 retry;
+    private Function0<?> retry;
 
-    public BaseListAdapter(@NotNull Function0 retry, @NotNull DiffUtil.ItemCallback<T> diff) {
+    public BaseListAdapter(@NonNull Function0<?> retry, @NonNull DiffUtil.ItemCallback<T> diff) {
         super(diff);
         this.retry = retry;
     }
 
-    @SuppressWarnings("unchecked")
-    @NotNull
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    @NonNull
     @Override
-    public BaseViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
+    public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == NETWORK_STATE) {
             return new NetworkStateViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.scaffold_network_state, parent, false));
         }
