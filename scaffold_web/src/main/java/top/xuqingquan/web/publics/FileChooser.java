@@ -43,15 +43,15 @@ import top.xuqingquan.web.nokernel.FileParcel;
 import top.xuqingquan.web.nokernel.PermissionInterceptor;
 import top.xuqingquan.web.nokernel.WebConfig;
 import top.xuqingquan.web.nokernel.WebUtils;
-import top.xuqingquan.web.utils.FileUtils;
-import top.xuqingquan.web.utils.LogUtils;
+import top.xuqingquan.utils.FileUtils;
+import top.xuqingquan.utils.Timber;
 
 import static top.xuqingquan.web.nokernel.ActionActivity.KEY_ACTION;
 import static top.xuqingquan.web.nokernel.ActionActivity.KEY_FILE_CHOOSER_INTENT;
 import static top.xuqingquan.web.nokernel.ActionActivity.KEY_FROM_INTENTION;
 import static top.xuqingquan.web.nokernel.ActionActivity.KEY_URI;
-import static top.xuqingquan.web.utils.PermissionUtils.getDeniedPermissions;
-import static top.xuqingquan.web.utils.PermissionUtils.hasPermission;
+import static top.xuqingquan.utils.PermissionUtils.getDeniedPermissions;
+import static top.xuqingquan.utils.PermissionUtils.hasPermission;
 
 public class FileChooser {
     /**
@@ -228,7 +228,7 @@ public class FileChooser {
 
     private ActionActivity.ChooserListener getChooserListener() {
         return (requestCode, resultCode, data) -> {
-            LogUtils.i("request:" + requestCode + "  resultCode:" + resultCode);
+            Timber.i("request:" + requestCode + "  resultCode:" + resultCode);
             onIntentResult(requestCode, resultCode, data);
         };
     }
@@ -243,7 +243,7 @@ public class FileChooser {
                 boolean needCamera = false;
                 String[] types = this.x5FileChooserParams.getAcceptTypes();
                 for (String typeTmp : types) {
-                    LogUtils.i("typeTmp:" + typeTmp);
+                    Timber.i("typeTmp:" + typeTmp);
                     if (TextUtils.isEmpty(typeTmp)) {
                         continue;
                     }
@@ -267,7 +267,7 @@ public class FileChooser {
                 boolean needCamera = false;
                 String[] types = this.sysFileChooserParams.getAcceptTypes();
                 for (String typeTmp : types) {
-                    LogUtils.i("typeTmp:" + typeTmp);
+                    Timber.i("typeTmp:" + typeTmp);
                     if (TextUtils.isEmpty(typeTmp)) {
                         continue;
                     }
@@ -291,7 +291,7 @@ public class FileChooser {
             touchOffFileChooserAction();
             return;
         }
-        LogUtils.i("controller:" + this.mAgentWebUIController.get() + "   mAcceptType:" + mAcceptType);
+        Timber.i("controller:" + this.mAgentWebUIController.get() + "   mAcceptType:" + mAcceptType);
         if (this.mAgentWebUIController.get() != null) {
             if (WebConfig.hasX5()) {
                 this.mAgentWebUIController
@@ -306,7 +306,7 @@ public class FileChooser {
                                 new String[]{mActivity.getString(R.string.scaffold_camera),
                                         mActivity.getString(R.string.scaffold_file)}, getCallBack());
             }
-            LogUtils.i("open");
+            Timber.i("open");
         }
     }
 
@@ -411,7 +411,7 @@ public class FileChooser {
                                     AgentWebPermissions.ACTION_STORAGE,
                                     "Open file chooser");
                 }
-                LogUtils.i("permission denied");
+                Timber.i("permission denied");
             }
         } else if (from_intention == FROM_INTENTION_CODE >> 3) {
             if (grant) {
@@ -426,13 +426,13 @@ public class FileChooser {
                                     AgentWebPermissions.ACTION_CAMERA,
                                     "Take photo");
                 }
-                LogUtils.i("permission denied");
+                Timber.i("permission denied");
             }
         }
     }
 
     private void onIntentResult(int requestCode, int resultCode, Intent data) {
-        LogUtils.i("request:" + requestCode + "  result:" + resultCode + "  data:" + data);
+        Timber.i("request:" + requestCode + "  result:" + resultCode + "  data:" + data);
         if (REQUEST_CODE != requestCode) {
             return;
         }
@@ -516,9 +516,9 @@ public class FileChooser {
         }
         Uri mUri = data.getData();
         if (WebConfig.hasX5()) {
-            LogUtils.i("belowLollipopUriCallback  -- >uri:" + mUri + "  sysUriValueCallback:" + sysUriValueCallback);
+            Timber.i("belowLollipopUriCallback  -- >uri:" + mUri + "  sysUriValueCallback:" + sysUriValueCallback);
         } else {
-            LogUtils.i("belowLollipopUriCallback  -- >uri:" + mUri + "  x5UriValueCallback:" + x5UriValueCallback);
+            Timber.i("belowLollipopUriCallback  -- >uri:" + mUri + "  x5UriValueCallback:" + x5UriValueCallback);
         }
         if (WebConfig.hasX5()) {
             if (x5UriValueCallback != null) {
@@ -707,7 +707,7 @@ public class FileChooser {
                 }
             }
             if (ms > MAX_WAIT_PHOTO_MS) {
-                LogUtils.i("WaitPhotoRunnable finish!");
+                Timber.i("WaitPhotoRunnable finish!");
                 if (mCallback != null) {
                     mCallback.handleMessage(Message.obtain(null, -1));
                 }
@@ -730,7 +730,7 @@ public class FileChooser {
         CountDownLatch mCountDownLatch = new CountDownLatch(paths.length);
         int i = 1;
         for (String path : paths) {
-            LogUtils.i("path:" + path);
+            Timber.i("path:" + path);
             if (TextUtils.isEmpty(path)) {
                 mCountDownLatch.countDown();
                 continue;
@@ -741,7 +741,7 @@ public class FileChooser {
         if (!((ThreadPoolExecutor) mExecutor).isShutdown()) {
             ((ThreadPoolExecutor) mExecutor).shutdownNow();
         }
-        LogUtils.i("convertFile isShutDown:" + (((ThreadPoolExecutor) mExecutor).isShutdown()));
+        Timber.i("convertFile isShutDown:" + (((ThreadPoolExecutor) mExecutor).isShutdown()));
         return mQueue;
     }
 
@@ -778,13 +778,13 @@ public class FileChooser {
                         os.write(b, 0, len);
                     }
                     mQueue.offer(new FileParcel(id, mFile.getAbsolutePath(), Base64.encodeToString(os.toByteArray(), Base64.DEFAULT)));
-                    LogUtils.i("enqueue");
+                    Timber.i("enqueue");
                 } else {
-                    LogUtils.i("File no exists");
+                    Timber.i("File no exists");
                 }
 
             } catch (Throwable e) {
-                LogUtils.i("throwwable");
+                Timber.i("throwwable");
                 e.printStackTrace();
             } finally {
                 FileUtils.closeIO(is);
@@ -813,7 +813,7 @@ public class FileChooser {
                 mJSONArray.put(jo);
             }
         } catch (Throwable throwable) {
-            LogUtils.e(throwable);
+            Timber.e(throwable);
         }
         return mJSONArray + "";
     }

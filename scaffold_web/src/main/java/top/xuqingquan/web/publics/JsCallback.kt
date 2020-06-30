@@ -5,7 +5,7 @@ import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import top.xuqingquan.web.nokernel.WebConfig
-import top.xuqingquan.web.utils.LogUtils
+import top.xuqingquan.utils.Timber
 
 import java.lang.ref.WeakReference
 import java.util.Locale
@@ -70,7 +70,7 @@ class JsCallback {
         }
         val execJs =
             String.format(Locale.getDefault(), CALLBACK_JS_FORMAT, mInjectedName, mIndex, mIsPermanent, sb.toString())
-        LogUtils.d(execJs)
+        Timber.d(execJs)
         if (WebConfig.hasX5()) {
             mx5WebViewRef?.get()?.loadUrl(execJs)
         } else {

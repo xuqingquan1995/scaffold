@@ -24,7 +24,7 @@
         <!-- Android 7.0 之后用到FileProvider -->
         <provider
             android:name=".provider.ScaffoldWebFileProvider"
-            android:authorities="${applicationId}.ScaffoldFileProvider"
+            android:authorities="${applicationId}.ScaffoldWebFileProvider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

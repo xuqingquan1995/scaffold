@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 
 import top.xuqingquan.web.nokernel.*;
 import top.xuqingquan.web.publics.*;
-import top.xuqingquan.web.utils.LogUtils;
+import top.xuqingquan.utils.Timber;
 
 import java.lang.ref.WeakReference;
 import java.util.Map;
@@ -179,7 +179,7 @@ public final class AgentWeb {
         }
         if (agentBuilder.mJavaObject != null && !agentBuilder.mJavaObject.isEmpty()) {
             this.mJavaObjects.putAll((Map<? extends String, ?>) agentBuilder.mJavaObject);
-            LogUtils.i("mJavaObject size:" + this.mJavaObjects.size());
+            Timber.i("mJavaObject size:" + this.mJavaObjects.size());
         }
         if (agentBuilder.mPermissionInterceptor == null) {
             this.mPermissionInterceptor = null;
@@ -370,7 +370,7 @@ public final class AgentWeb {
 
     @SuppressWarnings("ConstantConditions")
     private android.webkit.WebViewClient getWebViewClient() {
-        LogUtils.i("getDelegate:" + this.mMiddleWrareWebClientBaseHeader);
+        Timber.i("getDelegate:" + this.mMiddleWrareWebClientBaseHeader);
         top.xuqingquan.web.system.DefaultWebClient mDefaultWebClient = top.xuqingquan.web.system.DefaultWebClient
                 .createBuilder()
                 .setActivity(this.mActivity)
@@ -391,7 +391,7 @@ public final class AgentWeb {
                 tail = tmp;
                 count++;
             }
-            LogUtils.i("MiddlewareWebClientBase middleware count:" + count);
+            Timber.i("MiddlewareWebClientBase middleware count:" + count);
             tail.setDelegate(mDefaultWebClient);
             return header;
         } else {
@@ -401,7 +401,7 @@ public final class AgentWeb {
 
     @SuppressWarnings("ConstantConditions")
     private com.tencent.smtt.sdk.WebViewClient getX5WebViewClient() {
-        LogUtils.i("getDelegate:" + this.mX5MiddleWrareWebClientBaseHeader);
+        Timber.i("getDelegate:" + this.mX5MiddleWrareWebClientBaseHeader);
         top.xuqingquan.web.x5.DefaultWebClient mDefaultWebClient = top.xuqingquan.web.x5.DefaultWebClient
                 .createBuilder()
                 .setActivity(this.mActivity)
@@ -422,7 +422,7 @@ public final class AgentWeb {
                 tail = tmp;
                 count++;
             }
-            LogUtils.i("MiddlewareWebClientBase middleware count:" + count);
+            Timber.i("MiddlewareWebClientBase middleware count:" + count);
             tail.setDelegate(mDefaultWebClient);
             return header;
         } else {
@@ -450,7 +450,7 @@ public final class AgentWeb {
             if (mJsInterfaceHolder == null) {
                 mJsInterfaceHolder = top.xuqingquan.web.x5.JsInterfaceHolderImpl.getJsInterfaceHolder(mX5WebCreator);
             }
-            LogUtils.i("mJavaObjects:" + mJavaObjects.size());
+            Timber.i("mJavaObjects:" + mJavaObjects.size());
             if (mJavaObjects != null && !mJavaObjects.isEmpty()) {
                 mJsInterfaceHolder.addJavaObjects(mJavaObjects);
             }
@@ -476,7 +476,7 @@ public final class AgentWeb {
             if (mJsInterfaceHolder == null) {
                 mJsInterfaceHolder = top.xuqingquan.web.system.JsInterfaceHolderImpl.getJsInterfaceHolder(mWebCreator);
             }
-            LogUtils.i("mJavaObjects:" + mJavaObjects.size());
+            Timber.i("mJavaObjects:" + mJavaObjects.size());
             if (mJavaObjects != null && !mJavaObjects.isEmpty()) {
                 mJsInterfaceHolder.addJavaObjects(mJavaObjects);
             }
@@ -500,7 +500,7 @@ public final class AgentWeb {
                         this.mIndicatorController,
                         mWebChromeClient, this.mIVideo,
                         this.mPermissionInterceptor, getWebCreator().getWebView());
-        LogUtils.i("WebChromeClient:" + this.mWebChromeClient);
+        Timber.i("WebChromeClient:" + this.mWebChromeClient);
         top.xuqingquan.web.system.MiddlewareWebChromeBase header = this.mMiddlewareWebChromeBaseHeader;
         if (header != null) {
             top.xuqingquan.web.system.MiddlewareWebChromeBase tail = header;
@@ -511,7 +511,7 @@ public final class AgentWeb {
                 tail = tmp;
                 count++;
             }
-            LogUtils.i("MiddlewareWebClientBase middleware count:" + count);
+            Timber.i("MiddlewareWebClientBase middleware count:" + count);
             tail.setDelegate(mDefaultChromeClient);
             return header;
         } else {
@@ -529,7 +529,7 @@ public final class AgentWeb {
                         this.mIndicatorController,
                         mX5WebChromeClient,
                         this.mPermissionInterceptor, getX5WebCreator().getWebView());
-        LogUtils.i("WebChromeClient:" + this.mX5WebChromeClient);
+        Timber.i("WebChromeClient:" + this.mX5WebChromeClient);
         top.xuqingquan.web.x5.MiddlewareWebChromeBase header = this.mX5MiddlewareWebChromeBaseHeader;
         if (header != null) {
             top.xuqingquan.web.x5.MiddlewareWebChromeBase tail = header;
@@ -540,7 +540,7 @@ public final class AgentWeb {
                 tail = tmp;
                 count++;
             }
-            LogUtils.i("MiddlewareWebClientBase middleware count:" + count);
+            Timber.i("MiddlewareWebClientBase middleware count:" + count);
             tail.setDelegate(mDefaultChromeClient);
             return header;
         } else {

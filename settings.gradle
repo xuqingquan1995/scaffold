@@ -1,3 +1,2 @@
-include ':scaffold_utils'
 include ':sample'
-include ':scaffold', ':scaffold_web'
+include ':scaffold_core', ':scaffold_web',':scaffold_utils'

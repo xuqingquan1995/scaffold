@@ -6,7 +6,7 @@ import android.os.Build;
 import androidx.annotation.Nullable;
 
 import top.xuqingquan.web.nokernel.WebConfig;
-import top.xuqingquan.web.utils.CharacterUtils;
+import top.xuqingquan.utils.CharacterUtils;
 
 @SuppressLint("ObsoleteSdkInt")
 public abstract class BaseJsAccessEntrace implements JsAccessEntrace {

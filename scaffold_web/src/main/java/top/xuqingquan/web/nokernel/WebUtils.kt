@@ -18,9 +18,9 @@ import top.xuqingquan.web.nokernel.WebConfig.AGENTWEB_CACHE_PATCH
 import top.xuqingquan.web.nokernel.WebConfig.AGENTWEB_FILE_PATH
 import top.xuqingquan.web.nokernel.WebConfig.FILE_CACHE_PATH
 import top.xuqingquan.web.publics.WebParentLayout
-import top.xuqingquan.web.utils.LogUtils
-import top.xuqingquan.web.utils.getMIMEType
-import top.xuqingquan.web.utils.getUriFromFile
+import top.xuqingquan.utils.Timber
+import top.xuqingquan.utils.getMIMEType
+import top.xuqingquan.web.provider.ScaffoldWebFileProvider
 import java.io.File
 import java.io.IOException
 import java.lang.reflect.Method
@@ -58,10 +58,10 @@ object WebUtils {
                 mFile.mkdirs()
             }
         } catch (throwable: Throwable) {
-            LogUtils.i("create dir exception")
+            Timber.i("create dir exception")
         }
 
-        LogUtils.i("path:" + mFile.absolutePath + "  path:" + mFile.path)
+        Timber.i("path:" + mFile.absolutePath + "  path:" + mFile.path)
         AGENTWEB_FILE_PATH = mFile.absolutePath
         return AGENTWEB_FILE_PATH
     }
@@ -211,8 +211,17 @@ object WebUtils {
             mMethod.isAccessible = true
             return mMethod
         } catch (throwable: Throwable) {
-            LogUtils.e(throwable)
+            Timber.e(throwable)
         }
         return null
+    }
+
+    @JvmStatic
+    fun getUriFromFile(context: Context, file: File): Uri {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            ScaffoldWebFileProvider.getUriForFile(context, context.packageName + ".ScaffoldWebFileProvider", file)
+        } else {
+            Uri.fromFile(file)
+        }
     }
 }

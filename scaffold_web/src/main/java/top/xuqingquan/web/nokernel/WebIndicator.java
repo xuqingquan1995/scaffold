@@ -17,8 +17,8 @@ import android.view.animation.LinearInterpolator;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import top.xuqingquan.web.utils.DimensionsKt;
-import top.xuqingquan.web.utils.LogUtils;
+import top.xuqingquan.utils.DimensionsKt;
+import top.xuqingquan.utils.Timber;
 
 @SuppressWarnings("rawtypes")
 public class WebIndicator extends BaseIndicatorView implements BaseIndicatorSpec {
@@ -154,7 +154,7 @@ public class WebIndicator extends BaseIndicatorView implements BaseIndicatorSpec
             CURRENT_MAX_UNIFORM_SPEED_DURATION = (int) (MAX_UNIFORM_SPEED_DURATION * rate);
             CURRENT_MAX_DECELERATE_SPEED_DURATION = (int) (MAX_DECELERATE_SPEED_DURATION * rate);
         }
-        LogUtils.i("CURRENT_MAX_UNIFORM_SPEED_DURATION" + CURRENT_MAX_UNIFORM_SPEED_DURATION);
+        Timber.i("CURRENT_MAX_UNIFORM_SPEED_DURATION" + CURRENT_MAX_UNIFORM_SPEED_DURATION);
     }
 
     public void setProgress(float progress) {
@@ -180,7 +180,7 @@ public class WebIndicator extends BaseIndicatorView implements BaseIndicatorSpec
             mAnimator.cancel();
         }
         mCurrentProgress = mCurrentProgress == 0f ? 0.00000001f : mCurrentProgress;
-        LogUtils.i("mCurrentProgress:" + mCurrentProgress + " v:" + v + "  :" + (1f - mCurrentProgress));
+        Timber.i("mCurrentProgress:" + mCurrentProgress + " v:" + v + "  :" + (1f - mCurrentProgress));
         if (!isFinished) {
             ValueAnimator mAnimator = ValueAnimator.ofFloat(mCurrentProgress, v);
             float residue = 1f - mCurrentProgress / 100 - 0.05f;

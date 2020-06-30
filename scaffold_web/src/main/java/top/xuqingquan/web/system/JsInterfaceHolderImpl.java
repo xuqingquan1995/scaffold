@@ -10,7 +10,7 @@ import java.util.Set;
 
 import top.xuqingquan.web.nokernel.JsInterfaceHolder;
 import top.xuqingquan.web.nokernel.JsInterfaceObjectException;
-import top.xuqingquan.web.utils.LogUtils;
+import top.xuqingquan.utils.Timber;
 
 @SuppressWarnings("rawtypes")
 public class JsInterfaceHolderImpl extends JsBaseInterfaceHolder {
@@ -56,7 +56,7 @@ public class JsInterfaceHolderImpl extends JsBaseInterfaceHolder {
 
     @SuppressLint("JavascriptInterface")
     private JsInterfaceHolder addJavaObjectDirect(String k, Object v) {
-        LogUtils.i("k:$k  v:$v");
+        Timber.i("k:$k  v:$v");
         this.mWebView.addJavascriptInterface(v, k);
         return this;
     }

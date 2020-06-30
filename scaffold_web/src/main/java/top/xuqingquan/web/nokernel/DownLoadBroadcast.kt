@@ -6,8 +6,8 @@ import android.content.Context
 import android.content.Intent
 import androidx.core.content.ContextCompat
 import top.xuqingquan.web.nokernel.WebUtils.getCommonFileIntentCompat
-import top.xuqingquan.web.utils.LogUtils
-import top.xuqingquan.web.utils.getPath
+import top.xuqingquan.utils.Timber
+import top.xuqingquan.utils.getPath
 import java.io.File
 
 class DownLoadBroadcast : BroadcastReceiver() {
@@ -18,7 +18,7 @@ class DownLoadBroadcast : BroadcastReceiver() {
             val downloadManager =
                 ContextCompat.getSystemService(context, DownloadManager::class.java)
             val uri = downloadManager?.getUriForDownloadedFile(downloadId)
-            LogUtils.d("url===>$uri")
+            Timber.d("url===>$uri")
             uri?.let {
                 val path = getPath(context, uri)
                 if (!path.isNullOrEmpty()) {

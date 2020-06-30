@@ -8,6 +8,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.net.Uri
 import androidx.core.content.ContextCompat
+import top.xuqingquan.utils.getCacheFilePath
 import top.xuqingquan.web.nokernel.DownLoadBroadcast
 import top.xuqingquan.web.nokernel.WebUtils
 import java.io.File

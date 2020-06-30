@@ -13,9 +13,9 @@ import top.xuqingquan.web.nokernel.*
 import top.xuqingquan.web.nokernel.ActionActivity.KEY_FROM_INTENTION
 import top.xuqingquan.web.publics.AgentWebUtils
 import top.xuqingquan.web.publics.IndicatorController
-import top.xuqingquan.web.utils.LogUtils
-import top.xuqingquan.web.utils.getDeniedPermissions
-import top.xuqingquan.web.utils.hasPermission
+import top.xuqingquan.utils.Timber
+import top.xuqingquan.utils.getDeniedPermissions
+import top.xuqingquan.utils.hasPermission
 import java.lang.ref.WeakReference
 import java.util.*
 
@@ -129,7 +129,7 @@ class DefaultChromeClient(
         }
         val deniedPermissions = getDeniedPermissions(mActivity, AgentWebPermissions.LOCATION)
         if (deniedPermissions.isNullOrEmpty()) {
-            LogUtils.i("onGeolocationPermissionsShowPromptInternal:true")
+            Timber.i("onGeolocationPermissionsShowPromptInternal:true")
             callback.invoke(origin, true, false)
         } else {
             val mAction = Action.createPermissionsAction(deniedPermissions.toTypedArray())
@@ -148,7 +148,7 @@ class DefaultChromeClient(
             this.mAgentWebUIController.get()
                 ?.onJsPrompt(mWebView, url, message, defaultValue, result)
         } catch (throwable: Throwable) {
-            LogUtils.e(throwable)
+            Timber.e(throwable)
         }
 
         return true
@@ -183,7 +183,7 @@ class DefaultChromeClient(
         filePathCallback: ValueCallback<Array<Uri>>,
         fileChooserParams: FileChooserParams
     ): Boolean {
-        LogUtils.i("openFileChooser>=5.0")
+        Timber.i("openFileChooser>=5.0")
         return openFileChooserAboveL(filePathCallback, fileChooserParams)
     }
 
@@ -192,7 +192,7 @@ class DefaultChromeClient(
         valueCallbacks: ValueCallback<Array<Uri>>,
         fileChooserParams: FileChooserParams
     ): Boolean {
-        LogUtils.i(
+        Timber.i(
             "fileChooserParams:" + Arrays.toString(fileChooserParams.acceptTypes) + "  getTitle:" + fileChooserParams.title + " accept:" + Arrays.toString(
                 fileChooserParams.acceptTypes
             ) + " length:" + fileChooserParams.acceptTypes.size + "  :" + fileChooserParams.isCaptureEnabled + "  " + fileChooserParams.filenameHint + "  intent:" + fileChooserParams.createIntent().toString() + "   mode:" + fileChooserParams.mode

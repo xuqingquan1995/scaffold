@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import top.xuqingquan.web.nokernel.WebConfig
-import top.xuqingquan.web.utils.LogUtils
+import top.xuqingquan.utils.Timber
 
 import com.tencent.smtt.sdk.WebView as X5WebView
 
@@ -51,7 +51,7 @@ class DefaultDesignUIController : DefaultUIController() {
                 -1, null
             )
         } catch (throwable: Throwable) {
-            LogUtils.e(throwable)
+            Timber.e(throwable)
         }
 
     }
@@ -71,7 +71,7 @@ class DefaultDesignUIController : DefaultUIController() {
                 -1, null
             )
         } catch (throwable: Throwable) {
-            LogUtils.e(throwable)
+            Timber.e(throwable)
         }
 
     }
@@ -98,7 +98,7 @@ class DefaultDesignUIController : DefaultUIController() {
         if (this.mActivity == null || this.mActivity!!.isFinishing||this.mActivity!!.isDestroyed) {
             return
         }
-        LogUtils.i("url:" + url + "  ways:" + ways[0])
+        Timber.i("url:" + url + "  ways:" + ways[0])
         var mRecyclerView: RecyclerView?
         if (mBottomSheetDialog == null) {
             mBottomSheetDialog = BottomSheetDialog(mActivity!!)

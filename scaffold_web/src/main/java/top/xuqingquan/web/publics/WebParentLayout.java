@@ -18,7 +18,7 @@ import androidx.annotation.Nullable;
 import top.xuqingquan.web.R;
 import top.xuqingquan.web.nokernel.Provider;
 import top.xuqingquan.web.nokernel.WebConfig;
-import top.xuqingquan.web.utils.LogUtils;
+import top.xuqingquan.utils.Timber;
 
 public class WebParentLayout extends FrameLayout implements Provider<AbsAgentWebUIController> {
     private AbsAgentWebUIController mAgentWebUIController = null;
@@ -33,7 +33,7 @@ public class WebParentLayout extends FrameLayout implements Provider<AbsAgentWeb
 
     public WebParentLayout(@NonNull Context context) {
         this(context, null);
-        LogUtils.i("WebParentLayout");
+        Timber.i("WebParentLayout");
     }
 
     WebParentLayout(@NonNull Context context, @Nullable AttributeSet attrs) {
@@ -79,7 +79,7 @@ public class WebParentLayout extends FrameLayout implements Provider<AbsAgentWeb
         mFrameLayout.setId(R.id.scaffold_mainframe_error_container_id);
         if (this.mErrorView == null) {
             LayoutInflater mLayoutInflater = LayoutInflater.from(getContext());
-            LogUtils.i("mErrorLayoutRes:" + mErrorLayoutRes);
+            Timber.i("mErrorLayoutRes:" + mErrorLayoutRes);
             mLayoutInflater.inflate(mErrorLayoutRes, mFrameLayout, true);
         } else {
             mFrameLayout.addView(mErrorView);
@@ -113,7 +113,7 @@ public class WebParentLayout extends FrameLayout implements Provider<AbsAgentWeb
                 });
                 return;
             } else {
-                LogUtils.e("ClickView is null , cannot bind accurate view to refresh or reload .");
+                Timber.e("ClickView is null , cannot bind accurate view to refresh or reload .");
             }
         }
         mFrameLayout.setOnClickListener(v -> {

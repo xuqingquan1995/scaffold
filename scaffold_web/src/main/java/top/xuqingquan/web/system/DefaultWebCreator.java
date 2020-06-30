@@ -18,8 +18,8 @@ import top.xuqingquan.web.nokernel.BaseIndicatorView;
 import top.xuqingquan.web.nokernel.WebConfig;
 import top.xuqingquan.web.nokernel.WebIndicator;
 import top.xuqingquan.web.publics.WebParentLayout;
-import top.xuqingquan.web.utils.DimensionsKt;
-import top.xuqingquan.web.utils.LogUtils;
+import top.xuqingquan.utils.DimensionsKt;
+import top.xuqingquan.utils.Timber;
 
 @SuppressWarnings("rawtypes")
 public class DefaultWebCreator implements WebCreator {
@@ -142,7 +142,7 @@ public class DefaultWebCreator implements WebCreator {
         }
         mFrameLayout.addView(target, mLayoutParams);
         mFrameLayout.bindWebView(this.mWebView);
-        LogUtils.i("  instanceof  AgentWebView:" + (this.mWebView instanceof AgentWebView));
+        Timber.i("  instanceof  AgentWebView:" + (this.mWebView instanceof AgentWebView));
         if (this.mWebView instanceof AgentWebView) {
             this.mWebViewType = WebConfig.WEBVIEW_AGENTWEB_SAFE_TYPE;
         }
@@ -177,7 +177,7 @@ public class DefaultWebCreator implements WebCreator {
         if (mWebView == null) {
             mWebView = createWebView();
             mIWebLayout.getLayout().addView(mWebView, -1, -1);
-            LogUtils.i("add webview");
+            Timber.i("add webview");
         } else {
             this.mWebViewType = WebConfig.WEBVIEW_CUSTOM_TYPE;
         }

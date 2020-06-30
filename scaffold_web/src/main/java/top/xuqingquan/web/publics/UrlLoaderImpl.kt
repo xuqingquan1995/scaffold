@@ -7,7 +7,7 @@ import top.xuqingquan.web.nokernel.HttpHeaders
 import top.xuqingquan.web.nokernel.IUrlLoader
 import top.xuqingquan.web.nokernel.WebConfig
 import top.xuqingquan.web.nokernel.WebUtils
-import top.xuqingquan.web.utils.LogUtils
+import top.xuqingquan.utils.Timber
 
 import com.tencent.smtt.sdk.WebView as X5WebView
 
@@ -52,7 +52,7 @@ class UrlLoaderImpl : IUrlLoader {
                     loadUrl(url, headers)
                 })
             }
-            LogUtils.i("loadUrl:$url headers:$headers")
+            Timber.i("loadUrl:$url headers:$headers")
             if (WebConfig.hasX5()) {
                 if (headers.isNullOrEmpty()) {
                     this.mx5WebView!!.loadUrl(url)

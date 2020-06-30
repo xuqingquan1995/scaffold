@@ -33,10 +33,10 @@ import top.xuqingquan.web.nokernel.WebUtils;
 import top.xuqingquan.web.publics.AbsAgentWebUIController;
 import top.xuqingquan.web.publics.AgentWebConfig;
 import top.xuqingquan.web.publics.AgentWebUtils;
-import top.xuqingquan.web.utils.FileUtils;
-import top.xuqingquan.web.utils.LogUtils;
-import top.xuqingquan.web.utils.NetUtils;
-import top.xuqingquan.web.utils.PermissionUtils;
+import top.xuqingquan.utils.FileUtils;
+import top.xuqingquan.utils.Timber;
+import top.xuqingquan.utils.NetUtils;
+import top.xuqingquan.utils.PermissionUtils;
 
 /**
  * Created by 许清泉 on 2019-06-19 23:29
@@ -74,7 +74,7 @@ public class DefaultDownloadImpl implements android.webkit.DownloadListener {
             DownloadImpl.getInstance().with(this.mContext);
             isInstallDownloader = true;
         } catch (Throwable throwable) {
-            LogUtils.e(throwable);
+            Timber.e(throwable);
             isInstallDownloader = false;
         }
     }
@@ -83,7 +83,7 @@ public class DefaultDownloadImpl implements android.webkit.DownloadListener {
     @Override
     public void onDownloadStart(final String url, final String userAgent, final String contentDisposition, final String mimetype, final long contentLength) {
         if (!isInstallDownloader) {
-            LogUtils.e("unable start download " + url + "; implementation 'com.download.library:Downloader:x.x.x'");
+            Timber.e("unable start download " + url + "; implementation 'com.download.library:Downloader:x.x.x'");
             return;
         }
         mHandler.post(() -> onDownloadStartInternal(url, userAgent, contentDisposition, mimetype, contentLength));
@@ -122,7 +122,7 @@ public class DefaultDownloadImpl implements android.webkit.DownloadListener {
         String fileName = convertUrl2FileName(url);
         File downloadFile = new File(FileUtils.getCacheFilePath(mContext), fileName);
         if (downloadFile.exists()) {
-            LogUtils.d("文件已存在");
+            Timber.d("文件已存在");
             if (null != mAgentWebUIController.get()) {
                 mAgentWebUIController.get().onShowMessage(mContext.getString(R.string.scaffold_download_file_has_been_exist), "reDownload");
             }
@@ -131,7 +131,7 @@ public class DefaultDownloadImpl implements android.webkit.DownloadListener {
             mContext.startActivity(mIntent);
             return null;
         }
-        LogUtils.d("fileName=" + fileName);
+        Timber.d("fileName=" + fileName);
         return DownloadImpl.getInstance()
                 .with(url)
                 .target(downloadFile, mContext.getPackageName() + ".ScaffoldFileProvider")
@@ -171,7 +171,7 @@ public class DefaultDownloadImpl implements android.webkit.DownloadListener {
                                             toArray(new String[]{}),
                                     AgentWebPermissions.ACTION_STORAGE, "Download");
                 }
-                LogUtils.e("储存权限获取失败~");
+                Timber.e("储存权限获取失败~");
             }
 
         };
@@ -238,7 +238,7 @@ public class DefaultDownloadImpl implements android.webkit.DownloadListener {
 
     protected void performDownload(String url) {
         try {
-            LogUtils.e("performDownload:" + url + " exist:" + DownloadImpl.getInstance().exist(url));
+            Timber.e("performDownload:" + url + " exist:" + DownloadImpl.getInstance().exist(url));
             // 该链接是否正在下载
             if (DownloadImpl.getInstance().exist(url)) {
                 if (null != mAgentWebUIController.get()) {
@@ -252,7 +252,7 @@ public class DefaultDownloadImpl implements android.webkit.DownloadListener {
             resourceRequest.addHeader("Cookie", AgentWebConfig.getCookiesByUrl(url));
             taskEnqueue(resourceRequest);
         } catch (Throwable throwable) {
-            LogUtils.e(throwable);
+            Timber.e(throwable);
         }
     }
 

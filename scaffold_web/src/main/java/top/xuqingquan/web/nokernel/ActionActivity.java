@@ -15,7 +15,7 @@ import org.jetbrains.annotations.Nullable;
 import java.io.File;
 import java.util.List;
 
-import top.xuqingquan.web.utils.LogUtils;
+import top.xuqingquan.utils.Timber;
 
 import static android.provider.MediaStore.EXTRA_OUTPUT;
 
@@ -56,7 +56,7 @@ public final class ActionActivity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
-            LogUtils.i("savedInstanceState:" + savedInstanceState);
+            Timber.i("savedInstanceState:" + savedInstanceState);
             return;
         }
         Intent intent = getIntent();
@@ -97,9 +97,9 @@ public final class ActionActivity extends Activity {
             }
             this.startActivityForResult(mIntent, REQUEST_CODE);
         } catch (Throwable throwable) {
-            LogUtils.i("找不到文件选择器");
+            Timber.i("找不到文件选择器");
             chooserActionCallback(-1, null);
-            LogUtils.e(throwable);
+            Timber.e(throwable);
         }
     }
 
@@ -164,12 +164,12 @@ public final class ActionActivity extends Activity {
             mUri = intent.getParcelableExtra(MediaStore.EXTRA_OUTPUT);
             this.startActivityForResult(intent, REQUEST_CODE);
         } catch (Throwable t) {
-            LogUtils.i("找不到系统相机");
+            Timber.i("找不到系统相机");
             if (mChooserListener != null) {
                 mChooserListener.onChoiceResult(REQUEST_CODE, Activity.RESULT_CANCELED, null);
             }
             mChooserListener = null;
-            LogUtils.e(t);
+            Timber.e(t);
         }
     }
 
@@ -190,12 +190,12 @@ public final class ActionActivity extends Activity {
             mUri = intent.getParcelableExtra(EXTRA_OUTPUT);
             this.startActivityForResult(intent, REQUEST_CODE);
         } catch (Throwable t) {
-            LogUtils.i("找不到系统相机");
+            Timber.i("找不到系统相机");
             if (mChooserListener != null) {
                 mChooserListener.onChoiceResult(REQUEST_CODE, Activity.RESULT_CANCELED, null);
             }
             mChooserListener = null;
-            LogUtils.e(t);
+            Timber.e(t);
         }
     }
 

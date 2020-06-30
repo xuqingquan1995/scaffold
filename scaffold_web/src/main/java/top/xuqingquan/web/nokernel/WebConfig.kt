@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Build
 import com.tencent.smtt.sdk.QbSdk
 import top.xuqingquan.web.BuildConfig
-import top.xuqingquan.web.utils.LogUtils
+import top.xuqingquan.utils.Timber
 
 import java.io.File
 
@@ -91,7 +91,7 @@ object WebConfig {
             Class.forName("com.tencent.smtt.sdk.WebView")
             QbSdk.isTbsCoreInited()
         } catch (e: Throwable) {
-            LogUtils.e(e)
+            Timber.e(e)
             false
         }
         return x5!!

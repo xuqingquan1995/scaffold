@@ -6,8 +6,8 @@ import com.tencent.smtt.sdk.*
 import top.xuqingquan.web.AgentWeb
 import top.xuqingquan.web.nokernel.WebConfig
 import top.xuqingquan.web.nokernel.WebUtils
-import top.xuqingquan.web.utils.LogUtils
-import top.xuqingquan.web.utils.networkIsConnect
+import top.xuqingquan.utils.Timber
+import top.xuqingquan.utils.networkIsConnect
 
 abstract class AbsAgentWebSettings : IAgentWebSettings<WebSettings>, WebListenerManager {
     private var mWebSettings: WebSettings? = null
@@ -78,7 +78,7 @@ abstract class AbsAgentWebSettings : IAgentWebSettings<WebSettings>, WebListener
         mWebSettings!!.minimumFontSize = 12//设置 WebView 支持的最小字体大小，默认为 8
         mWebSettings!!.setGeolocationEnabled(true)
         val dir = WebUtils.getCachePath(webView.context)
-        LogUtils.i("dir:" + dir + "   appcache:" + WebUtils.getCachePath(webView.context))
+        Timber.i("dir:" + dir + "   appcache:" + WebUtils.getCachePath(webView.context))
         //设置数据库路径  api19 已经废弃,这里只针对 webkit 起作用
         mWebSettings!!.setGeolocationDatabasePath(dir)
         mWebSettings!!.databasePath = dir
@@ -87,7 +87,7 @@ abstract class AbsAgentWebSettings : IAgentWebSettings<WebSettings>, WebListener
         mWebSettings!!.setAppCacheMaxSize(java.lang.Long.MAX_VALUE)
         mWebSettings!!.userAgentString = getWebSettings()!!
             .userAgentString + USERAGENT_AGENTWEB + USERAGENT_UC
-        LogUtils.i("UserAgentString : " + mWebSettings!!.userAgentString)
+        Timber.i("UserAgentString : " + mWebSettings!!.userAgentString)
     }
 
     override fun getWebSettings(): WebSettings? {

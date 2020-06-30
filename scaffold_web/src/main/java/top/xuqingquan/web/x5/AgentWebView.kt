@@ -13,7 +13,7 @@ import com.tencent.smtt.sdk.WebChromeClient
 import com.tencent.smtt.sdk.WebView
 import com.tencent.smtt.sdk.WebViewClient
 import top.xuqingquan.web.R
-import top.xuqingquan.web.utils.LogUtils
+import top.xuqingquan.utils.Timber
 
 
 open class AgentWebView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : LollipopFixedWebView(context, attrs) {
@@ -68,7 +68,7 @@ open class AgentWebView @JvmOverloads constructor(context: Context, attrs: Attri
         override fun onPageFinished(view: WebView?, url: String?) {
             super.onPageFinished(view, url)
             mAgentWebView.mFixedOnReceivedTitle.onPageFinished(view)
-            LogUtils.d("onPageFinished.url = " + view?.url)
+            Timber.d("onPageFinished.url = " + view?.url)
         }
 
 
@@ -103,7 +103,7 @@ open class AgentWebView @JvmOverloads constructor(context: Context, attrs: Attri
                 try {
                     list = view?.copyBackForwardList()
                 } catch (e: Throwable) {
-                    LogUtils.e(e)
+                    Timber.e(e)
                 }
 
                 if (list != null

@@ -14,8 +14,8 @@ import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import top.xuqingquan.web.R
 import top.xuqingquan.web.nokernel.WebUtils
-import top.xuqingquan.web.utils.LogUtils
-import top.xuqingquan.web.utils.getApplicationName
+import top.xuqingquan.utils.Timber
+import top.xuqingquan.utils.getApplicationName
 import com.tencent.smtt.export.external.interfaces.JsPromptResult as X5JsPromptResult
 import com.tencent.smtt.export.external.interfaces.JsResult as X5JsResult
 import com.tencent.smtt.sdk.WebView as X5WebView
@@ -53,7 +53,7 @@ open class DefaultUIController : AbsAgentWebUIController() {
     }
 
     private fun onOpenPagePrompt(callback: Handler.Callback?) {
-        LogUtils.i("onOpenPagePrompt")
+        Timber.i("onOpenPagePrompt")
         if (this.mActivity == null || this.mActivity!!.isFinishing || this.mActivity!!.isDestroyed) {
             return
         }
@@ -154,7 +154,7 @@ open class DefaultUIController : AbsAgentWebUIController() {
             mAlertDialog = AlertDialog.Builder(this.mActivity!!)
                 .setSingleChoiceItems(ways, -1) { dialog, which ->
                     dialog.dismiss()
-                    LogUtils.i("which:$which")
+                    Timber.i("which:$which")
                     if (callback != null) {
                         val mMessage = Message.obtain()
                         mMessage.what = which
@@ -174,7 +174,7 @@ open class DefaultUIController : AbsAgentWebUIController() {
             toCancelJsresult(jsResult)
             return
         }
-        LogUtils.i("activity:" + mActivity!!.hashCode() + "  ")
+        Timber.i("activity:" + mActivity!!.hashCode() + "  ")
         if (mConfirmDialog == null) {
             mConfirmDialog = AlertDialog.Builder(this.mActivity!!)
                 .setMessage(message)
@@ -205,7 +205,7 @@ open class DefaultUIController : AbsAgentWebUIController() {
             toCancelJsresult(jsResult)
             return
         }
-        LogUtils.i("activity:" + mActivity!!.hashCode() + "  ")
+        Timber.i("activity:" + mActivity!!.hashCode() + "  ")
         if (mConfirmDialog == null) {
             mConfirmDialog = AlertDialog.Builder(this.mActivity!!)
                 .setMessage(message)
@@ -308,14 +308,14 @@ open class DefaultUIController : AbsAgentWebUIController() {
     override fun onMainFrameError(
         view: WebView, errorCode: Int, description: String, failingUrl: String
     ) {
-        LogUtils.i("mWebParentLayout onMainFrameError:" + mWebParentLayout!!)
+        Timber.i("mWebParentLayout onMainFrameError:" + mWebParentLayout!!)
         mWebParentLayout?.showPageMainFrameError()
     }
 
     override fun onMainFrameError(
         view: X5WebView, errorCode: Int, description: String, failingUrl: String
     ) {
-        LogUtils.i("mWebParentLayout onMainFrameError:" + mWebParentLayout!!)
+        Timber.i("mWebParentLayout onMainFrameError:" + mWebParentLayout!!)
         mWebParentLayout?.showPageMainFrameError()
     }
 

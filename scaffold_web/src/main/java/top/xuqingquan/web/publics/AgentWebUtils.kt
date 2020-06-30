@@ -23,8 +23,8 @@ import top.xuqingquan.web.nokernel.PermissionInterceptor
 import top.xuqingquan.web.nokernel.WebConfig
 import top.xuqingquan.web.nokernel.WebUtils
 import top.xuqingquan.web.nokernel.WebUtils.isUIThread
-import top.xuqingquan.web.utils.LogUtils
-import top.xuqingquan.web.utils.clearCacheFolder
+import top.xuqingquan.utils.Timber
+import top.xuqingquan.utils.clearCacheFolder
 import java.io.File
 import java.lang.ref.WeakReference
 import com.tencent.smtt.sdk.WebView as X5WebView
@@ -126,7 +126,7 @@ object AgentWebUtils {
             webView.clearFormData()
             clearCacheFolder(File(WebUtils.getCachePath(context)), 0)
         } catch (t: Throwable) {
-            LogUtils.e(t)
+            Timber.e(t)
         }
 
     }
@@ -143,7 +143,7 @@ object AgentWebUtils {
             webView.clearFormData()
             clearCacheFolder(File(WebUtils.getCachePath(context)), 0)
         } catch (t: Throwable) {
-            LogUtils.e(t)
+            Timber.e(t)
         }
 
     }
@@ -186,10 +186,10 @@ object AgentWebUtils {
         check(webView.parent is ViewGroup) { "please check webcreator's create method was be called ?" }
         mViewGroup = webView.parent as ViewGroup
         while (mViewGroup != null) {
-            LogUtils.i("ViewGroup:$mViewGroup")
+            Timber.i("ViewGroup:$mViewGroup")
             mViewGroup = if (mViewGroup.id == R.id.scaffold_web_parent_layout_id) {
                 val mWebParentLayout = mViewGroup as WebParentLayout?
-                LogUtils.i("found WebParentLayout")
+                Timber.i("found WebParentLayout")
                 return mWebParentLayout!!
             } else {
                 val mViewParent = mViewGroup.parent
@@ -209,10 +209,10 @@ object AgentWebUtils {
         check(webView.parent is ViewGroup) { "please check webcreator's create method was be called ?" }
         mViewGroup = webView.parent as ViewGroup
         while (mViewGroup != null) {
-            LogUtils.i("ViewGroup:$mViewGroup")
+            Timber.i("ViewGroup:$mViewGroup")
             mViewGroup = if (mViewGroup.id == R.id.scaffold_web_parent_layout_id) {
                 val mWebParentLayout = mViewGroup as WebParentLayout?
-                LogUtils.i("found WebParentLayout")
+                Timber.i("found WebParentLayout")
                 return mWebParentLayout!!
             } else {
                 val mViewParent = mViewGroup.parent
@@ -258,9 +258,9 @@ object AgentWebUtils {
             builder.setPermissionInterceptor(permissionInterceptor)
             builder.build().openFileChooser()
         } catch (throwable: Throwable) {
-            LogUtils.e(throwable)
+            Timber.e(throwable)
             if (valueCallbacks != null) {
-                LogUtils.i("onReceiveValue empty")
+                Timber.i("onReceiveValue empty")
                 return false
             }
             valueCallback?.onReceiveValue(null)
@@ -301,9 +301,9 @@ object AgentWebUtils {
             builder.setPermissionInterceptor(permissionInterceptor)
             builder.build().openFileChooser()
         } catch (throwable: Throwable) {
-            LogUtils.e(throwable)
+            Timber.e(throwable)
             if (valueCallbacks != null) {
-                LogUtils.i("onReceiveValue empty")
+                Timber.i("onReceiveValue empty")
                 return false
             }
             valueCallback?.onReceiveValue(null)

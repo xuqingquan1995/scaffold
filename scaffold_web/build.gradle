@@ -56,6 +56,7 @@ dependencies {
     implementation rootProject.ext.deps.kotlin
     implementation rootProject.ext.deps.appcompat
     compileOnly rootProject.ext.deps.material
+    implementation project(path: ':scaffold_utils')
     //download（需要用到web下载的时候需要依赖）
     compileOnly rootProject.ext.deps.Downloader
     compileOnly rootProject.ext.deps.tbs

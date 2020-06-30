@@ -7,7 +7,7 @@ import android.webkit.JavascriptInterface
 import androidx.annotation.RequiresApi
 import top.xuqingquan.web.AgentWeb
 import top.xuqingquan.web.nokernel.WebConfig
-import top.xuqingquan.web.utils.LogUtils
+import top.xuqingquan.utils.Timber
 import java.lang.ref.WeakReference
 
 class AgentWebJsInterfaceCompat(agentWeb: AgentWeb, activity: Activity) {
@@ -19,7 +19,7 @@ class AgentWebJsInterfaceCompat(agentWeb: AgentWeb, activity: Activity) {
     @JavascriptInterface
     @JvmOverloads
     fun uploadFile(acceptType: String = "*/*") {
-        LogUtils.i(acceptType + "  " + mActivityWeakReference.get() + "  " + mReference.get())
+        Timber.i(acceptType + "  " + mActivityWeakReference.get() + "  " + mReference.get())
         if (mActivityWeakReference.get() != null && mReference.get() != null) {
             if (WebConfig.hasX5() && mReference.get()?.x5WebCreator != null && mReference.get()?.x5WebCreator?.getWebView() != null) {
                 AgentWebUtils.showFileChooserCompat(mActivityWeakReference.get()!!,

@@ -11,10 +11,10 @@ import androidx.annotation.ColorInt
 import androidx.annotation.DimenRes
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
+import top.xuqingquan.utils.px2dip
 import top.xuqingquan.web.nokernel.PermissionInterceptor
 import top.xuqingquan.web.nokernel.WebConfig
 import top.xuqingquan.web.publics.AgentWebConfig
-import top.xuqingquan.web.utils.px2dip
 import com.tencent.smtt.sdk.WebView as X5WebView
 
 /**

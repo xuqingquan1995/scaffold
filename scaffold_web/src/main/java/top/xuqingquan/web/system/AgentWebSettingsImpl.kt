@@ -5,7 +5,7 @@ import android.webkit.DownloadListener
 import android.webkit.WebView
 import top.xuqingquan.web.AgentWeb
 import top.xuqingquan.web.publics.AgentWebUtils.getAgentWebUIControllerByWebView
-import top.xuqingquan.web.utils.LogUtils
+import top.xuqingquan.utils.Timber
 import top.xuqingquan.web.utils.download
 
 class AgentWebSettingsImpl : AbsAgentWebSettings() {
@@ -32,7 +32,7 @@ class AgentWebSettingsImpl : AbsAgentWebSettings() {
                 )
             }
         } catch (t: Throwable) {
-            LogUtils.e(t)
+            Timber.e(t)
             try {
                 listener = DownloadListener { url, _, _, _, _ ->
                     val fileName = try {
@@ -59,7 +59,7 @@ class AgentWebSettingsImpl : AbsAgentWebSettings() {
                     }
                 }
             } catch (tt: Throwable) {
-                LogUtils.e(tt)
+                Timber.e(tt)
             }
         }
         return super.setDownloader(webView, listener)

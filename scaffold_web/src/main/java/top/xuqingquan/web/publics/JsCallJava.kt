@@ -5,7 +5,7 @@ import android.util.Log
 import android.webkit.WebView
 import org.json.JSONException
 import org.json.JSONObject
-import top.xuqingquan.web.utils.LogUtils
+import top.xuqingquan.utils.Timber
 import java.lang.reflect.Method
 import java.util.*
 
@@ -55,7 +55,7 @@ class JsCallJava(interfaceObj: Any, interfaceName: String) {
             preloadInterfaceJs = sb.toString()
             sb.setLength(0)
         } catch (e: Throwable) {
-            LogUtils.e("init js result:" + e.message)
+            Timber.e("init js result:" + e.message)
         }
 
     }
@@ -65,7 +65,7 @@ class JsCallJava(interfaceObj: Any, interfaceName: String) {
         val argsTypes = method.parameterTypes
         for (ignoreMethod in IGNORE_UNSAFE_METHODS) {
             if (ignoreMethod == sign.toString()) {
-                LogUtils.w("method($sign) is unsafe, will be pass")
+                Timber.w("method($sign) is unsafe, will be pass")
                 return null
             }
         }
@@ -287,7 +287,7 @@ class JsCallJava(interfaceObj: Any, interfaceName: String) {
             // insertRes = "\"".concat(String.valueOf(result)).concat("\"");
         }
         val resStr = String.format(Locale.getDefault(), RETURN_RESULT_FORMAT, stateCode, insertRes)
-        LogUtils.d("call time: " + (android.os.SystemClock.uptimeMillis() - time) + ", request: " + reqJson + ", result:" + resStr)
+        Timber.d("call time: " + (android.os.SystemClock.uptimeMillis() - time) + ", request: " + reqJson + ", result:" + resStr)
         return resStr
     }
 
