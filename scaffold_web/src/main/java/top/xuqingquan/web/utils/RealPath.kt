@@ -1,6 +1,6 @@
 @file:JvmName("RealPath")
 
-package top.xuqingquan.utils
+package top.xuqingquan.web.utils
 
 import android.content.ContentUris
 import android.content.Context
@@ -44,7 +44,7 @@ fun getPath(context: Context, uri: Uri): String? {
             val selectionArgs = arrayOf(split[1])
             return getDataColumn(context, contentUri!!, selection, selectionArgs)
         }
-    } else if (uri.authority == "${context.packageName}.ScaffoldFileProvider") {
+    } else if (uri.authority == "${context.packageName}.ScaffoldWebFileProvider") {
         return "${context.getExternalFilesDir("")}/${uri.path}"
     } else if ("content".equals(uri.scheme, ignoreCase = true)) {
         return if (isGooglePhotosUri(uri)) {

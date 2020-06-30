@@ -19,7 +19,7 @@
             android:layout_toStartOf="@id/copy" />
 
 
-    <top.xuqingquan.widget.ScaffoldWebView
+    <top.xuqingquan.web.ScaffoldWebView
             android:id="@+id/webView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

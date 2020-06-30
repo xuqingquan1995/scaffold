@@ -73,6 +73,7 @@ dependencies {
     implementation 'com.swift.sandhook:hooklib:4.2.0'
     // need for android 11
     implementation 'com.swift.sandhook:nativehook:4.2.0'
+    implementation project(path: ':scaffold_web')
 }
 //andResGuard {
 //    // mappingFile = file("./resource_mapping.txt")

@@ -4,15 +4,10 @@ import android.app.Application
 import android.content.Context
 import com.didichuxing.doraemonkit.DoraemonKit
 import com.github.anrwatchdog.ANRWatchDog
-import com.tencent.smtt.export.external.TbsCoreSettings
-import com.tencent.smtt.sdk.QbSdk
-import com.tencent.smtt.sdk.TbsListener
 import com.zxy.recovery.core.Recovery
-import top.xuqingquan.app.ScaffoldConfig
 import top.xuqingquan.delegate.AppLifecycle
 import top.xuqingquan.error.RecoveryCrashCallback
 import top.xuqingquan.utils.Timber
-import kotlin.concurrent.thread
 
 /**
  * Created by 许清泉 on 2019/4/15 00:26
