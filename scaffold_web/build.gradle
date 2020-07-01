@@ -56,7 +56,7 @@ dependencies {
     api rootProject.ext.deps.appcompat_v7
 //    compileOnly rootProject.ext.deps.material
     compileOnly rootProject.ext.deps.design
-    implementation project(path: ':scaffold_utils')
+    implementation "top.xuqingquan:utils:2.2.1-support"
     //download（需要用到web下载的时候需要依赖）
     compileOnly rootProject.ext.deps.Downloader
     compileOnly rootProject.ext.deps.tbs
