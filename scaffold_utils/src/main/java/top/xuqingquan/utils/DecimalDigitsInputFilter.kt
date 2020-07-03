@@ -1,4 +1,4 @@
-package top.xuqingquan.widget.text
+package top.xuqingquan.utils
 
 import android.text.InputFilter
 import android.text.Spanned

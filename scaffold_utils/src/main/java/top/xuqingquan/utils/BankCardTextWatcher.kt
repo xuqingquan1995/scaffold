@@ -1,4 +1,4 @@
-package top.xuqingquan.widget.text
+package top.xuqingquan.utils
 
 import android.text.Editable
 import android.text.Selection
@@ -11,7 +11,8 @@ import android.widget.EditText
  */
 class BankCardTextWatcher(private val editText: EditText, maxLength: Int) : TextWatcher {
     //max input length
-    private var maxLength = DEFAULT_MAX_LENGTH
+    private var maxLength =
+        DEFAULT_MAX_LENGTH
     private var beforeTextLength = 0
     private var isChanged = false
 
