@@ -20,6 +20,10 @@
         <attr name="scaffold_trackTextColor" format="color" />
     </declare-styleable>
 
+    <declare-styleable name="scaffold_ExpandTextView">
+        <attr name="scaffold_expandTextColor" format="color" />
+    </declare-styleable>
+
     <style name="scaffold_LargeText">
         <item name="android:textSize">15sp</item>
     </style>

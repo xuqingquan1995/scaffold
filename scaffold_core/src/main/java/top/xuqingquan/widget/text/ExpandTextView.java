@@ -2,6 +2,7 @@ package top.xuqingquan.widget.text;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.text.Layout;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -9,13 +10,15 @@ import android.text.StaticLayout;
 import android.text.method.LinkMovementMethod;
 import android.util.AttributeSet;
 
+import androidx.annotation.ColorInt;
 import androidx.appcompat.widget.AppCompatTextView;
+
+import top.xuqingquan.R;
 
 /**
  * 自定义控件，长文本展开收起TextView
  * Created by 许清泉 on 2020/4/16 15:21
  */
-@SuppressLint("AppCompatCustomView")
 public class ExpandTextView extends AppCompatTextView {
     private String originText;// 原始内容文本
     private int initWidth = 0;// TextView可展示宽度
@@ -24,19 +27,20 @@ public class ExpandTextView extends AppCompatTextView {
     private SpannableString SPAN_EXPAND = null;// 展开的文案(颜色处理)
     private static final String TEXT_EXPAND = "  更多";
     private static final String TEXT_CLOSE = "  收起";
+    @ColorInt
+    private int expandTextColor;
 
     public ExpandTextView(Context context) {
         super(context);
         initCloseEnd();
     }
 
+    @SuppressLint("CustomViewStyleable")
     public ExpandTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        initCloseEnd();
-    }
-
-    public ExpandTextView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.scaffold_ExpandTextView);
+        expandTextColor = a.getColor(R.styleable.scaffold_ExpandTextView_scaffold_expandTextColor, 0);
+        a.recycle();
         initCloseEnd();
     }
 
@@ -69,7 +73,7 @@ public class ExpandTextView extends AppCompatTextView {
         ButtonSpan span = new ButtonSpan(getContext(), v -> {
             ExpandTextView.super.setMaxLines(Integer.MAX_VALUE);
             setExpandText(originText);
-        }, android.R.color.holo_blue_bright);
+        }, expandTextColor);
         SPAN_CLOSE.setSpan(span, 0, content.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
     }
 
@@ -82,7 +86,7 @@ public class ExpandTextView extends AppCompatTextView {
         ButtonSpan span = new ButtonSpan(getContext(), v -> {
             ExpandTextView.super.setMaxLines(mMaxLines);
             setCloseText(originText);
-        }, android.R.color.holo_blue_bright);
+        }, expandTextColor);
         SPAN_EXPAND.setSpan(span, 0, content.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
     }
 
