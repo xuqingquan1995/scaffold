@@ -22,6 +22,8 @@
 
     <declare-styleable name="scaffold_ExpandTextView">
         <attr name="scaffold_expandTextColor" format="color" />
+        <attr name="scaffold_expandText" format="string"/>
+        <attr name="scaffold_closeText" format="string"/>
     </declare-styleable>
 
     <style name="scaffold_LargeText">

@@ -7,6 +7,7 @@ import android.text.Layout;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.StaticLayout;
+import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.util.AttributeSet;
 
@@ -25,8 +26,8 @@ public class ExpandTextView extends AppCompatTextView {
     private int mMaxLines = 3;// TextView最大行数
     private SpannableString SPAN_CLOSE = null;// 收起的文案(颜色处理)
     private SpannableString SPAN_EXPAND = null;// 展开的文案(颜色处理)
-    private static final String TEXT_EXPAND = "  更多";
-    private static final String TEXT_CLOSE = "  收起";
+    private String expandText = "  更多";
+    private String closeText = "  收起";
     @ColorInt
     private int expandTextColor;
 
@@ -40,6 +41,14 @@ public class ExpandTextView extends AppCompatTextView {
         super(context, attrs);
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.scaffold_ExpandTextView);
         expandTextColor = a.getColor(R.styleable.scaffold_ExpandTextView_scaffold_expandTextColor, 0);
+        String expandText = a.getString(R.styleable.scaffold_ExpandTextView_scaffold_expandText);
+        if (!TextUtils.isEmpty(expandText)) {
+            this.expandText = expandText;
+        }
+        String closeText = a.getString(R.styleable.scaffold_ExpandTextView_scaffold_closeText);
+        if (!TextUtils.isEmpty(closeText)) {
+            this.closeText = closeText;
+        }
         a.recycle();
         initCloseEnd();
     }
@@ -68,7 +77,7 @@ public class ExpandTextView extends AppCompatTextView {
      * 收起的文案(颜色处理)初始化
      */
     private void initCloseEnd() {
-        String content = TEXT_EXPAND;
+        String content = expandText;
         SPAN_CLOSE = new SpannableString(content);
         ButtonSpan span = new ButtonSpan(getContext(), v -> {
             ExpandTextView.super.setMaxLines(Integer.MAX_VALUE);
@@ -81,7 +90,7 @@ public class ExpandTextView extends AppCompatTextView {
      * 展开的文案(颜色处理)初始化
      */
     private void initExpandEnd() {
-        String content = TEXT_CLOSE;
+        String content = closeText;
         SPAN_EXPAND = new SpannableString(content);
         ButtonSpan span = new ButtonSpan(getContext(), v -> {
             ExpandTextView.super.setMaxLines(mMaxLines);
@@ -137,7 +146,7 @@ public class ExpandTextView extends AppCompatTextView {
             initExpandEnd();
         }
         Layout layout1 = createWorkingLayout(text);
-        Layout layout2 = createWorkingLayout(text + TEXT_CLOSE);
+        Layout layout2 = createWorkingLayout(text + closeText);
         // 展示全部原始内容时 如果 TEXT_CLOSE 需要换行才能显示完整，则直接将TEXT_CLOSE展示在下一行
         if (layout2.getLineCount() > layout1.getLineCount()) {
             setText(originText + "\n");
