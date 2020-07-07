@@ -9,7 +9,11 @@ import top.xuqingquan.utils.Timber
 /**
  * Created by 许清泉 on 2020/7/7 22:24
  */
-fun initTbs(context: Context, downloadWithoutWifi: Boolean = true, cb: QbSdk.PreInitCallback?) {
+fun initTbs(
+    context: Context,
+    downloadWithoutWifi: Boolean = true,
+    cb: QbSdk.PreInitCallback? = null
+) {
     Timber.d("QbSdk----Thread.currentThread()===${Thread.currentThread()}")
     QbSdk.initTbsSettings(
         mapOf(
