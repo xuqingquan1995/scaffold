@@ -1,14 +1,13 @@
 package top.xuqingquan.web.publics
 
 import android.app.Activity
-import android.app.Dialog
 import android.os.Handler
 import android.webkit.JsPromptResult
-import com.tencent.smtt.sdk.WebView as X5WebView
-import android.webkit.WebView
-import com.tencent.smtt.export.external.interfaces.JsResult as X5JsResult
 import android.webkit.JsResult
+import android.webkit.WebView
 import com.tencent.smtt.export.external.interfaces.JsPromptResult as X5JsPromptResult
+import com.tencent.smtt.export.external.interfaces.JsResult as X5JsResult
+import com.tencent.smtt.sdk.WebView as X5WebView
 
 abstract class AbsAgentWebUIController {
     @Volatile
@@ -33,18 +32,6 @@ abstract class AbsAgentWebUIController {
         if (!mIsBindWebParent) {
             mIsBindWebParent = true
             bindSupportWebParent(webParentLayout, activity)
-        }
-    }
-
-    protected fun toDismissDialog(dialog: Dialog?) {
-        if (dialog != null && dialog.isShowing) {
-            dialog.dismiss()
-        }
-    }
-
-    protected fun toShowDialog(dialog: Dialog?) {
-        if (dialog != null && !dialog.isShowing) {
-            dialog.show()
         }
     }
 

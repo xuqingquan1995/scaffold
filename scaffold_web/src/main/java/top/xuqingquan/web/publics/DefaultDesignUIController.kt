@@ -1,5 +1,6 @@
 package top.xuqingquan.web.publics
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.graphics.Color
 import android.os.Handler
@@ -127,6 +128,7 @@ class DefaultDesignUIController : DefaultUIController() {
                 )
             }
 
+            @SuppressLint("RecyclerView")
             override fun onBindViewHolder(bottomSheetHolder: BottomSheetHolder, i: Int) {
                 val outValue = TypedValue()
                 mActivity!!.theme.resolveAttribute(android.R.attr.selectableItemBackground, outValue, true)

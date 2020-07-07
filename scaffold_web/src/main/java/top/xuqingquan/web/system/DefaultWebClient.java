@@ -8,7 +8,7 @@ import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Handler;
+import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -18,8 +18,6 @@ import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import android.support.annotation.RequiresApi;
-
 import com.alipay.sdk.app.PayTask;
 
 import java.lang.ref.WeakReference;
@@ -28,12 +26,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import top.xuqingquan.utils.Timber;
 import top.xuqingquan.web.nokernel.PermissionInterceptor;
 import top.xuqingquan.web.nokernel.WebConfig;
 import top.xuqingquan.web.nokernel.WebUtils;
 import top.xuqingquan.web.publics.AbsAgentWebUIController;
 import top.xuqingquan.web.publics.AgentWebUtils;
-import top.xuqingquan.utils.Timber;
 
 public class DefaultWebClient extends MiddlewareWebClientBase {
     /**
@@ -83,7 +81,7 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
     /**
      * 是否拦截找不到相应页面的Url，默认拦截
      */
-    private boolean mIsInterceptUnkownUrl;
+    private boolean mIsInterceptUnknownUrl;
     /**
      * AbsAgentWebUIController
      */
@@ -92,10 +90,6 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
      * WebView
      */
     private WebView mWebView;
-    /**
-     * 弹窗回调
-     */
-    private Handler.Callback mCallback = null;
     /**
      * Alipay PayTask 对象
      */
@@ -111,7 +105,7 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
     /**
      * 缓存等待加载完成的页面 onPageStart()执行之后 ，onPageFinished()执行之前
      */
-    private Set<String> mWaittingFinishSet = new HashSet<>();
+    private Set<String> mWaitingFinishSet = new HashSet<>();
 
     static {
         boolean tag = true;
@@ -131,7 +125,7 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
         this.mWeakReference = new WeakReference<>(builder.mActivity);
         this.webClientHelper = builder.mWebClientHelper;
         this.mAgentWebUIController = new WeakReference<>(AgentWebUtils.getAgentWebUIControllerByWebView(builder.mWebView));
-        this.mIsInterceptUnkownUrl = builder.mIsInterceptUnkownScheme;
+        this.mIsInterceptUnknownUrl = builder.mIsInterceptUnkownScheme;
         if (builder.mUrlHandleWays <= 0) {
             mUrlHandleWays = WebConfig.ASK_USER_OPEN_OTHER_PAGE;
         } else {
@@ -168,12 +162,12 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
             Timber.i("alipays url lookup alipay ~~ ");
             return true;
         }
-        if (queryActiviesNumber(url) > 0 && deepLink(url)) {
-            Timber.i("intercept url:" + url);
+        if (queryActivitiesNumber(url) > 0 && deepLink(url)) {
+            Timber.i("intercept OtherAppScheme");
             return true;
         }
-        if (mIsInterceptUnkownUrl) {
-            Timber.i("intercept UnkownUrl :" + request.getUrl());
+        if (mIsInterceptUnknownUrl) {
+            Timber.i("intercept UnknownUrl :" + request.getUrl());
             return true;
         }
         return super.shouldOverrideUrlLoading(view, request);
@@ -204,7 +198,12 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
                     mAgentWebUIController.get()
                             .onOpenPagePrompt(this.mWebView,
                                     mWebView.getUrl(),
-                                    getCallback(url));
+                                    msg -> {
+                                        if (msg.what == 1) {
+                                            lookup(url);
+                                        }
+                                        return true;
+                                    });
                 }
                 return true;
             // 默认不打开
@@ -247,19 +246,19 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
             return true;
         }
         //打开url 相对应的页面
-        if (queryActiviesNumber(url) > 0 && deepLink(url)) {
+        if (queryActivitiesNumber(url) > 0 && deepLink(url)) {
             Timber.i("intercept OtherAppScheme");
             return true;
         }
         // 手机里面没有页面能匹配到该链接 ，拦截下来。
-        if (mIsInterceptUnkownUrl) {
-            Timber.i("intercept InterceptUnkownScheme : " + url);
+        if (mIsInterceptUnknownUrl) {
+            Timber.i("intercept InterceptUnknownScheme : " + url);
             return true;
         }
         return super.shouldOverrideUrlLoading(view, url);
     }
 
-    private int queryActiviesNumber(String url) {
+    private int queryActivitiesNumber(String url) {
         try {
             if (mWeakReference.get() == null) {
                 return 0;
@@ -375,8 +374,8 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
     @Override
     public void onPageStarted(WebView view, String url, Bitmap favicon) {
         //noinspection RedundantCollectionOperation
-        if (!mWaittingFinishSet.contains(url)) {
-            mWaittingFinishSet.add(url);
+        if (!mWaitingFinishSet.contains(url)) {
+            mWaitingFinishSet.add(url);
         }
         super.onPageStarted(view, url, favicon);
 
@@ -427,7 +426,7 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
 
     @Override
     public void onPageFinished(WebView view, String url) {
-        if (!mErrorUrlsSet.contains(url) && mWaittingFinishSet.contains(url)) {
+        if (!mErrorUrlsSet.contains(url) && mWaitingFinishSet.contains(url)) {
             if (mAgentWebUIController.get() != null) {
                 mAgentWebUIController.get().onShowMainFrame();
             }
@@ -435,8 +434,8 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
             view.setVisibility(View.VISIBLE);
         }
         //noinspection RedundantCollectionOperation
-        if (mWaittingFinishSet.contains(url)) {
-            mWaittingFinishSet.remove(url);
+        if (mWaitingFinishSet.contains(url)) {
+            mWaitingFinishSet.remove(url);
         }
         if (!mErrorUrlsSet.isEmpty()) {
             mErrorUrlsSet.clear();
@@ -471,20 +470,6 @@ public class DefaultWebClient extends MiddlewareWebClientBase {
         if (newScale - oldScale > CONSTANTS_ABNORMAL_BIG) {
             view.setInitialScale((int) (oldScale / newScale * 100));
         }
-    }
-
-    private Handler.Callback getCallback(final String url) {
-        if (this.mCallback != null) {
-            return this.mCallback;
-        }
-        return this.mCallback = msg -> {
-            if (msg.what == 1) {
-                lookup(url);
-            } else {
-                return true;
-            }
-            return true;
-        };
     }
 
     public static Builder createBuilder() {

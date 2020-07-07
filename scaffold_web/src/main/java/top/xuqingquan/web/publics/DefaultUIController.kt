@@ -22,19 +22,13 @@ import com.tencent.smtt.sdk.WebView as X5WebView
 
 open class DefaultUIController : AbsAgentWebUIController() {
 
-    private var mAlertDialog: AlertDialog? = null
-    private var mConfirmDialog: AlertDialog? = null
     private var mJsPromptResult: JsPromptResult? = null
     private var mJsResult: JsResult? = null
     private var mX5JsPromptResult: X5JsPromptResult? = null
     private var mX5JsResult: X5JsResult? = null
-    private var mPromptDialog: AlertDialog? = null
     private var mActivity: Activity? = null
     private var mWebParentLayout: WebParentLayout? = null
-    private var mAskOpenOtherAppDialog: AlertDialog? = null
     private var mProgressDialog: ProgressDialog? = null
-    private var mAlertDialogForceDownload: AlertDialog? = null
-    private var mAlertDialogDownload: AlertDialog? = null
 
     override fun onJsAlert(view: WebView, url: String, message: String) {
         WebUtils.toastShowShort(view.context.applicationContext, message)
@@ -57,24 +51,21 @@ open class DefaultUIController : AbsAgentWebUIController() {
         if (this.mActivity == null || this.mActivity!!.isFinishing || this.mActivity!!.isDestroyed) {
             return
         }
-        if (mAskOpenOtherAppDialog == null) {
-            mAskOpenOtherAppDialog = AlertDialog.Builder(this.mActivity!!)
-                .setTitle(R.string.scaffold_tips)
-                .setMessage(
-                    this.mActivity!!.getString(
-                        R.string.scaffold_leave_app_and_go_other_page,
-                        getApplicationName(mActivity!!)
-                    )
-                )//
-                .setNegativeButton(R.string.scaffold_cancel) { _, _ ->
-                    callback?.handleMessage(Message.obtain(null, -1))
-                }//
-                .setPositiveButton(R.string.scaffold_leave) { _, _ ->
-                    callback?.handleMessage(Message.obtain(null, 1))
-                }
-                .create()
-        }
-        mAskOpenOtherAppDialog!!.show()
+        AlertDialog.Builder(this.mActivity!!)
+            .setTitle(R.string.scaffold_tips)
+            .setMessage(
+                this.mActivity!!.getString(
+                    R.string.scaffold_leave_app_and_go_other_page,
+                    getApplicationName(mActivity!!)
+                )
+            )//
+            .setNegativeButton(R.string.scaffold_cancel) { _, _ ->
+                callback?.handleMessage(Message.obtain(null, -1))
+            }//
+            .setPositiveButton(R.string.scaffold_leave) { _, _ ->
+                callback?.handleMessage(Message.obtain(null, 1))
+            }
+            .create().show()
     }
 
     override fun onJsConfirm(
@@ -109,64 +100,53 @@ open class DefaultUIController : AbsAgentWebUIController() {
         if (this.mActivity == null || this.mActivity!!.isFinishing || this.mActivity!!.isDestroyed) {
             return
         }
-        if (mAlertDialogForceDownload == null) {
-            mAlertDialogForceDownload = AlertDialog.Builder(this.mActivity!!)
-                .setTitle(R.string.scaffold_tips)
-                .setMessage(R.string.scaffold_honeycomblow)
-                .setNegativeButton(R.string.scaffold_download) { dialog, _ ->
-                    dialog?.dismiss()
-                    callback.handleMessage(Message.obtain())
-                }//
-                .setPositiveButton(R.string.scaffold_cancel) { dialog, _ ->
-                    dialog?.dismiss()
-                }.create()
-        }
-        mAlertDialogForceDownload!!.show()
+        AlertDialog.Builder(this.mActivity!!)
+            .setTitle(R.string.scaffold_tips)
+            .setMessage(R.string.scaffold_honeycomblow)
+            .setNegativeButton(R.string.scaffold_download) { dialog, _ ->
+                dialog?.dismiss()
+                callback.handleMessage(Message.obtain())
+            }//
+            .setPositiveButton(R.string.scaffold_cancel) { dialog, _ ->
+                dialog?.dismiss()
+            }.create().show()
     }
 
     override fun onDownloadPrompt(fileName: String, callback: Handler.Callback) {
         if (this.mActivity == null || this.mActivity!!.isFinishing || this.mActivity!!.isDestroyed) {
             return
         }
-        if (mAlertDialogDownload == null) {
-            mAlertDialogDownload = AlertDialog.Builder(this.mActivity!!)
-                .setTitle(R.string.scaffold_tips)
-                .setNegativeButton(R.string.scaffold_download) { dialog, _ ->
-                    dialog?.dismiss()
-                    callback.handleMessage(Message.obtain())
-                }//
-                .setPositiveButton(R.string.scaffold_cancel) { dialog, _ ->
-                    dialog?.dismiss()
-                }
-                .create()
-        }
-        mAlertDialogDownload!!.setMessage(
-            this.mActivity!!.getString(R.string.scaffold_download_file_tips, fileName)
-        )
-        mAlertDialogDownload!!.show()
+        AlertDialog.Builder(this.mActivity!!)
+            .setTitle(R.string.scaffold_tips)
+            .setMessage(this.mActivity!!.getString(R.string.scaffold_download_file_tips, fileName))
+            .setNegativeButton(R.string.scaffold_download) { dialog, _ ->
+                dialog?.dismiss()
+                callback.handleMessage(Message.obtain())
+            }//
+            .setPositiveButton(R.string.scaffold_cancel) { dialog, _ ->
+                dialog?.dismiss()
+            }
+            .create().show()
     }
 
     private fun showChooserInternal(ways: Array<String>, callback: Handler.Callback?) {
         if (this.mActivity == null || this.mActivity!!.isFinishing || this.mActivity!!.isDestroyed) {
             return
         }
-        if (mAlertDialog == null) {
-            mAlertDialog = AlertDialog.Builder(this.mActivity!!)
-                .setSingleChoiceItems(ways, -1) { dialog, which ->
-                    dialog.dismiss()
-                    Timber.i("which:$which")
-                    if (callback != null) {
-                        val mMessage = Message.obtain()
-                        mMessage.what = which
-                        callback.handleMessage(mMessage)
-                    }
+        AlertDialog.Builder(this.mActivity!!)
+            .setSingleChoiceItems(ways, -1) { dialog, which ->
+                dialog.dismiss()
+                Timber.i("which:$which")
+                if (callback != null) {
+                    val mMessage = Message.obtain()
+                    mMessage.what = which
+                    callback.handleMessage(mMessage)
+                }
 
-                }.setOnCancelListener { dialog ->
-                    dialog.dismiss()
-                    callback?.handleMessage(Message.obtain(null, -1))
-                }.create()
-        }
-        mAlertDialog!!.show()
+            }.setOnCancelListener { dialog ->
+                dialog.dismiss()
+                callback?.handleMessage(Message.obtain(null, -1))
+            }.create().show()
     }
 
     private fun onJsConfirmInternal(message: String, jsResult: JsResult) {
@@ -175,27 +155,22 @@ open class DefaultUIController : AbsAgentWebUIController() {
             return
         }
         Timber.i("activity:" + mActivity!!.hashCode() + "  ")
-        if (mConfirmDialog == null) {
-            mConfirmDialog = AlertDialog.Builder(this.mActivity!!)
-                .setMessage(message)
-                .setNegativeButton(android.R.string.cancel) { _, _ ->
-                    toDismissDialog(mConfirmDialog)
-                    toCancelJsresult(mJsResult)
-                }//
-                .setPositiveButton(android.R.string.ok) { _, _ ->
-                    toDismissDialog(mConfirmDialog)
-                    mJsResult?.confirm()
-                }
-                .setOnCancelListener { dialog ->
-                    dialog.dismiss()
-                    toCancelJsresult(mJsResult)
-                }
-                .create()
-
-        }
-        mConfirmDialog!!.setMessage(message)
         this.mJsResult = jsResult
-        mConfirmDialog!!.show()
+        AlertDialog.Builder(this.mActivity!!)
+            .setMessage(message)
+            .setNegativeButton(android.R.string.cancel) { dialog, _ ->
+                dialog.dismiss()
+                toCancelJsresult(mJsResult)
+            }//
+            .setPositiveButton(android.R.string.ok) { dialog, _ ->
+                dialog.dismiss()
+                mJsResult?.confirm()
+            }
+            .setOnCancelListener { dialog ->
+                dialog.dismiss()
+                toCancelJsresult(mJsResult)
+            }
+            .create().show()
     }
 
     private fun onJsConfirmInternal(
@@ -206,27 +181,22 @@ open class DefaultUIController : AbsAgentWebUIController() {
             return
         }
         Timber.i("activity:" + mActivity!!.hashCode() + "  ")
-        if (mConfirmDialog == null) {
-            mConfirmDialog = AlertDialog.Builder(this.mActivity!!)
-                .setMessage(message)
-                .setNegativeButton(android.R.string.cancel) { _, _ ->
-                    toDismissDialog(mConfirmDialog)
-                    toCancelJsresult(mJsResult)
-                }//
-                .setPositiveButton(android.R.string.ok) { _, _ ->
-                    toDismissDialog(mConfirmDialog)
-                    mJsResult?.confirm()
-                }
-                .setOnCancelListener { dialog ->
-                    dialog.dismiss()
-                    toCancelJsresult(mJsResult)
-                }
-                .create()
-
-        }
-        mConfirmDialog!!.setMessage(message)
         this.mX5JsResult = jsResult
-        mConfirmDialog!!.show()
+        AlertDialog.Builder(this.mActivity!!)
+            .setMessage(message)
+            .setNegativeButton(android.R.string.cancel) { dialog, _ ->
+                dialog.dismiss()
+                toCancelJsresult(mJsResult)
+            }//
+            .setPositiveButton(android.R.string.ok) { dialog, _ ->
+                dialog.dismiss()
+                mJsResult?.confirm()
+            }
+            .setOnCancelListener { dialog ->
+                dialog.dismiss()
+                toCancelJsresult(mJsResult)
+            }
+            .create().show()
     }
 
     private fun onJsPromptInternal(
@@ -236,28 +206,25 @@ open class DefaultUIController : AbsAgentWebUIController() {
             jsPromptResult.cancel()
             return
         }
-        if (mPromptDialog == null) {
-            val et = EditText(mActivity)
-            et.setText(defaultValue)
-            mPromptDialog = AlertDialog.Builder(this.mActivity!!)
-                .setView(et)
-                .setTitle(message)
-                .setNegativeButton(android.R.string.cancel) { _, _ ->
-                    toDismissDialog(mPromptDialog)
-                    toCancelJsresult(mJsPromptResult)
-                }//
-                .setPositiveButton(android.R.string.ok) { _, _ ->
-                    toDismissDialog(mPromptDialog)
-                    mJsPromptResult?.confirm(et.text.toString())
-                }
-                .setOnCancelListener { dialog ->
-                    dialog.dismiss()
-                    toCancelJsresult(mJsPromptResult)
-                }
-                .create()
-        }
         this.mJsPromptResult = jsPromptResult
-        mPromptDialog!!.show()
+        val et = EditText(mActivity)
+        et.setText(defaultValue)
+        AlertDialog.Builder(this.mActivity!!)
+            .setView(et)
+            .setTitle(message)
+            .setNegativeButton(android.R.string.cancel) { dialog, _ ->
+                dialog.dismiss()
+                toCancelJsresult(mJsPromptResult)
+            }//
+            .setPositiveButton(android.R.string.ok) { dialog, _ ->
+                dialog.dismiss()
+                mJsPromptResult?.confirm(et.text.toString())
+            }
+            .setOnCancelListener { dialog ->
+                dialog.dismiss()
+                toCancelJsresult(mJsPromptResult)
+            }
+            .create().show()
     }
 
     private fun onJsPromptInternal(
@@ -267,28 +234,25 @@ open class DefaultUIController : AbsAgentWebUIController() {
             jsPromptResult.cancel()
             return
         }
-        if (mPromptDialog == null) {
-            val et = EditText(mActivity)
-            et.setText(defaultValue)
-            mPromptDialog = AlertDialog.Builder(this.mActivity!!)
-                .setView(et)
-                .setTitle(message)
-                .setNegativeButton(android.R.string.cancel) { _, _ ->
-                    toDismissDialog(mPromptDialog)
-                    toCancelJsresult(mJsPromptResult)
-                }//
-                .setPositiveButton(android.R.string.ok) { _, _ ->
-                    toDismissDialog(mPromptDialog)
-                    mJsPromptResult?.confirm(et.text.toString())
-                }
-                .setOnCancelListener { dialog ->
-                    dialog.dismiss()
-                    toCancelJsresult(mJsPromptResult)
-                }
-                .create()
-        }
         this.mX5JsPromptResult = jsPromptResult
-        mPromptDialog!!.show()
+        val et = EditText(mActivity)
+        et.setText(defaultValue)
+        AlertDialog.Builder(this.mActivity!!)
+            .setView(et)
+            .setTitle(message)
+            .setNegativeButton(android.R.string.cancel) { dialog, _ ->
+                dialog.dismiss()
+                toCancelJsresult(mJsPromptResult)
+            }//
+            .setPositiveButton(android.R.string.ok) { dialog, _ ->
+                dialog.dismiss()
+                mJsPromptResult?.confirm(et.text.toString())
+            }
+            .setOnCancelListener { dialog ->
+                dialog.dismiss()
+                toCancelJsresult(mJsPromptResult)
+            }
+            .create().show()
     }
 
     override fun onJsPrompt(

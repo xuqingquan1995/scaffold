@@ -88,6 +88,7 @@ class MainActivity : SimpleActivity() {
                     when (position) {
                         0 -> "url" to "http://debugtbs.qq.com"
                         1 -> "url" to "https://www.fanhuangli.com/c.html"
+                        2 -> "url" to "https://m.baidu.com/"
                         else -> "url" to "http://m.bilibili.com"
                     }
                 )
