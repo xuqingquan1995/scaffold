@@ -7,6 +7,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.TextUtils;
+import android.webkit.DownloadListener;
 import android.webkit.WebView;
 
 import android.support.annotation.NonNull;
@@ -42,7 +44,7 @@ import top.xuqingquan.utils.PermissionUtils;
  * Created by 许清泉 on 2019-06-19 23:29
  */
 @SuppressWarnings("rawtypes")
-public class DefaultDownloadImpl implements android.webkit.DownloadListener {
+public class DefaultDownloadImpl implements DownloadListener {
     /**
      * Application Context
      */
@@ -97,6 +99,14 @@ public class DefaultDownloadImpl implements android.webkit.DownloadListener {
             if (this.mPermissionListener.intercept(url, AgentWebPermissions.STORAGE, "download")) {
                 return;
             }
+        }
+        if (TextUtils.isEmpty(url) || !url.startsWith("http")) {
+            if (mAgentWebUIController.get() != null) {
+                mAgentWebUIController.get().onShowMessage(mContext.getString(R.string.scaffold_no_allow_download_file), "preDownload");
+            } else {
+                WebUtils.toastShowShort(mContext, mContext.getString(R.string.scaffold_no_allow_download_file));
+            }
+            return;
         }
         ResourceRequest resourceRequest = createResourceRequest(url);
         if (resourceRequest == null) {

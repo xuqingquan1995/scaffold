@@ -85,10 +85,10 @@ class MainActivity : SimpleActivity() {
         adapter.setOnItemClickListener {
             onClick { view, position, data, viewType ->
                 startActivity<WebActivity>(
-                    if (position == 0) {
-                        "url" to "http://debugtbs.qq.com"
-                    } else {
-                        "url" to "http://m.bilibili.com"
+                    when (position) {
+                        0 -> "url" to "http://debugtbs.qq.com"
+                        1 -> "url" to "https://www.fanhuangli.com/c.html"
+                        else -> "url" to "http://m.bilibili.com"
                     }
                 )
             }

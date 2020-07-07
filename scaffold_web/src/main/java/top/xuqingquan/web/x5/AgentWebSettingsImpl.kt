@@ -6,6 +6,8 @@ import com.tencent.smtt.sdk.WebView
 import top.xuqingquan.web.AgentWeb
 import top.xuqingquan.web.publics.AgentWebUtils
 import top.xuqingquan.utils.Timber
+import top.xuqingquan.web.R
+import top.xuqingquan.web.nokernel.WebUtils
 import top.xuqingquan.web.utils.download
 
 class AgentWebSettingsImpl : AbsAgentWebSettings() {
@@ -35,6 +37,21 @@ class AgentWebSettingsImpl : AbsAgentWebSettings() {
             Timber.e(t)
             try {
                 listener = DownloadListener { url, _, _, _, _ ->
+                    val uiController = AgentWebUtils.getAgentWebUIControllerByWebView(webView)
+                    if (url.isNullOrEmpty() || !url.startsWith("http")) {
+                        if (uiController != null) {
+                            uiController.onShowMessage(
+                                mContext.getString(R.string.scaffold_no_allow_download_file),
+                                "preDownload"
+                            )
+                        } else {
+                            WebUtils.toastShowShort(
+                                mContext,
+                                mContext.getString(R.string.scaffold_no_allow_download_file)
+                            )
+                        }
+                        return@DownloadListener
+                    }
                     val fileName = try {
                         var lastIndexOf = url.lastIndexOf("/")
                         if (lastIndexOf != url.length - 1) {//如果已经不是最后一项了
@@ -48,7 +65,6 @@ class AgentWebSettingsImpl : AbsAgentWebSettings() {
                     } catch (e: Throwable) {
                         url
                     }
-                    val uiController = AgentWebUtils.getAgentWebUIControllerByWebView(webView)
                     if (uiController != null) {
                         uiController.onDownloadPrompt(fileName, Handler.Callback {
                             download(mContext, fileName, url)

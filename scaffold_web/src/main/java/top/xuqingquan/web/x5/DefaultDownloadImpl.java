@@ -7,9 +7,9 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
-
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 
 import com.download.library.DownloadImpl;
 import com.download.library.DownloadListenerAdapter;
@@ -25,6 +25,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
+import top.xuqingquan.utils.FileUtils;
+import top.xuqingquan.utils.NetUtils;
+import top.xuqingquan.utils.PermissionUtils;
+import top.xuqingquan.utils.Timber;
 import top.xuqingquan.web.R;
 import top.xuqingquan.web.nokernel.Action;
 import top.xuqingquan.web.nokernel.ActionActivity;
@@ -34,10 +38,6 @@ import top.xuqingquan.web.nokernel.WebUtils;
 import top.xuqingquan.web.publics.AbsAgentWebUIController;
 import top.xuqingquan.web.publics.AgentWebConfig;
 import top.xuqingquan.web.publics.AgentWebUtils;
-import top.xuqingquan.utils.FileUtils;
-import top.xuqingquan.utils.Timber;
-import top.xuqingquan.utils.NetUtils;
-import top.xuqingquan.utils.PermissionUtils;
 
 /**
  * Created by 许清泉 on 2019-06-19 23:29
@@ -97,6 +97,14 @@ public class DefaultDownloadImpl implements DownloadListener {
             if (this.mPermissionListener.intercept(url, AgentWebPermissions.STORAGE, "download")) {
                 return;
             }
+        }
+        if (TextUtils.isEmpty(url) || !url.startsWith("http")) {
+            if (mAgentWebUIController.get() != null) {
+                mAgentWebUIController.get().onShowMessage(mContext.getString(R.string.scaffold_no_allow_download_file), "preDownload");
+            } else {
+                WebUtils.toastShowShort(mContext, mContext.getString(R.string.scaffold_no_allow_download_file));
+            }
+            return;
         }
         ResourceRequest resourceRequest = createResourceRequest(url);
         if (resourceRequest == null) {
