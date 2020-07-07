@@ -12,6 +12,7 @@ import top.xuqingquan.base.view.activity.SimpleActivity
 import top.xuqingquan.extension.*
 import top.xuqingquan.http.log.Level
 import top.xuqingquan.utils.Timber
+import top.xuqingquan.utils.startActivity
 
 class MainActivity : SimpleActivity() {
 
@@ -80,6 +81,17 @@ class MainActivity : SimpleActivity() {
         swipe_refresh.setOnRefreshListener {
             Timber.d("refreshState===1111")
             listing.refresh.invoke()
+        }
+        adapter.setOnItemClickListener {
+            onClick { view, position, data, viewType ->
+                startActivity<WebActivity>(
+                    if (position == 0) {
+                        "url" to "http://debugtbs.qq.com"
+                    } else {
+                        "url" to "http://m.bilibili.com"
+                    }
+                )
+            }
         }
 //        adapter.listener = object : SimplePagedListAdapter.OnViewClickListener<Subjects>() {
 //            override fun onClick(view: View, position: Int, data: Subjects?, viewType: Int) {
