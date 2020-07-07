@@ -108,7 +108,7 @@ class ScaffoldWebView : FrameLayout {
                 })
                 .createAgentWeb()//创建AgentWeb。
                 .get()
-        if (WebConfig.hasX5()) {
+        if (WebConfig.enableTbs()) {
             agentWeb!!.x5WebCreator?.getWebView()?.overScrollMode = X5WebView.OVER_SCROLL_NEVER
         } else {
             agentWeb!!.webCreator?.getWebView()?.overScrollMode = WebView.OVER_SCROLL_NEVER
@@ -140,7 +140,6 @@ class ScaffoldWebView : FrameLayout {
             agentWeb?.destroy()
         } catch (e: Throwable) {
         }
-        WebConfig.x5 = null//每次退出时都清空X5状态
     }
 
     override fun onDetachedFromWindow() {
@@ -155,7 +154,7 @@ class ScaffoldWebView : FrameLayout {
     fun reload() = agentWeb?.urlLoader?.reload()
 
     fun getCurrentUrl(): String? {
-        return if (WebConfig.hasX5()) {
+        return if (WebConfig.enableTbs()) {
             agentWeb?.x5WebCreator?.getWebView()?.url
         } else {
             agentWeb?.webCreator?.getWebView()?.url

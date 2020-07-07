@@ -80,20 +80,10 @@ object WebConfig {
     @JvmField
     var MAX_FILE_LENGTH = 1024 * 1024 * 5
 
-    var x5: Boolean? = null
+    var x5 = false
 
     @JvmStatic
-    fun hasX5(): Boolean {
-        if (x5 != null) {
-            return x5!!
-        }
-        x5 = try {
-            Class.forName("com.tencent.smtt.sdk.WebView")
-            QbSdk.isTbsCoreInited()
-        } catch (e: Throwable) {
-            Timber.e(e)
-            false
-        }
-        return x5!!
+    fun enableTbs(): Boolean {
+        return x5
     }
 }

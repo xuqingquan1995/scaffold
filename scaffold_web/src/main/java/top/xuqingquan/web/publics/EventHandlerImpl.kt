@@ -38,7 +38,7 @@ class EventHandlerImpl : IEventHandler {
         if (this.mEventInterceptor != null && this.mEventInterceptor!!.event()) {
             return true
         }
-        if (WebConfig.hasX5()) {
+        if (WebConfig.enableTbs()) {
             if (mX5WebView != null && mX5WebView!!.canGoBack()) {
                 mX5WebView!!.goBack()
                 return true

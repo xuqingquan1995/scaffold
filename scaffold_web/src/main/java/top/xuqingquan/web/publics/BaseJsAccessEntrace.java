@@ -42,7 +42,7 @@ public abstract class BaseJsAccessEntrace implements JsAccessEntrace {
 
     @Override
     public void callJs(@Nullable String js) {
-        if (WebConfig.hasX5()) {
+        if (WebConfig.enableTbs()) {
             //noinspection RedundantCast
             this.callJs(js, (com.tencent.smtt.sdk.ValueCallback<String>) null);
         } else {
@@ -51,7 +51,7 @@ public abstract class BaseJsAccessEntrace implements JsAccessEntrace {
     }
 
     private void loadJs(@Nullable String js) {
-        if (WebConfig.hasX5() && mx5WebView != null) {
+        if (WebConfig.enableTbs() && mx5WebView != null) {
             mx5WebView.loadUrl(js);
         } else if (mWebView != null) {
             mWebView.loadUrl(js);
@@ -122,7 +122,7 @@ public abstract class BaseJsAccessEntrace implements JsAccessEntrace {
 
     @Override
     public void quickCallJs(@Nullable String method, @Nullable String... params) {
-        if (WebConfig.hasX5()) {
+        if (WebConfig.enableTbs()) {
             //noinspection RedundantCast
             this.quickCallJs(method, (com.tencent.smtt.sdk.ValueCallback<String>) null, params);
         } else {

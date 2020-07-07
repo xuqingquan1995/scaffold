@@ -29,7 +29,7 @@ class HtmlPrinterActivity : SimpleActivity() {
     override fun getLayoutId() = R.layout.html_printer
 
     override fun initData(savedInstanceState: Bundle?) {
-        Timber.d("WebConfig.hasX5()===>${WebConfig.hasX5()}")
+        Timber.d("WebConfig.hasX5()===>${WebConfig.enableTbs()}")
         val agentWeb = AgentWeb.with(this)
             .setAgentWebParent(webView, -1, ViewGroup.LayoutParams(-1, -1))
             .useDefaultIndicator(-1, 0)

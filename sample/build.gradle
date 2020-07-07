@@ -77,6 +77,7 @@ dependencies {
     implementation rootProject.ext.deps.paging_runtime
     implementation rootProject.ext.deps.paging_common
     implementation rootProject.ext.deps.room_runtime
+    implementation rootProject.ext.deps.tbs
     implementation 'top.xuqingquan:utils:2.2.2-support'
     implementation files('libs/newssdk-release.aar')
     implementation 'com.swift.sandhook:hooklib:4.2.0'

@@ -168,7 +168,7 @@ class DefaultDesignUIController : DefaultUIController() {
         if (!TextUtils.isEmpty(intent) && intent.contains("performDownload")) {
             return
         }
-        if (WebConfig.hasX5()) {
+        if (WebConfig.enableTbs()) {
             onJsAlertInternal(mWebParentLayout!!.x5WebView!!, message)
         } else {
             onJsAlertInternal(mWebParentLayout!!.webView!!, message)

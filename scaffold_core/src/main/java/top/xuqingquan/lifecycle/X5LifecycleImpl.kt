@@ -5,6 +5,7 @@ import android.content.Context
 import com.tencent.smtt.sdk.QbSdk
 import top.xuqingquan.delegate.AppLifecycle
 import top.xuqingquan.utils.Timber
+import top.xuqingquan.web.nokernel.WebConfig
 import top.xuqingquan.web.nokernel.initTbs
 import kotlin.concurrent.thread
 
@@ -28,6 +29,8 @@ class X5LifecycleImpl : AppLifecycle {
 
                     override fun onViewInitFinished(p0: Boolean) {
                         Timber.d("QbSdk----onViewInitFinished--->$p0")
+                        //自定义tbs监听时，需要将初始化状态提供给WebConfig.x5
+                        WebConfig.x5 = p0
                     }
                 })
             }

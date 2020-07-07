@@ -10,7 +10,7 @@ import android.webkit.ValueCallback
 import android.webkit.WebView
 import top.xuqingquan.web.nokernel.WebConfig.DEBUG
 import top.xuqingquan.web.nokernel.WebConfig.IS_INITIALIZED
-import top.xuqingquan.web.nokernel.WebConfig.hasX5
+import top.xuqingquan.web.nokernel.WebConfig.enableTbs
 import top.xuqingquan.utils.Timber
 import com.tencent.smtt.sdk.CookieManager as X5CookieManager
 import com.tencent.smtt.sdk.CookieSyncManager as X5CookieSyncManager
@@ -25,7 +25,7 @@ object AgentWebConfig {
     fun debug() {
         DEBUG = true
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            if (hasX5()) {
+            if (enableTbs()) {
                 X5WebView.setWebContentsDebuggingEnabled(true)
             } else {
                 WebView.setWebContentsDebuggingEnabled(true)
@@ -36,7 +36,7 @@ object AgentWebConfig {
     //获取Cookie
     @JvmStatic
     fun getCookiesByUrl(url: String): String? {
-        return if (hasX5()) {
+        return if (enableTbs()) {
             if (X5CookieManager.getInstance() == null) {
                 null
             } else {
@@ -94,7 +94,7 @@ object AgentWebConfig {
 
     private fun createCookiesSyncInstance(context: Context) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            if (hasX5()) {
+            if (enableTbs()) {
                 X5CookieSyncManager.createInstance(context)
             } else {
                 CookieSyncManager.createInstance(context)
@@ -104,14 +104,14 @@ object AgentWebConfig {
 
     private fun toSyncCookies() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            if (hasX5()) {
+            if (enableTbs()) {
                 X5CookieSyncManager.getInstance().sync()
             } else {
                 CookieSyncManager.getInstance().sync()
             }
             return
         }
-        if (hasX5()) {
+        if (enableTbs()) {
             AsyncTask.THREAD_POOL_EXECUTOR.execute {
                 X5CookieManager.getInstance().flush()
             }
