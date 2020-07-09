@@ -6,7 +6,9 @@ import android.text.TextPaint;
 import android.text.style.ClickableSpan;
 import android.view.View;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 
 /**
  * Created by 许清泉 on 2020/4/16 15:22
@@ -15,21 +17,21 @@ public class ButtonSpan extends ClickableSpan {
 
     View.OnClickListener onClickListener;
     private Context context;
-    private int colorId;
+    private int color;
 
     public ButtonSpan(Context context, View.OnClickListener onClickListener) {
-        this(context, onClickListener, android.R.color.white);
+        this(context, onClickListener, ContextCompat.getColor(context, android.R.color.black));
     }
 
-    public ButtonSpan(Context context, View.OnClickListener onClickListener, int colorId){
+    public ButtonSpan(Context context, View.OnClickListener onClickListener, @ColorInt int color) {
         this.onClickListener = onClickListener;
         this.context = context;
-        this.colorId = colorId;
+        this.color = color;
     }
 
     @Override
     public void updateDrawState(TextPaint ds) {
-        ds.setColor(context.getResources().getColor(colorId));
+        ds.setColor(color);
         ds.setTextSize(dip2px(14));
         ds.setUnderlineText(false);
     }
@@ -41,8 +43,7 @@ public class ButtonSpan extends ClickableSpan {
         }
     }
 
-    public static int dip2px(float dipValue)
-    {
+    public static int dip2px(float dipValue) {
         final float scale = Resources.getSystem().getDisplayMetrics().density;
         return (int) (dipValue * scale + 0.5f);
     }

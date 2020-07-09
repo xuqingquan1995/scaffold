@@ -81,10 +81,11 @@ class MainActivity : SimpleActivity() {
             onClick { view, position, data, viewType ->
                 Timber.d("view===>${view.id == R.id.text},view.id=${view.id}")
                 startActivity<WebActivity>(
-                    if (position == 0) {
-                        "url" to "http://debugtbs.qq.com"
-                    } else {
-                        "data" to ""
+                    when (position) {
+                        0 -> "url" to "http://debugtbs.qq.com"
+                        1 -> "url" to "https://www.fanhuangli.com/c.html"
+                        2 -> "url" to "https://m.baidu.com/"
+                        else -> "url" to "http://m.bilibili.com"
                     }
                 )
             }

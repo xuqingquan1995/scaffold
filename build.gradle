@@ -20,16 +20,12 @@ buildscript {
 
 allprojects {
     repositories {
+        maven { url 'https://dl.bintray.com/xuqingquan1995/maven' }
         mavenCentral()
         google()
         jcenter()
-        maven {
-            url "https://jitpack.io"
-        }
-        flatDir {
-            dirs 'libs'
-        }
-        mavenLocal()
+        maven { url "https://jitpack.io" }
+        flatDir { dirs 'libs' }
     }
 }
 
