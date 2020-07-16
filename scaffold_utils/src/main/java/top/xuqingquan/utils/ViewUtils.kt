@@ -17,16 +17,19 @@ import java.io.FileOutputStream
 /**
  * 将视图保存成文件
  */
-fun saveView2File(view: View): String? {
+fun saveView2File(view: View?): String? {
     return view2Bitmap(view)?.let {
-        bitmap2File(view.context, it)
+        bitmap2File(view?.context, it)
     }?.absolutePath
 }
 
 /**
  * 将视图保存成bitmap
  */
-fun view2Bitmap(view: View): Bitmap? {
+fun view2Bitmap(view: View?): Bitmap? {
+    if (view == null) {
+        return null
+    }
     //获取view的长宽
     val width = view.measuredWidth
     val height = view.measuredHeight
@@ -48,7 +51,10 @@ fun view2Bitmap(view: View): Bitmap? {
 /**
  * 将bitmap保存成图片
  */
-fun bitmap2File(context: Context, bmp: Bitmap): File {
+fun bitmap2File(context: Context?, bmp: Bitmap): File? {
+    if (context == null) {
+        return null
+    }
     // 判断是否可以对SDcard进行操作
     val sdCardDir = context.getExternalFilesDir("images")!!.absolutePath
     //目录转化成文件夹
