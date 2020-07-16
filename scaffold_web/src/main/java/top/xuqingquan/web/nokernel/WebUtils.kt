@@ -154,7 +154,7 @@ object WebUtils {
         file: File,
         writeAble: Boolean
     ) {
-        if (Build.VERSION.SDK_INT >= 24) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             intent.setDataAndType(getUriFromFile(context, file), type)
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             if (writeAble) {

@@ -184,7 +184,7 @@ class DefaultChromeClient(
         webView: WebView, filePathCallback: ValueCallback<Array<Uri>>,
         fileChooserParams: FileChooserParams
     ): Boolean {
-        Timber.i("openFileChooser>=5.0")
+        Timber.i("openFileChooser >= 5.0")
         return openFileChooserAboveL(filePathCallback, fileChooserParams)
     }
 

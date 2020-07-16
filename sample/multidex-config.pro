@@ -7,10 +7,10 @@
 -keep public class * extends android.preference.Preference
 -keep public class * extends android.view.View
 
--keep class androidx.lifecycle.ProcessLifecycleOwnerInitializer
 -keep class androidx.core.app.CoreComponentFactory
--keep class androidx.lifecycle.LifecycleDispatcher
--keep class androidx.lifecycle.ProcessLifecycleOwner
+-keep class androidx.lifecycle.**{*;}
+#support
+-keep class android.arch.lifecycle.**{*;}
 
 -keep class * implements android.app.Application.ActivityLifecycleCallbacks
 -keep class * extends androidx.fragment.app.FragmentManager.FragmentLifecycleCallbacks.FragmentLifecycleCallbacks
@@ -24,3 +24,7 @@
 
 #debug
 -keep class leakcanary.**{*;}
+
+#doraemonkit
+-keep class com.amitshekhar.**{*;}
+-keep class com.didichuxing.doraemonkit.**{*;}

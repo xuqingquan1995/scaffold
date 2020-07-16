@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'com.didi.dokit'
+//apply plugin: 'com.didi.dokit'
 //apply plugin: 'AndResGuard'
 
 android {
@@ -67,18 +67,16 @@ dependencies {
     testImplementation rootProject.ext.deps.junit
 //    androidTestImplementation rootProject.ext.deps.espresso_core
     androidTestImplementation rootProject.ext.deps.espresso_support
-//    implementation project(path: ':scaffold_core')
-    implementation 'top.xuqingquan:scaffold:2.2.2-support'
-    implementation 'top.xuqingquan:web:2.2.3-support'
-//    implementation project(path: ':scaffold_web')
+    implementation project(path: ':scaffold_core')
+//    implementation 'top.xuqingquan:scaffold:2.2.3-support'
+//    implementation 'top.xuqingquan:web:2.2.3-support'
+    implementation project(path: ':scaffold_web')
 //    implementation rootProject.ext.deps.multidex
     implementation rootProject.ext.deps.multidex_support
 //    implementation rootProject.ext.deps.paging
     implementation rootProject.ext.deps.paging_runtime
     implementation rootProject.ext.deps.paging_common
     implementation rootProject.ext.deps.room_runtime
-    implementation rootProject.ext.deps.tbs
-    implementation 'top.xuqingquan:utils:2.2.2-support'
     implementation files('libs/newssdk-release.aar')
     implementation 'com.swift.sandhook:hooklib:4.2.0'
     // need for android 11

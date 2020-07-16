@@ -1,6 +1,5 @@
 package top.xuqingquan.web.publics;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ClipData;
 import android.content.Intent;
@@ -10,10 +9,9 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
+import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
 import android.util.Base64;
-
-import android.support.annotation.RequiresApi;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -35,6 +33,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 
+import top.xuqingquan.utils.FileUtils;
+import top.xuqingquan.utils.RealPath;
+import top.xuqingquan.utils.Timber;
 import top.xuqingquan.web.R;
 import top.xuqingquan.web.nokernel.Action;
 import top.xuqingquan.web.nokernel.ActionActivity;
@@ -43,15 +44,13 @@ import top.xuqingquan.web.nokernel.FileParcel;
 import top.xuqingquan.web.nokernel.PermissionInterceptor;
 import top.xuqingquan.web.nokernel.WebConfig;
 import top.xuqingquan.web.nokernel.WebUtils;
-import top.xuqingquan.utils.FileUtils;
-import top.xuqingquan.utils.Timber;
 
+import static top.xuqingquan.utils.PermissionUtils.getDeniedPermissions;
+import static top.xuqingquan.utils.PermissionUtils.hasPermission;
 import static top.xuqingquan.web.nokernel.ActionActivity.KEY_ACTION;
 import static top.xuqingquan.web.nokernel.ActionActivity.KEY_FILE_CHOOSER_INTENT;
 import static top.xuqingquan.web.nokernel.ActionActivity.KEY_FROM_INTENTION;
 import static top.xuqingquan.web.nokernel.ActionActivity.KEY_URI;
-import static top.xuqingquan.utils.PermissionUtils.getDeniedPermissions;
-import static top.xuqingquan.utils.PermissionUtils.hasPermission;
 
 public class FileChooser {
     /**
@@ -192,7 +191,6 @@ public class FileChooser {
                 .putExtra(KEY_FILE_CHOOSER_INTENT, getFileChooserIntent()));
     }
 
-    @SuppressLint("ObsoleteSdkInt")
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private Intent getFileChooserIntent() {
         if (WebConfig.enableTbs()) {
@@ -252,11 +250,10 @@ public class FileChooser {
                         break;
                     }
                     if (typeTmp.contains("video/")) {  //调用摄像机拍摄  这是录像模式
-                        needCamera = true;
+                        needVideo = true;
                         mVideoState = true;
                     }
                 }
-                //noinspection ConstantConditions
                 if (!needCamera && !needVideo) {
                     touchOffFileChooserAction();
                     return;
@@ -276,11 +273,10 @@ public class FileChooser {
                         break;
                     }
                     if (typeTmp.contains("video/")) {  //调用摄像机拍摄  这是录像模式
-                        needCamera = true;
+                        needVideo = true;
                         mVideoState = true;
                     }
                 }
-                //noinspection ConstantConditions
                 if (!needCamera && !needVideo) {
                     touchOffFileChooserAction();
                     return;
@@ -536,9 +532,14 @@ public class FileChooser {
             return null;
         }
         Uri[] datas = null;
-        String target = data.getDataString();
-        if (!TextUtils.isEmpty(target)) {
-            return new Uri[]{Uri.parse(target)};
+        Uri target = data.getData();
+        if (target != null) {
+            try {
+                String path = RealPath.getPath(mActivity, data.getData());
+                return new Uri[]{Uri.fromFile(new File(path))};
+            } catch (Throwable t) {
+                return new Uri[]{target};
+            }
         }
         ClipData mClipData = data.getClipData();
         if (mClipData != null && mClipData.getItemCount() > 0) {
