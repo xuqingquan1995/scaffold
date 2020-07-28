@@ -64,7 +64,7 @@ dependencies {
     api rootProject.ext.deps.core_ktx
     api rootProject.ext.deps.lifecycle
     api rootProject.ext.deps.lifecycle_runtime_ktx
-    api 'top.xuqingquan:utils:2.2.2-support'
+    api 'top.xuqingquan:utils:2.2.3-support'
     //view
     api rootProject.ext.deps.recyclerview
     compileOnly rootProject.ext.deps.paging
@@ -80,7 +80,7 @@ dependencies {
     //eventbus
     api rootProject.ext.deps.eventbus
     //需要用到web下载的时候需要依赖
-    compileOnly 'top.xuqingquan:web:2.2.3-support'
+    compileOnly 'top.xuqingquan:web:2.2.5-support'
     compileOnly rootProject.ext.deps.tbs
     //debug
     debugApi rootProject.ext.deps.doraemonkit_leakcanary
