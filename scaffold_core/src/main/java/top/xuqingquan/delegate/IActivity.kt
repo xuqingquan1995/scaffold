@@ -4,7 +4,6 @@ import android.app.Activity
 import android.os.Bundle
 import top.xuqingquan.cache.Cache
 import top.xuqingquan.cache.LruCache
-import top.xuqingquan.stack.DebugStackDelegate
 import top.xuqingquan.utils.FragmentOnKeyListener
 
 /**
@@ -32,11 +31,6 @@ interface IActivity {
      * 是否使用EventBus
      */
     fun useEventBus(): Boolean
-
-    /**
-     * 设置回退栈代理
-     */
-    fun setDebugStackDelegate(delegate: DebugStackDelegate?)
 
     /**
      * Activity彻底运行起来之后的回调

@@ -9,7 +9,6 @@ import top.xuqingquan.extension.hideSoftKeyboard
 import top.xuqingquan.cache.Cache
 import top.xuqingquan.cache.CacheType
 import top.xuqingquan.delegate.IActivity
-import top.xuqingquan.stack.DebugStackDelegate
 import top.xuqingquan.utils.FragmentOnKeyListener
 
 /**
@@ -19,7 +18,6 @@ import top.xuqingquan.utils.FragmentOnKeyListener
 abstract class SimpleActivity : AppCompatActivity(), IActivity {
 
     private var mCache: Cache<String, Any>? = null
-    private var debugStackDelegate: DebugStackDelegate? = null
     protected var onKeyListener: FragmentOnKeyListener? = null
 
     /**
@@ -41,13 +39,8 @@ abstract class SimpleActivity : AppCompatActivity(), IActivity {
         return true
     }
 
-    final override fun setDebugStackDelegate(delegate: DebugStackDelegate?) {
-        this.debugStackDelegate = delegate
-    }
-
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
-        debugStackDelegate?.onPostCreate()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
