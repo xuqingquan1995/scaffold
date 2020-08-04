@@ -32,11 +32,6 @@ interface IActivity {
      */
     fun useEventBus(): Boolean
 
-    /**
-     * Activity彻底运行起来之后的回调
-     */
-    fun onPostCreate(savedInstanceState: Bundle?)
-
     fun setFragmentOnKeyListener(listener: FragmentOnKeyListener?)
 
 }
