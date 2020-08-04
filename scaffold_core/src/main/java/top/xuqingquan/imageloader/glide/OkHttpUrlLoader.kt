@@ -12,7 +12,7 @@ import java.io.InputStream
 /**
  * Created by 许清泉 on 2019/4/16 00:35
  */
-class OkHttpUrlLoader private constructor(private val client: Call.Factory) : ModelLoader<GlideUrl, InputStream> {
+internal class OkHttpUrlLoader private constructor(private val client: Call.Factory) : ModelLoader<GlideUrl, InputStream> {
 
     override fun buildLoadData(
         model: GlideUrl,

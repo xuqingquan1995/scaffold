@@ -21,13 +21,13 @@ import top.xuqingquan.utils.Timber
 class GlideImageLoaderStrategy : BaseImageLoaderStrategy<ImageConfigImpl>, GlideAppliesOptions {
 
     @SuppressLint("CheckResult")
-    override fun loadImage(ctx: Context?, config: ImageConfigImpl?) {
+    override fun loadImage(ctx: Context, config: ImageConfigImpl) {
         Preconditions.checkNotNull(ctx, "Context is required")
         Preconditions.checkNotNull(config, "ImageConfigImpl is required")
-        Preconditions.checkNotNull(config!!.imageView, "ImageView is required")
-        val requests: GlideRequests = GlideApp.with(ctx!!)
+        Preconditions.checkNotNull(config.imageView, "ImageView is required")
+        val requests: GlideRequests = GlideApp.with(ctx)
         //如果context是activity则自动使用Activity的生命周期
-        val glideRequest = requests.load(config.getUrl())
+        val glideRequest = requests.load(config.url)
         when (config.cacheStrategy) {
             //缓存策略
             CacheStrategy.NONE -> glideRequest.diskCacheStrategy(DiskCacheStrategy.NONE)
@@ -54,26 +54,26 @@ class GlideImageLoaderStrategy : BaseImageLoaderStrategy<ImageConfigImpl>, Glide
         if (config.transformation != null) {//glide用它来改变图形的形状
             glideRequest.transform(config.transformation)
         }
-        if (config.getPlaceholder() != 0) {
+        if (config.placeholder != 0) {
             //设置占位符
-            glideRequest.placeholder(config.getPlaceholder())
+            glideRequest.placeholder(config.placeholder)
         }
-        if (config.getErrorPic() != 0) {
+        if (config.errorPic != 0) {
             //设置错误的图片
-            glideRequest.error(config.getErrorPic())
+            glideRequest.error(config.errorPic)
         }
         if (config.fallback != 0) {
             //设置请求 url 为空图片
             glideRequest.fallback(config.fallback)
         }
-        glideRequest.into(config.getImageView())
+        glideRequest.into(config.imageView)
     }
 
-    override fun clear(ctx: Context?, config: ImageConfigImpl?) {
+    override fun clear(ctx: Context?, config: ImageConfigImpl) {
         Preconditions.checkNotNull(ctx, "Context is required")
         Preconditions.checkNotNull(config, "ImageConfigImpl is required")
-        if (config!!.getImageView() != null) {
-            GlideApp.get(ctx!!).requestManagerRetriever.get(ctx).clear(config.getImageView())
+        if (config.imageView != null) {
+            GlideApp.get(ctx!!).requestManagerRetriever.get(ctx).clear(config.imageView)
         }
 
         if (config.imageViews != null && config.imageViews.isNotEmpty()) {//取消在执行的任务并且释放资源

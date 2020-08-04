@@ -11,7 +11,7 @@ import top.xuqingquan.utils.Timber
  * 对 OkHttp 的请求和响应信息进行更规范和清晰的打印, 此类为框架默认实现, 以默认格式打印信息, 若觉得默认打印格式
  * 并不能满足自己的需求, 可自行扩展自己理想的打印格式
  */
-class DefaultFormatPrinter : FormatPrinter {
+internal class DefaultFormatPrinter : FormatPrinter {
 
     /**
      * 打印网络请求信息, 当网络请求时 {[okhttp3.RequestBody]} 可以解析的情况

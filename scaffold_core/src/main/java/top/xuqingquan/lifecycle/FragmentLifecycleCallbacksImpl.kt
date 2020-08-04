@@ -12,7 +12,7 @@ import top.xuqingquan.utils.Timber
  * Created by 许清泉 on 2019/4/15 00:40
  * 展示[FragmentManager.FragmentLifecycleCallbacks]用法，当前类用来记录fragment栈
  */
-class FragmentLifecycleCallbacksImpl : FragmentManager.FragmentLifecycleCallbacks() {
+internal class FragmentLifecycleCallbacksImpl : FragmentManager.FragmentLifecycleCallbacks() {
     override fun onFragmentAttached(fm: FragmentManager, f: Fragment, context: Context) {
         super.onFragmentAttached(fm, f, context)
         Timber.v("onFragmentAttached---${f.javaClass.name}")
