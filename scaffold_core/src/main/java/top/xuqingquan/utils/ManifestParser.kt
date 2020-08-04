@@ -8,7 +8,7 @@ import java.util.ArrayList
 /**
  * Created by 许清泉 on 2019/4/14 22:59
  */
-class ManifestParser(private val context: Context) {
+internal class ManifestParser(private val context: Context) {
     companion object {
         private const val MODULE_VALUE = "LifecycleConfig"
     }

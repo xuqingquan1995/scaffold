@@ -7,7 +7,7 @@ import java.lang.reflect.Method;
 
 import retrofit2.Retrofit;
 
-public class RetrofitServiceProxyHandler implements InvocationHandler {
+class RetrofitServiceProxyHandler implements InvocationHandler {
 
     private Retrofit mRetrofit;
     private Class<?> mServiceClass;

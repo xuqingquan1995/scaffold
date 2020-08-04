@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit
 /**
  * Created by 许清泉 on 2019/4/14 20:51
  */
-class RequestInterceptor private constructor() : Interceptor {
+internal class RequestInterceptor private constructor() : Interceptor {
     private val mPrinter = ScaffoldConfig.getFormatPrinter()
     private val mHandler = ScaffoldConfig.getGlobalHttpHandler()
     private val printLevel = ScaffoldConfig.getLevel()

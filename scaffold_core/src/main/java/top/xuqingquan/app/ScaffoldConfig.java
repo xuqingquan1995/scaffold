@@ -39,14 +39,13 @@ import top.xuqingquan.http.log.FormatPrinter;
 import top.xuqingquan.http.log.Level;
 import top.xuqingquan.http.log.RequestInterceptor;
 import top.xuqingquan.imageloader.BaseImageLoaderStrategy;
-import top.xuqingquan.imageloader.glide.GlideImageLoaderStrategy;
 import top.xuqingquan.imageloader.ImageLoader;
+import top.xuqingquan.imageloader.glide.GlideImageLoaderStrategy;
 import top.xuqingquan.integration.ActivityLifecycle;
 import top.xuqingquan.integration.AppManager;
 import top.xuqingquan.integration.FragmentLifecycle;
 import top.xuqingquan.integration.IRepositoryManager;
 import top.xuqingquan.integration.RepositoryManager;
-import top.xuqingquan.lifecycle.FragmentLifecycleCallbacksImpl;
 import top.xuqingquan.utils.FileUtils;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
@@ -489,7 +488,6 @@ public class ScaffoldConfig {
     public static List<FragmentManager.FragmentLifecycleCallbacks> getFragmentLifecycleCallbacksList() {
         if (fragmentLifecycleCallbacksList == null) {
             fragmentLifecycleCallbacksList = new ArrayList<>();
-            fragmentLifecycleCallbacksList.add(new FragmentLifecycleCallbacksImpl());
         }
         return fragmentLifecycleCallbacksList;
     }

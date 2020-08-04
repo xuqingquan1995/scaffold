@@ -15,7 +15,7 @@ import java.io.InputStream
 /**
  * Created by 许清泉 on 2019/4/16 00:26
  */
-class OkHttpStreamFetcher(private val client: Call.Factory, private val url: GlideUrl) : DataFetcher<InputStream>,
+internal class OkHttpStreamFetcher(private val client: Call.Factory, private val url: GlideUrl) : DataFetcher<InputStream>,
     Callback {
 
     private var stream: InputStream? = null

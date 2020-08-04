@@ -13,7 +13,7 @@ interface BaseImageLoaderStrategy<T : ImageConfig> {
      * @param ctx [Context]
      * @param config 图片加载配置信息
      */
-    fun loadImage(ctx: Context?, config: T?)
+    fun loadImage(ctx: Context, config: T)
 
     /**
      * 停止加载
@@ -21,5 +21,5 @@ interface BaseImageLoaderStrategy<T : ImageConfig> {
      * @param ctx [Context]
      * @param config 图片加载配置信息
      */
-    fun clear(ctx: Context?, config: T?)
+    fun clear(ctx: Context?, config: T)
 }
