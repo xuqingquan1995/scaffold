@@ -18,7 +18,7 @@ import top.xuqingquan.delegate.IActivity
  * [Application.ActivityLifecycleCallbacks]  默认实现类
  * 通过 [ActivityDelegate] 管理 [Activity]
  */
-class ActivityLifecycle : Application.ActivityLifecycleCallbacks {
+internal class ActivityLifecycle : Application.ActivityLifecycleCallbacks {
 
     private var mAppManager = ScaffoldConfig.getAppManager()
     private var mApplication = ScaffoldConfig.getApplication()

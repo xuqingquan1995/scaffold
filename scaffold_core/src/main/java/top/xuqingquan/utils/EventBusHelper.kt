@@ -1,6 +1,7 @@
 package top.xuqingquan.utils
 
 import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.EventBus
 
 import java.lang.reflect.Method
 
@@ -9,17 +10,17 @@ import java.lang.reflect.Method
  */
 
 /**
- * [org.greenrobot.eventbus.EventBus] 要求注册之前, 订阅者必须含有一个或以上声明 [org.greenrobot.eventbus.Subscribe]
+ * [EventBus] 要求注册之前, 订阅者必须含有一个或以上声明 [Subscribe]
  * 注解的方法, 否则会报错, 所以如果要想完成在基类中自动注册, 避免报错就要先检查是否符合注册资格
  *
  * @param subscriber 订阅者
- * @return 返回 `true` 则表示含有 [org.greenrobot.eventbus.Subscribe] 注解, `false` 为不含有
+ * @return 返回 `true` 则表示含有 [Subscribe] 注解, `false` 为不含有
  */
-fun haveAnnotation(subscriber: Any): Boolean {
+internal fun haveAnnotation(subscriber: Any): Boolean {
     var skipSuperClasses = false
     var clazz: Class<*>? = subscriber.javaClass
     //查找类中符合注册要求的方法, 直到Object类
-    while (clazz != null && !isSystemCalss(clazz.name) && !skipSuperClasses) {
+    while (clazz != null && !isSystemClass(clazz.name) && !skipSuperClasses) {
         val allMethods: Array<Method> = try {
             clazz.declaredMethods
         } catch (th: Throwable) {
@@ -44,7 +45,7 @@ fun haveAnnotation(subscriber: Any): Boolean {
     return false
 }
 
-private fun isSystemCalss(name: String): Boolean {
+private fun isSystemClass(name: String): Boolean {
     return name.startsWith("java.") || name.startsWith("javax.") || name.startsWith("android.") || name.startsWith(
         "androidx."
     )
