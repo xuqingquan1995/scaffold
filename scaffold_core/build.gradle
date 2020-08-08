@@ -98,7 +98,7 @@ dependencies {
     //eventbus
     api rootProject.ext.deps.eventbus
     //需要用到web下载的时候需要依赖
-    compileOnly 'top.xuqingquan:web:2.2.6-support'
+    compileOnly 'top.xuqingquan:web:2.2.7-support'
     compileOnly rootProject.ext.deps.tbs
     //debug
     debugApi rootProject.ext.deps.doraemonkit_leakcanary
