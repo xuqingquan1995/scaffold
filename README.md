@@ -9,20 +9,6 @@ implementation "top.xuqingquan:scaffold:2.2.8"
 support:
 implementation "top.xuqingquan:scaffold:2.2.8-support"
 ```
-或
-
-[![](https://jitpack.io/v/xuqingquan1995/Scaffold.svg)](https://jitpack.io/#xuqingquan1995/Scaffold)
-```
-在项目目录下的build.gradle中的allprojects下的repositories里面添加
-maven {
-     url "https://jitpack.io"
-}
-然后再项目module下的build.gradle中dependencies里添加
-AndroidX:
-implementation 'com.github.xuqingquan1995:Scaffold:2.2.8'
-support:
-implementation 'com.github.xuqingquan1995:Scaffold:2.2.8-support'
-```
 ### 作为module引用
 ```
 1. git clone https://github.com/xuqingquan1995/Scaffold.git

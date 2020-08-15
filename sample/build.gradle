@@ -69,7 +69,7 @@ dependencies {
     androidTestImplementation rootProject.ext.deps.espresso_support
     implementation project(path: ':scaffold_core')
 //    implementation 'top.xuqingquan:scaffold:2.2.3-support'
-    implementation 'top.xuqingquan:web:2.2.7-support'
+    implementation 'top.xuqingquan:web:2.2.8-support'
 //    implementation rootProject.ext.deps.multidex
     implementation rootProject.ext.deps.multidex_support
 //    implementation rootProject.ext.deps.paging
@@ -80,7 +80,7 @@ dependencies {
     implementation 'com.swift.sandhook:hooklib:4.2.0'
     // need for android 11
     implementation 'com.swift.sandhook:nativehook:4.2.0'
-    implementation "org.jetbrains.kotlin:kotlin-reflect:1.3.72"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:1.4.0"
 }
 //andResGuard {
 //    // mappingFile = file("./resource_mapping.txt")
