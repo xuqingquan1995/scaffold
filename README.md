@@ -1,13 +1,13 @@
 # Scaffold 使用说明
 ## 依赖Scaffold
 ### 远程依赖：
-[ ![Download](https://api.bintray.com/packages/xuqingquan1995/maven/scaffold/images/download.svg?version=2.2.2) ](https://bintray.com/xuqingquan1995/maven/scaffold/2.2.2/link)
+[ ![Download](https://api.bintray.com/packages/xuqingquan1995/maven/scaffold/images/download.svg?version=2.2.8) ](https://bintray.com/xuqingquan1995/maven/scaffold/2.2.8/link)
 ```
 在项目module下的build.gradle中dependencies里添加
 AndroidX:
-implementation "top.xuqingquan:scaffold:2.2.2"
+implementation "top.xuqingquan:scaffold:2.2.8"
 support:
-implementation "top.xuqingquan:scaffold:2.2.2-support"
+implementation "top.xuqingquan:scaffold:2.2.8"
 ```
 ### 作为module引用
 ```

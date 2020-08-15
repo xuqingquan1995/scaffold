@@ -40,6 +40,7 @@ class AppManager private constructor() {
      * 管理所有存活的 Activity, 容器中的顺序仅仅是 Activity 的创建顺序, 并不能保证和 Activity 任务栈顺序一致
      */
     private var mActivityList: MutableList<Activity>? = null
+
     /**
      * 当前在前台的 Activity
      */
@@ -254,14 +255,15 @@ class AppManager private constructor() {
      * @param activityClass
      * @return
      */
-    fun findActivity(activityClass: Class<*>): Activity? {
+    fun <T : Activity> findActivity(activityClass: T): T? {
         if (mActivityList == null) {
             Timber.w("mActivityList == null when findActivity(Class)")
             return null
         }
         for (activity in mActivityList!!) {
+            @Suppress("UNCHECKED_CAST")
             if (activity.javaClass == activityClass) {
-                return activity
+                return activity as? T?
             }
         }
         return null
