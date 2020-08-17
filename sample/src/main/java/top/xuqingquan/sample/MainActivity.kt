@@ -114,14 +114,17 @@ class MainActivity : SimpleActivity() {
 //    }
 
     override fun initData(savedInstanceState: Bundle?) {
-        launch {
-            val service = ScaffoldConfig.getRepositoryManager()
-                .obtainRetrofitService(DoubanService::class.java)
-            //http://so.techlz.com:9972/main/api/removeAd7/?co=377&sign=CDEC8D&tta=159507&os=1
-            val removeAd = service.removeAd(377, "CDEC8D", 159507, 1)
-            Timber.d("result===>${removeAd}")
-            val siteKeywords=service.siteKeywords("0")
-            Timber.d("result===>${siteKeywords}")
-        }
+        val activity=ScaffoldConfig.getAppManager().findActivity(MainActivity::class.java)
+        Timber.d("config===>${config}")
+        Timber.d("config===>${activity?.config}")
+//        launch {
+//            val service = ScaffoldConfig.getRepositoryManager()
+//                .obtainRetrofitService(DoubanService::class.java)
+//            //http://so.techlz.com:9972/main/api/removeAd7/?co=377&sign=CDEC8D&tta=159507&os=1
+//            val removeAd = service.removeAd(377, "CDEC8D", 159507, 1)
+//            Timber.d("result===>${removeAd}")
+//            val siteKeywords=service.siteKeywords("0")
+//            Timber.d("result===>${siteKeywords}")
+//        }
     }
 }
