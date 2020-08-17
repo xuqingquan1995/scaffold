@@ -255,7 +255,7 @@ class AppManager private constructor() {
      * @param activityClass
      * @return
      */
-    fun <T : Activity> findActivity(activityClass: T): T? {
+    fun <T : Activity> findActivity(activityClass: Class<T>): T? {
         if (mActivityList == null) {
             Timber.w("mActivityList == null when findActivity(Class)")
             return null
