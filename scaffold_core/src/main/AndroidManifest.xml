@@ -5,6 +5,7 @@
 
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-sdk tools:overrideLibrary="org.adblockplus.libadblockplus.android.settings" />
 
     <application>
         <!-- Android 7.0 之后用到FileProvider -->

@@ -2,18 +2,15 @@ package top.xuqingquan.lifecycle
 
 import android.app.Application
 import android.content.Context
-import com.tencent.smtt.export.external.TbsCoreSettings
-import com.tencent.smtt.sdk.QbSdk
-import com.tencent.smtt.sdk.TbsListener
 import top.xuqingquan.delegate.AppLifecycle
-import top.xuqingquan.utils.Timber
+import top.xuqingquan.web.nokernel.initAdblock
 import top.xuqingquan.web.nokernel.initTbs
 import kotlin.concurrent.thread
 
 /**
  * Created by 许清泉 on 2019/4/15 00:26
  */
-class X5LifecycleImpl : AppLifecycle {
+class WebLifecycleImpl : AppLifecycle {
 
     override fun attachBaseContext(base: Context?) {
     }
@@ -25,6 +22,11 @@ class X5LifecycleImpl : AppLifecycle {
                 initTbs(application)
             }
         } catch (e: Throwable) {
+        }
+        try {
+            Class.forName("org.adblockplus.libadblockplus.android.settings.AdblockHelper")
+            initAdblock(application)
+        }catch (e:Throwable){
         }
     }
 

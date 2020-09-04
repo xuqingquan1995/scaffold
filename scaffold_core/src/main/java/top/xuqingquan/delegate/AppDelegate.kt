@@ -7,7 +7,7 @@ import top.xuqingquan.app.ScaffoldConfig
 import top.xuqingquan.cache.IntelligentCache
 import top.xuqingquan.integration.LifecycleConfig
 import top.xuqingquan.lifecycle.DebugLifecycleImpl
-import top.xuqingquan.lifecycle.X5LifecycleImpl
+import top.xuqingquan.lifecycle.WebLifecycleImpl
 import top.xuqingquan.utils.ManifestParser
 
 /**
@@ -41,7 +41,7 @@ class AppDelegate private constructor(context: Context) : AppLifecycle {
     }
 
     init {
-        mAppLifecycles!!.add(X5LifecycleImpl())
+        mAppLifecycles!!.add(WebLifecycleImpl())
         if (ScaffoldConfig.debug()) {
             mAppLifecycles!!.add(DebugLifecycleImpl())
         }
