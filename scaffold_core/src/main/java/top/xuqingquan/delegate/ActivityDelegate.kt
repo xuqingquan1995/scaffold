@@ -1,5 +1,6 @@
 package top.xuqingquan.delegate
 
+import android.app.Activity
 import android.os.Bundle
 
 /**
@@ -8,19 +9,19 @@ import android.os.Bundle
  */
 interface ActivityDelegate {
 
-    fun onCreate(savedInstanceState: Bundle?)
+    fun onCreate(activity: Activity, savedInstanceState: Bundle?)
 
-    fun onStart()
+    fun onStart(activity: Activity)
 
-    fun onResume()
+    fun onResume(activity: Activity)
 
-    fun onPause()
+    fun onPause(activity: Activity)
 
-    fun onStop()
+    fun onStop(activity: Activity)
 
-    fun onDestroy()
+    fun onDestroy(activity: Activity)
 
-    fun onSaveInstanceState(outState: Bundle?)
+    fun onSaveInstanceState(activity: Activity, outState: Bundle?)
 
     companion object {
         const val ACTIVITY_DELEGATE = "ACTIVITY_DELEGATE"

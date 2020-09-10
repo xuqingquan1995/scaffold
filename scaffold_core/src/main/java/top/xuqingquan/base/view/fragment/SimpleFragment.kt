@@ -46,34 +46,11 @@ abstract class SimpleFragment : Fragment(), IFragment, FragmentOnKeyListener {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         val view = initView(inflater, container)
         initView(view)
         return view
-    }
-
-    /**
-     * 进入页面之后监听
-     */
-    override fun onResume() {
-        super.onResume()
-        if (activity is SimpleActivity && activity != null) {
-            (activity as SimpleActivity).setFragmentOnKeyListener(this)
-        }
-    }
-
-    /**
-     * 当离开页面当时候自动关闭软键盘
-     */
-    override fun onPause() {
-        super.onPause()
-        activity?.hideSoftKeyboard()
-        if (activity is SimpleActivity && activity != null) {
-            (activity as SimpleActivity).setFragmentOnKeyListener(null)
-        }
     }
 
     /**
