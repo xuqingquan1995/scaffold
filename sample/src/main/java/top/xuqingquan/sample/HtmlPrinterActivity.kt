@@ -38,7 +38,7 @@ class HtmlPrinterActivity : SimpleActivity() {
                 override fun bindAgentWebSupport(agentWeb: AgentWeb) {
                 }
             })
-            .interceptUnkownUrl() //拦截找不到相关页面的Url AgentWeb 3.0.0 加入。
+            .interceptUnknownUrl() //拦截找不到相关页面的Url AgentWeb 3.0.0 加入。
             .setWebViewClient(object : WebViewClient() {
                 override fun onPageFinished(view: WebView?, url: String?) {
                     super.onPageFinished(view, url)
