@@ -77,6 +77,8 @@ dependencies {
     implementation 'com.swift.sandhook:hooklib:4.2.0'
     // need for android 11
     implementation 'com.swift.sandhook:nativehook:4.2.0'
+    implementation "org.jetbrains.kotlin:kotlin-reflect:1.4.10"
+    implementation 'com.tencent:mmkv-static:1.2.2'
 }
 //andResGuard {
 //    // mappingFile = file("./resource_mapping.txt")

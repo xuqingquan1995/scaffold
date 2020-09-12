@@ -28,76 +28,88 @@ internal class FragmentLifecycle : FragmentManager.FragmentLifecycleCallbacks() 
                 fragmentDelegate = FragmentDelegateImpl(fm, f)
                 //使用 IntelligentCache.KEY_KEEP 作为 key 的前缀, 可以使储存的数据永久存储在内存中
                 //否则存储在 LRU 算法的存储空间中, 前提是 Fragment 使用的是 IntelligentCache (框架默认使用)
-                cache.put(IntelligentCache.getKeyOfKeep(FragmentDelegate.FRAGMENT_DELEGATE), fragmentDelegate)
+                cache.put(
+                    IntelligentCache.getKeyOfKeep(FragmentDelegate.FRAGMENT_DELEGATE),
+                    fragmentDelegate
+                )
             }
-            fragmentDelegate.onAttach(context)
+            fragmentDelegate.onAttach(f, context)
         }
     }
 
     override fun onFragmentCreated(fm: FragmentManager, f: Fragment, savedInstanceState: Bundle?) {
         super.onFragmentCreated(fm, f, savedInstanceState)
         val fragmentDelegate = fetchFragmentDelegate(f)
-        fragmentDelegate?.onCreate(savedInstanceState)
+        fragmentDelegate?.onCreate(f, savedInstanceState)
     }
 
-    override fun onFragmentActivityCreated(fm: FragmentManager, f: Fragment, savedInstanceState: Bundle?) {
+    override fun onFragmentActivityCreated(
+        fm: FragmentManager,
+        f: Fragment,
+        savedInstanceState: Bundle?
+    ) {
         super.onFragmentActivityCreated(fm, f, savedInstanceState)
         val fragmentDelegate = fetchFragmentDelegate(f)
-        fragmentDelegate?.onActivityCreate(savedInstanceState)
+        fragmentDelegate?.onActivityCreate(f, savedInstanceState)
     }
 
-    override fun onFragmentViewCreated(fm: FragmentManager, f: Fragment, v: View, savedInstanceState: Bundle?) {
+    override fun onFragmentViewCreated(
+        fm: FragmentManager,
+        f: Fragment,
+        v: View,
+        savedInstanceState: Bundle?
+    ) {
         super.onFragmentViewCreated(fm, f, v, savedInstanceState)
         val fragmentDelegate = fetchFragmentDelegate(f)
-        fragmentDelegate?.onViewCreated(v, savedInstanceState)
+        fragmentDelegate?.onViewCreated(f, v, savedInstanceState)
     }
 
     override fun onFragmentStarted(fm: FragmentManager, f: Fragment) {
         super.onFragmentStarted(fm, f)
         val fragmentDelegate = fetchFragmentDelegate(f)
-        fragmentDelegate?.onStart()
+        fragmentDelegate?.onStart(f)
     }
 
     override fun onFragmentResumed(fm: FragmentManager, f: Fragment) {
         super.onFragmentResumed(fm, f)
         val fragmentDelegate = fetchFragmentDelegate(f)
-        fragmentDelegate?.onResume()
+        fragmentDelegate?.onResume(f)
     }
 
     override fun onFragmentPaused(fm: FragmentManager, f: Fragment) {
         super.onFragmentPaused(fm, f)
         val fragmentDelegate = fetchFragmentDelegate(f)
-        fragmentDelegate?.onPause()
+        fragmentDelegate?.onPause(f)
     }
 
     override fun onFragmentStopped(fm: FragmentManager, f: Fragment) {
         super.onFragmentStopped(fm, f)
         val fragmentDelegate = fetchFragmentDelegate(f)
-        fragmentDelegate?.onStop()
+        fragmentDelegate?.onStop(f)
     }
 
     override fun onFragmentSaveInstanceState(fm: FragmentManager, f: Fragment, outState: Bundle) {
         super.onFragmentSaveInstanceState(fm, f, outState)
         val fragmentDelegate = fetchFragmentDelegate(f)
-        fragmentDelegate?.onSaveInstanceState(outState)
+        fragmentDelegate?.onSaveInstanceState(f, outState)
     }
 
     override fun onFragmentViewDestroyed(fm: FragmentManager, f: Fragment) {
         super.onFragmentViewDestroyed(fm, f)
         val fragmentDelegate = fetchFragmentDelegate(f)
-        fragmentDelegate?.onDestroyView()
+        fragmentDelegate?.onDestroyView(f)
     }
 
     override fun onFragmentDestroyed(fm: FragmentManager, f: Fragment) {
         super.onFragmentDestroyed(fm, f)
         val fragmentDelegate = fetchFragmentDelegate(f)
-        fragmentDelegate?.onDestroy()
+        fragmentDelegate?.onDestroy(f)
     }
 
     override fun onFragmentDetached(fm: FragmentManager, f: Fragment) {
         super.onFragmentDetached(fm, f)
         val fragmentDelegate = fetchFragmentDelegate(f)
-        fragmentDelegate?.onDetach()
+        fragmentDelegate?.onDetach(f)
     }
 
     private fun fetchFragmentDelegate(fragment: Fragment): FragmentDelegate? {

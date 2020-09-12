@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.Application
 import android.os.Bundle
 import org.greenrobot.eventbus.EventBus
+import top.xuqingquan.extension.hideSoftKeyboard
 import top.xuqingquan.utils.haveAnnotation
 
 /**
@@ -18,7 +19,7 @@ class ActivityDelegateImpl(private var mActivity: Activity?) : ActivityDelegate 
         this.iActivity = mActivity as IActivity
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(activity: Activity, savedInstanceState: Bundle?) {
         //如果要使用 EventBus 请将此方法返回 true
         if (iActivity!!.useEventBus() && haveAnnotation(mActivity!!)) {
             //注册到事件主线
@@ -26,27 +27,27 @@ class ActivityDelegateImpl(private var mActivity: Activity?) : ActivityDelegate 
         }
     }
 
-    override fun onStart() {
+    override fun onStart(activity: Activity) {
 
     }
 
-    override fun onResume() {
+    override fun onResume(activity: Activity) {
 
     }
 
-    override fun onPause() {
+    override fun onPause(activity: Activity) {
+        activity.hideSoftKeyboard()
+    }
+
+    override fun onStop(activity: Activity) {
 
     }
 
-    override fun onStop() {
+    override fun onSaveInstanceState(activity: Activity, outState: Bundle?) {
 
     }
 
-    override fun onSaveInstanceState(outState: Bundle?) {
-
-    }
-
-    override fun onDestroy() {
+    override fun onDestroy(activity: Activity) {
         //如果要使用 EventBus 请将此方法返回 true
         if (iActivity != null && iActivity!!.useEventBus() && haveAnnotation(mActivity!!)) {
             EventBus.getDefault().unregister(mActivity)

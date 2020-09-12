@@ -40,25 +40,25 @@ internal class ActivityLifecycle : Application.ActivityLifecycleCallbacks {
                 //否则存储在 LRU 算法的存储空间中, 前提是 Activity 使用的是 IntelligentCache (框架默认使用)
                 cache.put(IntelligentCache.getKeyOfKeep(ActivityDelegate.ACTIVITY_DELEGATE), activityDelegate)
             }
-            activityDelegate.onCreate(savedInstanceState)
+            activityDelegate.onCreate(activity,savedInstanceState)
         }
         registerFragmentCallbacks(activity)
     }
 
     override fun onActivityStarted(activity: Activity) {
         val activityDelegate = fetchActivityDelegate(activity)
-        activityDelegate?.onStart()
+        activityDelegate?.onStart(activity)
     }
 
     override fun onActivityResumed(activity: Activity) {
         mAppManager.setCurrentActivity(activity)
         val activityDelegate = fetchActivityDelegate(activity)
-        activityDelegate?.onResume()
+        activityDelegate?.onResume(activity)
     }
 
     override fun onActivityPaused(activity: Activity) {
         val activityDelegate = fetchActivityDelegate(activity)
-        activityDelegate?.onPause()
+        activityDelegate?.onPause(activity)
     }
 
     override fun onActivityStopped(activity: Activity) {
@@ -66,19 +66,19 @@ internal class ActivityLifecycle : Application.ActivityLifecycleCallbacks {
             mAppManager.setCurrentActivity(null)
         }
         val activityDelegate = fetchActivityDelegate(activity)
-        activityDelegate?.onStop()
+        activityDelegate?.onStop(activity)
     }
 
     override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
         val activityDelegate = fetchActivityDelegate(activity)
-        activityDelegate?.onSaveInstanceState(outState)
+        activityDelegate?.onSaveInstanceState(activity,outState)
     }
 
     override fun onActivityDestroyed(activity: Activity) {
         mAppManager.removeActivity(activity)
         val activityDelegate = fetchActivityDelegate(activity)
         if (activityDelegate != null) {
-            activityDelegate.onDestroy()
+            activityDelegate.onDestroy(activity)
             getCacheFromActivity(activity as IActivity).clear()
         }
     }

@@ -5,7 +5,6 @@ import android.view.KeyEvent
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import top.xuqingquan.app.ScaffoldConfig
-import top.xuqingquan.extension.hideSoftKeyboard
 import top.xuqingquan.cache.Cache
 import top.xuqingquan.cache.CacheType
 import top.xuqingquan.delegate.IActivity
@@ -42,11 +41,6 @@ abstract class SimpleActivity : AppCompatActivity(), IActivity {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initView(savedInstanceState)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        hideSoftKeyboard()
     }
 
     /**
