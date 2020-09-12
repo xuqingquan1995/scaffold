@@ -2,6 +2,7 @@ package top.xuqingquan.sample
 
 import android.app.Application
 import android.content.Context
+import com.tencent.mmkv.MMKV
 import top.xuqingquan.app.ScaffoldConfig
 import top.xuqingquan.delegate.AppDelegate
 import top.xuqingquan.delegate.AppLifecycle
@@ -27,6 +28,8 @@ class App : Application() {
             .debug(BuildConfig.DEBUG)
         mAppDelegate.onCreate(this)
 //            .setBaseUrl("https://api.douban.com")
+        MMKV.initialize(this)
+        MMKV.defaultMMKV().encode("haha","111111")
     }
 
     override fun onTerminate() {

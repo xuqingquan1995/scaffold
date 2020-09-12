@@ -12,6 +12,8 @@ import top.xuqingquan.base.view.activity.SimpleActivity
 import top.xuqingquan.extension.*
 import top.xuqingquan.utils.Timber
 import top.xuqingquan.utils.startActivity
+import top.xuqingquan.utils.toast
+import com.tencent.mmkv.MMKV
 
 class MainActivity : SimpleActivity() {
 
@@ -89,6 +91,8 @@ class MainActivity : SimpleActivity() {
                 )
             }
         }
+        val str=MMKV.defaultMMKV().decodeString("haha")
+        toast(str)
 //        adapter.listener = object : SimplePagedListAdapter.OnViewClickListener<Subjects>() {
 //            override fun onClick(view: View, position: Int, data: Subjects?, viewType: Int) {
 ////                toast("onClick---data===>${data?.title}")
