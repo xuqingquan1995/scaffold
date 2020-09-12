@@ -76,11 +76,18 @@ dependencies {
     implementation rootProject.ext.deps.paging_runtime
     implementation rootProject.ext.deps.paging_common
     implementation rootProject.ext.deps.room_runtime
+    implementation (rootProject.ext.deps.tbs){
+        exclude group:'androidx.core',module:'core'
+        exclude group:'androidx.appcompat',module:'appcompat'
+    }
     implementation files('libs/newssdk-release.aar')
     implementation 'com.swift.sandhook:hooklib:4.2.0'
     // need for android 11
     implementation 'com.swift.sandhook:nativehook:4.2.0'
-    implementation "org.jetbrains.kotlin:kotlin-reflect:1.4.0"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:1.4.10"
+    implementation ('com.tencent:mmkv-static:1.2.2'){
+        exclude group:'androidx.annotation',module:'annotation'
+    }
 }
 //andResGuard {
 //    // mappingFile = file("./resource_mapping.txt")

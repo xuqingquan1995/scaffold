@@ -4,6 +4,7 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.Transformations
 import android.arch.paging.LivePagedListBuilder
 import android.os.Bundle
+import com.tencent.mmkv.MMKV
 import kotlinx.android.synthetic.main.activity_main.*
 import top.xuqingquan.app.ScaffoldConfig
 import top.xuqingquan.base.model.entity.Listing
@@ -12,6 +13,7 @@ import top.xuqingquan.base.view.activity.SimpleActivity
 import top.xuqingquan.extension.*
 import top.xuqingquan.utils.Timber
 import top.xuqingquan.utils.startActivity
+import top.xuqingquan.utils.toast
 
 class MainActivity : SimpleActivity() {
 
@@ -89,6 +91,8 @@ class MainActivity : SimpleActivity() {
                 )
             }
         }
+        val str=MMKV.defaultMMKV().decodeString("haha")
+        toast(str)
 //        adapter.listener = object : SimplePagedListAdapter.OnViewClickListener<Subjects>() {
 //            override fun onClick(view: View, position: Int, data: Subjects?, viewType: Int) {
 ////                toast("onClick---data===>${data?.title}")
