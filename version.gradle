@@ -21,7 +21,7 @@ ext {
             test_ext                : '1.1.2-rc01',
             retrofit                : '2.9.0',
             gson                    : '2.8.6',
-            okhttp                  : '3.12.2',
+            okhttp                  : '4.9.0',
             eventbus                : '3.2.0',
             lifecycle               : '2.2.0',
             recyclerview            : '1.2.0-alpha04',
