@@ -9,10 +9,12 @@ import com.bumptech.glide.load.engine.bitmap_recycle.LruBitmapPool
 import com.bumptech.glide.load.engine.cache.DiskLruCacheWrapper
 import com.bumptech.glide.load.engine.cache.LruResourceCache
 import com.bumptech.glide.load.engine.cache.MemorySizeCalculator
+import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.module.AppGlideModule
 import top.xuqingquan.app.ScaffoldConfig
 import top.xuqingquan.utils.makeDirs
 import java.io.File
+import java.io.InputStream
 
 /**
  * Created by 许清泉 on 2019/4/16 00:13
@@ -45,16 +47,18 @@ class GlideConfiguration : AppGlideModule() {
     }
 
     override fun registerComponents(context: Context, glide: Glide, registry: Registry) {
-        // 不实用okHttp去加载图片
-//        registry.replace(
-//            GlideUrl::class.java,
-//            InputStream::class.java,
-//            OkHttpUrlLoader.Factory(ScaffoldConfig.getOkHttpClient())
-//        )
-//        val loadImgStrategy = ScaffoldConfig.getImageLoader().loadImgStrategy
-//        if (loadImgStrategy is GlideAppliesOptions) {
-//            (loadImgStrategy as GlideAppliesOptions).registerComponents(context, glide, registry)
-//        }
+        if (ScaffoldConfig.isUseOkHttpLoadImage()) {
+            registry.replace(
+                GlideUrl::class.java, InputStream::class.java,
+                OkHttpUrlLoader.Factory(ScaffoldConfig.getOkHttpClient())
+            )
+            val loadImgStrategy = ScaffoldConfig.getImageLoader().loadImgStrategy
+            if (loadImgStrategy is GlideAppliesOptions) {
+                (loadImgStrategy as GlideAppliesOptions).registerComponents(
+                    context, glide, registry
+                )
+            }
+        }
     }
 
     override fun isManifestParsingEnabled() = false

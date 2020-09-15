@@ -72,6 +72,7 @@ public class ScaffoldConfig {
     private static OkhttpConfiguration okhttpConfiguration;
     private static ComponentCallbacks2 componentCallbacks2;
     private static IRepositoryManager.ObtainServiceDelegate obtainServiceDelegate;
+    private static boolean useOkHttpLoadImage;
 
     private ScaffoldConfig(@NonNull Application application) {
         ScaffoldConfig.application = application;
@@ -255,8 +256,17 @@ public class ScaffoldConfig {
         return componentCallbacks2;
     }
 
+    public static boolean isUseOkHttpLoadImage() {
+        return useOkHttpLoadImage;
+    }
+
     public ScaffoldConfig debug(boolean debug) {
         ScaffoldConfig.debug = debug;
+        return this;
+    }
+
+    private ScaffoldConfig setUseOkHttpLoadImage(boolean useOkHttpLoadImage){
+        ScaffoldConfig.useOkHttpLoadImage = useOkHttpLoadImage;
         return this;
     }
 
