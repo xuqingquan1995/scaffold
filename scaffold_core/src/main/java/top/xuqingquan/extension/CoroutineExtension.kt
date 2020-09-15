@@ -8,6 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import top.xuqingquan.BuildConfig
+import top.xuqingquan.app.ScaffoldConfig
 import kotlin.coroutines.CoroutineContext
 
 /**
@@ -27,7 +28,7 @@ fun <T> AppCompatActivity.launch(
         try {
             tryBlock()
         } catch (e: Throwable) {
-            if (BuildConfig.DEBUG) {
+            if (ScaffoldConfig.debug()) {
                 e.printStackTrace()
             }
             catchBlock(e)
@@ -59,7 +60,7 @@ fun <T> Fragment.launch(
         try {
             tryBlock()
         } catch (e: Throwable) {
-            if (BuildConfig.DEBUG) {
+            if (ScaffoldConfig.debug()) {
                 e.printStackTrace()
             }
             catchBlock(e)
