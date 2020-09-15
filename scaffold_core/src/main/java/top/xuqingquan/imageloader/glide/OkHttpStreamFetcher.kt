@@ -15,12 +15,14 @@ import java.io.InputStream
 /**
  * Created by 许清泉 on 2019/4/16 00:26
  */
-internal class OkHttpStreamFetcher(private val client: Call.Factory, private val url: GlideUrl) : DataFetcher<InputStream>,
+internal class OkHttpStreamFetcher(private val client: Call.Factory, private val url: GlideUrl) :
+    DataFetcher<InputStream>,
     Callback {
 
     private var stream: InputStream? = null
     private var responseBody: ResponseBody? = null
     private var callback: DataFetcher.DataCallback<in InputStream>? = null
+
     @Volatile
     private var call: Call? = null
 
@@ -58,13 +60,13 @@ internal class OkHttpStreamFetcher(private val client: Call.Factory, private val
     }
 
     override fun onResponse(call: Call, response: Response) {
-        responseBody = response.body()
+        responseBody = response.body
         if (response.isSuccessful) {
             val contentLength = Preconditions.checkNotNull(responseBody).contentLength()
             stream = ContentLengthInputStream.obtain(responseBody!!.byteStream(), contentLength)
             callback?.onDataReady(stream)
         } else {
-            callback?.onLoadFailed(HttpException(response.message(), response.code()))
+            callback?.onLoadFailed(HttpException(response.message, response.code))
         }
     }
 }

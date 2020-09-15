@@ -21,7 +21,7 @@ internal class RequestInterceptor private constructor() : Interceptor {
         val logRequest = (printLevel === Level.ALL || printLevel === Level.REQUEST)
         if (logRequest) {
             //打印请求信息
-            if (request.body() != null && isParseable(request.body()!!.contentType())) {
+            if (request.body != null && isParseable(request.body!!.contentType())) {
                 mPrinter.printJsonRequest(request, parseParams(request))
             } else {
                 mPrinter.printFileRequest(request)
@@ -40,19 +40,19 @@ internal class RequestInterceptor private constructor() : Interceptor {
         } else {
             0
         }
-        val responseBody = originalResponse.body()
+        val responseBody = originalResponse.body
         //打印响应结果
         var bodyString: String? = null
         if (responseBody != null && isParseable(responseBody.contentType())) {
             bodyString = printResult(originalResponse)
         }
         if (logResponse) {
-            val segmentList = request.url().encodedPathSegments()
-            val header = originalResponse.headers().toString()
-            val code = originalResponse.code()
+            val segmentList = request.url.encodedPathSegments
+            val header = originalResponse.headers.toString()
+            val code = originalResponse.code
             val isSuccessful = originalResponse.isSuccessful
-            val message = originalResponse.message()
-            val url = originalResponse.request().url().toString()
+            val message = originalResponse.message
+            val url = originalResponse.request.url.toString()
             if (responseBody != null && isParseable(responseBody.contentType())) {
                 mPrinter.printJsonResponse(
                     TimeUnit.NANOSECONDS.toMillis(t2 - t1), isSuccessful,
