@@ -1,6 +1,6 @@
 ext {
-    versionName = '2.3.1'
-    versionCode = 231
+    versionName = '2.3.2'
+    versionCode = 232
     android = [
             compileSdkVersion : 29,
             buildToolsVersion : '29.0.3',
@@ -60,7 +60,7 @@ ext {
     ]
     deps = [
             //每个app都要用到的
-            kotlin                    : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${depsVer.kotlin}",
+            kotlin                    : "org.jetbrains.kotlin:kotlin-stdlib:${depsVer.kotlin}",
             kotlinx_coroutines_core   : "org.jetbrains.kotlinx:kotlinx-coroutines-core:${depsVer.kotlinx_coroutines}",
             kotlinx_coroutines_android: "org.jetbrains.kotlinx:kotlinx-coroutines-android:${depsVer.kotlinx_coroutines}",
             appcompat                 : "androidx.appcompat:appcompat:${depsVer.appcompat}",
