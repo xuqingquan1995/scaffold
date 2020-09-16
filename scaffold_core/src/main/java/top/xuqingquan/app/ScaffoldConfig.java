@@ -55,7 +55,6 @@ public class ScaffoldConfig {
     private static Gson gson;
     private static GsonConfiguration gsonConfiguration;
     private static HttpUrl httpUrl;
-    private static boolean showStack = false;
     private static Level level;
     private static PagedList.Config config;
     private static ExecutorService executorService;
@@ -120,10 +119,6 @@ public class ScaffoldConfig {
         } else {
             return httpUrl;
         }
-    }
-
-    public static boolean isShowStack() {
-        return showStack;
     }
 
     @NonNull
@@ -279,12 +274,6 @@ public class ScaffoldConfig {
     @NonNull
     public ScaffoldConfig setBaseUrl(@NonNull String baseUrl) {
         ScaffoldConfig.httpUrl = HttpUrl.parse(baseUrl);
-        return this;
-    }
-
-    @NonNull
-    public ScaffoldConfig setShowStack(boolean showStack) {
-        ScaffoldConfig.showStack = showStack;
         return this;
     }
 
