@@ -48,7 +48,7 @@ import top.xuqingquan.integration.IRepositoryManager;
 import top.xuqingquan.integration.RepositoryManager;
 import top.xuqingquan.utils.FileUtils;
 
-@SuppressWarnings({"WeakerAccess", "unused"})
+@SuppressWarnings({"WeakerAccess", "unused", "RedundantSuppression", "rawtypes"})
 public class ScaffoldConfig {
     private static boolean debug = BuildConfig.DEBUG;
     private static ScaffoldConfig instance;
@@ -56,7 +56,6 @@ public class ScaffoldConfig {
     private static Gson gson;
     private static GsonConfiguration gsonConfiguration;
     private static HttpUrl httpUrl;
-    private static boolean showStack = false;
     private static Level level;
     private static PagedList.Config config;
     private static ExecutorService executorService;
@@ -73,6 +72,7 @@ public class ScaffoldConfig {
     private static OkhttpConfiguration okhttpConfiguration;
     private static ComponentCallbacks2 componentCallbacks2;
     private static IRepositoryManager.ObtainServiceDelegate obtainServiceDelegate;
+    private static boolean useOkHttpLoadImage;
 
     private ScaffoldConfig(@NonNull Application application) {
         ScaffoldConfig.application = application;
@@ -120,10 +120,6 @@ public class ScaffoldConfig {
         } else {
             return httpUrl;
         }
-    }
-
-    public static boolean isShowStack() {
-        return showStack;
     }
 
     @NonNull
@@ -256,8 +252,17 @@ public class ScaffoldConfig {
         return componentCallbacks2;
     }
 
+    public static boolean isUseOkHttpLoadImage() {
+        return useOkHttpLoadImage;
+    }
+
     public ScaffoldConfig debug(boolean debug) {
         ScaffoldConfig.debug = debug;
+        return this;
+    }
+
+    private ScaffoldConfig setUseOkHttpLoadImage(boolean useOkHttpLoadImage){
+        ScaffoldConfig.useOkHttpLoadImage = useOkHttpLoadImage;
         return this;
     }
 
@@ -270,12 +275,6 @@ public class ScaffoldConfig {
     @NonNull
     public ScaffoldConfig setBaseUrl(@NonNull String baseUrl) {
         ScaffoldConfig.httpUrl = HttpUrl.parse(baseUrl);
-        return this;
-    }
-
-    @NonNull
-    public ScaffoldConfig setShowStack(boolean showStack) {
-        ScaffoldConfig.showStack = showStack;
         return this;
     }
 

@@ -8,16 +8,6 @@
     <uses-sdk tools:overrideLibrary="org.adblockplus.libadblockplus.android.settings" />
 
     <application>
-        <!-- Android 7.0 之后用到FileProvider -->
-        <provider
-            android:name="top.xuqingquan.app.ScaffoldFileProvider"
-            android:authorities="${applicationId}.ScaffoldFileProvider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/scaffold_filepaths" />
-        </provider>
         <service
             android:name="com.didichuxing.doraemonkit.kit.colorpick.ScreenRecorderService"
             android:enabled="true"

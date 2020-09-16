@@ -64,7 +64,7 @@ dependencies {
     api rootProject.ext.deps.core_ktx
     api rootProject.ext.deps.lifecycle
     api rootProject.ext.deps.lifecycle_runtime_ktx
-    api 'top.xuqingquan:utils:2.2.8-support'
+    api 'top.xuqingquan:utils:2.2.9-support'
     //view
     api rootProject.ext.deps.recyclerview
     compileOnly rootProject.ext.deps.paging
@@ -80,7 +80,7 @@ dependencies {
     //eventbus
     api rootProject.ext.deps.eventbus
     //需要用到web下载的时候需要依赖
-    compileOnly 'top.xuqingquan:web:2.3.5-support'
+    compileOnly 'top.xuqingquan:web:2.3.7-support'
     compileOnly 'org.adblockplus:adblock-android-settings:3.0'
     compileOnly rootProject.ext.deps.tbs
     //debug

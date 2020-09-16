@@ -47,14 +47,17 @@ class GlideConfiguration : AppGlideModule() {
     }
 
     override fun registerComponents(context: Context, glide: Glide, registry: Registry) {
-        registry.replace(
-            GlideUrl::class.java,
-            InputStream::class.java,
-            OkHttpUrlLoader.Factory(ScaffoldConfig.getOkHttpClient())
-        )
-        val loadImgStrategy = ScaffoldConfig.getImageLoader().loadImgStrategy
-        if (loadImgStrategy is GlideAppliesOptions) {
-            (loadImgStrategy as GlideAppliesOptions).registerComponents(context, glide, registry)
+        if (ScaffoldConfig.isUseOkHttpLoadImage()) {
+            registry.replace(
+                GlideUrl::class.java, InputStream::class.java,
+                OkHttpUrlLoader.Factory(ScaffoldConfig.getOkHttpClient())
+            )
+            val loadImgStrategy = ScaffoldConfig.getImageLoader().loadImgStrategy
+            if (loadImgStrategy is GlideAppliesOptions) {
+                (loadImgStrategy as GlideAppliesOptions).registerComponents(
+                    context, glide, registry
+                )
+            }
         }
     }
 
