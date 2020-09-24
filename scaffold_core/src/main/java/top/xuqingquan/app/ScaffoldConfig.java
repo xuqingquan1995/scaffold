@@ -260,7 +260,7 @@ public class ScaffoldConfig {
         return this;
     }
 
-    private ScaffoldConfig setUseOkHttpLoadImage(boolean useOkHttpLoadImage){
+    public ScaffoldConfig setUseOkHttpLoadImage(boolean useOkHttpLoadImage){
         ScaffoldConfig.useOkHttpLoadImage = useOkHttpLoadImage;
         return this;
     }
