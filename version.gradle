@@ -1,6 +1,6 @@
 ext {
-    versionName = '2.3.2-support'
-    versionCode = 232
+    versionName = '2.3.3-support'
+    versionCode = 233
     android = [
             compileSdkVersion : 29,
             buildToolsVersion : '29.0.3',
@@ -49,7 +49,7 @@ ext {
             doraemonkit             : '3.0.8.0',
             //support新增部分
             support                 : '28.0.0',
-            constraintlayout_support: '2.0.1',
+            constraintlayout_support: '2.0.2',
             rules_support           : '1.0.2',
             multidex_support        : '1.0.3',
             paging_version          : '1.0.1',
