@@ -48,7 +48,7 @@ import top.xuqingquan.integration.RepositoryManager;
 import top.xuqingquan.utils.FileUtils;
 
 @SuppressWarnings({"WeakerAccess", "unused", "RedundantSuppression", "rawtypes"})
-public class ScaffoldConfig {
+public final class ScaffoldConfig {
     private static boolean debug = BuildConfig.DEBUG;
     private static ScaffoldConfig instance;
     private static Application application;

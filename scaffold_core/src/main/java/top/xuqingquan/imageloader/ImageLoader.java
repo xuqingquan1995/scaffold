@@ -10,8 +10,8 @@ import top.xuqingquan.app.ScaffoldConfig;
 /**
  * Created by 许清泉 on 2019/4/14 22:38
  */
-@SuppressWarnings({"unchecked", "rawtypes", "unused"})
-public class ImageLoader {
+@SuppressWarnings({"unchecked", "rawtypes", "unused", "RedundantSuppression"})
+public final class ImageLoader {
     @Nullable
     private BaseImageLoaderStrategy mStrategy;
     private static ImageLoader instance;

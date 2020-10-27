@@ -19,7 +19,7 @@ import top.xuqingquan.R;
  * 自定义控件，长文本展开收起TextView
  * Created by 许清泉 on 2020/4/16 15:21
  */
-public class ExpandTextView extends AppCompatTextView {
+public final class ExpandTextView extends AppCompatTextView {
     private String originText;// 原始内容文本
     private int initWidth = 0;// TextView可展示宽度
     private int mMaxLines = 3;// TextView最大行数
@@ -66,7 +66,6 @@ public class ExpandTextView extends AppCompatTextView {
     /**
      * 初始化TextView的可展示宽度
      *
-     * @param width
      */
     public void initWidth(int width) {
         initWidth = width;
@@ -78,7 +77,7 @@ public class ExpandTextView extends AppCompatTextView {
     private void initCloseEnd() {
         String content = expandText;
         SPAN_CLOSE = new SpannableString(content);
-        ButtonSpan span = new ButtonSpan(getContext(), v -> {
+        ButtonSpan span = new ButtonSpan(v -> {
             ExpandTextView.super.setMaxLines(Integer.MAX_VALUE);
             setExpandText(originText);
         }, expandTextColor);
@@ -91,7 +90,7 @@ public class ExpandTextView extends AppCompatTextView {
     private void initExpandEnd() {
         String content = closeText;
         SPAN_EXPAND = new SpannableString(content);
-        ButtonSpan span = new ButtonSpan(getContext(), v -> {
+        ButtonSpan span = new ButtonSpan(v -> {
             ExpandTextView.super.setMaxLines(mMaxLines);
             setCloseText(originText);
         }, expandTextColor);

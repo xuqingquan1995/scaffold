@@ -18,7 +18,7 @@ import java.lang.annotation.RetentionPolicy;
 import top.xuqingquan.R;
 import top.xuqingquan.utils.DimensionsKt;
 
-public class SmoothSwitch extends SwitchCompat {//平滑
+public final class SmoothSwitch extends SwitchCompat {//平滑
 
     public static final int SMALL = 0;
     public static final int LARGE = 1;

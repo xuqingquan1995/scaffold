@@ -8,7 +8,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 
-public class SwitchTrackTextDrawable extends Drawable {
+public final class SwitchTrackTextDrawable extends Drawable {
 
     private final String mLeftText;
 
@@ -16,21 +16,21 @@ public class SwitchTrackTextDrawable extends Drawable {
 
     private final Paint mTextPaint;
 
-    private int textSize;
+    private final int textSize;
 
-    private int switchWidth;
+    private final int switchWidth;
 
-    private int switchHeight;
+    private final int switchHeight;
 
-    private int radius;
+    private final int radius;
 
-    private int textColor;
+    private final int textColor;
 
-    private int trackColor;
+    private final int trackColor;
 
-    private int strokeColor;
+    private final int strokeColor;
 
-    private int borderWidth;
+    private final int borderWidth;
 
     private boolean setMoving;
 

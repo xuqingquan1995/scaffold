@@ -15,8 +15,8 @@ import android.widget.TextView;
  * Created by 许清泉 on 2019-05-25 19:26
  * ViewPager/ViewPager2通用
  */
-@SuppressWarnings({"deprecation", "unused"})
-public class BottomNavigationViewEx extends BottomNavigationViewInner {
+@SuppressWarnings({"unused", "RedundantSuppression"})
+public final class BottomNavigationViewEx extends BottomNavigationViewInner {
 
     public BottomNavigationViewEx(Context context) {
         super(context);
