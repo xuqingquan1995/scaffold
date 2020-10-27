@@ -33,7 +33,7 @@ import java.lang.reflect.Field;
  * ViewPager/ViewPager2通用
  */
 @SuppressLint("RestrictedApi")
-public final class BottomNavigationViewInner extends BottomNavigationView {
+public class BottomNavigationViewInner extends BottomNavigationView {
     // used for animation
     private float mShiftAmount;
     private float mScaleUpFactor;
