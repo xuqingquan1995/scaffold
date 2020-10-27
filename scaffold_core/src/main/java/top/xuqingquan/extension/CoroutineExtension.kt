@@ -7,7 +7,6 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import top.xuqingquan.BuildConfig
 import top.xuqingquan.app.ScaffoldConfig
 import kotlin.coroutines.CoroutineContext
 

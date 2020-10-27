@@ -13,20 +13,20 @@ import top.xuqingquan.imageloader.ImageLoader;
  * Created by 许清泉 on 2019/4/16 00:52
  */
 @SuppressWarnings("deprecation")
-public class ImageConfigImpl extends ImageConfig {
+public final class ImageConfigImpl extends ImageConfig {
     @CacheStrategy.Strategy
-    private int cacheStrategy;//0对应DiskCacheStrategy.all,1对应DiskCacheStrategy.NONE,2对应DiskCacheStrategy.SOURCE,3对应DiskCacheStrategy.RESULT
-    private int fallback; //请求 url 为空,则使用此图片作为占位符
-    private int imageRadius;//图片每个圆角的大小
-    private int blurValue;//高斯模糊值, 值越大模糊效果越大
+    private final int cacheStrategy;//0对应DiskCacheStrategy.all,1对应DiskCacheStrategy.NONE,2对应DiskCacheStrategy.SOURCE,3对应DiskCacheStrategy.RESULT
+    private final int fallback; //请求 url 为空,则使用此图片作为占位符
+    private final int imageRadius;//图片每个圆角的大小
+    private final int blurValue;//高斯模糊值, 值越大模糊效果越大
     @Deprecated
-    private BitmapTransformation transformation;//glide用它来改变图形的形状
-    private ImageView[] imageViews;
-    private boolean isCrossFade;//是否使用淡入淡出过渡动画
-    private boolean isCenterCrop;//是否将图片剪切为 CenterCrop
-    private boolean isCircle;//是否将图片剪切为圆形
-    private boolean isClearMemory;//清理内存缓存
-    private boolean isClearDiskCache;//清理本地缓存
+    private final BitmapTransformation transformation;//glide用它来改变图形的形状
+    private final ImageView[] imageViews;
+    private final boolean isCrossFade;//是否使用淡入淡出过渡动画
+    private final boolean isCenterCrop;//是否将图片剪切为 CenterCrop
+    private final boolean isCircle;//是否将图片剪切为圆形
+    private final boolean isClearMemory;//清理内存缓存
+    private final boolean isClearDiskCache;//清理本地缓存
 
     private ImageConfigImpl(Builder builder) {
         this.url = builder.url;
