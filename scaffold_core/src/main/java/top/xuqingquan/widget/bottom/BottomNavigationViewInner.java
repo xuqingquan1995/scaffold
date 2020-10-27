@@ -32,7 +32,7 @@ import top.xuqingquan.R;
  * Created by 许清泉 on 2019-05-25 19:16
  */
 @SuppressLint("RestrictedApi")
-public final class BottomNavigationViewInner extends BottomNavigationView {
+public class BottomNavigationViewInner extends BottomNavigationView {
     // used for animation
     private float mShiftAmount;
     private float mScaleUpFactor;

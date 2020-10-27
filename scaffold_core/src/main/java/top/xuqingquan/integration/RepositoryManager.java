@@ -13,11 +13,11 @@ import top.xuqingquan.utils.Preconditions;
 /**
  * Created by 许清泉 on 2019/4/14 17:23
  */
-public class RepositoryManager implements IRepositoryManager {
-    private Retrofit mRetrofit;
-    private Cache.Factory mCacheFactory;
+public final class RepositoryManager implements IRepositoryManager {
+    private final Retrofit mRetrofit;
+    private final Cache.Factory mCacheFactory;
     private Cache<String, Object> mRetrofitServiceCache;
-    private ObtainServiceDelegate mObtainServiceDelegate;
+    private final ObtainServiceDelegate mObtainServiceDelegate;
     private static RepositoryManager instance;
 
     private RepositoryManager() {
