@@ -22,8 +22,8 @@
 
     <declare-styleable name="scaffold_ExpandTextView">
         <attr name="scaffold_expandTextColor" format="color" />
-        <attr name="scaffold_expandText" format="string"/>
-        <attr name="scaffold_closeText" format="string"/>
+        <attr name="scaffold_expandText" format="string" />
+        <attr name="scaffold_closeText" format="string" />
     </declare-styleable>
 
     <style name="scaffold_LargeText">
@@ -35,8 +35,7 @@
     </style>
 
     <style name="scaffold_actionActivity" parent="@android:style/Theme.Translucent.NoTitleBar">
-        <item name="android:statusBarColor" tools:targetApi="lollipop">@android:color/transparent
-        </item>
+        <item name="android:statusBarColor" tools:targetApi="lollipop">@color/transparent</item>
     </style>
 
 </resources>

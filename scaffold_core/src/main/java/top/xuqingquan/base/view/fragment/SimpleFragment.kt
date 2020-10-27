@@ -9,8 +9,6 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import top.xuqingquan.app.ScaffoldConfig
-import top.xuqingquan.base.view.activity.SimpleActivity
-import top.xuqingquan.extension.hideSoftKeyboard
 import top.xuqingquan.cache.Cache
 import top.xuqingquan.cache.CacheType
 import top.xuqingquan.delegate.IFragment

@@ -13,19 +13,17 @@ import androidx.core.content.ContextCompat;
 /**
  * Created by 许清泉 on 2020/4/16 15:22
  */
-public class ButtonSpan extends ClickableSpan {
+public final class ButtonSpan extends ClickableSpan {
 
     View.OnClickListener onClickListener;
-    private Context context;
-    private int color;
+    private final int color;
 
     public ButtonSpan(Context context, View.OnClickListener onClickListener) {
-        this(context, onClickListener, ContextCompat.getColor(context, android.R.color.black));
+        this(onClickListener, ContextCompat.getColor(context, android.R.color.black));
     }
 
-    public ButtonSpan(Context context, View.OnClickListener onClickListener, @ColorInt int color) {
+    public ButtonSpan(View.OnClickListener onClickListener, @ColorInt int color) {
         this.onClickListener = onClickListener;
-        this.context = context;
         this.color = color;
     }
 

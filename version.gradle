@@ -1,21 +1,21 @@
 ext {
-    versionName = '2.3.5'
-    versionCode = 235
+    versionName = '2.3.6'
+    versionCode = 236
     android = [
-            compileSdkVersion : 29,
-            buildToolsVersion : '29.0.3',
+            compileSdkVersion : 30,
+            buildToolsVersion : '30.0.2',
             minSdkVersion     : 21,
-            targetSdkVersion  : 26,
+            targetSdkVersion  : 30,
             AndroidJUnitRunner: 'androidx.test.runner.AndroidJUnitRunner',
     ]
 
     depsVer = [
             kotlin                  : '1.4.10',
-            kotlinx_coroutines      : '1.3.9',
+            kotlinx_coroutines      : '1.4.0',
             appcompat               : '1.3.0-alpha02',
             core_ktx                : '1.5.0-alpha04',
             constraintlayout        : '2.0.2',
-            junit                   : '4.13',
+            junit                   : '4.13.1',
             test_rules              : '1.3.0',
             espresso_core           : '3.3.0',
             test_ext                : '1.1.2',
@@ -45,7 +45,7 @@ ext {
             swiperefreshlayout      : '1.1.0',
             exifinterface           : '1.2.0',
             flexbox                 : '2.0.1',
-            tbs                     : '43939',
+            tbs                     : '43967',
             doraemonkit             : '3.2.0',
             //support新增部分
             support                 : '28.0.0',

@@ -13,7 +13,7 @@ import java.lang.reflect.Method
  * [EventBus] 要求注册之前, 订阅者必须含有一个或以上声明 [Subscribe]
  * 注解的方法, 否则会报错, 所以如果要想完成在基类中自动注册, 避免报错就要先检查是否符合注册资格
  *
- * @param subscriber 订阅者
+ * @param subscriber 订阅者ç
  * @return 返回 `true` 则表示含有 [Subscribe] 注解, `false` 为不含有
  */
 internal fun haveAnnotation(subscriber: Any): Boolean {
