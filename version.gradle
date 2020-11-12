@@ -1,6 +1,6 @@
 ext {
-    versionName = '2.3.6-support'
-    versionCode = 236
+    versionName = '2.3.7-support'
+    versionCode = 237
     android = [
             compileSdkVersion : 30,
             buildToolsVersion : '30.0.2',
