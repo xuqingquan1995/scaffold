@@ -46,7 +46,8 @@ ext {
             exifinterface           : '1.2.0',
             flexbox                 : '2.0.1',
             tbs                     : '43967',
-            doraemonkit             : '3.0.8.0',
+            dokit                   : '3.3.4',
+            leakcanary              : '2.5',
             //support新增部分
             support                 : '28.0.0',
             constraintlayout_support: '2.0.2',
@@ -85,8 +86,8 @@ ext {
             logger                    : "com.orhanobut:logger:${depsVer.logger}",
             recovery                  : "com.zxy.android:recovery:${depsVer.recovery}",
             anrwatchdog               : "com.github.anrwatchdog:anrwatchdog:${depsVer.anrwatchdog}",
-            doraemonkit               : "com.didichuxing.doraemonkit:doraemonkit:${depsVer.doraemonkit}",
-            doraemonkit_leakcanary    : "com.didichuxing.doraemonkit:doraemonkit-leakcanary:${depsVer.doraemonkit}",
+            dokit                     : "com.didichuxing.doraemonkit:dokit:${depsVer.dokit}",
+            leakcanary                : "com.squareup.leakcanary:leakcanary-android:${depsVer.leakcanary}",
             //message
             eventbus                  : "org.greenrobot:eventbus:${depsVer.eventbus}",
             //lifecycle
