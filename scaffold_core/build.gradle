@@ -84,13 +84,13 @@ dependencies {
     compileOnly 'org.adblockplus:adblock-android-settings:3.0'
     compileOnly rootProject.ext.deps.tbs
     //debug
-    debugApi rootProject.ext.deps.doraemonkit_leakcanary
+    debugApi rootProject.ext.deps.leakcanary
     debugApi rootProject.ext.deps.recovery
     releaseCompileOnly rootProject.ext.deps.recovery
     debugApi rootProject.ext.deps.anrwatchdog
     releaseCompileOnly rootProject.ext.deps.anrwatchdog
-    debugApi rootProject.ext.deps.doraemonkit
-    releaseCompileOnly rootProject.ext.deps.doraemonkit
+    debugApi rootProject.ext.deps.dokit
+    releaseCompileOnly rootProject.ext.deps.dokit
     //test
     testImplementation rootProject.ext.deps.junit
     androidTestImplementation rootProject.ext.deps.espresso_core

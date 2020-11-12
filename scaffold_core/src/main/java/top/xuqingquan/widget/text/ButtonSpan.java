@@ -9,6 +9,7 @@ import android.view.View;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+import top.xuqingquan.R;
 
 /**
  * Created by 许清泉 on 2020/4/16 15:22
@@ -19,7 +20,7 @@ public final class ButtonSpan extends ClickableSpan {
     private final int color;
 
     public ButtonSpan(Context context, View.OnClickListener onClickListener) {
-        this(onClickListener, ContextCompat.getColor(context, android.R.color.black));
+        this(onClickListener, ContextCompat.getColor(context, R.color.black));
     }
 
     public ButtonSpan(View.OnClickListener onClickListener, @ColorInt int color) {

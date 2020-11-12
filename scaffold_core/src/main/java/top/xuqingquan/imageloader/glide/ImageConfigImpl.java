@@ -103,7 +103,7 @@ public final class ImageConfigImpl extends ImageConfig {
         return new Builder();
     }
 
-    @SuppressWarnings("unused")
+    @SuppressWarnings({"unused", "RedundantSuppression"})
     public static final class Builder {
         private String url;
         private ImageView imageView;

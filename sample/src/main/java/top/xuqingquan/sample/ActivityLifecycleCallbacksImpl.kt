@@ -9,7 +9,7 @@ import top.xuqingquan.utils.Timber
  * Created by 许清泉 on 2019/4/15 00:35
  * 展示[Application.ActivityLifecycleCallbacks]用法
  */
-class ActivityLifecycleCallbacksImpl:Application.ActivityLifecycleCallbacks {
+class ActivityLifecycleCallbacksImpl : Application.ActivityLifecycleCallbacks {
 
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
         Timber.v("onActivityCreated---${activity.javaClass.name}")
