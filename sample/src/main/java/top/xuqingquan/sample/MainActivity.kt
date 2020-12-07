@@ -5,16 +5,14 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.Transformations
 import androidx.paging.LivePagedListBuilder
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.delay
 import top.xuqingquan.app.ScaffoldConfig
 import top.xuqingquan.base.model.entity.Listing
 import top.xuqingquan.base.model.entity.NetworkStatus
 import top.xuqingquan.base.view.activity.SimpleActivity
-import top.xuqingquan.extension.*
+import top.xuqingquan.extension.launch
 import top.xuqingquan.utils.Timber
 import top.xuqingquan.utils.startActivity
-import top.xuqingquan.utils.toast
-import com.tencent.mmkv.MMKV
-import kotlinx.coroutines.delay
 
 class MainActivity : SimpleActivity() {
 
