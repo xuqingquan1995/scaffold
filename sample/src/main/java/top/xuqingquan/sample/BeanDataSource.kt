@@ -22,7 +22,9 @@ class BeanDataSource : BasePageKeyedDataSource<Int, Subjects>() {
 //            callback.onResult(bean.subjects, 0, bean.total, 0, 1)
             callback.onResult(bean.subjects, 0, 1)
             initialLoad.postValue(NetworkStatus.SUCCESS)
-        }, catchBlock = {
+        }, catchBlock = {e->
+            Timber.d("错误")
+            e.printStackTrace()
             retry = {
                 loadInitial(params, callback)
             }

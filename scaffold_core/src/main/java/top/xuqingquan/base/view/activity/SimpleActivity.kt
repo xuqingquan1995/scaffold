@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.KeyEvent
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.MutableLiveData
 import top.xuqingquan.app.ScaffoldConfig
 import top.xuqingquan.cache.Cache
 import top.xuqingquan.cache.CacheType
@@ -18,6 +19,9 @@ abstract class SimpleActivity : AppCompatActivity(), IActivity {
 
     private var mCache: Cache<String, Any>? = null
     protected var onKeyListener: FragmentOnKeyListener? = null
+    val launchError by lazy {
+        MutableLiveData<Throwable>()
+    }
 
     /**
      * @return 布局id

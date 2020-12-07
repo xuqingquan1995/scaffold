@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
 import top.xuqingquan.app.ScaffoldConfig
 import top.xuqingquan.cache.Cache
 import top.xuqingquan.cache.CacheType
@@ -22,6 +23,9 @@ abstract class SimpleFragment : Fragment(), IFragment, FragmentOnKeyListener {
 
     private var mCache: Cache<String, Any>? = null
     protected var mContext: Context? = null
+    val launchError by lazy {
+        MutableLiveData<Throwable>()
+    }
 
     /**
      * @return 布局id

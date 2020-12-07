@@ -14,32 +14,25 @@ import top.xuqingquan.utils.Timber
 import top.xuqingquan.utils.startActivity
 import top.xuqingquan.utils.toast
 import com.tencent.mmkv.MMKV
+import kotlinx.coroutines.delay
 
 class MainActivity : SimpleActivity() {
 
     private lateinit var adapter: BeanAdapter
+    private lateinit var adapter1: StringAdapter
     private val config = ScaffoldConfig.getPagedListConfig()
 
     override fun getLayoutId() = R.layout.activity_main
 
-//    override fun initData(savedInstanceState: Bundle?) {
-//        launch {
-//            toast("X5初始化中")
-//            Timber.d("WebConfig.hasX5()===${WebConfig.hasX5()}")
-//            var i = 0
-//            while (!WebConfig.hasX5() && i < 60) {
-//                delay(1000)
-//                i++
-//                Timber.d("WebConfig.hasX5()===${WebConfig.hasX5()}")
-//            }
-//            toast("X5初始化---${WebConfig.hasX5()}")
-//            startActivity<HtmlPrinterActivity>()
-//            finish()
-//        }
-//    }
-
     override fun initData(savedInstanceState: Bundle?) {
-        supportFragmentManager.beginTransaction().replace(R.id.fragment, TestFragment()).commitNow()
+        initData2()
+        launch {
+            delay(5000)
+            initData1()
+        }
+    }
+
+    private fun initData1() {
         val factory = BeanDataSourceFactory()
         val listing = Listing(
             pagedList = LivePagedListBuilder(factory, config).build(),
@@ -62,20 +55,22 @@ class MainActivity : SimpleActivity() {
             }
         })
         listing.empty.observe(this, Observer {
-//            toast("empty--$it")
+    //            toast("empty--$it")
+            Timber.d("empty000000")
         })
         listing.exception.observe(this, Observer {
-//            toast("exception${it.message}")
+    //            toast("exception${it.message}")
+            Timber.d("error000000")
         })
         listing.networkState.observe(this, Observer {
             adapter.setNetworkState(it)
         })
         listing.refreshState.observe(this, Observer {
-            Timber.d("refreshState===$it")
+            Timber.d("refreshState00000===$it")
             swipe_refresh.isRefreshing = it == NetworkStatus.RUNNING
         })
         swipe_refresh.setOnRefreshListener {
-            Timber.d("refreshState===1111")
+            Timber.d("refreshState00000===1111")
             listing.refresh.invoke()
         }
         adapter.setOnItemClickListener {
@@ -91,41 +86,59 @@ class MainActivity : SimpleActivity() {
                 )
             }
         }
-        val str=MMKV.defaultMMKV().decodeString("haha")
-        toast(str)
-//        adapter.listener = object : SimplePagedListAdapter.OnViewClickListener<Subjects>() {
-//            override fun onClick(view: View, position: Int, data: Subjects?, viewType: Int) {
-////                toast("onClick---data===>${data?.title}")
-////                startActivity<WebActivity>(
-////                    if (position == 0) {
-////                        "url" to "http://debugtbs.qq.com"
-////                    } else {
-////                        "data" to ""
-////                    }
-////                )
-//            }
-//
-//            override fun onLongClick(
-//                view: View,
-//                position: Int,
-//                data: Subjects?,
-//                viewType: Int
-//            ): Boolean {
-////                toast("onLongClick---data===>${data?.title}")
-//                return super.onLongClick(view, position, data, viewType)
-//            }
-//        }
+    }
+    private fun initData2() {
+        val factory = StringDataSourceFactory()
+        val listing = Listing(
+            pagedList = LivePagedListBuilder(factory, config).build(),
+            networkState = Transformations.switchMap(factory.sourceLiveData) { it.networkState },
+            refreshState = Transformations.switchMap(factory.sourceLiveData) { it.initialLoad },
+            empty = Transformations.switchMap(factory.sourceLiveData) { it.empty },
+            refresh = { factory.sourceLiveData.value?.invalidate() },
+            retry = { factory.sourceLiveData.value?.retryAllFailed() },
+            exception = Transformations.switchMap(factory.sourceLiveData) { it.exception }
+        )
+        adapter1 = StringAdapter {
+            listing.retry.invoke()
+        }
+        list1.adapter = adapter1
+        listing.pagedList.observe(this, Observer {
+            adapter1.submitList(it)
+            Timber.d("adapter.currentList?.size===>${adapter1.currentList?.size}")
+            adapter1.currentList?.forEach { sub ->
+                Timber.d("adapter.currentList$sub")
+            }
+        })
+        listing.empty.observe(this, Observer {
+            Timber.d("empty111111")
+        })
+        listing.exception.observe(this, Observer {
+            Timber.d("error1111111111")
+        })
+        listing.networkState.observe(this, Observer {
+            adapter1.setNetworkState(it)
+        })
+        listing.refreshState.observe(this, Observer {
+            Timber.d("refreshState11111===$it")
+            swipe_refresh1.isRefreshing = it == NetworkStatus.RUNNING
+        })
+        swipe_refresh1.setOnRefreshListener {
+            Timber.d("refreshState111111===1111")
+            listing.refresh.invoke()
+        }
+        adapter1.setOnItemClickListener {
+            onClick { view, position, data, viewType ->
+                startActivity<WebActivity>(
+                    when (position) {
+                        0 -> "url" to "http://debugtbs.qq.com"
+                        1 -> "url" to "https://www.fanhuangli.com/c.html"
+                        2 -> "url" to "https://m.baidu.com/"
+                        3 -> "url" to "https://m.image.so.com/"
+                        else -> "url" to "http://m.bilibili.com"
+                    }
+                )
+            }
+        }
     }
 
-//    override fun initData(savedInstanceState: Bundle?) {
-//        launch {
-//            val service = ScaffoldConfig.getRepositoryManager()
-//                .obtainRetrofitService(DoubanService::class.java)
-//            //http://so.techlz.com:9972/main/api/removeAd7/?co=377&sign=CDEC8D&tta=159507&os=1
-//            val removeAd = service.removeAd(377, "CDEC8D", 159507, 1)
-//            Timber.d("result===>${removeAd}")
-//            val siteKeywords=service.siteKeywords("0")
-//            Timber.d("result===>${siteKeywords}")
-//        }
-//    }
 }
