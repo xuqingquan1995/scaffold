@@ -20,8 +20,8 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         ScaffoldConfig.getInstance(this)
-            .setBaseUrl("https://api.douban.com")
-//            .setBaseUrl("http://so.techlz.com:9972/")
+//            .setBaseUrl("https://api.douban.com")
+            .setBaseUrl("http://so.techlz.com:9972/")
             .setRetrofitConfiguration { _, builder ->
                 builder.addConverterFactory(TestConverterFactory.create(ScaffoldConfig.getGson()))
             }
