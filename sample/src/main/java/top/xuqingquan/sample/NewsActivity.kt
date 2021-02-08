@@ -9,9 +9,13 @@ import top.xuqingquan.base.view.activity.SimpleActivity
  * Created by 许清泉 on 2020/5/12 14:01
  */
 class NewsActivity : SimpleActivity() {
-    override fun getLayoutId() = R.layout.activity_news
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView( R.layout.activity_news)
+        initData(savedInstanceState)
+    }
 
-    override fun initData(savedInstanceState: Bundle?) {
+    private fun initData(savedInstanceState: Bundle?) {
         supportFragmentManager.beginTransaction()
             .replace(R.id.frameLayout, TabFragment.newInstance() as Fragment).commit()
     }

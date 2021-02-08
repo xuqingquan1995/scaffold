@@ -27,9 +27,13 @@ class HtmlPrinterActivity : SimpleActivity() {
     private var currentSource = ""
     private val html = MutableLiveData<String>()
 
-    override fun getLayoutId() = R.layout.html_printer
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.html_printer)
+        initData(savedInstanceState)
+    }
 
-    override fun initData(savedInstanceState: Bundle?) {
+    private fun initData(savedInstanceState: Bundle?) {
         Timber.d("WebConfig.hasX5()===>${WebConfig.enableTbs()}")
         val agentWeb = AgentWeb.with(this)
             .setAgentWebParent(webView, -1, ViewGroup.LayoutParams(-1, -1))

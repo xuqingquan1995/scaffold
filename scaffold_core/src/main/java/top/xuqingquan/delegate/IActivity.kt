@@ -21,13 +21,6 @@ interface IActivity {
     fun provideCache(): Cache<String, Any>
 
     /**
-     * 初始化数据
-     *
-     * @param savedInstanceState
-     */
-    fun initData(savedInstanceState: Bundle?)
-
-    /**
      * 是否使用EventBus
      */
     fun useEventBus(): Boolean

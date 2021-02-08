@@ -1,12 +1,7 @@
 package top.xuqingquan.base.view.fragment
 
 import android.content.Context
-import android.os.Bundle
 import android.view.KeyEvent
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import top.xuqingquan.app.ScaffoldConfig
@@ -17,7 +12,6 @@ import top.xuqingquan.utils.FragmentOnKeyListener
 
 /**
  * Created by 许清泉 on 2019-04-24 23:38
- * 不使用MVVM模式的时候可以使用这个类
  */
 abstract class SimpleFragment : Fragment(), IFragment, FragmentOnKeyListener {
 
@@ -27,11 +21,6 @@ abstract class SimpleFragment : Fragment(), IFragment, FragmentOnKeyListener {
         MutableLiveData<Throwable>()
     }
 
-    /**
-     * @return 布局id
-     */
-    @LayoutRes
-    protected abstract fun getLayoutId(): Int
 
     final override fun provideCache(): Cache<String, Any> {
         if (mCache == null) {
@@ -45,25 +34,6 @@ abstract class SimpleFragment : Fragment(), IFragment, FragmentOnKeyListener {
     override fun onAttach(context: Context) {
         this.mContext = context
         super.onAttach(context)
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
-        val view = initView(inflater, container)
-        initView(view)
-        return view
-    }
-
-    /**
-     * 给fragment简单的初始化布局
-     *
-     * @param view
-     */
-    protected abstract fun initView(view: View)
-
-    protected open fun initView(inflater: LayoutInflater, container: ViewGroup?): View {
-        return inflater.inflate(getLayoutId(), container, false)
     }
 
     override fun onDetach() {
