@@ -7,9 +7,13 @@ import top.xuqingquan.base.view.activity.SimpleActivity
 
 class WebActivity : SimpleActivity() {
 
-    override fun getLayoutId() = R.layout.activity_web
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_web)
+        initData(savedInstanceState)
+    }
 
-    override fun initData(savedInstanceState: Bundle?) {
+    private fun initData(savedInstanceState: Bundle?) {
         val url = intent.getStringExtra("url")
         if (url.isNullOrEmpty()) {
             webview.loadUrl()

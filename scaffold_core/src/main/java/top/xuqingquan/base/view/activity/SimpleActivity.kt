@@ -1,8 +1,6 @@
 package top.xuqingquan.base.view.activity
 
-import android.os.Bundle
 import android.view.KeyEvent
-import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
 import top.xuqingquan.app.ScaffoldConfig
@@ -13,7 +11,6 @@ import top.xuqingquan.utils.FragmentOnKeyListener
 
 /**
  * Created by 许清泉 on 2019-04-24 23:32
- * 不使用MVVM模式的时候可以使用这个类
  */
 abstract class SimpleActivity : AppCompatActivity(), IActivity {
 
@@ -22,12 +19,6 @@ abstract class SimpleActivity : AppCompatActivity(), IActivity {
     val launchError by lazy {
         MutableLiveData<Throwable>()
     }
-
-    /**
-     * @return 布局id
-     */
-    @LayoutRes
-    protected abstract fun getLayoutId(): Int
 
     final override fun provideCache(): Cache<String, Any> {
         if (mCache == null) {
@@ -40,20 +31,6 @@ abstract class SimpleActivity : AppCompatActivity(), IActivity {
 
     override fun useEventBus(): Boolean {
         return true
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        initView(savedInstanceState)
-    }
-
-    /**
-     * 方便给子类继承选择是否使用这种方式填充布局
-     * @param savedInstanceState
-     */
-    protected open fun initView(savedInstanceState: Bundle?) {
-        setContentView(getLayoutId())
-        initData(savedInstanceState)
     }
 
     override fun setFragmentOnKeyListener(listener: FragmentOnKeyListener?) {

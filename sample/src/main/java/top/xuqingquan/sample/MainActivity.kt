@@ -20,9 +20,13 @@ class MainActivity : SimpleActivity() {
     private lateinit var adapter1: StringAdapter
     private val config = ScaffoldConfig.getPagedListConfig()
 
-    override fun getLayoutId() = R.layout.activity_main
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        initData(savedInstanceState)
+    }
 
-    override fun initData(savedInstanceState: Bundle?) {
+    private fun initData(savedInstanceState: Bundle?) {
         initData2()
         launch {
             delay(5000)
