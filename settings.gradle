@@ -1,2 +1,2 @@
 include ':sample'
-include ':scaffold_core'
+include ':core'
