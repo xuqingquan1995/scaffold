@@ -1,8 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'com.github.dcendents.android-maven'
-group = 'top.xuqingquan'
 //apply plugin: 'com.didi.dokit'//主工程可以添加这个依赖
 
 android {
@@ -98,3 +96,4 @@ dependencies {
     androidTestImplementation rootProject.ext.deps.test_rules
     androidTestImplementation rootProject.ext.deps.test_ext
 }
+apply from: 'maven.gradle'
