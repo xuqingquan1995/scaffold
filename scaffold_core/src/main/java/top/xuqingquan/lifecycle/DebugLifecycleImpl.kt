@@ -2,7 +2,7 @@ package top.xuqingquan.lifecycle
 
 import android.app.Application
 import android.content.Context
-import com.didichuxing.doraemonkit.DoraemonKit
+import com.didichuxing.doraemonkit.DoKit
 import com.github.anrwatchdog.ANRWatchDog
 import com.zxy.recovery.core.Recovery
 import top.xuqingquan.delegate.AppLifecycle
@@ -20,8 +20,9 @@ class DebugLifecycleImpl : AppLifecycle {
     override fun onCreate(application: Application) {
         Timber.plant(Timber.DebugTree())
         try {
-            Class.forName("com.didichuxing.doraemonkit.DoraemonKit")
-            DoraemonKit.install(application)
+            Class.forName("com.didichuxing.doraemonkit.DoKit")
+            DoKit.Builder(application)
+                .build()
         } catch (t: Throwable) {
         }
         try {
