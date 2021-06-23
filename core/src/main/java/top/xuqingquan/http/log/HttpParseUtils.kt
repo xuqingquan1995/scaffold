@@ -12,7 +12,6 @@ import top.xuqingquan.utils.ZipHelper
 import top.xuqingquan.utils.decode
 import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets
-import java.util.*
 
 /**
  * Created by 许清泉 on 2019/4/14 20:57
@@ -24,7 +23,7 @@ import java.util.*
  * @param response    [Response]
  * @return 解析后的响应结果
  */
-fun printResult(response: Response): String? {
+fun printResult(response: Response): String {
     try {
         //读取服务器返回的结果
         val responseBody = response.newBuilder().build().body
@@ -116,19 +115,19 @@ fun isParseable(mediaType: MediaType?) =
 fun isText(mediaType: MediaType?) = if (mediaType?.type == null) false else mediaType.type == "text"
 
 fun isPlain(mediaType: MediaType?) =
-    if (mediaType?.subtype == null) false else mediaType.subtype.toLowerCase(Locale.getDefault()).contains("plain")
+    if (mediaType?.subtype == null) false else mediaType.subtype.lowercase().contains("plain")
 
 fun isJson(mediaType: MediaType?) =
-    if (mediaType?.subtype == null) false else mediaType.subtype.toLowerCase(Locale.getDefault()).contains("json")
+    if (mediaType?.subtype == null) false else mediaType.subtype.lowercase().contains("json")
 
 fun isXml(mediaType: MediaType?) =
-    if (mediaType?.subtype == null) false else mediaType.subtype.toLowerCase(Locale.getDefault()).contains("xml")
+    if (mediaType?.subtype == null) false else mediaType.subtype.lowercase().contains("xml")
 
 fun isHtml(mediaType: MediaType?) =
-    if (mediaType?.subtype == null) false else mediaType.subtype.toLowerCase(Locale.getDefault()).contains("html")
+    if (mediaType?.subtype == null) false else mediaType.subtype.lowercase().contains("html")
 
 fun isForm(mediaType: MediaType?) =
-    if (mediaType?.subtype == null) false else mediaType.subtype.toLowerCase(Locale.getDefault()).contains("x-www-form-urlencoded")
+    if (mediaType?.subtype == null) false else mediaType.subtype.lowercase().contains("x-www-form-urlencoded")
 
 fun convertCharset(charset: Charset): String {
     val s = charset.toString()

@@ -14,10 +14,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.TintTypedArray;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
+
 import com.google.android.material.R;
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
@@ -32,6 +34,7 @@ import java.lang.reflect.Field;
  * Created by 许清泉 on 2019-05-25 19:16
  * ViewPager/ViewPager2通用
  */
+@SuppressWarnings("JavaDoc")
 @SuppressLint("RestrictedApi")
 public class BottomNavigationViewInner extends BottomNavigationView {
     // used for animation
@@ -107,7 +110,9 @@ public class BottomNavigationViewInner extends BottomNavigationView {
         for (BottomNavigationItemView button : mButtons) {
             ImageView mIcon = getField(button.getClass(), button, "icon");
             // 4. set mIcon visibility gone
-            mIcon.setVisibility(visibility ? View.VISIBLE : View.INVISIBLE);
+            if (mIcon != null) {
+                mIcon.setVisibility(visibility ? View.VISIBLE : View.INVISIBLE);
+            }
         }
 
         // 5. change mItemHeight to only text size in mMenuView
@@ -173,13 +178,21 @@ public class BottomNavigationViewInner extends BottomNavigationView {
                 // if not record the font size, record it
                 if (!visibilityTextSizeRecord && !animationRecord) {
                     visibilityTextSizeRecord = true;
-                    mLargeLabelSize = mLargeLabel.getTextSize();
-                    mSmallLabelSize = mSmallLabel.getTextSize();
+                    if (mLargeLabel != null) {
+                        mLargeLabelSize = mLargeLabel.getTextSize();
+                    }
+                    if (mSmallLabel != null) {
+                        mSmallLabelSize = mSmallLabel.getTextSize();
+                    }
                 }
 
                 // if not visitable, set font size to 0
-                mLargeLabel.setTextSize(TypedValue.COMPLEX_UNIT_PX, 0);
-                mSmallLabel.setTextSize(TypedValue.COMPLEX_UNIT_PX, 0);
+                if (mLargeLabel != null) {
+                    mLargeLabel.setTextSize(TypedValue.COMPLEX_UNIT_PX, 0);
+                }
+                if (mSmallLabel != null) {
+                    mSmallLabel.setTextSize(TypedValue.COMPLEX_UNIT_PX, 0);
+                }
 
             } else {
                 // if not record the font size, we need do nothing.
@@ -187,8 +200,12 @@ public class BottomNavigationViewInner extends BottomNavigationView {
                     break;
 
                 // restore it
-                mLargeLabel.setTextSize(TypedValue.COMPLEX_UNIT_PX, mLargeLabelSize);
-                mSmallLabel.setTextSize(TypedValue.COMPLEX_UNIT_PX, mSmallLabelSize);
+                if (mLargeLabel != null) {
+                    mLargeLabel.setTextSize(TypedValue.COMPLEX_UNIT_PX, mLargeLabelSize);
+                }
+                if (mSmallLabel != null) {
+                    mSmallLabel.setTextSize(TypedValue.COMPLEX_UNIT_PX, mSmallLabelSize);
+                }
             }
         }
 
@@ -266,12 +283,24 @@ public class BottomNavigationViewInner extends BottomNavigationView {
             if (!enable) {
                 if (!animationRecord) {
                     animationRecord = true;
-                    mShiftAmount = getField(button.getClass(), button, "shiftAmount");
-                    mScaleUpFactor = getField(button.getClass(), button, "scaleUpFactor");
-                    mScaleDownFactor = getField(button.getClass(), button, "scaleDownFactor");
-
-                    mLargeLabelSize = mLargeLabel.getTextSize();
-                    mSmallLabelSize = mSmallLabel.getTextSize();
+                    Object shiftAmount = getField(button.getClass(), button, "shiftAmount");
+                    if (shiftAmount instanceof Number) {
+                        mShiftAmount = (float) shiftAmount;
+                    }
+                    Object scaleUpFactor = getField(button.getClass(), button, "scaleUpFactor");
+                    if (scaleUpFactor instanceof Number) {
+                        mScaleUpFactor = (float) scaleUpFactor;
+                    }
+                    Object scaleDownFactor = getField(button.getClass(), button, "scaleDownFactor");
+                    if (scaleDownFactor instanceof Number) {
+                        mScaleDownFactor = (float) scaleDownFactor;
+                    }
+                    if (mLargeLabel != null) {
+                        mLargeLabelSize = mLargeLabel.getTextSize();
+                    }
+                    if (mSmallLabel != null) {
+                        mSmallLabelSize = mSmallLabel.getTextSize();
+                    }
 
 //                    System.out.println("mShiftAmount:" + mShiftAmount + " mScaleUpFactor:"
 //                            + mScaleUpFactor + " mScaleDownFactor:" + mScaleDownFactor
@@ -283,7 +312,9 @@ public class BottomNavigationViewInner extends BottomNavigationView {
                 setField(button.getClass(), button, "scaleDownFactor", 1);
 
                 // let the mLargeLabel font size equal to mSmallLabel
-                mLargeLabel.setTextSize(TypedValue.COMPLEX_UNIT_PX, mSmallLabelSize);
+                if (mLargeLabel != null) {
+                    mLargeLabel.setTextSize(TypedValue.COMPLEX_UNIT_PX, mSmallLabelSize);
+                }
 
                 // debug start
 //                mLargeLabelSize = mLargeLabel.getTextSize();
@@ -299,7 +330,9 @@ public class BottomNavigationViewInner extends BottomNavigationView {
                 setField(button.getClass(), button, "scaleUpFactor", mScaleUpFactor);
                 setField(button.getClass(), button, "scaleDownFactor", mScaleDownFactor);
                 // restore
-                mLargeLabel.setTextSize(TypedValue.COMPLEX_UNIT_PX, mLargeLabelSize);
+                if (mLargeLabel != null) {
+                    mLargeLabel.setTextSize(TypedValue.COMPLEX_UNIT_PX, mLargeLabelSize);
+                }
             }
         }
         mMenuView.updateMenuView();
@@ -308,7 +341,7 @@ public class BottomNavigationViewInner extends BottomNavigationView {
 
     /**
      * @param enable It will has a shift animation if true. Otherwise all items are the same width.
-     * enable the shifting mode for navigation
+     *               enable the shifting mode for navigation
      */
     public BottomNavigationViewInner enableShiftingMode(boolean enable) {
         /*
@@ -328,7 +361,7 @@ public class BottomNavigationViewInner extends BottomNavigationView {
 
     /**
      * @param enable It will has a shift animation for item if true. Otherwise the item text always be shown.
-     * enable the shifting mode for each item
+     *               enable the shifting mode for each item
      */
     public BottomNavigationViewInner enableItemShiftingMode(boolean enable) {
         /*
@@ -663,7 +696,14 @@ public class BottomNavigationViewInner extends BottomNavigationView {
         // 1. get mMenuView
         final BottomNavigationMenuView mMenuView = getBottomNavigationMenuView();
         // 2. get private final int mItemHeight in mMenuView
-        return getField(mMenuView.getClass(), mMenuView, "itemHeight");
+        Object itemHeight = getField(mMenuView.getClass(), mMenuView, "itemHeight");
+        if (itemHeight == null) {
+            return 0;
+        }
+        if (itemHeight instanceof Number) {
+            return (int) itemHeight;
+        }
+        return 0;
     }
 
     /**
@@ -718,7 +758,7 @@ public class BottomNavigationViewInner extends BottomNavigationView {
      * @param <T>
      * @return field if success, null otherwise.
      */
-    private <T> T getField(Class targetClass, Object instance, String fieldName) {
+    private <T> T getField(Class<?> targetClass, Object instance, String fieldName) {
         try {
             Field field = targetClass.getDeclaredField(fieldName);
             field.setAccessible(true);
@@ -738,14 +778,12 @@ public class BottomNavigationViewInner extends BottomNavigationView {
      * @param fieldName
      * @param value
      */
-    private void setField(Class targetClass, Object instance, String fieldName, Object value) {
+    private void setField(Class<?> targetClass, Object instance, String fieldName, Object value) {
         try {
             Field field = targetClass.getDeclaredField(fieldName);
             field.setAccessible(true);
             field.set(instance, value);
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
+        } catch (NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();
         }
     }
@@ -922,8 +960,8 @@ public class BottomNavigationViewInner extends BottomNavigationView {
     private static class MyOnNavigationItemSelectedListener2 implements OnNavigationItemSelectedListener {
         private OnNavigationItemSelectedListener listener;
         private final WeakReference<ViewPager2> viewPager2Ref;
-        private boolean smoothScroll;
-        private SparseIntArray items;// used for change ViewPager selected item
+        private final boolean smoothScroll;
+        private final SparseIntArray items;// used for change ViewPager selected item
         private int previousPosition = -1;
 
 
@@ -986,8 +1024,8 @@ public class BottomNavigationViewInner extends BottomNavigationView {
     private static class MyOnNavigationItemSelectedListener implements OnNavigationItemSelectedListener {
         private OnNavigationItemSelectedListener listener;
         private final WeakReference<ViewPager> viewPagerRef;
-        private boolean smoothScroll;
-        private SparseIntArray items;// used for change ViewPager selected item
+        private final boolean smoothScroll;
+        private final SparseIntArray items;// used for change ViewPager selected item
         private int previousPosition = -1;
 
 

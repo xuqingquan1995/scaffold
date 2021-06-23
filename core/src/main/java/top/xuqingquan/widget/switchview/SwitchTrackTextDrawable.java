@@ -112,10 +112,9 @@ public final class SwitchTrackTextDrawable extends Drawable {
     public void changeBackground(boolean isMoving) {
         if (isMoving) {
             setMoving = true;
-            invalidateSelf();
         } else {
             setMoving = false;
-            invalidateSelf();
         }
+        invalidateSelf();
     }
 }

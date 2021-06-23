@@ -16,7 +16,7 @@ import top.xuqingquan.R;
  */
 public final class ButtonSpan extends ClickableSpan {
 
-    View.OnClickListener onClickListener;
+    private final View.OnClickListener onClickListener;
     private final int color;
 
     public ButtonSpan(Context context, View.OnClickListener onClickListener) {

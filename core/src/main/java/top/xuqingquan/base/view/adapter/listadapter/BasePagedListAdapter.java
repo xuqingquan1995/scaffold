@@ -21,14 +21,14 @@ public abstract class BasePagedListAdapter<T> extends SimplePagedListAdapter<T> 
     private NetworkStatus networkStatus;
     private static final int NETWORK_STATE = -0x799;
     private static final int ITEM = -0x977;
-    private Function0<?> retry;
+    private final Function0<?> retry;
 
     public BasePagedListAdapter(@NonNull Function0<?> retry, @NonNull DiffUtil.ItemCallback<T> diff) {
         super(diff);
         this.retry = retry;
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "rawtypes"})
     @NonNull
     @Override
     public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

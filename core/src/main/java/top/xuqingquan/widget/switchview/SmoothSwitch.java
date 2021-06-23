@@ -11,6 +11,7 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.Dimension;
 import androidx.annotation.IntDef;
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.core.content.res.ResourcesCompat;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -95,11 +96,7 @@ public final class SmoothSwitch extends SwitchCompat {//平滑
             this.setThumbDrawable(addSelector(SMALL));
         }
         this.setOnTouchListener((v, event) -> {
-            if (event.getAction() == MotionEvent.ACTION_MOVE) {
-                changeBackground(true);
-            } else {
-                changeBackground(false);
-            }
+            changeBackground(event.getAction() == MotionEvent.ACTION_MOVE);
             return false;
         });
 
@@ -109,12 +106,12 @@ public final class SmoothSwitch extends SwitchCompat {//平滑
         StateListDrawable res = new StateListDrawable();
         if (type == LARGE) {
             this.setSwitchTextAppearance(mContext, R.style.scaffold_LargeText);
-            res.addState(new int[]{android.R.attr.state_checked}, getResources().getDrawable(R.drawable.scaffold_large_switch));
-            res.addState(new int[]{-android.R.attr.state_checked}, getResources().getDrawable(R.drawable.scaffold_large_switch));
+            res.addState(new int[]{android.R.attr.state_checked}, ResourcesCompat.getDrawable(getResources(), R.drawable.scaffold_large_switch, null));
+            res.addState(new int[]{-android.R.attr.state_checked}, ResourcesCompat.getDrawable(getResources(), R.drawable.scaffold_large_switch, null));
         } else if (type == SMALL) {
             this.setSwitchTextAppearance(mContext, R.style.scaffold_SmallText);
-            res.addState(new int[]{android.R.attr.state_checked}, getResources().getDrawable(R.drawable.scaffold_small_switch));
-            res.addState(new int[]{-android.R.attr.state_checked}, getResources().getDrawable(R.drawable.scaffold_small_switch));
+            res.addState(new int[]{android.R.attr.state_checked}, ResourcesCompat.getDrawable(getResources(), R.drawable.scaffold_small_switch, null));
+            res.addState(new int[]{-android.R.attr.state_checked}, ResourcesCompat.getDrawable(getResources(), R.drawable.scaffold_small_switch, null));
         }
         res.setTint(thumbColor);
         return res;
@@ -125,6 +122,6 @@ public final class SmoothSwitch extends SwitchCompat {//平滑
     }
 
     private float dp2px(float dp) {
-        return DimensionsKt.dip(getContext(),dp);
+        return DimensionsKt.dip(getContext(), dp);
     }
 }

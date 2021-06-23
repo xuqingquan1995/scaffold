@@ -7,10 +7,11 @@ import android.util.AttributeSet;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
+
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
-import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 
 /**
  * Created by 许清泉 on 2019-05-25 19:26
@@ -118,11 +119,6 @@ public final class BottomNavigationViewEx extends BottomNavigationViewInner {
             super.setOnNavigationItemSelectedListener(listener);
         } catch (Throwable ignored) {
         }
-    }
-
-    @Override
-    public BottomNavigationMenuView getBottomNavigationMenuView() {
-        return super.getBottomNavigationMenuView();
     }
 
     @Override

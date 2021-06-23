@@ -12,14 +12,14 @@ import top.xuqingquan.base.model.entity.NetworkStatus
  */
 class NetworkStateViewHolder(view: View) :
     BaseViewHolder<NetworkStatus>(view) {
-    private val loading_failure = getView<TextView>(R.id.loading_failure)
+    private val loadingFailure = getView<TextView>(R.id.loading_failure)
     private val loading = getView<ProgressBar>(R.id.loading)
-    private val loading_tv = getView<TextView>(R.id.loading_tv)
+    private val loadingTv = getView<TextView>(R.id.loading_tv)
 
     fun bind(data: NetworkStatus, listener: View.OnClickListener) {
-        loading_failure.setOnClickListener(listener)
-        loading_failure.isVisible = (data == NetworkStatus.FAILED)
+        loadingFailure.setOnClickListener(listener)
+        loadingFailure.isVisible = (data == NetworkStatus.FAILED)
         loading.isVisible = (data == NetworkStatus.RUNNING)
-        loading_tv.isVisible = (data == NetworkStatus.RUNNING)
+        loadingTv.isVisible = (data == NetworkStatus.RUNNING)
     }
 }

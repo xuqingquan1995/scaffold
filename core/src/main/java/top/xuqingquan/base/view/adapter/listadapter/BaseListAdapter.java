@@ -21,7 +21,7 @@ public abstract class BaseListAdapter<T> extends SimpleListAdapter<T> {
     private NetworkStatus networkStatus;
     private static final int NETWORK_STATE = -0x799;
     private static final int ITEM = -0x977;
-    private Function0<?> retry;
+    private final Function0<?> retry;
 
     public BaseListAdapter(@NonNull Function0<?> retry, @NonNull DiffUtil.ItemCallback<T> diff) {
         super(diff);
