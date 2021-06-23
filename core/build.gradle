@@ -96,4 +96,4 @@ dependencies {
     androidTestImplementation rootProject.ext.deps.test_rules
     androidTestImplementation rootProject.ext.deps.test_ext
 }
-apply from: 'maven.gradle'
+//apply from: 'maven.gradle'
