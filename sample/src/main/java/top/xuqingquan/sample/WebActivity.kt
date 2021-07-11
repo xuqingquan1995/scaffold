@@ -14,12 +14,8 @@ class WebActivity : SimpleActivity() {
     }
 
     private fun initData(savedInstanceState: Bundle?) {
-        val url = intent.getStringExtra("url")
-        if (url.isNullOrEmpty()) {
-            webview.loadUrl()
-        } else {
-            webview.loadUrl(url)
-        }
+        val url = "https://tv.cctv.com/2021/07/07/VIDENGCCNuuthbOvE29cn212210707.shtml"
+        webview.loadUrl(url)
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {

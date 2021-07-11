@@ -2,7 +2,6 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'com.didi.dokit'
 //apply plugin: 'AndResGuard'
 
 android {
@@ -68,11 +67,10 @@ dependencies {
     androidTestImplementation rootProject.ext.deps.espresso_core
     implementation project(path: ':core')
 //    implementation 'top.xuqingquan:scaffold:2.0.3'
-    implementation 'top.xuqingquan:web:3.0.2'
+    implementation 'top.xuqingquan:web:3.0.5_lite'
     implementation rootProject.ext.deps.multidex
     implementation rootProject.ext.deps.paging
     implementation rootProject.ext.deps.room
-    implementation rootProject.ext.deps.tbs
     implementation rootProject.ext.deps.BRVAH
     implementation 'com.swift.sandhook:hooklib:4.2.0'
     // need for android 11

@@ -14,7 +14,7 @@
             android:theme="@style/AppTheme"
             tools:ignore="AllowBackup,GoogleAppIndexingWarning,LockedOrientationActivity">
         <activity
-                android:name=".MainActivity"
+                android:name=".WebActivity"
                 android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,11 +23,7 @@
             </intent-filter>
         </activity>
         <activity
-                android:name=".WebActivity"
-                android:configChanges="orientation|screenSize|keyboardHidden"
-                android:screenOrientation="portrait" />
-        <activity
-                android:name=".HtmlPrinterActivity"
+                android:name=".MainActivity"
                 android:configChanges="orientation|screenSize|keyboardHidden"
                 android:screenOrientation="portrait" />
         <activity

@@ -1,7 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
-//apply plugin: 'com.didi.dokit'//主工程可以添加这个依赖
 
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
@@ -78,18 +77,11 @@ dependencies {
     api rootProject.ext.deps.gson
     //eventbus
     api rootProject.ext.deps.eventbus
-    //需要用到web下载的时候需要依赖
-    compileOnly 'top.xuqingquan:web:3.0.2'
-    compileOnly 'org.adblockplus:adblock-android-settings:4.1.2'
-    compileOnly rootProject.ext.deps.tbs
     //debug
-    debugApi rootProject.ext.deps.leakcanary
     debugApi rootProject.ext.deps.recovery
     releaseCompileOnly rootProject.ext.deps.recovery
     debugApi rootProject.ext.deps.anrwatchdog
     releaseCompileOnly rootProject.ext.deps.anrwatchdog
-    debugApi rootProject.ext.deps.dokit
-    releaseCompileOnly rootProject.ext.deps.dokit
     //test
     testImplementation rootProject.ext.deps.junit
     androidTestImplementation rootProject.ext.deps.espresso_core
