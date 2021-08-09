@@ -8,8 +8,9 @@ import okhttp3.Response
 import okhttp3.ResponseBody
 import okio.Buffer
 import top.xuqingquan.utils.CharacterUtils
-import top.xuqingquan.utils.ZipHelper
 import top.xuqingquan.utils.decode
+import top.xuqingquan.utils.decompressForGzip
+import top.xuqingquan.utils.decompressToStringForZlib
 import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets
 
@@ -58,15 +59,15 @@ private fun parseContent(responseBody: ResponseBody, encoding: String?, clone: B
         charset = contentType.charset(charset)
     }
     return if (encoding != null && encoding.equals("gzip", ignoreCase = true)) {//content 使用 gzip 压缩
-        ZipHelper.decompressForGzip(
+        decompressForGzip(
             clone.readByteArray(),
-            convertCharset(charset!!)
-        )//解压
+            charset ?: StandardCharsets.UTF_8
+        ) ?: ""//解压
     } else if (encoding != null && encoding.equals("zlib", ignoreCase = true)) {//content 使用 zlib 压缩
-        ZipHelper.decompressToStringForZlib(
+        decompressToStringForZlib(
             clone.readByteArray(),
-            convertCharset(charset!!)
-        )//解压
+            charset ?: StandardCharsets.UTF_8
+        ) ?: ""//解压
     } else {//content 没有被压缩, 或者使用其他未知压缩方式
         clone.readString(charset!!)
     }
@@ -127,7 +128,8 @@ fun isHtml(mediaType: MediaType?) =
     if (mediaType?.subtype == null) false else mediaType.subtype.lowercase().contains("html")
 
 fun isForm(mediaType: MediaType?) =
-    if (mediaType?.subtype == null) false else mediaType.subtype.lowercase().contains("x-www-form-urlencoded")
+    if (mediaType?.subtype == null) false else mediaType.subtype.lowercase()
+        .contains("x-www-form-urlencoded")
 
 fun convertCharset(charset: Charset): String {
     val s = charset.toString()
