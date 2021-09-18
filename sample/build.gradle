@@ -5,6 +5,15 @@ apply plugin: 'kotlin-kapt'
 //apply plugin: 'AndResGuard'
 
 android {
+    signingConfigs {
+        release {
+            storeFile file("sample.jks")
+            storePassword "123456"
+            keyAlias "sample"
+            keyPassword "123456"
+            v2SigningEnabled true
+        }
+    }
     compileSdkVersion rootProject.ext.android.compileSdkVersion
     buildToolsVersion rootProject.ext.android.buildToolsVersion
     defaultConfig {
@@ -19,7 +28,7 @@ android {
     }
     buildTypes {
         release {
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
             debuggable false
             jniDebuggable false
             minifyEnabled false
@@ -29,6 +38,7 @@ android {
             multiDexKeepProguard file('multidex-config.pro')
         }
         debug {
+            signingConfig signingConfigs.release
             multiDexKeepProguard file('multidex-config.pro')
         }
     }
