@@ -15,7 +15,7 @@ import top.xuqingquan.cache.CacheType;
  * Created by 许清泉 on 2019/4/14 17:23
  */
 public final class RepositoryManager implements IRepositoryManager {
-    private Retrofit mRetrofit;
+    private final Retrofit mRetrofit;
     private final Cache.Factory mCacheFactory;
     private Cache<String, Object> mRetrofitServiceCache;
     private final ObtainServiceDelegate mObtainServiceDelegate;
@@ -25,17 +25,6 @@ public final class RepositoryManager implements IRepositoryManager {
         mCacheFactory = ScaffoldConfig.getCacheFactory();
         mRetrofit = ScaffoldConfig.getRetrofit();
         mObtainServiceDelegate = ScaffoldConfig.getObtainServiceDelegate();
-    }
-
-    @NonNull
-    @Override
-    public RepositoryManager setRetrofit(@NonNull String name) {
-        Retrofit retrofit = ScaffoldConfig.getRetrofitMap().get(name);
-        if (retrofit == null) {
-            retrofit = mRetrofit;
-        }
-        this.mRetrofit = retrofit;
-        return this;
     }
 
     public static RepositoryManager getInstance() {

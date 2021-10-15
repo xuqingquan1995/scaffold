@@ -17,8 +17,6 @@ interface IRepositoryManager {
     </T> */
     fun <T> obtainRetrofitService(service: Class<T>): T
 
-    fun setRetrofit(name: String): IRepositoryManager
-
     interface ObtainServiceDelegate {
         fun <T> createRetrofitService(retrofit: Retrofit?, serviceClass: Class<T>?): T?
     }

@@ -15,9 +15,7 @@ import com.google.gson.GsonBuilder;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -76,7 +74,6 @@ public final class ScaffoldConfig {
     private static IRepositoryManager.ObtainServiceDelegate obtainServiceDelegate;
     private static boolean useOkHttpLoadImage;
     private static long imageCacheSize = 512 * 1024 * 1024;//512MB
-    private static Map<String, Retrofit> retrofitMap;
 
     private ScaffoldConfig(@NonNull Application application) {
         ScaffoldConfig.application = application;
@@ -279,18 +276,6 @@ public final class ScaffoldConfig {
         return this;
     }
 
-    public static Map<String, Retrofit> getRetrofitMap() {
-        if (retrofitMap == null) {
-            retrofitMap = new HashMap<>();
-        }
-        return retrofitMap;
-    }
-
-    public ScaffoldConfig addRetrofit(String name, Retrofit retrofit) {
-        getRetrofitMap().put(name, retrofit);
-        return this;
-    }
-
     @NonNull
     public ScaffoldConfig setGsonConfiguration(@Nullable GsonConfiguration gsonConfiguration) {
         ScaffoldConfig.gsonConfiguration = gsonConfiguration;
@@ -459,7 +444,6 @@ public final class ScaffoldConfig {
     public static Retrofit getRetrofit() {
         if (retrofit == null) {
             retrofit = getNewRetrofit(getOkHttpClient());
-            getRetrofitMap().put("default", retrofit);
         }
         return retrofit;
     }
