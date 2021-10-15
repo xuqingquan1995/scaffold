@@ -27,7 +27,13 @@ public final class RepositoryManager implements IRepositoryManager {
         mObtainServiceDelegate = ScaffoldConfig.getObtainServiceDelegate();
     }
 
-    public RepositoryManager setRetrofit(Retrofit retrofit) {
+    @NonNull
+    @Override
+    public RepositoryManager setRetrofit(@NonNull String name) {
+        Retrofit retrofit = ScaffoldConfig.getRetrofitMap().get(name);
+        if (retrofit == null) {
+            retrofit = mRetrofit;
+        }
         this.mRetrofit = retrofit;
         return this;
     }
