@@ -1,6 +1,7 @@
 package top.xuqingquan.integration;
 
 import androidx.annotation.NonNull;
+
 import top.xuqingquan.utils.Preconditions;
 
 import java.lang.reflect.Proxy;
@@ -14,7 +15,7 @@ import top.xuqingquan.cache.CacheType;
  * Created by 许清泉 on 2019/4/14 17:23
  */
 public final class RepositoryManager implements IRepositoryManager {
-    private final Retrofit mRetrofit;
+    private Retrofit mRetrofit;
     private final Cache.Factory mCacheFactory;
     private Cache<String, Object> mRetrofitServiceCache;
     private final ObtainServiceDelegate mObtainServiceDelegate;
@@ -24,6 +25,11 @@ public final class RepositoryManager implements IRepositoryManager {
         mCacheFactory = ScaffoldConfig.getCacheFactory();
         mRetrofit = ScaffoldConfig.getRetrofit();
         mObtainServiceDelegate = ScaffoldConfig.getObtainServiceDelegate();
+    }
+
+    public RepositoryManager setRetrofit(Retrofit retrofit) {
+        this.mRetrofit = retrofit;
+        return this;
     }
 
     public static RepositoryManager getInstance() {

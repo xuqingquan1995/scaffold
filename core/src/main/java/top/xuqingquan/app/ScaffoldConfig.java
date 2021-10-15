@@ -73,6 +73,7 @@ public final class ScaffoldConfig {
     private static ComponentCallbacks2 componentCallbacks2;
     private static IRepositoryManager.ObtainServiceDelegate obtainServiceDelegate;
     private static boolean useOkHttpLoadImage;
+    private static long imageCacheSize = 512 * 1024 * 1024;//512MB
 
     private ScaffoldConfig(@NonNull Application application) {
         ScaffoldConfig.application = application;
@@ -261,8 +262,17 @@ public final class ScaffoldConfig {
         return this;
     }
 
-    public ScaffoldConfig setUseOkHttpLoadImage(boolean useOkHttpLoadImage){
+    public ScaffoldConfig setUseOkHttpLoadImage(boolean useOkHttpLoadImage) {
         ScaffoldConfig.useOkHttpLoadImage = useOkHttpLoadImage;
+        return this;
+    }
+
+    public static long getImageCacheSize() {
+        return imageCacheSize;
+    }
+
+    public ScaffoldConfig setImageCacheSize(long imageCacheSize) {
+        ScaffoldConfig.imageCacheSize = imageCacheSize;
         return this;
     }
 
@@ -387,35 +397,39 @@ public final class ScaffoldConfig {
     @NonNull
     public static OkHttpClient getOkHttpClient() {
         if (okHttpClient == null) {
-            OkHttpClient.Builder builder = getOkHttpClientBuilder();
-            builder
-                    .connectTimeout(TIME_OUT, TimeUnit.SECONDS)
-                    .readTimeout(TIME_OUT, TimeUnit.SECONDS)
-                    .addNetworkInterceptor(RequestInterceptor.getInstance())
-                    .addInterceptor(chain -> chain.proceed(getGlobalHttpHandler().onHttpRequestBefore(chain, chain.request())));
-            List<Interceptor> netInterceptors = getNetInterceptors();
-            //如果外部提供了 Interceptor 的集合则遍历添加
-            if (netInterceptors != null) {
-                for (Interceptor interceptor : netInterceptors) {
-                    builder.addNetworkInterceptor(interceptor);
-                }
-            }
-            List<Interceptor> interceptors = getInterceptors();
-            //如果外部提供了 Interceptor 的集合则遍历添加
-            if (interceptors != null) {
-                for (Interceptor interceptor : interceptors) {
-                    builder.addInterceptor(interceptor);
-                }
-            }
-            //为 OkHttp 设置默认的线程池
-            builder.dispatcher(new Dispatcher(getExecutorService()));
-            OkhttpConfiguration configuration = getOkhttpConfiguration();
-            if (configuration != null) {
-                configuration.configOkhttp(application, builder);
-            }
-            okHttpClient = builder.build();
+            okHttpClient = getNewOkHttpClient();
         }
         return okHttpClient;
+    }
+
+    public static OkHttpClient getNewOkHttpClient() {
+        OkHttpClient.Builder builder = getOkHttpClientBuilder();
+        builder
+                .connectTimeout(TIME_OUT, TimeUnit.SECONDS)
+                .readTimeout(TIME_OUT, TimeUnit.SECONDS)
+                .addNetworkInterceptor(RequestInterceptor.getInstance())
+                .addInterceptor(chain -> chain.proceed(getGlobalHttpHandler().onHttpRequestBefore(chain, chain.request())));
+        List<Interceptor> netInterceptors = getNetInterceptors();
+        //如果外部提供了 Interceptor 的集合则遍历添加
+        if (netInterceptors != null) {
+            for (Interceptor interceptor : netInterceptors) {
+                builder.addNetworkInterceptor(interceptor);
+            }
+        }
+        List<Interceptor> interceptors = getInterceptors();
+        //如果外部提供了 Interceptor 的集合则遍历添加
+        if (interceptors != null) {
+            for (Interceptor interceptor : interceptors) {
+                builder.addInterceptor(interceptor);
+            }
+        }
+        //为 OkHttp 设置默认的线程池
+        builder.dispatcher(new Dispatcher(getExecutorService()));
+        OkhttpConfiguration configuration = getOkhttpConfiguration();
+        if (configuration != null) {
+            configuration.configOkhttp(application, builder);
+        }
+        return builder.build();
     }
 
     @NonNull
@@ -429,18 +443,21 @@ public final class ScaffoldConfig {
     @NonNull
     public static Retrofit getRetrofit() {
         if (retrofit == null) {
-            Retrofit.Builder builder = getRetrofitBuilder();
-            OkHttpClient client = getOkHttpClient();
-            builder.baseUrl(ScaffoldConfig.getHttpUrl())//域名
-                    .client(client);//设置 OkHttp
-            ScaffoldConfig.RetrofitConfiguration configuration = ScaffoldConfig.getRetrofitConfiguration();
-            if (configuration != null) {
-                configuration.configRetrofit(application, builder);
-            }
-            builder.addConverterFactory(GsonConverterFactory.create(ScaffoldConfig.getGson()));//使用 Gson
-            retrofit = builder.build();
+            retrofit = getNewRetrofit(getOkHttpClient());
         }
         return retrofit;
+    }
+
+    public static Retrofit getNewRetrofit(OkHttpClient client) {
+        Retrofit.Builder builder = getRetrofitBuilder();
+        builder.baseUrl(ScaffoldConfig.getHttpUrl())//域名
+                .client(client);//设置 OkHttp
+        ScaffoldConfig.RetrofitConfiguration configuration = ScaffoldConfig.getRetrofitConfiguration();
+        if (configuration != null) {
+            configuration.configRetrofit(application, builder);
+        }
+        builder.addConverterFactory(GsonConverterFactory.create(ScaffoldConfig.getGson()));//使用 Gson
+        return builder.build();
     }
 
     @NonNull

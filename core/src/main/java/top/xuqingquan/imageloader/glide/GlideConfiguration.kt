@@ -21,15 +21,12 @@ import java.io.InputStream
  */
 @GlideModule
 class GlideConfiguration : AppGlideModule() {
-    companion object {
-        private const val IMAGE_DISK_CACHE_MAX_SIZE: Long = 512 * 1024 * 1024//图片缓存文件最大值为100Mb
-    }
 
     override fun applyOptions(context: Context, builder: GlideBuilder) {
         builder.setDiskCache {
             DiskLruCacheWrapper.create(
                 makeDirs(File(ScaffoldConfig.getCacheFile(), "Glide")),
-                IMAGE_DISK_CACHE_MAX_SIZE
+                ScaffoldConfig.getImageCacheSize()
             )
         }
         val calculator = MemorySizeCalculator.Builder(context).build()
