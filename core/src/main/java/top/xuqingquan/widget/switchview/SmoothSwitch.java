@@ -9,12 +9,8 @@ import android.view.MotionEvent;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.Dimension;
-import androidx.annotation.IntDef;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.content.res.ResourcesCompat;
-
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 
 import top.xuqingquan.R;
 import top.xuqingquan.utils.DimensionsKt;
@@ -24,13 +20,7 @@ public final class SmoothSwitch extends SwitchCompat {//平滑
     public static final int SMALL = 0;
     public static final int LARGE = 1;
 
-    @IntDef({SMALL, LARGE})
-    @Retention(RetentionPolicy.SOURCE)
-    @interface Type {
-    }
-
     private Context mContext;
-    @Type
     private int type = SMALL;
     public String leftString = "";
     public String rightString = "";
@@ -102,7 +92,7 @@ public final class SmoothSwitch extends SwitchCompat {//平滑
 
     }
 
-    public StateListDrawable addSelector(@Type int type) {
+    public StateListDrawable addSelector(int type) {
         StateListDrawable res = new StateListDrawable();
         if (type == LARGE) {
             this.setSwitchTextAppearance(mContext, R.style.scaffold_LargeText);

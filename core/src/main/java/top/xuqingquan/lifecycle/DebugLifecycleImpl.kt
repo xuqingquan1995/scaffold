@@ -2,7 +2,6 @@ package top.xuqingquan.lifecycle
 
 import android.app.Application
 import android.content.Context
-import com.didichuxing.doraemonkit.DoKit
 import com.github.anrwatchdog.ANRWatchDog
 import com.zxy.recovery.core.Recovery
 import top.xuqingquan.delegate.AppLifecycle
@@ -19,12 +18,6 @@ class DebugLifecycleImpl : AppLifecycle {
 
     override fun onCreate(application: Application) {
         Timber.plant(Timber.DebugTree())
-        try {
-            Class.forName("com.didichuxing.doraemonkit.DoKit")
-            DoKit.Builder(application)
-                .build()
-        } catch (t: Throwable) {
-        }
         try {
             //ANR监视，debug时使用
             Class.forName("com.github.anrwatchdog.ANRWatchDog")

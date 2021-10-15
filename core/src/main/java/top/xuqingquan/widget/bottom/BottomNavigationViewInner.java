@@ -26,6 +26,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomnavigation.LabelVisibilityMode;
 import com.google.android.material.internal.ThemeEnforcement;
+import com.google.android.material.navigation.NavigationBarView;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
@@ -77,10 +78,10 @@ public class BottomNavigationViewInner extends BottomNavigationView {
         TintTypedArray a = ThemeEnforcement.obtainTintedStyledAttributes(context, set,
                 R.styleable.BottomNavigationView,
                 defStyleAttr, R.style.Widget_Design_BottomNavigationView,
-                R.styleable.BottomNavigationView_itemTextAppearanceInactive,
-                R.styleable.BottomNavigationView_itemTextAppearanceActive);
+                R.styleable.NavigationBarView_itemTextAppearanceInactive,
+                R.styleable.NavigationBarView_itemTextAppearanceActive);
         // clear if you don't have set item icon tint list
-        if (!a.hasValue(R.styleable.BottomNavigationView_itemIconTint)) {
+        if (!a.hasValue(R.styleable.NavigationBarView_itemIconTint)) {
             clearIconTintColor();
         }
         a.recycle();
@@ -355,7 +356,7 @@ public class BottomNavigationViewInner extends BottomNavigationView {
         // 2. change field mShiftingMode value in mMenuView
 //        setField(mMenuView.getClass(), mMenuView, "isShifting", enable);
 //        mMenuView.updateMenuView();
-        setLabelVisibilityMode(enable ? LabelVisibilityMode.LABEL_VISIBILITY_SELECTED : LabelVisibilityMode.LABEL_VISIBILITY_LABELED);
+        setLabelVisibilityMode(enable ? NavigationBarView.LABEL_VISIBILITY_SELECTED : NavigationBarView.LABEL_VISIBILITY_LABELED);
         return this;
     }
 

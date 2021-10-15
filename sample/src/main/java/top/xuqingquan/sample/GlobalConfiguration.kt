@@ -5,6 +5,7 @@ import android.content.Context
 import androidx.fragment.app.FragmentManager
 import top.xuqingquan.delegate.AppLifecycle
 import top.xuqingquan.integration.LifecycleConfig
+import top.xuqingquan.lifecycle.DebugLifecycleImpl
 
 /**
  * Created by 许清泉 on 2019/4/15 00:33
@@ -13,7 +14,7 @@ import top.xuqingquan.integration.LifecycleConfig
 class GlobalConfiguration : LifecycleConfig {
 
     override fun injectAppLifecycle(context: Context, lifecycles: MutableList<AppLifecycle>) {
-//        lifecycles.add(AppLifecyclesImpl())
+        lifecycles.add(DebugLifecycleImpl())
     }
 
     override fun injectActivityLifecycle(
