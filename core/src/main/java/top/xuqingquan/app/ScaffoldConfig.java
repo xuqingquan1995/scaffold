@@ -15,7 +15,9 @@ import com.google.gson.GsonBuilder;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -384,6 +386,7 @@ public final class ScaffoldConfig {
     private static Retrofit.Builder retrofitBuilder;
     private static Retrofit retrofit;
     private static IRepositoryManager repositoryManager;
+    private static Map<String, Retrofit> retrofitMap;
     private static final int TIME_OUT = 10;
 
     @NonNull
@@ -394,16 +397,7 @@ public final class ScaffoldConfig {
         return okHttpClientBuilder;
     }
 
-    @NonNull
-    public static OkHttpClient getOkHttpClient() {
-        if (okHttpClient == null) {
-            okHttpClient = getNewOkHttpClient().build();
-        }
-        return okHttpClient;
-    }
-
-    public static OkHttpClient.Builder getNewOkHttpClient() {
-        OkHttpClient.Builder builder = getOkHttpClientBuilder();
+    public static OkHttpClient.Builder getOkHttpClientBuilder(OkHttpClient.Builder builder) {
         builder
                 .connectTimeout(TIME_OUT, TimeUnit.SECONDS)
                 .readTimeout(TIME_OUT, TimeUnit.SECONDS)
@@ -425,11 +419,20 @@ public final class ScaffoldConfig {
         }
         //为 OkHttp 设置默认的线程池
         builder.dispatcher(new Dispatcher(getExecutorService()));
-        OkhttpConfiguration configuration = getOkhttpConfiguration();
-        if (configuration != null) {
-            configuration.configOkhttp(application, builder);
-        }
         return builder;
+    }
+
+    @NonNull
+    public static OkHttpClient getOkHttpClient() {
+        if (okHttpClient == null) {
+            OkHttpClient.Builder builder = getOkHttpClientBuilder(getOkHttpClientBuilder());
+            OkhttpConfiguration configuration = getOkhttpConfiguration();
+            if (configuration != null) {
+                configuration.configOkhttp(application, builder);
+            }
+            okHttpClient = builder.build();
+        }
+        return okHttpClient;
     }
 
     @NonNull
@@ -444,6 +447,7 @@ public final class ScaffoldConfig {
     public static Retrofit getRetrofit() {
         if (retrofit == null) {
             retrofit = getNewRetrofit(getOkHttpClient());
+            instance.addRetrofit("default",retrofit);
         }
         return retrofit;
     }
@@ -466,6 +470,25 @@ public final class ScaffoldConfig {
             repositoryManager = RepositoryManager.getInstance();
         }
         return repositoryManager;
+    }
+
+    public static Retrofit getRetrofit(String name) {
+        if (retrofitMap == null) {
+            retrofitMap = new HashMap<>();
+        }
+        Retrofit retrofit = retrofitMap.get(name);
+        if (retrofit == null) {
+            retrofit = getRetrofit();
+        }
+        return retrofit;
+    }
+
+    public ScaffoldConfig addRetrofit(String name, Retrofit retrofit) {
+        if (retrofitMap == null) {
+            retrofitMap = new HashMap<>();
+        }
+        retrofitMap.put(name, retrofit);
+        return this;
     }
 
     /*********************************************************************/
