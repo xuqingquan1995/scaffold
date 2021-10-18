@@ -3,6 +3,7 @@ package top.xuqingquan.app
 import android.app.Application
 import android.content.Context
 import me.jessyan.retrofiturlmanager.RetrofitUrlManager
+import okhttp3.OkHttpClient
 import top.xuqingquan.delegate.AppDelegate
 import top.xuqingquan.delegate.AppLifecycle
 
@@ -19,7 +20,7 @@ class App : Application() {
         RetrofitUrlManager.getInstance().putDomain("URL_1", "xxxx")
         RetrofitUrlManager.getInstance().putDomain("URL_2", "xxxx")
         HttpsUtils.initSslSocketFactory(this)
-        ScaffoldConfig.getInstance(this)
+        val scaffold = ScaffoldConfig.getInstance(this)
             .setOkhttpConfiguration { _, builder ->
                 RetrofitUrlManager.getInstance().with(builder)
             }
@@ -27,6 +28,11 @@ class App : Application() {
                 builder.setLenient()
             }
             .debug(true)
+        val builder = ScaffoldConfig.getOkHttpClientBuilder(OkHttpClient.Builder())
+        RetrofitUrlManager.getInstance().with(builder)
+        builder.sslSocketFactory(HttpsUtils.sSLSocketFactory, HttpsUtils.trustManager)
+        val retrofit = ScaffoldConfig.getNewRetrofit(builder.build())
+        scaffold.addRetrofit("https", retrofit)
     }
 
     override fun onCreate() {
