@@ -11,7 +11,7 @@ ext {
 
     depsVer = [
             kotlin                  : '1.6.0',
-            kotlinx_coroutines      : '1.6.0-RC',
+            kotlinx_coroutines      : '1.5.2',
             appcompat               : '1.4.0',
             core_ktx                : '1.7.0',
             constraintlayout        : '2.1.2',
