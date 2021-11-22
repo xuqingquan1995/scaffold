@@ -407,14 +407,18 @@ public final class ScaffoldConfig {
         //如果外部提供了 Interceptor 的集合则遍历添加
         if (netInterceptors != null) {
             for (Interceptor interceptor : netInterceptors) {
-                builder.addNetworkInterceptor(interceptor);
+                if (interceptor != null) {
+                    builder.addNetworkInterceptor(interceptor);
+                }
             }
         }
         List<Interceptor> interceptors = getInterceptors();
         //如果外部提供了 Interceptor 的集合则遍历添加
         if (interceptors != null) {
             for (Interceptor interceptor : interceptors) {
-                builder.addInterceptor(interceptor);
+                if (interceptor != null) {
+                    builder.addInterceptor(interceptor);
+                }
             }
         }
         //为 OkHttp 设置默认的线程池
@@ -447,7 +451,7 @@ public final class ScaffoldConfig {
     public static Retrofit getRetrofit() {
         if (retrofit == null) {
             retrofit = getNewRetrofit(getOkHttpClient());
-            instance.addRetrofit("default",retrofit);
+            instance.addRetrofit("default", retrofit);
         }
         return retrofit;
     }
