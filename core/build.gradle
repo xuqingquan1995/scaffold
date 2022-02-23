@@ -9,8 +9,6 @@ android {
     defaultConfig {
         minSdkVersion rootProject.ext.android.minSdkVersion
         targetSdkVersion rootProject.ext.android.targetSdkVersion
-        versionCode rootProject.ext.versionCode
-        versionName rootProject.ext.versionName
         testInstrumentationRunner rootProject.ext.android.AndroidJUnitRunner
         flavorDimensions 'default'
         resourcePrefix "scaffold_"
@@ -18,7 +16,6 @@ android {
     }
     buildTypes {
         release {
-            debuggable false
             jniDebuggable false
             minifyEnabled false
             zipAlignEnabled true
@@ -44,11 +41,11 @@ android {
             option("-Xmaxerrs", 500)
         }
     }
-    lintOptions {
-        abortOnError false
-    }
     packagingOptions {
         resources.excludes += "DebugProbesKt.bin"
+    }
+    lint {
+        abortOnError false
     }
 }
 
