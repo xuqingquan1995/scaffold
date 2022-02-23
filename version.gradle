@@ -23,7 +23,7 @@ ext {
             gson                    : '2.9.0',
             okhttp                  : '4.9.3',
             eventbus                : '3.3.1',
-            lifecycle               : '2.3.1',
+            lifecycle               : '2.4.1',
             recyclerview            : '1.2.1',
             paging                  : '3.1.0',
             room                    : '2.4.1',
@@ -76,9 +76,9 @@ ext {
             //message
             eventbus                  : "org.greenrobot:eventbus:${depsVer.eventbus}",
             //lifecycle
-            lifecycle                 : "androidx.lifecycle:lifecycle-extensions:${depsVer.lifecycle}",
             lifecycle_viewmodel_ktx   : "androidx.lifecycle:lifecycle-viewmodel-ktx:${depsVer.lifecycle}",
             lifecycle_runtime_ktx     : "androidx.lifecycle:lifecycle-runtime-ktx:${depsVer.lifecycle}",
+            lifecycle_livedata_ktx     : "androidx.lifecycle:lifecycle-livedata-ktx:${depsVer.lifecycle}",
             //view
             viewpager2                : "androidx.viewpager2:viewpager2:${depsVer.viewpager2}",
             swiperefreshlayout        : "androidx.swiperefreshlayout:swiperefreshlayout:${depsVer.swiperefreshlayout}",

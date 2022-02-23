@@ -4,15 +4,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
-import androidx.paging.PagedListAdapter
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import top.xuqingquan.base.view.adapter.viewholder.BaseViewHolder
 
 /**
  * Created by 许清泉 on 2019/4/14 01:37
  */
-open class SimplePagedListAdapter<T>(diff: DiffUtil.ItemCallback<T>) :
-    PagedListAdapter<T, BaseViewHolder<T>>(diff) {
+open class SimplePagedListAdapter<T:Any>(diff: DiffUtil.ItemCallback<T>) :
+    PagingDataAdapter<T, BaseViewHolder<T>>(diff) {
 
     var listener: OnItemClickListener<T>? = null
 
@@ -71,17 +71,6 @@ open class SimplePagedListAdapter<T>(diff: DiffUtil.ItemCallback<T>) :
      */
     open fun onLongClick(view: View, position: Int, data: T?, viewType: Int): Boolean {
         return listener?.onLongClick(view, position, getItem(position), viewType) ?: true
-    }
-
-    override fun getItem(position: Int): T? {
-        try {
-            if (position >= itemCount) {
-                return null
-            }
-            return super.getItem(position)
-        } catch (t: Throwable) {
-            return null
-        }
     }
 
     fun setOnItemClickListener(init: OnItemClickListenerImpl<T>.() -> Unit) {
