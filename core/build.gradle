@@ -59,7 +59,7 @@ dependencies {
     api rootProject.ext.deps.swiperefreshlayout
     api rootProject.ext.deps.core_ktx
     api rootProject.ext.deps.lifecycle_runtime_ktx
-    api 'top.xuqingquan:utils:3.0.7'
+    api 'top.xuqingquan:utils:3.0.8'
     //view
     api rootProject.ext.deps.recyclerview
     compileOnly rootProject.ext.deps.paging
