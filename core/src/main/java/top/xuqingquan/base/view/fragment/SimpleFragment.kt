@@ -3,7 +3,6 @@ package top.xuqingquan.base.view.fragment
 import android.content.Context
 import android.view.KeyEvent
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.MutableLiveData
 import top.xuqingquan.app.ScaffoldConfig
 import top.xuqingquan.cache.Cache
 import top.xuqingquan.cache.CacheType
@@ -17,9 +16,6 @@ abstract class SimpleFragment : Fragment(), IFragment, FragmentOnKeyListener {
 
     private var mCache: Cache<String, Any>? = null
     protected var mContext: Context? = null
-    val launchError by lazy {
-        MutableLiveData<Throwable>()
-    }
 
 
     final override fun provideCache(): Cache<String, Any> {

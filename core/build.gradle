@@ -47,6 +47,7 @@ android {
     lint {
         abortOnError false
     }
+    namespace 'top.xuqingquan'
 }
 
 dependencies {
@@ -59,14 +60,14 @@ dependencies {
     api rootProject.ext.deps.swiperefreshlayout
     api rootProject.ext.deps.core_ktx
     api rootProject.ext.deps.lifecycle_runtime_ktx
-    api 'top.xuqingquan:utils:3.1.0'
+    api 'top.xuqingquan:utils:3.1.1'
     //view
     api rootProject.ext.deps.recyclerview
     compileOnly rootProject.ext.deps.paging
     api rootProject.ext.deps.glide
     kapt rootProject.ext.deps.glide_compiler
     api rootProject.ext.deps.material
-    //retorfit
+    //retrofit
     api rootProject.ext.deps.retrofit
     api rootProject.ext.deps.converter_gson
     api rootProject.ext.deps.logging_interceptor

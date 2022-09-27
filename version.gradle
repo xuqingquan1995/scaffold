@@ -1,6 +1,6 @@
 ext {
-    versionName = '3.1.5'
-    versionCode = 315
+    versionName = '3.1.6'
+    versionCode = 316
     android = [
             compileSdkVersion : 31,
             buildToolsVersion : '31.0.0',
@@ -10,35 +10,33 @@ ext {
     ]
 
     depsVer = [
-            kotlin                  : '1.7.0',
-            kotlinx_coroutines      : '1.6.3',
-            appcompat               : '1.4.1',
-            core_ktx                : '1.7.0',
+            kotlin                  : '1.7.10',
+            kotlinx_coroutines      : '1.6.4',
+            appcompat               : '1.5.1',
+            core_ktx                : '1.9.0',
             constraintlayout        : '2.1.4',
             junit                   : '4.13.2',
             test_rules              : '1.4.0',
             espresso_core           : '3.4.0',
             test_ext                : '1.1.3',
             retrofit                : '2.9.0',
-            gson                    : '2.9.0',
+            gson                    : '2.9.1',
             okhttp                  : '4.10.0',
             eventbus                : '3.3.1',
-            lifecycle               : '2.4.1',
+            lifecycle               : '2.5.1',
             recyclerview            : '1.2.1',
-            paging                  : '3.1.0',
-            room                    : '2.4.1',
-            navigation              : '2.4.1',
-            material                : '1.6.0',
+            paging                  : '3.1.1',
+            room                    : '2.4.3',
+            material                : '1.6.1',
             glide                   : '4.13.2',
             pickerView              : '4.1.9',
-            banner                  : '2.0.8',
+            banner                  : '2.2.2',
             roundedimageview        : '2.3.0',
             Downloader              : '4.1.3',
-            multidex                : '2.0.1',
             logger                  : '2.2.0',
             progressmanager         : '1.5.0',
             retrofit_url_manager    : '1.4.0',
-            BRVAH                   : '3.0.4',
+            BRVAH                   : '3.0.8',
             recovery                : '1.0.0',
             anrwatchdog             : '1.4.0',
             viewpager2              : '1.0.0',
@@ -54,7 +52,6 @@ ext {
             appcompat                 : "androidx.appcompat:appcompat:${depsVer.appcompat}",
             core_ktx                  : "androidx.core:core-ktx:${depsVer.core_ktx}",
             constraintlayout          : "androidx.constraintlayout:constraintlayout:${depsVer.constraintlayout}",
-            multidex                  : "androidx.multidex:multidex:${depsVer.multidex}",
             junit                     : "junit:junit:${depsVer.junit}",
             test_rules                : "androidx.test:rules:${depsVer.test_rules}",
             espresso_core             : "androidx.test.espresso:espresso-core:${depsVer.espresso_core}",
@@ -84,11 +81,9 @@ ext {
             swiperefreshlayout        : "androidx.swiperefreshlayout:swiperefreshlayout:${depsVer.swiperefreshlayout}",
             recyclerview              : "androidx.recyclerview:recyclerview:${depsVer.recyclerview}",
             paging                    : "androidx.paging:paging-runtime-ktx:${depsVer.paging}",
-            navigation_fragment_ktx   : "androidx.navigation:navigation-fragment-ktx:${depsVer.navigation}",
-            navigation_ui_ktx         : "androidx.navigation:navigation-ui-ktx:${depsVer.navigation}",
             material                  : "com.google.android.material:material:${depsVer.material}",
             pickerView                : "com.contrarywind:Android-PickerView:${depsVer.pickerView}",//选择器
-            banner                    : "com.youth.banner:banner:${depsVer.banner}",//轮播
+            banner                    : "io.github.youth5201314:banner:${depsVer.banner}",//轮播
             roundedimageview          : "com.makeramen:roundedimageview:${depsVer.roundedimageview}",//圆角
             flexbox                   : "com.google.android:flexbox:${depsVer.flexbox}",//流式布局
             BRVAH                     : "com.github.CymChad:BaseRecyclerViewAdapterHelper:${depsVer.BRVAH}",//强大的RecyclerViewAdapter

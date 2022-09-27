@@ -7,8 +7,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import top.xuqingquan.app.ScaffoldConfig
-import top.xuqingquan.base.view.activity.SimpleActivity
-import top.xuqingquan.base.view.fragment.SimpleFragment
 import kotlin.coroutines.CoroutineContext
 
 /**
@@ -29,9 +27,6 @@ fun <T> AppCompatActivity.launch(
                 e.printStackTrace()
             }
             catchBlock(e)
-            if (this@launch is SimpleActivity) {
-                launchError.postValue(e)
-            }
         } finally {
             finallyBlock()
         }
@@ -59,9 +54,6 @@ fun <T> Fragment.launch(
                 e.printStackTrace()
             }
             catchBlock(e)
-            if (this@launch is SimpleFragment) {
-                launchError.postValue(e)
-            }
         } finally {
             finallyBlock()
         }

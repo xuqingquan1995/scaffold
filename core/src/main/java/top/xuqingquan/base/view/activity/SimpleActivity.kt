@@ -2,7 +2,6 @@ package top.xuqingquan.base.view.activity
 
 import android.view.KeyEvent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.MutableLiveData
 import top.xuqingquan.app.ScaffoldConfig
 import top.xuqingquan.cache.Cache
 import top.xuqingquan.cache.CacheType
@@ -16,9 +15,6 @@ abstract class SimpleActivity : AppCompatActivity(), IActivity {
 
     private var mCache: Cache<String, Any>? = null
     protected var onKeyListener: FragmentOnKeyListener? = null
-    val launchError by lazy {
-        MutableLiveData<Throwable>()
-    }
 
     final override fun provideCache(): Cache<String, Any> {
         if (mCache == null) {

@@ -79,13 +79,10 @@ open class SimpleRecyclerAdapter<T>(private val list: MutableList<T>) :
     fun getBaseList() = list
 
     fun getItem(position: Int): T? {
-        try {
-            if (position >= itemCount) {
-                return null
-            }
-            return list[position]
+        return try {
+            list.getOrNull(position)
         } catch (t: Throwable) {
-            return null
+            null
         }
     }
 
