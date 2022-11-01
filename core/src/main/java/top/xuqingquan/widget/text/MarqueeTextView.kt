@@ -36,7 +36,7 @@ class MarqueeTextView constructor(context: Context, attrs: AttributeSet? = null)
     * */
     override fun onFocusChanged(focused: Boolean, direction: Int, previouslyFocusedRect: Rect?) {
         if (focused) {
-            super.onFocusChanged(focused, direction, previouslyFocusedRect)
+            super.onFocusChanged(true, direction, previouslyFocusedRect)
         }
     }
 
@@ -45,7 +45,7 @@ class MarqueeTextView constructor(context: Context, attrs: AttributeSet? = null)
     * */
     override fun onWindowFocusChanged(hasWindowFocus: Boolean) {
         if (hasWindowFocus) {
-            super.onWindowFocusChanged(hasWindowFocus)
+            super.onWindowFocusChanged(true)
         }
     }
 }

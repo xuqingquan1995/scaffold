@@ -12,14 +12,13 @@ import top.xuqingquan.imageloader.ImageLoader;
 /**
  * Created by 许清泉 on 2019/4/16 00:52
  */
-@SuppressWarnings("deprecation")
+@SuppressWarnings("AlibabaAvoidCommentBehindStatement")
 public final class ImageConfigImpl extends ImageConfig {
     @CacheStrategy.Strategy
     private final int cacheStrategy;//0对应DiskCacheStrategy.all,1对应DiskCacheStrategy.NONE,2对应DiskCacheStrategy.SOURCE,3对应DiskCacheStrategy.RESULT
     private final int fallback; //请求 url 为空,则使用此图片作为占位符
     private final int imageRadius;//图片每个圆角的大小
     private final int blurValue;//高斯模糊值, 值越大模糊效果越大
-    @Deprecated
     private final BitmapTransformation transformation;//glide用它来改变图形的形状
     private final ImageView[] imageViews;
     private final boolean isCrossFade;//是否使用淡入淡出过渡动画
@@ -114,7 +113,6 @@ public final class ImageConfigImpl extends ImageConfig {
         int cacheStrategy;//0对应DiskCacheStrategy.all,1对应DiskCacheStrategy.NONE,2对应DiskCacheStrategy.SOURCE,3对应DiskCacheStrategy.RESULT
         private int imageRadius;//图片每个圆角的大小
         private int blurValue;//高斯模糊值, 值越大模糊效果越大
-        @Deprecated
         private BitmapTransformation transformation;//glide用它来改变图形的形状
         private ImageView[] imageViews;
         private boolean isCrossFade;//是否使用淡入淡出过渡动画
@@ -177,7 +175,6 @@ public final class ImageConfigImpl extends ImageConfig {
          * @deprecated 请使用 {@link #isCircle()}, {@link #isCenterCrop()}, {@link #isImageRadius()} 替代
          * 如果有其他自定义 BitmapTransformation 的需求, 请自行扩展 {@link BaseImageLoaderStrategy}
          */
-        @Deprecated
         public Builder transformation(BitmapTransformation transformation) {
             this.transformation = transformation;
             return this;

@@ -15,10 +15,11 @@ import top.xuqingquan.cache.CacheType;
  * Created by 许清泉 on 2019/4/14 17:23
  */
 public final class RepositoryManager implements IRepositoryManager {
+    @SuppressWarnings("rawtypes")
     private final Cache.Factory mCacheFactory;
     private Cache<String, Object> mRetrofitServiceCache;
     private final ObtainServiceDelegate mObtainServiceDelegate;
-    private static RepositoryManager instance;
+    private static volatile RepositoryManager instance;
 
     private RepositoryManager() {
         mCacheFactory = ScaffoldConfig.getCacheFactory();

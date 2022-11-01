@@ -8,7 +8,6 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
-import androidx.paging.PagedList;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -53,13 +52,12 @@ import top.xuqingquan.utils.FileUtils;
 @SuppressWarnings({"WeakerAccess", "unused", "RedundantSuppression", "rawtypes"})
 public final class ScaffoldConfig {
     private static boolean debug = BuildConfig.DEBUG;
-    private static ScaffoldConfig instance;
+    private static volatile ScaffoldConfig instance;
     private static Application application;
     private static Gson gson;
     private static GsonConfiguration gsonConfiguration;
     private static HttpUrl httpUrl;
     private static Level level;
-    private static PagedList.Config config;
     private static ExecutorService executorService;
     private static FormatPrinter formatPrinter;
     private static ImageLoader imageLoader;
@@ -131,19 +129,6 @@ public final class ScaffoldConfig {
             level = debug() ? Level.ALL : Level.NONE;
         }
         return level;
-    }
-
-    @NonNull
-    public static PagedList.Config getPagedListConfig() {
-        if (config == null) {
-            config = new PagedList.Config.Builder()
-                    .setPageSize(20)
-                    .setPrefetchDistance(5)
-                    .setInitialLoadSizeHint(10)
-                    .setEnablePlaceholders(false)
-                    .build();
-        }
-        return config;
     }
 
     @NonNull
@@ -293,12 +278,6 @@ public final class ScaffoldConfig {
     @NonNull
     public ScaffoldConfig setLevel(@Nullable Level level) {
         ScaffoldConfig.level = level;
-        return this;
-    }
-
-    @NonNull
-    public ScaffoldConfig setPagedListConfig(@Nullable PagedList.Config config) {
-        ScaffoldConfig.config = config;
         return this;
     }
 

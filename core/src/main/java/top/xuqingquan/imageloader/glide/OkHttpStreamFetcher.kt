@@ -31,7 +31,7 @@ internal class OkHttpStreamFetcher(private val client: Call.Factory, private val
     override fun cleanup() {
         try {
             stream?.close()
-        } catch (e: IOException) {
+        } catch (_: IOException) {
         }
         responseBody?.apply { close() }
         callback = null

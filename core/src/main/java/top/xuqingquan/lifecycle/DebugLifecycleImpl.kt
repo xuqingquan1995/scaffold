@@ -27,7 +27,7 @@ class DebugLifecycleImpl : AppLifecycle {
                     it.printStackTrace()
                 }
                 .start()
-        } catch (t: Throwable) {
+        } catch (_: Throwable) {
         }
         try {
             Class.forName("com.zxy.recovery.core.Recovery")
@@ -40,7 +40,7 @@ class DebugLifecycleImpl : AppLifecycle {
                 .callback(RecoveryCrashCallback())
                 .silent(false, Recovery.SilentMode.RECOVER_ACTIVITY_STACK)
                 .init(application)
-        } catch (e: Throwable) {
+        } catch (_: Throwable) {
         }
     }
 

@@ -34,8 +34,4 @@
         <item name="android:textSize">11sp</item>
     </style>
 
-    <style name="scaffold_actionActivity" parent="@android:style/Theme.Translucent.NoTitleBar">
-        <item name="android:statusBarColor" tools:targetApi="lollipop">@color/transparent</item>
-    </style>
-
 </resources>

@@ -162,7 +162,7 @@ internal class DefaultFormatPrinter : FormatPrinter {
         private val SCAFFOLD = arrayOf("-S-", "-C-", "-A-", "-F-", "-F-", "-O-", "-L-", "-D-")
 
         private fun computeKey(): String {
-            if (last.get() ?: 0 >= 8) {
+            if ((last.get() ?: 0) >= SCAFFOLD.size) {
                 last.set(0)
             }
             val s = SCAFFOLD[last.get() ?: 0]
