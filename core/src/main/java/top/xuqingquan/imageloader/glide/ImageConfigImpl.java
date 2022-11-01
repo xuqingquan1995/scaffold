@@ -172,7 +172,7 @@ public final class ImageConfigImpl extends ImageConfig {
          * 此 API 会在后面的版本中被删除, 请使用其他 API 替代
          *
          * @param transformation {@link BitmapTransformation}
-         * @deprecated 请使用 {@link #isCircle()}, {@link #isCenterCrop()}, {@link #isImageRadius()} 替代
+         * 请使用 {@link #isCircle()}, {@link #isCenterCrop()}, {@link #isImageRadius()} 替代
          * 如果有其他自定义 BitmapTransformation 的需求, 请自行扩展 {@link BaseImageLoaderStrategy}
          */
         public Builder transformation(BitmapTransformation transformation) {
