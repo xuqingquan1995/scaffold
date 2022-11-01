@@ -14,7 +14,7 @@ import top.xuqingquan.base.view.adapter.viewholder.BaseViewHolder
 open class SimpleListAdapter<T>(diff: DiffUtil.ItemCallback<T>) :
     ListAdapter<T, BaseViewHolder<T>>(diff) {
 
-    var listener: OnItemClickListener<T>? = null
+    private var listener: OnItemClickListener<T>? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<T> {
         val holder = getViewHolder(parent, viewType)
@@ -33,6 +33,14 @@ open class SimpleListAdapter<T>(diff: DiffUtil.ItemCallback<T>) :
 
             onLongClick { view, position ->
                 return@onLongClick onLongClick(view, position, getItem(position), viewType)
+            }
+
+            onClick { view, position, adapterPosition ->
+                onClick(view, position, adapterPosition, getItem(adapterPosition), viewType)
+            }
+
+            onLongClick { view, position, adapterPosition ->
+                onLongClick(view, position, adapterPosition, getItem(adapterPosition), viewType)
             }
         }
     }
@@ -62,15 +70,38 @@ open class SimpleListAdapter<T>(diff: DiffUtil.ItemCallback<T>) :
     /**
      * 在Adapter内部实现单击回调
      */
+    @Deprecated("使用五个参数的函数", replaceWith = ReplaceWith("true"))
     open fun onClick(view: View, position: Int, data: T?, viewType: Int) {
-        listener?.onClick(view, position, getItem(position), viewType)
+        listener?.onClick(view, position, data, viewType)
     }
 
     /**
      * 在Adapter内部实现长按回调
      */
+    @Deprecated("使用五个参数的函数", replaceWith = ReplaceWith("true"))
     open fun onLongClick(view: View, position: Int, data: T?, viewType: Int): Boolean {
-        return listener?.onLongClick(view, position, getItem(position), viewType) ?: true
+        return listener?.onLongClick(view, position, data, viewType) ?: true
+    }
+
+    /**
+     * 在Adapter内部实现单击回调
+     */
+    open fun onClick(view: View, position: Int, adapterPosition: Int, data: T?, viewType: Int) {
+        listener?.onClick(view, position, adapterPosition, data, viewType)
+    }
+
+    /**
+     * 在Adapter内部实现长按回调
+     */
+    open fun onLongClick(
+        view: View,
+        position: Int,
+        adapterPosition: Int,
+        data: T?,
+        viewType: Int
+    ): Boolean {
+        return listener?.onLongClick(view, position, adapterPosition, data, viewType)
+            ?: true
     }
 
     override fun getItem(position: Int): T? {

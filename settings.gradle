@@ -1,3 +1,23 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        maven {
+            url 'https://maven.aliyun.com/repository/public'
+        }
+        maven { url "https://jitpack.io" }
+        google()
+        mavenCentral()
+    }
+}
+rootProject.name = "Scaffold"
+
 //include ':sample'
 include ':core'
 //include ':app'

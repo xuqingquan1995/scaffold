@@ -46,10 +46,14 @@ open class BaseViewHolder<T>(_view: View) :
         val view = getView<V>(viewId)
         if (view !is Checkable) {//如果不是可选中的组件，默认添加点击事件
             view.setOnClickListener {
-                onViewClickListener?.onClick(it, absoluteAdapterPosition)
+                onViewClickListener?.onClick(it, absoluteAdapterPosition, bindingAdapterPosition)
             }
             view.setOnLongClickListener {
-                onViewClickListener?.onLongClick(it, absoluteAdapterPosition) ?: true
+                return@setOnLongClickListener onViewClickListener?.onLongClick(
+                    it,
+                    absoluteAdapterPosition,
+                    bindingAdapterPosition
+                ) ?: true
             }
         }
         return view
@@ -57,10 +61,14 @@ open class BaseViewHolder<T>(_view: View) :
 
     init {
         itemView.setOnClickListener {
-            onViewClickListener?.onClick(it, absoluteAdapterPosition)
+            onViewClickListener?.onClick(it, absoluteAdapterPosition, bindingAdapterPosition)
         }
         itemView.setOnLongClickListener {
-            onViewClickListener?.onLongClick(it, absoluteAdapterPosition) ?: true
+            return@setOnLongClickListener onViewClickListener?.onLongClick(
+                it,
+                absoluteAdapterPosition,
+                bindingAdapterPosition
+            ) ?: true
         }
     }
 
