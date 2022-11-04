@@ -71,13 +71,14 @@ class OnItemClickListenerImpl<T> : OnItemClickListener<T>() {
     }
 
     override fun onClick(view: View, position: Int, adapterPosition: Int, data: T?, viewType: Int) {
+        onClick(view, position, data, viewType)
         onAdapterClick?.invoke(view, position, adapterPosition, data, viewType)
     }
 
     override fun onLongClick(
         view: View, position: Int, adapterPosition: Int, data: T?, viewType: Int
     ): Boolean {
-        return onAdapterLongClick?.invoke(view, position, adapterPosition, data, viewType) ?: true
+        return onLongClick(view, position, data, viewType)&&(onAdapterLongClick?.invoke(view, position, adapterPosition, data, viewType) ?: true)
     }
 
     @Deprecated("使用五个参数的函数替代")
@@ -154,11 +155,12 @@ class OnViewClickListenerImpl : OnViewClickListener() {
     }
 
     override fun onClick(view: View, position: Int, adapterPosition: Int) {
+        onClick(view, position)
         onAdapterClick?.invoke(view, position, adapterPosition)
     }
 
     override fun onLongClick(view: View, position: Int, adapterPosition: Int): Boolean {
-        return onAdapterLongClick?.invoke(view, position, adapterPosition) ?: true
+        return onLongClick(view, position)&&(onAdapterLongClick?.invoke(view, position, adapterPosition) ?: true)
     }
 
     @Deprecated("使用三个参数的函数替代")
