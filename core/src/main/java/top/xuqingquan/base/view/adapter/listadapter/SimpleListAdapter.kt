@@ -106,7 +106,7 @@ open class SimpleListAdapter<T>(diff: DiffUtil.ItemCallback<T>) :
 
     override fun getItem(position: Int): T? {
         try {
-            if (position >= itemCount) {
+            if (position < 0 || position >= itemCount) {
                 return null
             }
             return super.getItem(position)

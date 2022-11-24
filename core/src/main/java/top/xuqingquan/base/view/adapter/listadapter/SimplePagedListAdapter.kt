@@ -28,11 +28,21 @@ open class SimplePagedListAdapter<T : Any>(diff: DiffUtil.ItemCallback<T>) :
     ) {
         holder.setOnViewClickListener {
             onClick { view, position ->
-                onClick(view, position, getItem(position), viewType)
+                var data: T? = null
+                try {
+                    data = getItem(position)
+                } catch (_: Exception) {
+                }
+                onClick(view, position, data, viewType)
             }
 
             onLongClick { view, position ->
-                return@onLongClick onLongClick(view, position, getItem(position), viewType)
+                var data: T? = null
+                try {
+                    data = getItem(position)
+                } catch (_: Exception) {
+                }
+                return@onLongClick onLongClick(view, position, data, viewType)
             }
 
             onClick { view, position, adapterPosition ->
