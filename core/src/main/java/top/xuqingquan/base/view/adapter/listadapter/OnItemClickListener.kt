@@ -62,10 +62,12 @@ class OnItemClickListenerImpl<T> : OnItemClickListener<T>() {
     private var onAdapterLongClick: ((view: View, position: Int, adapterPosition: Int, data: T?, viewType: Int) -> Boolean)? =
         null
 
+    @Deprecated(message = "使用5个参数的方法替代")
     override fun onClick(view: View, position: Int, data: T?, viewType: Int) {
         onClick?.invoke(view, position, data, viewType)
     }
 
+    @Deprecated(message = "使用5个参数的方法替代")
     override fun onLongClick(view: View, position: Int, data: T?, viewType: Int): Boolean {
         return onLongClick?.invoke(view, position, data, viewType) ?: true
     }
@@ -146,10 +148,12 @@ class OnViewClickListenerImpl : OnViewClickListener() {
     private var onAdapterLongClick: ((view: View, position: Int, adapterPosition: Int) -> Boolean)? =
         null
 
+    @Deprecated(message = "使用3个参数的方法替代")
     override fun onClick(view: View, position: Int) {
         onClick?.invoke(view, position)
     }
 
+    @Deprecated(message = "使用3个参数的方法替代")
     override fun onLongClick(view: View, position: Int): Boolean {
         return onLongClick?.invoke(view, position) ?: true
     }
