@@ -118,6 +118,10 @@ open class SimpleListAdapter<T>(diff: DiffUtil.ItemCallback<T>) :
     fun setOnItemClickListener(init: OnItemClickListenerImpl<T>.() -> Unit) {
         val listener = OnItemClickListenerImpl<T>()
         listener.init()
+        setOnItemClickListener(listener)
+    }
+
+    fun setOnItemClickListener(listener: OnItemClickListener<T>){
         this.listener = listener
     }
 

@@ -75,6 +75,10 @@ open class BaseViewHolder<T>(_view: View) :
     fun setOnViewClickListener(init: OnViewClickListenerImpl.() -> Unit) {
         val listener = OnViewClickListenerImpl()
         listener.init()
+        setOnViewClickListener(listener)
+    }
+
+    fun setOnViewClickListener(listener: OnViewClickListener){
         this.onViewClickListener = listener
     }
 
