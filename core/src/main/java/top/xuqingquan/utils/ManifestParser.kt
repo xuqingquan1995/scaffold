@@ -21,7 +21,7 @@ internal class ManifestParser(private val context: Context) {
             )
             if (appInfo.metaData != null) {
                 for (key in appInfo.metaData.keySet()) {
-                    if (MODULE_VALUE == appInfo.metaData.get(key)) {
+                    if (MODULE_VALUE == appInfo.metaData.getString(key)) {
                         modules.add(parseModule(key))
                     }
                 }

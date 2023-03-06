@@ -27,24 +27,6 @@ open class SimplePagedListAdapter<T : Any>(diff: DiffUtil.ItemCallback<T>) :
         viewType: Int
     ) {
         holder.setOnViewClickListener {
-            onClick { view, position ->
-                var data: T? = null
-                try {
-                    data = getItem(position)
-                } catch (_: Exception) {
-                }
-                onClick(view, position, data, viewType)
-            }
-
-            onLongClick { view, position ->
-                var data: T? = null
-                try {
-                    data = getItem(position)
-                } catch (_: Exception) {
-                }
-                return@onLongClick onLongClick(view, position, data, viewType)
-            }
-
             onClick { view, position, adapterPosition ->
                 onClick(view, position, adapterPosition, getItem(adapterPosition), viewType)
             }
@@ -82,22 +64,6 @@ open class SimplePagedListAdapter<T : Any>(diff: DiffUtil.ItemCallback<T>) :
     open fun getLayoutRes(viewType: Int) = 0
 
     open fun setData(holder: BaseViewHolder<T>, data: T?, viewType: Int, position: Int) {}
-
-    /**
-     * 在Adapter内部实现单击回调
-     */
-    @Deprecated("使用五个参数的函数", replaceWith = ReplaceWith("true"))
-    open fun onClick(view: View, position: Int, data: T?, viewType: Int) {
-        listener?.onClick(view, position, data, viewType)
-    }
-
-    /**
-     * 在Adapter内部实现长按回调
-     */
-    @Deprecated("使用五个参数的函数", replaceWith = ReplaceWith("true"))
-    open fun onLongClick(view: View, position: Int, data: T?, viewType: Int): Boolean {
-        return listener?.onLongClick(view, position, data, viewType) ?: true
-    }
 
     /**
      * 在Adapter内部实现单击回调

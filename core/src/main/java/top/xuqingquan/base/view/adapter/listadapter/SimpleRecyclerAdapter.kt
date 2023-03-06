@@ -28,14 +28,6 @@ open class SimpleRecyclerAdapter<T>(private val list: MutableList<T>) :
         viewType: Int
     ) {
         holder.setOnViewClickListener {
-            onClick { view, position ->
-                onClick(view, position, getItem(position), viewType)
-            }
-
-            onLongClick { view, position ->
-                return@onLongClick onLongClick(view, position, getItem(position), viewType)
-            }
-
             onClick { view, position, adapterPosition ->
                 onClick(view, position, adapterPosition, getItem(adapterPosition), viewType)
             }
@@ -73,22 +65,6 @@ open class SimpleRecyclerAdapter<T>(private val list: MutableList<T>) :
     /**
      * 单击回调
      */
-    @Deprecated("使用五个参数的函数", replaceWith = ReplaceWith("true"))
-    open fun onClick(view: View, position: Int, data: T?, viewType: Int) {
-        listener?.onClick(view, position, data, viewType)
-    }
-
-    /**
-     * 长按回调
-     */
-    @Deprecated("使用五个参数的函数", replaceWith = ReplaceWith("true"))
-    open fun onLongClick(view: View, position: Int, data: T?, viewType: Int): Boolean {
-        return listener?.onLongClick(view, position, data, viewType) ?: true
-    }
-
-    /**
-     * 单击回调
-     */
     open fun onClick(view: View, position: Int, adapterPosition: Int, data: T?, viewType: Int) {
         listener?.onClick(view, position, adapterPosition, data, viewType)
     }
@@ -117,8 +93,9 @@ open class SimpleRecyclerAdapter<T>(private val list: MutableList<T>) :
     }
 
     fun addList(data: List<T>) {
+        val start = list.size
         list.addAll(data)
-        notifyDataSetChanged()
+        notifyItemRangeInserted(start, data.size)
     }
 
     fun addData(data: T) {
@@ -127,8 +104,9 @@ open class SimpleRecyclerAdapter<T>(private val list: MutableList<T>) :
     }
 
     fun removeData(data: T) {
+        val pos = list.indexOf(data)
         list.remove(data)
-        notifyDataSetChanged()
+        notifyItemRemoved(pos)
     }
 
     fun removeDataAt(position: Int) {
@@ -136,9 +114,15 @@ open class SimpleRecyclerAdapter<T>(private val list: MutableList<T>) :
         notifyItemRemoved(position)
     }
 
-    fun removeAll() {
-        list.clear()
+    fun removeList(data:List<T>){
+        list.removeAll(data)
         notifyDataSetChanged()
+    }
+
+    fun removeAll() {
+        val count = list.size
+        list.clear()
+        notifyItemRangeRemoved(0, count)
     }
 
     fun resetData(list: List<T>) {
@@ -152,7 +136,7 @@ open class SimpleRecyclerAdapter<T>(private val list: MutableList<T>) :
         setOnItemClickListener(listener)
     }
 
-    fun setOnItemClickListener(listener: OnItemClickListener<T>){
+    fun setOnItemClickListener(listener: OnItemClickListener<T>) {
         this.listener = listener
     }
 }
