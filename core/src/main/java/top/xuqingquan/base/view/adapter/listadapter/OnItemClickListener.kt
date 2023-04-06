@@ -73,7 +73,6 @@ class OnItemClickListenerImpl<T> : OnItemClickListener<T>() {
     }
 
     override fun onClick(view: View, position: Int, adapterPosition: Int, data: T?, viewType: Int) {
-        onClick(view, position, data, viewType)
         onAdapterClick?.invoke(view, position, adapterPosition, data, viewType)
     }
 
@@ -159,7 +158,6 @@ class OnViewClickListenerImpl : OnViewClickListener() {
     }
 
     override fun onClick(view: View, position: Int, adapterPosition: Int) {
-        onClick(view, position)
         onAdapterClick?.invoke(view, position, adapterPosition)
     }
 
