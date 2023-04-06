@@ -42,7 +42,7 @@ open class SimplePagedListAdapter<T : Any>(diff: DiffUtil.ItemCallback<T>) :
                     data = getItem(position)
                 } catch (_: Exception) {
                 }
-                return@onLongClick onLongClick(view, position, data, viewType)
+                onLongClick(view, position, data, viewType)
             }
 
             onClick { view, position, adapterPosition ->
@@ -50,7 +50,7 @@ open class SimplePagedListAdapter<T : Any>(diff: DiffUtil.ItemCallback<T>) :
             }
 
             onLongClick { view, position, adapterPosition ->
-                return@onLongClick onLongClick(
+                onLongClick(
                     view,
                     position,
                     adapterPosition,

@@ -33,7 +33,7 @@ open class SimpleRecyclerAdapter<T>(private val list: MutableList<T>) :
             }
 
             onLongClick { view, position ->
-                return@onLongClick onLongClick(view, position, getItem(position), viewType)
+                onLongClick(view, position, getItem(position), viewType)
             }
 
             onClick { view, position, adapterPosition ->
