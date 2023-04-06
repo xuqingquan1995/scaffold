@@ -20,7 +20,7 @@ public final class ButtonSpan extends ClickableSpan {
     private final int color;
 
     public ButtonSpan(Context context, View.OnClickListener onClickListener) {
-        this(onClickListener, ContextCompat.getColor(context, R.color.black));
+        this(onClickListener, ContextCompat.getColor(context, android.R.color.black));
     }
 
     public ButtonSpan(View.OnClickListener onClickListener, @ColorInt int color) {
