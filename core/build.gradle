@@ -34,13 +34,6 @@ android {
             jniLibs.srcDir 'libs'//说明so的路径为该libs路径，关联所有so文件
         }
     }
-    //如果有用到kapt添加如下配置
-    kapt {
-        useBuildCache = true
-        javacOptions {
-            option("-Xmaxerrs", 500)
-        }
-    }
     packagingOptions {
         resources.excludes += "DebugProbesKt.bin"
     }
@@ -60,7 +53,7 @@ dependencies {
     api rootProject.ext.deps.swiperefreshlayout
     api rootProject.ext.deps.core_ktx
     api rootProject.ext.deps.lifecycle_runtime_ktx
-    api 'top.xuqingquan:utils:3.1.2'
+    api 'top.xuqingquan:utils:3.1.5'
     //view
     api rootProject.ext.deps.recyclerview
     compileOnly rootProject.ext.deps.paging

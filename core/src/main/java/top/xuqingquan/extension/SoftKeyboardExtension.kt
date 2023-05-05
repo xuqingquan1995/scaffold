@@ -16,7 +16,7 @@ import androidx.core.content.ContextCompat
 fun Activity.hideSoftKeyboard() {
     val imm = ContextCompat.getSystemService(this, InputMethodManager::class.java)
     if (imm != null && imm.isActive) {
-        imm.hideSoftInputFromWindow(window.decorView.windowToken, 0)
+        imm.hideSoftInputFromWindow(window.decorView.windowToken, InputMethodManager.HIDE_IMPLICIT_ONLY)
     }
 }
 
@@ -30,7 +30,7 @@ fun Context.showSoftKeyboard(view: View, time: Long = 200L) {
     if (imm != null) {
         view.postDelayed({
             view.requestFocus()
-            imm.showSoftInput(view, InputMethodManager.SHOW_FORCED)
+            imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
         }, time)
     }
 }

@@ -1,6 +1,6 @@
 ext {
-    versionName = '3.1.9'
-    versionCode = 319
+    versionName = '3.2.1'
+    versionCode = 321
     android = [
             compileSdkVersion : 33,
             buildToolsVersion : '33.0.0',
@@ -10,7 +10,7 @@ ext {
     ]
 
     depsVer = [
-            kotlin                  : '1.8.10',
+            kotlin                  : '1.8.21',
             kotlinx_coroutines      : '1.6.4',
             appcompat               : '1.5.1',
             core_ktx                : '1.9.0',
@@ -28,7 +28,7 @@ ext {
             paging                  : '3.1.1',
             room                    : '2.4.3',
             material                : '1.6.1',
-            glide                   : '4.14.2',
+            glide                   : '4.15.1',
             pickerView              : '4.1.9',
             banner                  : '2.2.2',
             roundedimageview        : '2.3.0',
