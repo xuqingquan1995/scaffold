@@ -75,4 +75,9 @@ public final class RepositoryManager implements IRepositoryManager {
         }
         return retrofitService;
     }
+
+    @Override
+    public void refreshRetrofitService() {
+        mRetrofitServiceCache.clear();
+    }
 }
