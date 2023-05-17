@@ -48,6 +48,7 @@ import top.xuqingquan.integration.FragmentLifecycle;
 import top.xuqingquan.integration.IRepositoryManager;
 import top.xuqingquan.integration.RepositoryManager;
 import top.xuqingquan.utils.FileUtils;
+import top.xuqingquan.utils.Timber;
 
 @SuppressWarnings({"WeakerAccess", "unused", "RedundantSuppression", "rawtypes"})
 public final class ScaffoldConfig {
@@ -461,6 +462,7 @@ public final class ScaffoldConfig {
         }
         Retrofit retrofit = retrofitMap.get(name);
         if (retrofit == null) {
+            Timber.e("从retrofitMap获取Retrofit失败，将生成新的Retrofit对象");
             retrofit = getRetrofit();
         }
         return retrofit;
