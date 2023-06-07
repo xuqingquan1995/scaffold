@@ -79,6 +79,8 @@ public final class RepositoryManager implements IRepositoryManager {
 
     @Override
     public void refreshRetrofitService() {
-        mRetrofitServiceCache.clear();
+        if (mRetrofitServiceCache != null) {
+            mRetrofitServiceCache.clear();
+        }
     }
 }
