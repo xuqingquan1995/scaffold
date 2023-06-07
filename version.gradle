@@ -1,5 +1,5 @@
 ext {
-    versionName = '3.2.3'
+    versionName = '3.2.5'
     versionCode = 323
     android = [
             compileSdkVersion : 33,
