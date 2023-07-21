@@ -1,6 +1,6 @@
 ext {
-    versionName = '3.2.5'
-    versionCode = 323
+    versionName = '3.2.6'
+    versionCode = 326
     android = [
             compileSdkVersion : 33,
             buildToolsVersion : '33.0.0',
@@ -11,7 +11,7 @@ ext {
 
     depsVer = [
             kotlin                  : '1.8.21',
-            kotlinx_coroutines      : '1.7.1',
+            kotlinx_coroutines      : '1.7.2',
             appcompat               : '1.6.1',
             core_ktx                : '1.10.1',
             constraintlayout        : '2.1.4',
