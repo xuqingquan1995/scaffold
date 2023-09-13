@@ -1,16 +1,17 @@
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'maven-publish'
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'maven-publish'
+}
 
 android {
-    compileSdkVersion rootProject.ext.android.compileSdkVersion
-    buildToolsVersion rootProject.ext.android.buildToolsVersion
+    namespace 'top.xuqingquan'
+    compileSdk rootProject.ext.android.compileSdk
     defaultConfig {
-        minSdkVersion rootProject.ext.android.minSdkVersion
-        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        minSdk rootProject.ext.android.minSdk
+        targetSdk rootProject.ext.android.targetSdk
         testInstrumentationRunner rootProject.ext.android.AndroidJUnitRunner
-        flavorDimensions 'default'
         resourcePrefix "scaffold_"
         consumerProguardFiles "consumer-rules.pro"
     }
@@ -18,7 +19,6 @@ android {
         release {
             jniDebuggable false
             minifyEnabled false
-            zipAlignEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -39,8 +39,8 @@ android {
     }
     lint {
         abortOnError false
+        checkReleaseBuilds false
     }
-    namespace 'top.xuqingquan'
 }
 
 dependencies {
@@ -52,7 +52,7 @@ dependencies {
     api rootProject.ext.deps.swiperefreshlayout
     api rootProject.ext.deps.core_ktx
     api rootProject.ext.deps.lifecycle_runtime_ktx
-    api 'top.xuqingquan:utils:3.1.6'
+    api 'top.xuqingquan:utils:3.1.7'
     //view
     api rootProject.ext.deps.recyclerview
     compileOnly rootProject.ext.deps.paging
