@@ -1,5 +1,6 @@
 package top.xuqingquan.base.view.adapter.listadapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +12,6 @@ import top.xuqingquan.base.view.adapter.viewholder.BaseViewHolder
  * Created by 许清泉 on 2019/4/13 23:54
  * 简单的可持有数据的RecyclerViewAdapter
  */
-@Suppress("NON_FINAL_MEMBER_IN_FINAL_CLASS")
 open class SimpleRecyclerAdapter<T>(private val list: MutableList<T>) :
     RecyclerView.Adapter<BaseViewHolder<T>>() {
 
@@ -114,6 +114,7 @@ open class SimpleRecyclerAdapter<T>(private val list: MutableList<T>) :
         notifyItemRemoved(position)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun removeList(data:List<T>){
         list.removeAll(data)
         notifyDataSetChanged()

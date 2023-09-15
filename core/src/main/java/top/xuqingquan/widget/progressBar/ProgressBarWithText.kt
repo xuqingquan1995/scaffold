@@ -66,15 +66,14 @@ class ProgressBarWithText : ProgressBar {
         this.text = text
     }
 
-    @SuppressLint("DrawAllocation")
     @Synchronized
-    override fun onDraw(canvas: Canvas?) {
+    override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         val rect = Rect()
         mPaint.getTextBounds(text, 0, text.length, rect)
         val x: Int = width / 2 - rect.centerX()
         val y: Int = height / 2 - rect.centerY()
-        canvas?.drawText(text, x.toFloat(), y.toFloat(), mPaint)
+        canvas.drawText(text, x.toFloat(), y.toFloat(), mPaint)
     }
 
 }

@@ -40,6 +40,7 @@ public final class SmoothSwitch extends SwitchCompat {//平滑
         super(context);
     }
 
+    /** @noinspection resource*/
     @SuppressLint("CustomViewStyleable")
     public SmoothSwitch(Context context, AttributeSet attrs) {
         super(context, attrs);

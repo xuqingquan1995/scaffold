@@ -6,6 +6,7 @@ import kotlin.math.roundToInt
  * Created by 许清泉 on 2019/4/14 17:59
  * @param initialMaxSize 这个缓存的最大 size,这个 size 所使用的单位必须和 {@link #getItemSize(Object)} 所使用的单位一致.
  */
+@Suppress("MemberVisibilityCanBePrivate")
 class LruCache<K, V>(private val initialMaxSize: Int) : Cache<K, V> {
     private val cache = LinkedHashMap<K, V>(100, 0.75f, true)
     private var maxSize: Int = initialMaxSize

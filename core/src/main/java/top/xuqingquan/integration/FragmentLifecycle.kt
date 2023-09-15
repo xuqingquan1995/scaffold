@@ -43,7 +43,7 @@ internal class FragmentLifecycle : FragmentManager.FragmentLifecycleCallbacks() 
         fragmentDelegate?.onCreate(f, savedInstanceState)
     }
 
-    @Deprecated("Deprecated in Java")
+    @Suppress("DEPRECATION", "OVERRIDE_DEPRECATION")
     override fun onFragmentActivityCreated(
         fm: FragmentManager,
         f: Fragment,

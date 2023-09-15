@@ -12,7 +12,6 @@ import top.xuqingquan.imageloader.ImageLoader;
 /**
  * Created by 许清泉 on 2019/4/16 00:52
  */
-@SuppressWarnings("AlibabaAvoidCommentBehindStatement")
 public final class ImageConfigImpl extends ImageConfig {
     @CacheStrategy.Strategy
     private final int cacheStrategy;//0对应DiskCacheStrategy.all,1对应DiskCacheStrategy.NONE,2对应DiskCacheStrategy.SOURCE,3对应DiskCacheStrategy.RESULT

@@ -12,8 +12,8 @@ import top.xuqingquan.base.view.adapter.listadapter.OnViewClickListenerImpl
  * Created by 许清泉 on 2019/4/13 23:28
  * 简单实现ViewHolder
  */
-open class BaseViewHolder<T>(_view: View) :
-    RecyclerView.ViewHolder(_view) {
+open class BaseViewHolder<T>(v: View) :
+    RecyclerView.ViewHolder(v) {
 
     /**
      * Views indexed with their IDs
