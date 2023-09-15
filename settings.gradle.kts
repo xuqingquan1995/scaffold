@@ -1,7 +1,7 @@
 pluginManagement {
     repositories {
-        maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
-        maven { url 'https://maven.aliyun.com/repository/public' }
+        maven("https://maven.aliyun.com/repository/gradle-plugin")
+        maven("https://maven.aliyun.com/repository/public")
         gradlePluginPortal()
         google()
         mavenCentral()
@@ -10,9 +10,9 @@ pluginManagement {
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
-        maven { url 'https://maven.aliyun.com/repository/public' }
-        maven { url 'https://maven.aliyun.com/repository/google' }
-        maven { url "https://jitpack.io" }
+        maven("https://maven.aliyun.com/repository/public")
+        maven("https://maven.aliyun.com/repository/google")
+        maven("https://jitpack.io")
         google()
         mavenCentral()
     }
@@ -20,5 +20,5 @@ dependencyResolutionManagement {
 rootProject.name = "Scaffold"
 
 //include ':sample'
-include ':core'
+include(":core")
 //include ':app'

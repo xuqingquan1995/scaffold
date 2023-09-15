@@ -36,6 +36,8 @@
 
 #抛出异常时保留代码行号，在异常分析中可以方便定位
 -keepattributes SourceFile,LineNumberTable
+#将堆栈轨迹中的源文件名称设置为仅包含 SourceFile
+-renamesourcefileattribute SourceFile
 
 #用于告诉ProGuard，不要跳过对非公开类的处理。默认情况下是跳过的，因为程序中不会引用它们，有些情况下人们编写的代码与类库中的类在同一个包下，并且对包中内容加以引用，此时需要加入此条声明。
 -dontskipnonpubliclibraryclasses

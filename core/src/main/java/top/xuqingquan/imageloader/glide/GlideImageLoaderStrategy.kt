@@ -5,6 +5,7 @@ import android.content.Context
 import com.bumptech.glide.Glide
 import com.bumptech.glide.GlideBuilder
 import com.bumptech.glide.Registry
+import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
@@ -25,7 +26,7 @@ class GlideImageLoaderStrategy : BaseImageLoaderStrategy<ImageConfigImpl>, Glide
         Preconditions.checkNotNull(ctx, "Context is required")
         Preconditions.checkNotNull(config, "ImageConfigImpl is required")
         Preconditions.checkNotNull(config.imageView, "ImageView is required")
-        val requests: GlideRequests = GlideApp.with(ctx)
+        val requests: RequestManager = Glide.with(ctx)
         //如果context是activity则自动使用Activity的生命周期
         val glideRequest = requests.load(config.url)
         when (config.cacheStrategy) {
@@ -73,12 +74,12 @@ class GlideImageLoaderStrategy : BaseImageLoaderStrategy<ImageConfigImpl>, Glide
         Preconditions.checkNotNull(ctx, "Context is required")
         Preconditions.checkNotNull(config, "ImageConfigImpl is required")
         if (config.imageView != null) {
-            GlideApp.get(ctx!!).requestManagerRetriever.get(ctx).clear(config.imageView)
+            Glide.get(ctx!!).requestManagerRetriever.get(ctx).clear(config.imageView)
         }
 
         if (config.imageViews != null && config.imageViews.isNotEmpty()) {//取消在执行的任务并且释放资源
             for (imageView in config.imageViews) {
-                GlideApp.get(ctx!!).requestManagerRetriever.get(ctx).clear(imageView)
+                Glide.get(ctx!!).requestManagerRetriever.get(ctx).clear(imageView)
             }
         }
 
