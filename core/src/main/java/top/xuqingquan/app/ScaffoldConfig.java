@@ -29,7 +29,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.internal.Util;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import top.xuqingquan.BuildConfig;
 import top.xuqingquan.cache.Cache;
 import top.xuqingquan.cache.CacheType;
 import top.xuqingquan.cache.IntelligentCache;
@@ -52,7 +51,7 @@ import top.xuqingquan.utils.Timber;
 
 @SuppressWarnings({"WeakerAccess", "unused", "RedundantSuppression", "rawtypes"})
 public final class ScaffoldConfig {
-    private static boolean debug = BuildConfig.DEBUG;
+    private static boolean debug = false;
     private static volatile ScaffoldConfig instance;
     private static Application application;
     private static Gson gson;
@@ -92,7 +91,7 @@ public final class ScaffoldConfig {
     }
 
     public static boolean debug() {
-        return debug || BuildConfig.DEBUG;
+        return debug;
     }
 
     @NonNull

@@ -48,9 +48,6 @@ android {
         abortOnError = false
         checkReleaseBuilds = false
     }
-    buildFeatures {
-        buildConfig = true
-    }
 }
 
 dependencies {

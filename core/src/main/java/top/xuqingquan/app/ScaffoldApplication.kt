@@ -16,7 +16,7 @@ open class ScaffoldApplication : Application() {
 
     override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(base)
-        mAppDelegate = AppDelegate.getInstance(base!!)
+        mAppDelegate = AppDelegate.getInstance(base!!,null)
     }
 
     override fun onCreate() {
