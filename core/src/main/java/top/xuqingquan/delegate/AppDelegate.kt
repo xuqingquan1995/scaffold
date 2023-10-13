@@ -12,10 +12,11 @@ import top.xuqingquan.utils.ManifestParser
 /**
  * Created by 许清泉 on 2019/4/14 22:55
  */
-class AppDelegate private constructor(context: Context) : AppLifecycle {
+class AppDelegate private constructor(context: Context, modules: List<LifecycleConfig>? = null) : AppLifecycle {
+
     private var mApplication: Application? = null
+    private var mModules: List<LifecycleConfig>? = modules
     private var mActivityLifecycle: Application.ActivityLifecycleCallbacks? = null
-    private var mModules: List<LifecycleConfig>? = null
     private var mAppLifecycles: MutableList<AppLifecycle>? = arrayListOf()
     private var mActivityLifecycles: MutableList<Application.ActivityLifecycleCallbacks>? =
         arrayListOf()
@@ -27,6 +28,7 @@ class AppDelegate private constructor(context: Context) : AppLifecycle {
         private var instance: AppDelegate? = null
 
         @JvmStatic
+        @Deprecated("解析清单文件可能会有隐私政策问题", replaceWith = ReplaceWith("getInstance(context,modules)"))
         fun getInstance(context: Context): AppDelegate {
             if (instance == null) {
                 synchronized(AppDelegate::class.java) {
@@ -37,6 +39,19 @@ class AppDelegate private constructor(context: Context) : AppLifecycle {
             }
             return instance!!
         }
+
+        @JvmStatic
+        fun getInstance(context: Context,modules: List<LifecycleConfig>?): AppDelegate {
+            if (instance == null) {
+                synchronized(AppDelegate::class.java) {
+                    if (instance == null) {
+                        instance = AppDelegate(context,modules)
+                    }
+                }
+            }
+            return instance!!
+        }
+
     }
 
     init {
@@ -44,7 +59,10 @@ class AppDelegate private constructor(context: Context) : AppLifecycle {
             mAppLifecycles!!.add(DebugLifecycleImpl())
         }
         //用反射, 将 AndroidManifest.xml 中带有 LifecycleConfig 标签的 class 转成对象集合（List<LifecycleConfig>）
-        this.mModules = ManifestParser(context).parse()
+        if (this.mModules == null) {
+            //用反射, 将 AndroidManifest.xml 中带有 LifecycleConfig 标签的 class 转成对象集合（List<LifecycleConfig>）
+            this.mModules = ManifestParser(context).parse()
+        }
         //遍历之前获得的集合, 执行每一个 LifecycleConfig 实现类的某些方法
         for (module in mModules!!) {
             //将框架外部, 开发者实现的 Application 的生命周期回调 (AppLifecycle) 存入 mAppLifecycles 集合 (此时还未注册回调)
