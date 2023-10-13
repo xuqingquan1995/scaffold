@@ -41,7 +41,7 @@ internal class ManifestParser(private val context: Context) {
         }
         val module: Any
         try {
-            module = clazz.newInstance()
+            module = clazz.getDeclaredConstructor().newInstance()
         } catch (e: InstantiationException) {
             throw RuntimeException("Unable to instantiate LifecycleConfig implementation for $clazz", e)
         } catch (e: IllegalAccessException) {
