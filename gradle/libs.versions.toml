@@ -1,15 +1,14 @@
 [versions]
 compileSdk = "34"
-minSdk = "21"
-versionName = "3.2.9"
+minSdk = "23"
+versionName = "3.3.0"
 
-agp = "8.1.2"
-ksp = "1.9.10-1.0.13"
-kotlin = "1.9.10"
+agp = "8.1.3"
+ksp = "1.9.20-1.0.14"
+kotlin = "1.9.20"
 
 kotlinx-coroutines = "1.7.3"
 appcompat = "1.6.1"
-core-ktx = "1.12.0"
 constraintlayout = "2.1.4"
 junit = "4.13.2"
 test-rules = "1.5.0"
@@ -19,70 +18,35 @@ retrofit = "2.9.0"
 gson = "2.10.1"
 okhttp = "4.10.0"
 eventbus = "3.3.1"
-lifecycle = "2.6.2"
-recyclerview = "1.3.1"
+recyclerview = "1.3.2"
 paging = "3.2.1"
-room = "2.5.2"
-material = "1.9.0"
+material = "1.10.0"
 glide = "4.16.0"
-pickerView = "4.1.9"
-banner = "2.2.2"
-roundedimageview = "2.3.0"
-downloader = "4.1.3"
-logger = "2.2.0"
-progressmanager = "1.5.0"
-retrofit-url-manager = "1.4.0"
-brvah = "3.0.8"
 recovery = "1.0.0"
 anrwatchdog = "1.4.0"
-viewpager2 = "1.0.0"
-swiperefreshlayout = "1.1.0"
-exifinterface = "1.3.6"
-flexbox = "3.0.0"
 utils = "3.1.8"
 
 [libraries]
 kotlin = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version.ref = "kotlin" }
-kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinx-coroutines" }
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 test-rules = { group = "androidx.test", name = "rules", version.ref = "test-rules" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso-core" }
 test-ext = { group = "androidx.test.ext", name = "junit", version.ref = "test-ext" }
-okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
 logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
-progressmanager = { group = "me.jessyan", name = "progressmanager", version.ref = "progressmanager" }
-retrofit-url-manager = { group = "me.jessyan", name = "retrofit-url-manager", version.ref = "retrofit-url-manager" }
-logger = { group = "com.orhanobut", name = "logger", version.ref = "logger" }
 recovery = { group = "com.zxy.android", name = "recovery", version.ref = "recovery" }
 anrwatchdog = { group = "com.github.anrwatchdog", name = "anrwatchdog", version.ref = "anrwatchdog" }
 eventbus = { group = "org.greenrobot", name = "eventbus", version.ref = "eventbus" }
-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle" }
-lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "lifecycle" }
-viewpager2 = { group = "androidx.viewpager2", name = "viewpager2", version.ref = "viewpager2" }
-swiperefreshlayout = { group = "androidx.swiperefreshlayout", name = "swiperefreshlayout", version.ref = "swiperefreshlayout" }
 recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerview" }
 paging = { group = "androidx.paging", name = "paging-runtime-ktx", version.ref = "paging" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
-pickerView = { group = "com.contrarywind", name = "Android-PickerView", version.ref = "pickerView" }
-banner = { group = "io.github.youth5201314", name = "banner", version.ref = "banner" }
-roundedimageview = { group = "com.makeramen", name = "roundedimageview", version.ref = "roundedimageview" }
-flexbox = { group = "com.google.android", name = "flexbox", version.ref = "flexbox" }
-brvah = { group = "com.github.CymChad", name = "BaseRecyclerViewAdapterHelper", version.ref = "brvah" }
-exifinterface = { group = "androidx.exifinterface", name = "exifinterface", version.ref = "exifinterface" }
-room = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
 glide-ksp = { group = "com.github.bumptech.glide", name = "ksp", version.ref = "glide" }
-downloader = { group = "com.download.library", name = "Downloader", version.ref = "downloader" }
 utils = { group = "top.xuqingquan", name = "utils", version.ref = "utils" }
 
 [plugins]
@@ -92,9 +56,9 @@ kotlin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 
 [bundles]
-kotlin = ["kotlin", "kotlinx-coroutines-core", "kotlinx-coroutines-android"]
-arch = ["appcompat", "core-ktx", "lifecycle-runtime-ktx"]
-ui = ["constraintlayout", "swiperefreshlayout", "recyclerview", "glide", "material"]
+kotlin = ["kotlin", "kotlinx-coroutines-android"]
+arch = ["appcompat"]
+ui = ["constraintlayout", "recyclerview", "glide", "material"]
 net = ["retrofit", "logging-interceptor"]
 convert = ["converter-gson", "gson"]
 debug = ["recovery", "anrwatchdog"]
