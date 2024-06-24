@@ -117,7 +117,7 @@ public final class ScaffoldConfig {
     public static HttpUrl getHttpUrl() {
         if (httpUrl == null) {
             //noinspection ConstantConditions
-            return HttpUrl.parse("https://api.github.com/");
+            return HttpUrl.parse("https://gitee.com/");
         } else {
             return httpUrl;
         }
