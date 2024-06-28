@@ -9,7 +9,6 @@ import android.view.View;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
-import top.xuqingquan.R;
 
 /**
  * Created by 许清泉 on 2020/4/16 15:22
