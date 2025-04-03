@@ -1,7 +1,7 @@
 [versions]
 compileSdk = "35"
 minSdk = "24"
-versionName = "3.3.8"
+versionName = "3.3.9"
 
 agp = "8.9.1"
 ksp = "2.1.20-1.0.32"
